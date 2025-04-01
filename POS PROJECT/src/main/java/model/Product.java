@@ -44,6 +44,16 @@ public class Product extends BaseEntity {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderDetail> orderDetails;
+
+	public Integer getQuantity() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void setQuantity(int i) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 

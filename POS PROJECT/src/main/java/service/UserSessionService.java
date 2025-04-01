@@ -1,11 +1,11 @@
 package service;
 
-import model.Employee;
-import model.UserSession;
+//import model.Employee;
+//import model.UserSession;
 
 public interface UserSessionService {
 	
-	 UserSession createUserSession(Employee employee);
+	 //UserSession createUserSession(Employee employee);
 	
 
 }
