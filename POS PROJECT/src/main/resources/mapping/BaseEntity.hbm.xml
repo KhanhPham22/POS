@@ -1,0 +1,8 @@
+<hibernate-mapping>
+    <class name="model.BaseEntity" abstract="true">
+        <property name="createdBy" column="created_by" type="long"/>
+        <property name="createdDate" column="created_date" type="timestamp"/>
+        <property name="lastUpdatedDate" column="updated_date" type="timestamp"/>
+        <property name="isDeleted" column="is_deleted" type="boolean"/>
+    </class>
+</hibernate-mapping>

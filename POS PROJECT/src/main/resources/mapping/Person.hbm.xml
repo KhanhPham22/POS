@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="model.Person" table="person">
+        
+        <id name="personId" column="person_id">
+            <generator class="sequence">
+                <param name="sequence">person_sequence</param>
+            </generator>
+        </id>
+
+        <property name="personFirstName" column="person_first_name"/>
+        <property name="personMiddleName" column="person_middle_name"/>
+        <property name="personLastName" column="person_last_name"/>
+        <property name="personGender" column="person_gender"/>
+        <property name="dateOfBirth" column="date_of_birth"/>
+        <property name="phone"/>
+        <property name="email"/>
+        <property name="address"/>
+        <property name="city"/>
+        <property name="state"/>
+        <property name="country"/>
+        <property name="enabledFlag" column="enabled_flag"/>
+        
+    </class>
+</hibernate-mapping>

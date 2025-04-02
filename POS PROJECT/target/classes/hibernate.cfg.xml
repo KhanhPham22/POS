@@ -8,8 +8,8 @@
         <!-- Kết nối Oracle -->
         <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
         <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:xe</property>
-        <property name="hibernate.connection.username">your_username</property>
-        <property name="hibernate.connection.password">your_password</property>
+        <property name="hibernate.connection.username">Khanh</property>
+        <property name="hibernate.connection.password">strongpassword</property>
 
         <!-- Cấu hình Hibernate -->
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle19cDialect</property>
@@ -17,8 +17,26 @@
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
 
-        <!-- Khai báo Entity -->
-        <mapping class="com.pos.entities.Product"/>
-        <mapping class="com.pos.entities.Order"/>
+<!--         Khai báo Entity -->
+<!--        <mapping class="model.Admin"/>-->
+<!--        <mapping class="model.Category"/>-->
+<!--        <mapping class="model.Customer"/>-->
+<!--        <mapping class="model.Dashboard"/>-->
+<!--        <mapping class="model.Employee"/>-->
+<!--        <mapping class="model.Feedback"/>-->
+<!--        <mapping class="model.GiftVoucher"/>-->
+<!--        <mapping class="model.Invoice"/>-->
+<!--        <mapping class="model.Item"/>-->
+<!--        <mapping class="model.OrderDetail"/>-->
+<!--        <mapping class="model.Owner"/>-->
+<!--        <mapping class="model.Payment"/>-->
+<!--        <mapping class="model.Payroll"/>-->
+<!--        <mapping class="model.Product"/>-->
+<!--        <mapping class="model.Supplier"/>-->
+<!--        <mapping class="model.WarehouseImport"/>-->
+<!--        <mapping class="model.WarehouseImportDetails"/>-->
+        
+        <!-- Load file XML mapping -->
+        <mapping resource="mapping/BaseEntity.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <subclass name="model.Employee" extends="model.Person" table="employee">
+        
+        <property name="employeeNumber" column="employee_number"/>
+        <property name="employeeType" column="employee_type"/>
+        <property name="description" column="description"/>
+        <property name="loginUsername" column="login_username"/>
+        <property name="loginPassword" column="login_password" length="1000"/>
+    
+    </subclass>
+</hibernate-mapping>
