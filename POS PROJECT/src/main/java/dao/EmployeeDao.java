@@ -1,101 +1,160 @@
+
 package dao;
 
-import model.Employee;
-import jakarta.persistence.*;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
+import model.Employee;
+import util.HibernateUtil;
+
 public class EmployeeDao implements GenericDao<Employee> {
+	
+	private static final Logger Log = LogManager.getLogger(EmployeeDao.class);
+	
+	private SessionFactory sessionFactory;
 
-    private Class<Employee> employeeClass;
-    private EntityManager entityManager;
+	private Class<Employee> Employee;
 
-    public EmployeeDao(EntityManager entityManager) {
-        this.entityManager = entityManager;
-        this.employeeClass = Employee.class;
-    }
+	public EmployeeDao() {
+		sessionFactory = HibernateUtil.getSessionFactory();
+	}
 
-    @Override
-    public void setClass(Class<Employee> classToSet) {
-        this.employeeClass = classToSet;
-    }
+	public void setClass(Class<Employee> Employee) {
+		this.Employee = Employee;
+	}
 
-    @Override
-    public Employee findById(long id) throws Exception {
-        // Truy vấn Employee theo ID
-        return entityManager.find(employeeClass, id);
-    }
+	public boolean create(Employee Employee) throws Exception {
+		Session session = sessionFactory.openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			session.save(Employee);
+			transaction.commit();
+			Log.info("Employee persisted in database successfully");
+			return true;
+		} catch (Exception e) {
+			Log.error("Database error while persisting Employee", e);
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw e;
+		} finally {
+			session.close();
+		}
+	}
 
-    @Override
-    public List<Employee> findAll() throws Exception {
-        // Truy vấn tất cả Employee
-        String query = "SELECT e FROM Employee e";
-        TypedQuery<Employee> typedQuery = entityManager.createQuery(query, employeeClass);
-        return typedQuery.getResultList();
-    }
+	@Override
+	public Employee findById(long id) throws Exception {
+		Session session = sessionFactory.openSession();
+		try {
+			Employee Employee = session.get(Employee.class, id);
+			Log.info("Employee with id: " + id + " retrieved successfully from database");
+			return Employee;
+		} catch (Exception e) {
+			Log.error("Database error while retrieving Employee with id:" + id, e);
+			throw e;
+		} finally {
+			session.close();
+		}
+	}
 
-    @Override
-    public boolean create(Employee entity) throws Exception {
-        try {
-            // Lưu Employee mới
-            entityManager.getTransaction().begin();
-            entityManager.persist(entity);
-            entityManager.getTransaction().commit();
-            return true;
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            throw e; // Hoặc xử lý lỗi theo cách của bạn
-        }
-    }
+	@Override
+	public List<Employee> findAll() throws Exception {
+		Session session = sessionFactory.openSession();
+		try {
+			List<Employee> Employees = session.createQuery("from Employee").list();
+			Log.info("All Employees retrieved successfully from database");
+			return Employees;
+		} catch (Exception e) {
+			Log.error("Error while retrieving Employees from database", e);
+			throw e;
+		} finally {
+			session.close();
+		}
+	}
 
-    @Override
-    public boolean update(Employee entity) throws Exception {
-        try {
-            // Cập nhật Employee
-            entityManager.getTransaction().begin();
-            entityManager.merge(entity);
-            entityManager.getTransaction().commit();
-            return true;
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            throw e;
-        }
-    }
+	@Override
+	public boolean update(Employee Employee) throws Exception {
+		Session session = sessionFactory.openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			session.update(Employee);
+			transaction.commit();
+			Log.info("Employee with id: "+Employee.getPersonId()+" updated in database successfully");
+			return true;
+		} catch (Exception e) {
+			Log.error("Database error while updating Employee with id: "+Employee.getPersonId(), e);
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw e;
+		} finally {
+			session.close();
+		}
+	}
 
-    @Override
-    public boolean delete(Employee entity) throws Exception {
-        try {
-            // Xóa Employee
-            entityManager.getTransaction().begin();
-            entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
-            entityManager.getTransaction().commit();
-            return true;
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            throw e;
-        }
-    }
+	@Override
+	public boolean deleteById(long id) throws Exception {
+		Session session = sessionFactory.openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			Employee Employee = session.get(Employee.class, id);
+			session.delete(Employee);
+			transaction.commit();
+			Log.info("Employee with id: " + id + " deleted from database successfully");
+			return true;
+		} catch (Exception e) {
+			Log.error("Database error while deleting Employee with id: " + id, e);
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw e;
+		} finally {
+			session.close();
+		}
+	}
 
-    @Override
-    public boolean deleteById(long entityId) throws Exception {
-        try {
-            // Xóa Employee theo ID
-            Employee employee = findById(entityId);
-            if (employee != null) {
-                return delete(employee);
-            }
-            return false;
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    // Tìm Employee theo email (unique)
-    public Employee findByEmail(String email) throws Exception {
-        String query = "SELECT e FROM Employee e WHERE e.email = :email";
-        TypedQuery<Employee> typedQuery = entityManager.createQuery(query, employeeClass);
-        typedQuery.setParameter("email", email);
-        List<Employee> results = typedQuery.getResultList();
-        return results.isEmpty() ? null : results.get(0); // Trả về Employee đầu tiên nếu có
-    }
+	@Override
+	public boolean delete(Employee Employee) throws Exception {
+		Session session = sessionFactory.openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			session.delete(Employee);
+			transaction.commit();
+			Log.info("Employee with id: " + Employee.getPersonId() + " deleted from database successfully");
+			return true;
+		} catch (Exception e) {
+			Log.error("Database error while deleting Employee with id: " + Employee.getPersonId(), e);
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw e;
+		} finally {
+			session.close();
+		}
+	}
+	
+	public Employee findByUsername(String username) throws Exception {
+		Session session = sessionFactory.openSession();
+		try {
+			Employee Employee = session.createQuery("from Employee where loginUsername = :username", Employee.class)
+					.setParameter("username", username).uniqueResult();
+			Log.info("Employee with username: " + username + " retrieved successfully from database");
+			return Employee;
+		} catch (Exception e) {
+			Log.error("Database error while retrieving Employee with username:" + username, e);
+			throw e;
+		} finally {
+			session.close();
+		}
+	}
 }
-

@@ -1,36 +1,63 @@
 package model;
 
-import jakarta.persistence.*;
-import lombok.*;
+public class Payroll extends BaseEntity {
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "Payroll")
-public class Payroll extends BaseEntity { 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "payroll_id")
     private Long payrollId;
-
-    @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
-
-    @Column(name = "base_salary", nullable = false)
     private Double baseSalary;
-
-    @Column(name = "bonus")
-    private Double bonus = 0.0; // ✅ Mặc định là 0 nếu không có thưởng
-
-    @Column(name = "commission")
-    private Double commission = 0.0; // ✅ Mặc định là 0 nếu không có hoa hồng
-
-    @Column(name = "total_salary", nullable = false)
+    private Double bonus = 0.0;
+    private Double commission = 0.0;
     private Double totalSalary;
+
+    // Default Constructor
+    public Payroll() {}
+
+    // Getter and Setter Methods
+    public Long getPayrollId() {
+        return payrollId;
+    }
+
+    public void setPayrollId(Long payrollId) {
+        this.payrollId = payrollId;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Double getBaseSalary() {
+        return baseSalary;
+    }
+
+    public void setBaseSalary(Double baseSalary) {
+        this.baseSalary = baseSalary;
+    }
+
+    public Double getBonus() {
+        return bonus;
+    }
+
+    public void setBonus(Double bonus) {
+        this.bonus = bonus;
+    }
+
+    public Double getCommission() {
+        return commission;
+    }
+
+    public void setCommission(Double commission) {
+        this.commission = commission;
+    }
+
+    public Double getTotalSalary() {
+        return totalSalary;
+    }
+
+    public void setTotalSalary(Double totalSalary) {
+        this.totalSalary = totalSalary;
+    }
 }
-
-

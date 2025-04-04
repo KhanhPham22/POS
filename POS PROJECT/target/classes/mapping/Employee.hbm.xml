@@ -2,14 +2,35 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping>
-    <subclass name="model.Employee" extends="model.Person" table="employee">
+<hibernate-mapping package="model">
+    <!-- Kế thừa từ Person -->
+    <class name="Employee" table="employee">
         
+        <!-- Ánh xạ khóa chính (kế thừa từ Person) -->
+        <id name="personId" column="person_id">
+            <generator class="increment"/>
+        </id>
+
+        <!-- Ánh xạ các thuộc tính của Person -->
+        <property name="personFirstName" column="first_name"/>
+        <property name="personMiddleName" column="middle_name"/>
+        <property name="personLastName" column="last_name"/>
+        <property name="personGender" column="gender"/>
+        <property name="dateOfBirth" column="date_of_birth"/>
+        <property name="phone" column="phone"/>
+        <property name="email" column="email"/>
+        <property name="address" column="address"/>
+        <property name="city" column="city"/>
+        <property name="state" column="state"/>
+        <property name="country" column="country"/>
+        <property name="enabledFlag" column="enabled_flag"/>
+
+        <!-- Ánh xạ các thuộc tính của Employee -->
         <property name="employeeNumber" column="employee_number"/>
         <property name="employeeType" column="employee_type"/>
         <property name="description" column="description"/>
         <property name="loginUsername" column="login_username"/>
         <property name="loginPassword" column="login_password" length="1000"/>
-    
-    </subclass>
+
+    </class>
 </hibernate-mapping>

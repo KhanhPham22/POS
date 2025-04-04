@@ -17,26 +17,27 @@
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
 
-<!--         Khai báo Entity -->
-<!--        <mapping class="model.Admin"/>-->
-<!--        <mapping class="model.Category"/>-->
-<!--        <mapping class="model.Customer"/>-->
-<!--        <mapping class="model.Dashboard"/>-->
-<!--        <mapping class="model.Employee"/>-->
-<!--        <mapping class="model.Feedback"/>-->
-<!--        <mapping class="model.GiftVoucher"/>-->
-<!--        <mapping class="model.Invoice"/>-->
-<!--        <mapping class="model.Item"/>-->
-<!--        <mapping class="model.OrderDetail"/>-->
-<!--        <mapping class="model.Owner"/>-->
-<!--        <mapping class="model.Payment"/>-->
-<!--        <mapping class="model.Payroll"/>-->
-<!--        <mapping class="model.Product"/>-->
-<!--        <mapping class="model.Supplier"/>-->
-<!--        <mapping class="model.WarehouseImport"/>-->
-<!--        <mapping class="model.WarehouseImportDetails"/>-->
+
         
         <!-- Load file XML mapping -->
         <mapping resource="mapping/BaseEntity.hbm.xml"/>
+        <mapping resource="mapping/Category.hbm.xml"/>
+        <mapping resource="mapping/Customer.hbm.xml"/>
+        <mapping resource="mapping/Dashboard.hbm.xml"/>
+        <mapping resource="mapping/Employee.hbm.xml"/>
+        <mapping resource="mapping/FeedBack.hbm.xml"/>
+        <mapping resource="mapping/GiftVoucher.hbm.xml"/>
+        <mapping resource="mapping/Invoice.hbm.xml"/>
+        <mapping resource="mapping/Item.hbm.xml"/>
+        <mapping resource="mapping/OrderDetail.hbm.xml"/>
+        <mapping resource="mapping/Owner.hbm.xml"/>
+		<mapping resource="mapping/Payment.hbm.xml"/>
+		<mapping resource="mapping/Payroll.hbm.xml"/>
+		<mapping resource="mapping/Person.hbm.xml"/>
+		<mapping resource="mapping/Product.hbm.xml"/>
+		<mapping resource="mapping/Store.hbm.xml"/>
+		<mapping resource="mapping/Supplier.hbm.xml"/>
+		<mapping resource="mapping/UserSession.hbm.xml"/>
+		<mapping resource="mapping/WarehouseImport.hbm.xml"/>        
     </session-factory>
 </hibernate-configuration>

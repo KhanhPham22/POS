@@ -2,58 +2,100 @@ package model;
 
 import java.util.List;
 
-import jakarta.persistence.*;
-import lombok.*;
+public class Product extends BaseEntity {
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "Product")
-public class Product extends BaseEntity { 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "product_id")
     private Long productId;
-
-    @Column(name = "name", nullable = false, length = 100)
     private String name;
-
-    @Column(name = "price", nullable = false)
     private Double price;
-
-    @Column(name = "image", length = 255)
-    private String image;
-
-    @Column(name = "discount", nullable = false)
-    private Double discount = 0.0; // ✅ Mặc định là 0 nếu không có giảm giá
-
-    @Column(name = "quantity", nullable = false)
+    private String imagePath;
+    private Double discount = 0.0;
     private Integer quantity;
-
-    @Column(name = "size", length = 20)
     private String size;
-
-    @Column(name = "status", nullable = false)
-    private Boolean status = true; // ✅ Mặc định là true (còn bán)
-
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    private Boolean status = true;
     private Category category;
-
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderDetail> orderDetails;
 
-	public Integer getQuantity() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    // Default Constructor
+    public Product() {}
 
-	public void setQuantity(int i) {
-		// TODO Auto-generated method stub
-		
-	}
+    // Getter and Setter Methods
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public List<OrderDetail> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(List<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
 }
-
-

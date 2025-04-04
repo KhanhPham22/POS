@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="model">
+
+    <!-- Kế thừa từ Person -->
+    <class name="Customer" table="customers">
+        
+        <!-- Mapping cho khóa chính kế thừa từ Person -->
+        <id name="personId" column="person_id">
+            <generator class="increment"/>
+        </id>
+
+        <!-- Mapping cho các thuộc tính của Person -->
+        <property name="personFirstName" column="first_name"/>
+        <property name="personMiddleName" column="middle_name"/>
+        <property name="personLastName" column="last_name"/>
+        <property name="personGender" column="gender"/>
+        <property name="dateOfBirth" column="date_of_birth"/>
+        <property name="phone" column="phone"/>
+        <property name="email" column="email"/>
+        <property name="address" column="address"/>
+        <property name="city" column="city"/>
+        <property name="state" column="state"/>
+        <property name="country" column="country"/>
+        <property name="enabledFlag" column="enabled_flag"/>
+
+        <!-- Mapping cho các thuộc tính riêng của Customer -->
+        <property name="customerNumber" column="customer_number"/>
+        <property name="description" column="description"/>
+        <property name="points" column="points"/>
+
+    </class>
+</hibernate-mapping>

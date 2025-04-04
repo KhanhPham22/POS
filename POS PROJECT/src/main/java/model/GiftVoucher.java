@@ -1,42 +1,85 @@
 package model;
 
-import jakarta.persistence.*;
-import lombok.*;
 import java.util.Date;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "GiftVoucher")
 public class GiftVoucher extends BaseEntity { 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "gift_voucher_id")
     private Long giftVoucherId;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
-
-    @Column(name = "voucher_name", nullable = false, length = 100)
     private String voucherName;
-
-    @Column(name = "discount_status", nullable = false)
     private Boolean discountStatus = false;
-
-    @Temporal(TemporalType.DATE)
-    @Column(name = "start_date", nullable = false)
     private Date startDate;
-
-    @Temporal(TemporalType.DATE)
-    @Column(name = "end_date", nullable = false)
     private Date endDate;
-
-    @Column(name = "discount_type", length = 50)
     private String discountType;
+
+    // Default constructor (Hibernate needs it)
+    public GiftVoucher() {}
+
+    // Constructor with parameters
+    public GiftVoucher(Long giftVoucherId, Customer customer, String voucherName, Boolean discountStatus, Date startDate, Date endDate, String discountType) {
+        this.giftVoucherId = giftVoucherId;
+        this.customer = customer;
+        this.voucherName = voucherName;
+        this.discountStatus = discountStatus;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.discountType = discountType;
+    }
+
+    // Getter and Setter methods
+    public Long getGiftVoucherId() {
+        return giftVoucherId;
+    }
+
+    public void setGiftVoucherId(Long giftVoucherId) {
+        this.giftVoucherId = giftVoucherId;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public String getVoucherName() {
+        return voucherName;
+    }
+
+    public void setVoucherName(String voucherName) {
+        this.voucherName = voucherName;
+    }
+
+    public Boolean getDiscountStatus() {
+        return discountStatus;
+    }
+
+    public void setDiscountStatus(Boolean discountStatus) {
+        this.discountStatus = discountStatus;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getDiscountType() {
+        return discountType;
+    }
+
+    public void setDiscountType(String discountType) {
+        this.discountType = discountType;
+    }
 }
-
-

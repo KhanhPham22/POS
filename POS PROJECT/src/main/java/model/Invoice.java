@@ -1,52 +1,117 @@
 package model;
 
-import jakarta.persistence.*;
-import lombok.*;
 import java.util.Date;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "Invoice")
-public class Invoice extends BaseEntity { 
+public class Invoice extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "invoice_id")
     private Long invoiceId;
-
-    @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
     private OrderDetail order;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer; // ✅ Đổi tên từ `user` → `customer` để tránh nhầm lẫn
-
-    @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false)
+    private Customer customer; // Changed from 'user' to 'customer'
     private Employee employee;
-
-    @Column(name = "total_price", nullable = false)
     private Double totalPrice;
-
-    @Column(name = "discount")
-    private Double discount = 0.0; // ✅ Mặc định là 0 nếu không có giảm giá
-
-    @Column(name = "final_price", nullable = false)
+    private Double discount = 0.0; // Default is 0 if no discount
     private Double finalPrice;
-
-    @Column(name = "payment_method", length = 50)
     private String paymentMethod;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "invoice_day", nullable = false, updatable = false)
-    private Date invoiceDay = new Date(); // ✅ Mặc định là ngày xuất hóa đơn
-
-    @Column(name = "status", length = 20)
+    private Date invoiceDay = new Date(); // Default to the current date
     private String status;
+
+    // Default constructor
+    public Invoice() {}
+
+    // Constructor with all fields
+    public Invoice(Long invoiceId, OrderDetail order, Customer customer, Employee employee, 
+                   Double totalPrice, Double discount, Double finalPrice, String paymentMethod, 
+                   Date invoiceDay, String status) {
+        this.invoiceId = invoiceId;
+        this.order = order;
+        this.customer = customer;
+        this.employee = employee;
+        this.totalPrice = totalPrice;
+        this.discount = discount;
+        this.finalPrice = finalPrice;
+        this.paymentMethod = paymentMethod;
+        this.invoiceDay = invoiceDay;
+        this.status = status;
+    }
+
+    // Getter and Setter methods
+    public Long getInvoiceId() {
+        return invoiceId;
+    }
+
+    public void setInvoiceId(Long invoiceId) {
+        this.invoiceId = invoiceId;
+    }
+
+    public OrderDetail getOrder() {
+        return order;
+    }
+
+    public void setOrder(OrderDetail order) {
+        this.order = order;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
+
+    public Double getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void setFinalPrice(Double finalPrice) {
+        this.finalPrice = finalPrice;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public Date getInvoiceDay() {
+        return invoiceDay;
+    }
+
+    public void setInvoiceDay(Date invoiceDay) {
+        this.invoiceDay = invoiceDay;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
-
-

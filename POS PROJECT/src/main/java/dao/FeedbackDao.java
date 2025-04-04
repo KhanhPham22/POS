@@ -1,109 +1,149 @@
 package dao;
 
-import model.Customer;
 import model.Feedback;
-import jakarta.persistence.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import util.HibernateUtil;
+
 import java.util.List;
 
 public class FeedbackDao implements GenericDao<Feedback> {
 
-    private Class<Feedback> feedbackClass;
-    private EntityManager entityManager;
+    private static final Logger Log = LogManager.getLogger(FeedbackDao.class);
 
-    public FeedbackDao(EntityManager entityManager) {
-        this.entityManager = entityManager;
-        this.feedbackClass = Feedback.class;
+    private SessionFactory sessionFactory;
+    private Class<Feedback> feedbackClass;
+
+    public FeedbackDao() {
+        sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     @Override
-    public void setClass(Class<Feedback> classToSet) {
-        this.feedbackClass = classToSet;
+    public void setClass(Class<Feedback> feedbackClass) {
+        this.feedbackClass = feedbackClass; // Gán lớp Feedback
+    }
+
+    @Override
+    public boolean create(Feedback feedback) throws Exception {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.save(feedback);
+            transaction.commit();
+            Log.info("Feedback persisted successfully for customer: " + feedback.getCustomer().getCustomerFirstName());
+            return true;
+        } catch (Exception e) {
+            Log.error("Error while saving Feedback", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
     }
 
     @Override
     public Feedback findById(long id) throws Exception {
-        // Truy vấn Feedback theo ID
-        return entityManager.find(feedbackClass, id);
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Feedback feedback = session.get(Feedback.class, id);
+            if (feedback != null) {
+                Log.info("Feedback with id: " + id + " retrieved successfully");
+            } else {
+                Log.warn("Feedback with id: " + id + " not found");
+            }
+            return feedback;
+        } catch (Exception e) {
+            Log.error("Error while retrieving Feedback with id: " + id, e);
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
     }
 
     @Override
     public List<Feedback> findAll() throws Exception {
-        // Truy vấn tất cả Feedback
-        String query = "SELECT f FROM Feedback f";
-        TypedQuery<Feedback> typedQuery = entityManager.createQuery(query, feedbackClass);
-        return typedQuery.getResultList();
-    }
-
-    @Override
-    public boolean create(Feedback entity) throws Exception {
+        Session session = null;
         try {
-            // Lưu Feedback mới
-            entityManager.getTransaction().begin();
-            entityManager.persist(entity);
-            entityManager.getTransaction().commit();
-            return true;
+            session = sessionFactory.openSession();
+            List<Feedback> feedbacks = session.createQuery("from Feedback", Feedback.class).list();
+            Log.info("All feedbacks retrieved successfully. Total count: " + feedbacks.size());
+            return feedbacks;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            throw e; // Hoặc xử lý lỗi theo cách của bạn
-        }
-    }
-
-    @Override
-    public boolean update(Feedback entity) throws Exception {
-        try {
-            // Cập nhật Feedback
-            entityManager.getTransaction().begin();
-            entityManager.merge(entity);
-            entityManager.getTransaction().commit();
-            return true;
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error while retrieving all Feedbacks", e);
             throw e;
+        } finally {
+            if (session != null) session.close();
         }
     }
 
     @Override
-    public boolean delete(Feedback entity) throws Exception {
+    public boolean update(Feedback feedback) throws Exception {
+        Session session = null;
+        Transaction transaction = null;
         try {
-            // Xóa Feedback
-            entityManager.getTransaction().begin();
-            entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
-            entityManager.getTransaction().commit();
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.update(feedback);
+            transaction.commit();
+            Log.info("Feedback updated successfully for customer: " + feedback.getCustomer().getCustomerFirstName());
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error while updating Feedback", e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            if (session != null) session.close();
         }
     }
 
     @Override
-    public boolean deleteById(long entityId) throws Exception {
+    public boolean deleteById(long id) throws Exception {
+        Session session = null;
+        Transaction transaction = null;
         try {
-            // Xóa Feedback theo ID
-            Feedback feedback = findById(entityId);
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            Feedback feedback = session.get(Feedback.class, id);
             if (feedback != null) {
-                return delete(feedback);
+                session.delete(feedback);
+                transaction.commit();
+                Log.info("Feedback with id: " + id + " deleted successfully");
+            } else {
+                Log.warn("Feedback with id: " + id + " not found for deletion");
             }
-            return false;
+            return true;
         } catch (Exception e) {
+            Log.error("Error while deleting Feedback with id: " + id, e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            if (session != null) session.close();
         }
     }
 
-    // Tìm Feedback theo customer
-    public List<Feedback> findByCustomer(Customer customer) throws Exception {
-        String query = "SELECT f FROM Feedback f WHERE f.customer = :customer";
-        TypedQuery<Feedback> typedQuery = entityManager.createQuery(query, feedbackClass);
-        typedQuery.setParameter("customer", customer);
-        return typedQuery.getResultList();
-    }
-
-    // Tìm Feedback theo rating
-    public List<Feedback> findByRating(Integer rating) throws Exception {
-        String query = "SELECT f FROM Feedback f WHERE f.rating = :rating";
-        TypedQuery<Feedback> typedQuery = entityManager.createQuery(query, feedbackClass);
-        typedQuery.setParameter("rating", rating);
-        return typedQuery.getResultList();
+    @Override
+    public boolean delete(Feedback feedback) throws Exception {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.delete(feedback);
+            transaction.commit();
+            Log.info("Feedback deleted successfully for customer: " + feedback.getCustomer().getCustomerFirstName());
+            return true;
+        } catch (Exception e) {
+            Log.error("Error while deleting Feedback", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
     }
 }
-

@@ -1,33 +1,54 @@
 package model;
 
-import jakarta.persistence.*;
-import lombok.*;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "Payment")
 public class Payment extends BaseEntity { 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "payment_id")
     private Long paymentId;
-
-    @Column(name = "payment_method", nullable = false, length = 50)
     private String paymentMethod;
-
-    @Column(name = "amount", nullable = false)
     private Double amount;
-
-    @Column(name = "status", length = 20)
     private String status;
-
-    @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
     private OrderDetail order;
+
+    // Default Constructor
+    public Payment() {}
+
+    // Getter and Setter Methods
+    public Long getPaymentId() {
+        return paymentId;
+    }
+
+    public void setPaymentId(Long paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public OrderDetail getOrder() {
+        return order;
+    }
+
+    public void setOrder(OrderDetail order) {
+        this.order = order;
+    }
 }
-
-

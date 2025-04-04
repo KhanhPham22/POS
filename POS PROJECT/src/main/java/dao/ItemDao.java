@@ -1,107 +1,135 @@
 package dao;
 
-import jakarta.persistence.*;
 import java.util.List;
+
 import model.Item;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+import util.HibernateUtil;
+
 public class ItemDao implements GenericDao<Item> {
 
-    private Class<Item> itemClass;
-    private EntityManager entityManager;
+    private static final Logger Log = LogManager.getLogger(ItemDao.class);
 
-    public ItemDao(EntityManager entityManager) {
-        this.entityManager = entityManager;
-        this.itemClass = Item.class;
+    private SessionFactory sessionFactory;
+    private Class<Item> itemClass;
+
+    public ItemDao() {
+        sessionFactory = HibernateUtil.getSessionFactory();
+    }
+
+    public void setClass(Class<Item> itemClass) {
+        this.itemClass = itemClass;
     }
 
     @Override
-    public void setClass(Class<Item> classToSet) {
-        this.itemClass = classToSet;
+    public boolean create(Item item) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.save(item);
+            transaction.commit();
+            Log.info("Item persisted successfully");
+            return true;
+        } catch (Exception e) {
+            Log.error("Error while saving Item", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public Item findById(long id) throws Exception {
-        // Truy vấn Item theo ID
-        return entityManager.find(itemClass, id);
+        Session session = sessionFactory.openSession();
+        try {
+            Item item = session.get(Item.class, id);
+            Log.info("Item with id: " + id + " retrieved successfully");
+            return item;
+        } catch (Exception e) {
+            Log.error("Error while retrieving Item", e);
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public List<Item> findAll() throws Exception {
-        // Truy vấn tất cả Item
-        String query = "SELECT i FROM Item i";
-        TypedQuery<Item> typedQuery = entityManager.createQuery(query, itemClass);
-        return typedQuery.getResultList();
+        Session session = sessionFactory.openSession();
+        try {
+            List<Item> items = session.createQuery("from Item", Item.class).list();
+            Log.info("All Items retrieved successfully");
+            return items;
+        } catch (Exception e) {
+            Log.error("Error while retrieving all Items", e);
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
-    public boolean create(Item entity) throws Exception {
+    public boolean update(Item item) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Lưu Item mới
-            entityManager.getTransaction().begin();
-            entityManager.persist(entity);
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            session.update(item);
+            transaction.commit();
+            Log.info("Item updated successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            throw e; // Hoặc xử lý lỗi theo cách của bạn
+            Log.error("Error while updating Item", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
         }
     }
 
     @Override
-    public boolean update(Item entity) throws Exception {
+    public boolean deleteById(long id) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Cập nhật Item
-            entityManager.getTransaction().begin();
-            entityManager.merge(entity);
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            Item item = session.get(Item.class, id);
+            session.delete(item);
+            transaction.commit();
+            Log.info("Item deleted successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error while deleting Item by id", e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            session.close();
         }
     }
 
     @Override
-    public boolean delete(Item entity) throws Exception {
+    public boolean delete(Item item) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Xóa Item
-            entityManager.getTransaction().begin();
-            entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            session.delete(item);
+            transaction.commit();
+            Log.info("Item deleted successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error while deleting Item", e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            session.close();
         }
-    }
-
-    @Override
-    public boolean deleteById(long entityId) throws Exception {
-        try {
-            // Xóa Item theo ID
-            Item item = findById(entityId);
-            if (item != null) {
-                return delete(item);
-            }
-            return false;
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    // Tìm Item theo tên
-    public List<Item> findByName(String name) throws Exception {
-        String query = "SELECT i FROM Item i WHERE i.name = :name";
-        TypedQuery<Item> typedQuery = entityManager.createQuery(query, itemClass);
-        typedQuery.setParameter("name", name);
-        return typedQuery.getResultList();
-    }
-
-    // Tìm Item theo loại
-    public List<Item> findByType(String type) throws Exception {
-        String query = "SELECT i FROM Item i WHERE i.type = :type";
-        TypedQuery<Item> typedQuery = entityManager.createQuery(query, itemClass);
-        typedQuery.setParameter("type", type);
-        return typedQuery.getResultList();
     }
 }
-

@@ -1,115 +1,136 @@
 package dao;
 
-import jakarta.persistence.*;
 import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
 import model.OrderDetail;
+import util.HibernateUtil;
+
 public class OrderDetailDao implements GenericDao<OrderDetail> {
 
-    private Class<OrderDetail> orderDetailClass;
-    private EntityManager entityManager;
+    private static final Logger Log = LogManager.getLogger(OrderDetailDao.class);
 
-    public OrderDetailDao(EntityManager entityManager) {
-        this.entityManager = entityManager;
-        this.orderDetailClass = OrderDetail.class;
+    private SessionFactory sessionFactory;
+    private Class<OrderDetail> OrderDetail;
+
+    public OrderDetailDao() {
+        sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     @Override
-    public void setClass(Class<OrderDetail> classToSet) {
-        this.orderDetailClass = classToSet;
+    public void setClass(Class<OrderDetail> OrderDetail) {
+        this.OrderDetail = OrderDetail;
+    }
+
+    @Override
+    public boolean create(OrderDetail orderDetail) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.save(orderDetail);
+            transaction.commit();
+            Log.info("OrderDetail persisted in database successfully");
+            return true;
+        } catch (Exception e) {
+            Log.error("Database error while persisting OrderDetail", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public OrderDetail findById(long id) throws Exception {
-        // Truy vấn OrderDetail theo ID
-        return entityManager.find(orderDetailClass, id);
+        Session session = sessionFactory.openSession();
+        try {
+            OrderDetail orderDetail = session.get(OrderDetail.class, id);
+            Log.info("OrderDetail with id: " + id + " retrieved successfully from database");
+            return orderDetail;
+        } catch (Exception e) {
+            Log.error("Database error while retrieving OrderDetail with id: " + id, e);
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public List<OrderDetail> findAll() throws Exception {
-        // Truy vấn tất cả OrderDetail
-        String query = "SELECT o FROM OrderDetail o";
-        TypedQuery<OrderDetail> typedQuery = entityManager.createQuery(query, orderDetailClass);
-        return typedQuery.getResultList();
+        Session session = sessionFactory.openSession();
+        try {
+            List<OrderDetail> orderDetails = session.createQuery("from OrderDetail", OrderDetail.class).list();
+            Log.info("All OrderDetails retrieved successfully from database");
+            return orderDetails;
+        } catch (Exception e) {
+            Log.error("Error while retrieving OrderDetails from database", e);
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
-    public boolean create(OrderDetail entity) throws Exception {
+    public boolean update(OrderDetail orderDetail) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Lưu OrderDetail mới
-            entityManager.getTransaction().begin();
-            entityManager.persist(entity);
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            session.update(orderDetail);
+            transaction.commit();
+            Log.info("OrderDetail updated successfully in database");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            throw e; // Hoặc xử lý lỗi theo cách của bạn
+            Log.error("Database error while updating OrderDetail", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
         }
     }
 
     @Override
-    public boolean update(OrderDetail entity) throws Exception {
+    public boolean deleteById(long id) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Cập nhật OrderDetail
-            entityManager.getTransaction().begin();
-            entityManager.merge(entity);
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            OrderDetail orderDetail = session.get(OrderDetail.class, id);
+            session.delete(orderDetail);
+            transaction.commit();
+            Log.info("OrderDetail with id: " + id + " deleted successfully from database");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Database error while deleting OrderDetail with id: " + id, e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            session.close();
         }
     }
 
     @Override
-    public boolean delete(OrderDetail entity) throws Exception {
+    public boolean delete(OrderDetail orderDetail) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Xóa OrderDetail
-            entityManager.getTransaction().begin();
-            entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            session.delete(orderDetail);
+            transaction.commit();
+            Log.info("OrderDetail deleted successfully from database");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Database error while deleting OrderDetail", e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            session.close();
         }
-    }
-
-    @Override
-    public boolean deleteById(long entityId) throws Exception {
-        try {
-            // Xóa OrderDetail theo ID
-            OrderDetail orderDetail = findById(entityId);
-            if (orderDetail != null) {
-                return delete(orderDetail);
-            }
-            return false;
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    // Tìm OrderDetail theo customer
-    public List<OrderDetail> findByCustomerId(Long customerId) throws Exception {
-        String query = "SELECT o FROM OrderDetail o WHERE o.customer.customerId = :customerId";
-        TypedQuery<OrderDetail> typedQuery = entityManager.createQuery(query, orderDetailClass);
-        typedQuery.setParameter("customerId", customerId);
-        return typedQuery.getResultList();
-    }
-
-    // Tìm OrderDetail theo product
-    public List<OrderDetail> findByProductId(Long productId) throws Exception {
-        String query = "SELECT o FROM OrderDetail o WHERE o.product.productId = :productId";
-        TypedQuery<OrderDetail> typedQuery = entityManager.createQuery(query, orderDetailClass);
-        typedQuery.setParameter("productId", productId);
-        return typedQuery.getResultList();
-    }
-
-    // Tìm OrderDetail theo trạng thái
-    public List<OrderDetail> findByStatus(String status) throws Exception {
-        String query = "SELECT o FROM OrderDetail o WHERE o.status = :status";
-        TypedQuery<OrderDetail> typedQuery = entityManager.createQuery(query, orderDetailClass);
-        typedQuery.setParameter("status", status);
-        return typedQuery.getResultList();
     }
 }
-

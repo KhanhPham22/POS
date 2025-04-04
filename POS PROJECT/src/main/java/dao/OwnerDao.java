@@ -1,109 +1,135 @@
 package dao;
 
-import jakarta.persistence.*;
 import java.util.List;
+
 import model.Owner;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+import util.HibernateUtil;
+
 public class OwnerDao implements GenericDao<Owner> {
 
-    private Class<Owner> ownerClass;
-    private EntityManager entityManager;
+    private static final Logger Log = LogManager.getLogger(OwnerDao.class);
 
-    public OwnerDao(EntityManager entityManager) {
-        this.entityManager = entityManager;
-        this.ownerClass = Owner.class;
+    private SessionFactory sessionFactory;
+    private Class<Owner> Owner;
+
+    public OwnerDao() {
+        sessionFactory = HibernateUtil.getSessionFactory();
+    }
+
+    public void setClass(Class<Owner> Owner) {
+        this.Owner = Owner;
     }
 
     @Override
-    public void setClass(Class<Owner> classToSet) {
-        this.ownerClass = classToSet;
+    public boolean create(Owner owner) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.save(owner);
+            transaction.commit();
+            Log.info("Owner persisted successfully");
+            return true;
+        } catch (Exception e) {
+            Log.error("Error while saving Owner", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public Owner findById(long id) throws Exception {
-        // Truy vấn Owner theo ID
-        return entityManager.find(ownerClass, id);
+        Session session = sessionFactory.openSession();
+        try {
+            Owner owner = session.get(Owner.class, id);
+            Log.info("Owner with id: " + id + " retrieved successfully");
+            return owner;
+        } catch (Exception e) {
+            Log.error("Error while retrieving Owner", e);
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public List<Owner> findAll() throws Exception {
-        // Truy vấn tất cả Owner
-        String query = "SELECT o FROM Owner o";
-        TypedQuery<Owner> typedQuery = entityManager.createQuery(query, ownerClass);
-        return typedQuery.getResultList();
+        Session session = sessionFactory.openSession();
+        try {
+            List<Owner> owners = session.createQuery("from Owner", Owner.class).list();
+            Log.info("All Owners retrieved successfully");
+            return owners;
+        } catch (Exception e) {
+            Log.error("Error while retrieving all Owners", e);
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
-    public boolean create(Owner entity) throws Exception {
+    public boolean update(Owner owner) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Lưu Owner mới
-            entityManager.getTransaction().begin();
-            entityManager.persist(entity);
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            session.update(owner);
+            transaction.commit();
+            Log.info("Owner updated successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            throw e; // Hoặc xử lý lỗi theo cách của bạn
+            Log.error("Error while updating Owner", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
         }
     }
 
     @Override
-    public boolean update(Owner entity) throws Exception {
+    public boolean deleteById(long id) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Cập nhật Owner
-            entityManager.getTransaction().begin();
-            entityManager.merge(entity);
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            Owner owner = session.get(Owner.class, id);
+            session.delete(owner);
+            transaction.commit();
+            Log.info("Owner deleted successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error while deleting Owner by id", e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            session.close();
         }
     }
 
     @Override
-    public boolean delete(Owner entity) throws Exception {
+    public boolean delete(Owner owner) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Xóa Owner
-            entityManager.getTransaction().begin();
-            entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            session.delete(owner);
+            transaction.commit();
+            Log.info("Owner deleted successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error while deleting Owner", e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            session.close();
         }
-    }
-
-    @Override
-    public boolean deleteById(long entityId) throws Exception {
-        try {
-            // Xóa Owner theo ID
-            Owner owner = findById(entityId);
-            if (owner != null) {
-                return delete(owner);
-            }
-            return false;
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    // Tìm Owner theo email (unique)
-    public Owner findByEmail(String email) throws Exception {
-        String query = "SELECT o FROM Owner o WHERE o.email = :email";
-        TypedQuery<Owner> typedQuery = entityManager.createQuery(query, ownerClass);
-        typedQuery.setParameter("email", email);
-        List<Owner> results = typedQuery.getResultList();
-        return results.isEmpty() ? null : results.get(0); // Trả về Owner đầu tiên nếu có
-    }
-
-    // Tìm Owner theo phone (unique)
-    public Owner findByPhone(String phone) throws Exception {
-        String query = "SELECT o FROM Owner o WHERE o.phone = :phone";
-        TypedQuery<Owner> typedQuery = entityManager.createQuery(query, ownerClass);
-        typedQuery.setParameter("phone", phone);
-        List<Owner> results = typedQuery.getResultList();
-        return results.isEmpty() ? null : results.get(0); // Trả về Owner đầu tiên nếu có
     }
 }
-

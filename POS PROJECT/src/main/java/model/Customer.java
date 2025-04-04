@@ -1,48 +1,66 @@
 package model;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
-import java.io.Serializable;
-import java.util.List;
+import java.util.UUID;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "Customer")
-public class Customer extends BaseEntity implements Serializable {
+public class Customer extends Person {
 
-    private static final long serialVersionUID = 1L; // ✅ Tránh lỗi khi serialize
+    private String customerNumber;
+    private String description;
+    private double points;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "customer_id")
-    private Long customerId; 
+    public Customer() {
+    }
 
-    @Column(name = "name", nullable = false, length = 100)
-    private String name;
+    public Customer(String firstName, String phone) {
+        this.setPersonFirstName(firstName); // dùng method từ Person
+        this.setPhone(phone);               // dùng method từ Person
+        this.points = 0.0;
+    }
 
-    @Column(name = "phone", nullable = false, length = 20, unique = true)
-    private String phone;
+    // Tạo số customer tự động
+    public void generateCustomerNumber() {
+        this.customerNumber = "CUS-" + UUID.randomUUID().toString();
+    }
 
-    @Column(name = "gender", length = 10)
-    private String gender;
+    // Getter và Setter
+    public String getCustomerNumber() {
+        return customerNumber;
+    }
 
-    @Column(name = "national", length = 50)
-    private String national;
+    public void setCustomerNumber(String customerNumber) {
+        this.customerNumber = customerNumber;
+    }
 
-    @Column(name = "points", nullable = false)
-    private double points = 0.0; // ✅ Mặc định 0.0 khi khách mới đăng ký
-    
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<OrderDetail> orders;
+    public double getPoints() {
+        return points;
+    }
 
-    @Override
-    public String toString() {
-        return "Customer{id=" + customerId + ", name='" + name + "', phone='" + phone + "', points=" + points + "}";
+    public void setPoints(double points) {
+        this.points = points;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    // Getter/Setter cho tên và sđt kế thừa từ Person
+    public String getCustomerFirstName() {
+        return getPersonFirstName(); // dùng getter của Person
+    }
+
+    public void setCustomerFirstName(String firstName) {
+        setPersonFirstName(firstName); // dùng setter của Person
+    }
+
+    public String getCustomerPhone() {
+        return getPhone(); // dùng getter của Person
+    }
+
+    public void setCustomerPhone(String phone) {
+        setPhone(phone); // dùng setter của Person
     }
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <!-- Mapping the 'Item' class to the 'item' table -->
+    <class name="model.Item" table="item">
+        
+        <!-- Mapping the primary key for 'itemId' -->
+        <id name="itemId" column="item_id">
+            <generator class="identity"/>
+        </id>
+
+        <!-- Mapping properties of 'Item' -->
+        <property name="name" column="name" not-null="true"/>
+        <property name="type" column="type"/>
+        <property name="unit" column="unit"/>
+        <property name="description" column="description" type="text"/>
+        
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <!-- Mapping the 'Payroll' class to the 'payroll' table -->
+    <class name="model.Payroll" table="payroll">
+        
+        <!-- Mapping the primary key for 'payrollId' -->
+        <id name="payrollId" column="payroll_id">
+            <generator class="identity"/>
+        </id>
+
+        <!-- Mapping properties of 'Payroll' -->
+        <property name="baseSalary" column="base_salary" not-null="true"/>
+        <property name="bonus" column="bonus" />
+        <property name="commission" column="commission" />
+        <property name="totalSalary" column="total_salary" not-null="true"/>
+
+        <!-- Many-to-one relationship to 'Employee' using 'employeeNumber' -->
+        <many-to-one name="employee" class="model.Employee" column="employee_number" not-null="true"/>
+
+    </class>
+</hibernate-mapping>

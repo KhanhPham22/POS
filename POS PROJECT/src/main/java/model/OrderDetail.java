@@ -1,47 +1,92 @@
 package model;
 
-import jakarta.persistence.*;
-import lombok.*;
+import java.util.List;
 
+public class OrderDetail extends BaseEntity {
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "OrderDetail")
-public class OrderDetail extends BaseEntity { 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id")
     private Long orderId;
-
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
-
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
-
-    @Column(name = "quantity", nullable = false)
     private Integer quantity;
-
-    @Column(name = "unit_price", nullable = false)
     private Double unitPrice;
-
-    @Column(name = "total_price", nullable = false)
     private Double totalPrice;
-
-    @Column(name = "discount", nullable = false)
-    private Double discount = 0.0; // ✅ Mặc định là 0 nếu không có giảm giá
-
-    @Column(name = "payment_method", length = 50)
+    private Double discount = 0.0;
     private String paymentMethod;
-
-    @Column(name = "status", length = 20)
     private String status;
+
+    // Default Constructor
+    public OrderDetail() {}
+
+    // Getter and Setter Methods
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Double getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(Double unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
-
-

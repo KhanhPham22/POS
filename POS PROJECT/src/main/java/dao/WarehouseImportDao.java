@@ -1,110 +1,149 @@
 package dao;
 
-import jakarta.persistence.*;
-import model.Supplier;
 import model.WarehouseImport;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import util.HibernateUtil;
 
 import java.util.List;
 
 public class WarehouseImportDao implements GenericDao<WarehouseImport> {
 
-    private Class<WarehouseImport> warehouseImportClass;
-    private EntityManager entityManager;
+    private static final Logger Log = LogManager.getLogger(WarehouseImportDao.class);
 
-    public WarehouseImportDao(EntityManager entityManager) {
-        this.entityManager = entityManager;
-        this.warehouseImportClass = WarehouseImport.class;
+    private SessionFactory sessionFactory;
+    private Class<WarehouseImport> warehouseImportClass;
+
+    public WarehouseImportDao() {
+        sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     @Override
-    public void setClass(Class<WarehouseImport> classToSet) {
-        this.warehouseImportClass = classToSet;
+    public void setClass(Class<WarehouseImport> warehouseImportClass) {
+        this.warehouseImportClass = warehouseImportClass; // Gán lớp WarehouseImport
+    }
+
+    @Override
+    public boolean create(WarehouseImport warehouseImport) throws Exception {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.save(warehouseImport);
+            transaction.commit();
+            Log.info("WarehouseImport persisted successfully: " + warehouseImport.getName());
+            return true;
+        } catch (Exception e) {
+            Log.error("Error while saving WarehouseImport", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
     }
 
     @Override
     public WarehouseImport findById(long id) throws Exception {
-        // Truy vấn WarehouseImport theo ID
-        return entityManager.find(warehouseImportClass, id);
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            WarehouseImport warehouseImport = session.get(WarehouseImport.class, id);
+            if (warehouseImport != null) {
+                Log.info("WarehouseImport with id: " + id + " retrieved successfully");
+            } else {
+                Log.warn("WarehouseImport with id: " + id + " not found");
+            }
+            return warehouseImport;
+        } catch (Exception e) {
+            Log.error("Error while retrieving WarehouseImport with id: " + id, e);
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
     }
 
     @Override
     public List<WarehouseImport> findAll() throws Exception {
-        // Truy vấn tất cả WarehouseImport
-        String query = "SELECT w FROM WarehouseImport w";
-        TypedQuery<WarehouseImport> typedQuery = entityManager.createQuery(query, warehouseImportClass);
-        return typedQuery.getResultList();
-    }
-
-    @Override
-    public boolean create(WarehouseImport entity) throws Exception {
+        Session session = null;
         try {
-            // Lưu WarehouseImport mới
-            entityManager.getTransaction().begin();
-            entityManager.persist(entity);
-            entityManager.getTransaction().commit();
-            return true;
+            session = sessionFactory.openSession();
+            List<WarehouseImport> warehouseImports = session.createQuery("from WarehouseImport", WarehouseImport.class).list();
+            Log.info("All WarehouseImports retrieved successfully. Total count: " + warehouseImports.size());
+            return warehouseImports;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            throw e; // Hoặc xử lý lỗi theo cách của bạn
-        }
-    }
-
-    @Override
-    public boolean update(WarehouseImport entity) throws Exception {
-        try {
-            // Cập nhật WarehouseImport
-            entityManager.getTransaction().begin();
-            entityManager.merge(entity);
-            entityManager.getTransaction().commit();
-            return true;
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error while retrieving all WarehouseImports", e);
             throw e;
+        } finally {
+            if (session != null) session.close();
         }
     }
 
     @Override
-    public boolean delete(WarehouseImport entity) throws Exception {
+    public boolean update(WarehouseImport warehouseImport) throws Exception {
+        Session session = null;
+        Transaction transaction = null;
         try {
-            // Xóa WarehouseImport
-            entityManager.getTransaction().begin();
-            entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
-            entityManager.getTransaction().commit();
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.update(warehouseImport);
+            transaction.commit();
+            Log.info("WarehouseImport updated successfully: " + warehouseImport.getName());
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error while updating WarehouseImport", e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            if (session != null) session.close();
         }
     }
 
     @Override
-    public boolean deleteById(long entityId) throws Exception {
+    public boolean deleteById(long id) throws Exception {
+        Session session = null;
+        Transaction transaction = null;
         try {
-            // Xóa WarehouseImport theo ID
-            WarehouseImport warehouseImport = findById(entityId);
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            WarehouseImport warehouseImport = session.get(WarehouseImport.class, id);
             if (warehouseImport != null) {
-                return delete(warehouseImport);
+                session.delete(warehouseImport);
+                transaction.commit();
+                Log.info("WarehouseImport with id: " + id + " deleted successfully");
+            } else {
+                Log.warn("WarehouseImport with id: " + id + " not found for deletion");
             }
-            return false;
+            return true;
         } catch (Exception e) {
+            Log.error("Error while deleting WarehouseImport with id: " + id, e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            if (session != null) session.close();
         }
     }
 
-    // Tìm WarehouseImport theo nhà cung cấp (Supplier)
-    public List<WarehouseImport> findBySupplier(Supplier supplier) throws Exception {
-        String query = "SELECT w FROM WarehouseImport w WHERE w.supplier = :supplier";
-        TypedQuery<WarehouseImport> typedQuery = entityManager.createQuery(query, warehouseImportClass);
-        typedQuery.setParameter("supplier", supplier);
-        return typedQuery.getResultList();
-    }
-
-    // Tìm WarehouseImport theo trạng thái
-    public List<WarehouseImport> findByStatus(String status) throws Exception {
-        String query = "SELECT w FROM WarehouseImport w WHERE w.status = :status";
-        TypedQuery<WarehouseImport> typedQuery = entityManager.createQuery(query, warehouseImportClass);
-        typedQuery.setParameter("status", status);
-        return typedQuery.getResultList();
+    @Override
+    public boolean delete(WarehouseImport warehouseImport) throws Exception {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.delete(warehouseImport);
+            transaction.commit();
+            Log.info("WarehouseImport deleted successfully: " + warehouseImport.getName());
+            return true;
+        } catch (Exception e) {
+            Log.error("Error while deleting WarehouseImport", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
     }
 }
-

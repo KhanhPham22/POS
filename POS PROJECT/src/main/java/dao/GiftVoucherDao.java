@@ -1,118 +1,135 @@
 package dao;
 
-import jakarta.persistence.*;
-
-import java.util.Date;
 import java.util.List;
+
 import model.GiftVoucher;
-import model.Customer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+import util.HibernateUtil;
+
 public class GiftVoucherDao implements GenericDao<GiftVoucher> {
 
-    private Class<GiftVoucher> giftVoucherClass;
-    private EntityManager entityManager;
+    private static final Logger Log = LogManager.getLogger(GiftVoucherDao.class);
 
-    public GiftVoucherDao(EntityManager entityManager) {
-        this.entityManager = entityManager;
-        this.giftVoucherClass = GiftVoucher.class;
+    private SessionFactory sessionFactory;
+    private Class<GiftVoucher> giftVoucherClass;
+
+    public GiftVoucherDao() {
+        sessionFactory = HibernateUtil.getSessionFactory();
+    }
+
+    public void setClass(Class<GiftVoucher> giftVoucherClass) {
+        this.giftVoucherClass = giftVoucherClass;
     }
 
     @Override
-    public void setClass(Class<GiftVoucher> classToSet) {
-        this.giftVoucherClass = classToSet;
+    public boolean create(GiftVoucher giftVoucher) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.save(giftVoucher);
+            transaction.commit();
+            Log.info("GiftVoucher persisted successfully");
+            return true;
+        } catch (Exception e) {
+            Log.error("Error while saving GiftVoucher", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public GiftVoucher findById(long id) throws Exception {
-        // Truy vấn GiftVoucher theo ID
-        return entityManager.find(giftVoucherClass, id);
+        Session session = sessionFactory.openSession();
+        try {
+            GiftVoucher giftVoucher = session.get(GiftVoucher.class, id);
+            Log.info("GiftVoucher with id: " + id + " retrieved successfully");
+            return giftVoucher;
+        } catch (Exception e) {
+            Log.error("Error while retrieving GiftVoucher", e);
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public List<GiftVoucher> findAll() throws Exception {
-        // Truy vấn tất cả GiftVouchers
-        String query = "SELECT gv FROM GiftVoucher gv";
-        TypedQuery<GiftVoucher> typedQuery = entityManager.createQuery(query, giftVoucherClass);
-        return typedQuery.getResultList();
+        Session session = sessionFactory.openSession();
+        try {
+            List<GiftVoucher> giftVouchers = session.createQuery("from GiftVoucher", GiftVoucher.class).list();
+            Log.info("All GiftVouchers retrieved successfully");
+            return giftVouchers;
+        } catch (Exception e) {
+            Log.error("Error while retrieving all GiftVouchers", e);
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
-    public boolean create(GiftVoucher entity) throws Exception {
+    public boolean update(GiftVoucher giftVoucher) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Lưu GiftVoucher mới
-            entityManager.getTransaction().begin();
-            entityManager.persist(entity);
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            session.update(giftVoucher);
+            transaction.commit();
+            Log.info("GiftVoucher updated successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            throw e; // Hoặc xử lý lỗi theo cách của bạn
+            Log.error("Error while updating GiftVoucher", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
         }
     }
 
     @Override
-    public boolean update(GiftVoucher entity) throws Exception {
+    public boolean deleteById(long id) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Cập nhật GiftVoucher
-            entityManager.getTransaction().begin();
-            entityManager.merge(entity);
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            GiftVoucher giftVoucher = session.get(GiftVoucher.class, id);
+            session.delete(giftVoucher);
+            transaction.commit();
+            Log.info("GiftVoucher deleted successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error while deleting GiftVoucher by id", e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            session.close();
         }
     }
 
     @Override
-    public boolean delete(GiftVoucher entity) throws Exception {
+    public boolean delete(GiftVoucher giftVoucher) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Xóa GiftVoucher
-            entityManager.getTransaction().begin();
-            entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            session.delete(giftVoucher);
+            transaction.commit();
+            Log.info("GiftVoucher deleted successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error while deleting GiftVoucher", e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            session.close();
         }
-    }
-
-    @Override
-    public boolean deleteById(long entityId) throws Exception {
-        try {
-            // Xóa GiftVoucher theo ID
-            GiftVoucher giftVoucher = findById(entityId);
-            if (giftVoucher != null) {
-                return delete(giftVoucher);
-            }
-            return false;
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    // Tìm GiftVoucher theo khách hàng
-    public List<GiftVoucher> findByCustomer(Customer customer) throws Exception {
-        String query = "SELECT gv FROM GiftVoucher gv WHERE gv.customer = :customer";
-        TypedQuery<GiftVoucher> typedQuery = entityManager.createQuery(query, giftVoucherClass);
-        typedQuery.setParameter("customer", customer);
-        return typedQuery.getResultList();
-    }
-
-    // Tìm GiftVoucher theo trạng thái giảm giá (discountStatus)
-    public List<GiftVoucher> findByDiscountStatus(Boolean discountStatus) throws Exception {
-        String query = "SELECT gv FROM GiftVoucher gv WHERE gv.discountStatus = :discountStatus";
-        TypedQuery<GiftVoucher> typedQuery = entityManager.createQuery(query, giftVoucherClass);
-        typedQuery.setParameter("discountStatus", discountStatus);
-        return typedQuery.getResultList();
-    }
-
-    // Tìm GiftVoucher theo ngày hết hạn (endDate)
-    public List<GiftVoucher> findByEndDate(Date endDate) throws Exception {
-        String query = "SELECT gv FROM GiftVoucher gv WHERE gv.endDate = :endDate";
-        TypedQuery<GiftVoucher> typedQuery = entityManager.createQuery(query, giftVoucherClass);
-        typedQuery.setParameter("endDate", endDate);
-        return typedQuery.getResultList();
     }
 }
-

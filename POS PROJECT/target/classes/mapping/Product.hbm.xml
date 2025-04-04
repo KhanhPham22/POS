@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <!-- Mapping the 'Product' class to the 'product' table -->
+    <class name="model.Product" table="product">
+        
+        <!-- Mapping the primary key for 'productId' -->
+        <id name="productId" column="product_id">
+            <generator class="identity"/>
+        </id>
+
+        <!-- Mapping properties of 'Product' -->
+        <property name="name" column="name" length="100" not-null="true"/>
+        <property name="price" column="price" not-null="true"/>
+        <property name="image" column="image" length="255"/>
+        <property name="discount" column="discount" not-null="true"/>
+        <property name="quantity" column="quantity" not-null="true"/>
+        <property name="size" column="size" length="20"/>
+        <property name="status" column="status" not-null="true"/>
+
+        <!-- Many-to-one relationship with 'Category' -->
+        <many-to-one name="category" class="model.Category" column="category_id" not-null="true"/>
+
+        <!-- One-to-many relationship with 'OrderDetail' -->
+        <one-to-many name="orderDetails" class="model.OrderDetail" cascade="all" fetch="select"/>
+        
+    </class>
+</hibernate-mapping>

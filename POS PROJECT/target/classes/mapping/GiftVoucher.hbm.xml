@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="model.GiftVoucher" table="gift_voucher">
+        
+        <id name="giftVoucherId" column="gift_voucher_id">
+            <generator class="identity"/>
+        </id>
+
+        <many-to-one name="customer" column="customer_id" not-null="true"/>
+        
+        <property name="voucherName" column="voucher_name" length="100" not-null="true"/>
+        
+        <property name="discountStatus" column="discount_status" not-null="true" />
+        
+        <property name="startDate" column="start_date" not-null="true"/>
+        
+        <property name="endDate" column="end_date" not-null="true"/>
+        
+        <property name="discountType" column="discount_type" length="50"/>
+        
+    </class>
+</hibernate-mapping>

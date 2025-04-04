@@ -1,108 +1,135 @@
 package dao;
 
-import jakarta.persistence.*;
-import model.Payroll;
-
 import java.util.List;
+
+import model.Payroll;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+import util.HibernateUtil;
 
 public class PayrollDao implements GenericDao<Payroll> {
 
-    private Class<Payroll> payrollClass;
-    private EntityManager entityManager;
+    private static final Logger Log = LogManager.getLogger(PayrollDao.class);
 
-    public PayrollDao(EntityManager entityManager) {
-        this.entityManager = entityManager;
-        this.payrollClass = Payroll.class;
+    private SessionFactory sessionFactory;
+    private Class<Payroll> Payroll;
+
+    public PayrollDao() {
+        sessionFactory = HibernateUtil.getSessionFactory();
+    }
+
+    public void setClass(Class<Payroll> Payroll) {
+        this.Payroll = Payroll;
     }
 
     @Override
-    public void setClass(Class<Payroll> classToSet) {
-        this.payrollClass = classToSet;
+    public boolean create(Payroll payroll) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.save(payroll);
+            transaction.commit();
+            Log.info("Payroll persisted successfully");
+            return true;
+        } catch (Exception e) {
+            Log.error("Error while saving Payroll", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public Payroll findById(long id) throws Exception {
-        // Truy vấn Payroll theo ID
-        return entityManager.find(payrollClass, id);
+        Session session = sessionFactory.openSession();
+        try {
+            Payroll payroll = session.get(Payroll.class, id);
+            Log.info("Payroll with id: " + id + " retrieved successfully");
+            return payroll;
+        } catch (Exception e) {
+            Log.error("Error while retrieving Payroll", e);
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public List<Payroll> findAll() throws Exception {
-        // Truy vấn tất cả Payroll
-        String query = "SELECT p FROM Payroll p";
-        TypedQuery<Payroll> typedQuery = entityManager.createQuery(query, payrollClass);
-        return typedQuery.getResultList();
+        Session session = sessionFactory.openSession();
+        try {
+            List<Payroll> payrolls = session.createQuery("from Payroll", Payroll.class).list();
+            Log.info("All Payrolls retrieved successfully");
+            return payrolls;
+        } catch (Exception e) {
+            Log.error("Error while retrieving all Payrolls", e);
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
-    public boolean create(Payroll entity) throws Exception {
+    public boolean update(Payroll payroll) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Lưu Payroll mới
-            entityManager.getTransaction().begin();
-            entityManager.persist(entity);
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            session.update(payroll);
+            transaction.commit();
+            Log.info("Payroll updated successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            throw e; // Hoặc xử lý lỗi theo cách của bạn
+            Log.error("Error while updating Payroll", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
         }
     }
 
     @Override
-    public boolean update(Payroll entity) throws Exception {
+    public boolean deleteById(long id) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Cập nhật Payroll
-            entityManager.getTransaction().begin();
-            entityManager.merge(entity);
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            Payroll payroll = session.get(Payroll.class, id);
+            session.delete(payroll);
+            transaction.commit();
+            Log.info("Payroll deleted successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error while deleting Payroll by id", e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            session.close();
         }
     }
 
     @Override
-    public boolean delete(Payroll entity) throws Exception {
+    public boolean delete(Payroll payroll) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Xóa Payroll
-            entityManager.getTransaction().begin();
-            entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            session.delete(payroll);
+            transaction.commit();
+            Log.info("Payroll deleted successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error while deleting Payroll", e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            session.close();
         }
-    }
-
-    @Override
-    public boolean deleteById(long entityId) throws Exception {
-        try {
-            // Xóa Payroll theo ID
-            Payroll payroll = findById(entityId);
-            if (payroll != null) {
-                return delete(payroll);
-            }
-            return false;
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    // Tìm Payroll theo Employee ID
-    public List<Payroll> findByEmployeeId(long employeeId) throws Exception {
-        String query = "SELECT p FROM Payroll p WHERE p.employee.employeeId = :employeeId";
-        TypedQuery<Payroll> typedQuery = entityManager.createQuery(query, payrollClass);
-        typedQuery.setParameter("employeeId", employeeId);
-        return typedQuery.getResultList();
-    }
-
-    // Tính tổng lương của tất cả nhân viên
-    public Double getTotalSalary() throws Exception {
-        String query = "SELECT SUM(p.totalSalary) FROM Payroll p";
-        TypedQuery<Double> typedQuery = entityManager.createQuery(query, Double.class);
-        return typedQuery.getSingleResult();
     }
 }
-

@@ -1,37 +1,109 @@
 package model;
 
-import jakarta.persistence.*;
-import lombok.*;
-import java.util.List;
+public class WarehouseImport extends BaseEntity {
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "WarehouseImport")
-public class WarehouseImport extends BaseEntity { 
+    private long warehouseId;
+    
+    private Store store;
+    
+    private String shortName;
+    
+    private String name;
+    
+    private String description;
+    
+    private String city;
+    
+    private String state;
+    
+    private String zip;
+    
+    private String address;
+    
+    private int enabledFlag;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "import_id")
-    private Long importId;
+    // Getter and Setter methods
 
-    @ManyToOne
-    @JoinColumn(name = "supplier_id", nullable = false)
-    private Supplier supplier;
+    public long getWarehouseId() {
+        return warehouseId;
+    }
 
-    @Column(name = "total_amount", nullable = false)
-    private Double totalAmount;
+    public void setWarehouseId(long warehouseId) {
+        this.warehouseId = warehouseId;
+    }
 
-    @Column(name = "status", length = 50)
-    private String status;
+    public Store getStore() {
+        return store;
+    }
 
-    @Column(name = "note", length = 255)
-    private String note;
+    public void setStore(Store store) {
+        this.store = store;
+    }
 
-    @OneToMany(mappedBy = "warehouseImport", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<WarehouseImportDetails> importDetails;
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public void setZip(String zip) {
+        this.zip = zip;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getEnabledFlag() {
+        return enabledFlag;
+    }
+
+    public void setEnabledFlag(int enabledFlag) {
+        this.enabledFlag = enabledFlag;
+    }
 }
+
 
 

@@ -1,32 +1,48 @@
 package model;
 
-import jakarta.persistence.*;
-
 import java.util.List;
-import lombok.*;
 
+public class Category extends BaseEntity {
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "Category")
-
-public class Category extends BaseEntity { 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
     private Long categoryId;
-
-    @Column(name = "name", nullable = false, length = 100)
     private String name;
-
-    @Column(name = "description", length = 255)
     private String description;
-
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Product> products;
+
+    // Default Constructor
+    public Category() {
+    }
+
+    // Getter and Setter Methods
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 }
-
-

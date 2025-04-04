@@ -1,33 +1,78 @@
 package model;
 
-import jakarta.persistence.*;
-import lombok.*;
+import java.util.Date;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "Feedback")
 public class Feedback extends BaseEntity { 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "feedback_id")
     private Long feedbackId;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer; 
+    private Customer customer;
 
-    @Column(name = "type", length = 50)
     private String type;
 
-    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "rating", nullable = false)
     private Integer rating;
+
+    private Store store; // Added store field
+
+    public Feedback() {}
+
+    public Feedback(Long feedbackId, Customer customer, String type, String content, Integer rating, Store store) {
+        this.feedbackId = feedbackId;
+        this.customer = customer;
+        this.type = type;
+        this.content = content;
+        this.rating = rating;
+        this.store = store; // Initializing store field
+    }
+
+    // Getters and setters
+    public Long getFeedbackId() {
+        return feedbackId;
+    }
+
+    public void setFeedbackId(Long feedbackId) {
+        this.feedbackId = feedbackId;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
 }
-
-

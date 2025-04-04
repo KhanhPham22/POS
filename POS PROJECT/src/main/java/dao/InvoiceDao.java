@@ -1,127 +1,160 @@
 package dao;
 
-import jakarta.persistence.*;
-
-import java.util.Date;
 import java.util.List;
 
-import model.Customer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
 import model.Invoice;
-public class InvoiceDao implements GenericDao<Invoice> {
+import util.HibernateUtil;
 
-    private Class<Invoice> invoiceClass;
-    private EntityManager entityManager;
+public class InvoiceDao {
 
-    public InvoiceDao(EntityManager entityManager) {
-        this.entityManager = entityManager;
-        this.invoiceClass = Invoice.class;
+    private static final Logger Log = LogManager.getLogger(InvoiceDao.class);
+
+    private SessionFactory sessionFactory;
+
+    public InvoiceDao() {
+        sessionFactory = HibernateUtil.getSessionFactory();
     }
 
-    @Override
-    public void setClass(Class<Invoice> classToSet) {
-        this.invoiceClass = classToSet;
-    }
-
-    @Override
-    public Invoice findById(long id) throws Exception {
-        // Truy vấn Invoice theo ID
-        return entityManager.find(invoiceClass, id);
-    }
-
-    @Override
-    public List<Invoice> findAll() throws Exception {
-        // Truy vấn tất cả Invoice
-        String query = "SELECT i FROM Invoice i";
-        TypedQuery<Invoice> typedQuery = entityManager.createQuery(query, invoiceClass);
-        return typedQuery.getResultList();
-    }
-
-    @Override
-    public boolean create(Invoice entity) throws Exception {
-        try {
-            // Lưu Invoice mới
-            entityManager.getTransaction().begin();
-            entityManager.persist(entity);
-            entityManager.getTransaction().commit();
+    // Tạo mới hóa đơn
+    public boolean create(Invoice invoice) throws Exception {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.save(invoice);
+            transaction.commit();
+            Log.info("Invoice saved successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            throw e; // Hoặc xử lý lỗi theo cách của bạn
-        }
-    }
-
-    @Override
-    public boolean update(Invoice entity) throws Exception {
-        try {
-            // Cập nhật Invoice
-            entityManager.getTransaction().begin();
-            entityManager.merge(entity);
-            entityManager.getTransaction().commit();
-            return true;
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error saving invoice", e);
+            if (transaction != null) transaction.rollback();
             throw e;
         }
     }
 
-    @Override
-    public boolean delete(Invoice entity) throws Exception {
-        try {
-            // Xóa Invoice
-            entityManager.getTransaction().begin();
-            entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
-            entityManager.getTransaction().commit();
-            return true;
+    // Tìm hóa đơn theo ID
+    public Invoice findById(Long id) throws Exception {
+        try (Session session = sessionFactory.openSession()) {
+            Invoice invoice = session.get(Invoice.class, id);
+            Log.info("Invoice with id " + id + " retrieved successfully");
+            return invoice;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error retrieving invoice with id: " + id, e);
             throw e;
         }
     }
 
-    @Override
-    public boolean deleteById(long entityId) throws Exception {
-        try {
-            // Xóa Invoice theo ID
-            Invoice invoice = findById(entityId);
+    // Cập nhật hóa đơn
+    public boolean update(Invoice invoice) throws Exception {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.update(invoice);
+            transaction.commit();
+            Log.info("Invoice updated successfully");
+            return true;
+        } catch (Exception e) {
+            Log.error("Error updating invoice", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        }
+    }
+
+    // Xóa hóa đơn theo ID
+    public boolean deleteById(Long id) throws Exception {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            Invoice invoice = session.get(Invoice.class, id);
             if (invoice != null) {
-                return delete(invoice);
+                session.delete(invoice);
+                transaction.commit();
+                Log.info("Invoice with id " + id + " deleted successfully");
+                return true;
             }
             return false;
         } catch (Exception e) {
+            Log.error("Error deleting invoice with id: " + id, e);
+            if (transaction != null) transaction.rollback();
             throw e;
         }
     }
 
-    // Tìm Invoice theo khách hàng
-    public List<Invoice> findByCustomer(Customer customer) throws Exception {
-        String query = "SELECT i FROM Invoice i WHERE i.customer = :customer";
-        TypedQuery<Invoice> typedQuery = entityManager.createQuery(query, invoiceClass);
-        typedQuery.setParameter("customer", customer);
-        return typedQuery.getResultList();
+    // Xóa trực tiếp đối tượng Invoice
+    public boolean delete(Invoice invoice) throws Exception {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.delete(invoice);
+            transaction.commit();
+            Log.info("Invoice deleted successfully");
+            return true;
+        } catch (Exception e) {
+            Log.error("Error deleting invoice", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        }
     }
 
-    // Tìm Invoice theo trạng thái
-    public List<Invoice> findByStatus(String status) throws Exception {
-        String query = "SELECT i FROM Invoice i WHERE i.status = :status";
-        TypedQuery<Invoice> typedQuery = entityManager.createQuery(query, invoiceClass);
-        typedQuery.setParameter("status", status);
-        return typedQuery.getResultList();
+    // Lấy danh sách tất cả hóa đơn
+    public List<Invoice> findAll() throws Exception {
+        try (Session session = sessionFactory.openSession()) {
+            List<Invoice> invoices = session.createQuery("FROM Invoice", Invoice.class).list();
+            Log.info("All invoices retrieved successfully");
+            return invoices;
+        } catch (Exception e) {
+            Log.error("Error retrieving all invoices", e);
+            throw e;
+        }
     }
 
-    // Tìm Invoice theo ngày xuất hóa đơn
-    public List<Invoice> findByInvoiceDay(Date invoiceDay) throws Exception {
-        String query = "SELECT i FROM Invoice i WHERE i.invoiceDay = :invoiceDay";
-        TypedQuery<Invoice> typedQuery = entityManager.createQuery(query, invoiceClass);
-        typedQuery.setParameter("invoiceDay", invoiceDay);
-        return typedQuery.getResultList();
-    }
-
-    // Tìm Invoice theo phương thức thanh toán
+    // Tìm hóa đơn theo phương thức thanh toán
     public List<Invoice> findByPaymentMethod(String paymentMethod) throws Exception {
-        String query = "SELECT i FROM Invoice i WHERE i.paymentMethod = :paymentMethod";
-        TypedQuery<Invoice> typedQuery = entityManager.createQuery(query, invoiceClass);
-        typedQuery.setParameter("paymentMethod", paymentMethod);
-        return typedQuery.getResultList();
+        try (Session session = sessionFactory.openSession()) {
+            List<Invoice> invoices = session.createQuery(
+                    "FROM Invoice WHERE paymentMethod = :paymentMethod", Invoice.class)
+                    .setParameter("paymentMethod", paymentMethod)
+                    .list();
+            Log.info("Invoices with payment method '" + paymentMethod + "' retrieved successfully");
+            return invoices;
+        } catch (Exception e) {
+            Log.error("Error retrieving invoices with payment method: " + paymentMethod, e);
+            throw e;
+        }
+    }
+
+    // Tìm hóa đơn theo trạng thái
+    public List<Invoice> findByStatus(String status) throws Exception {
+        try (Session session = sessionFactory.openSession()) {
+            List<Invoice> invoices = session.createQuery(
+                    "FROM Invoice WHERE status = :status", Invoice.class)
+                    .setParameter("status", status)
+                    .list();
+            Log.info("Invoices with status '" + status + "' retrieved successfully");
+            return invoices;
+        } catch (Exception e) {
+            Log.error("Error retrieving invoices with status: " + status, e);
+            throw e;
+        }
+    }
+
+    // Tìm hóa đơn theo ngày lập
+    public List<Invoice> findByInvoiceDate(java.util.Date date) throws Exception {
+        try (Session session = sessionFactory.openSession()) {
+            List<Invoice> invoices = session.createQuery(
+                    "FROM Invoice WHERE DATE(invoiceDay) = :date", Invoice.class)
+                    .setParameter("date", date)
+                    .list();
+            Log.info("Invoices with date '" + date + "' retrieved successfully");
+            return invoices;
+        } catch (Exception e) {
+            Log.error("Error retrieving invoices by date: " + date, e);
+            throw e;
+        }
     }
 }
-

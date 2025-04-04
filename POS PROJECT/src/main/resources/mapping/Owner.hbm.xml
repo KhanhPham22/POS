@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping xmlns="http://hibernate.sourceforge.net/hibernate-mapping"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://hibernate.sourceforge.net/hibernate-mapping
+                             http://hibernate.sourceforge.net/hibernate-mapping-3.0.xsd">
+
+    <class name="model.Owner" table="Owner">
+        <!-- Inheritance mapping for Person class -->
+        <subclass name="model.Person" discriminator-value="person"/>
+        
+        <id name="ownerNumber" column="owner_number">
+            <generator class="assigned"/>
+        </id>
+        
+        <property name="description" column="description"/>
+        <property name="loginUsername" column="login_username"/>
+        <property name="loginPassword" column="login_password"/>
+        
+    </class>
+</mapping>

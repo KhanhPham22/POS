@@ -1,129 +1,149 @@
 package dao;
 
-import jakarta.persistence.*;
-import model.Category;
 import model.Product;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import util.HibernateUtil;
 
 import java.util.List;
 
 public class ProductDao implements GenericDao<Product> {
 
-    private Class<Product> productClass;
-    private EntityManager entityManager;
+    private static final Logger Log = LogManager.getLogger(ProductDao.class);
 
-    public ProductDao(EntityManager entityManager) {
-        this.entityManager = entityManager;
-        this.productClass = Product.class;
+    private SessionFactory sessionFactory;
+    private Class<Product> productClass; // Thêm biến để lưu class của Product
+
+    public ProductDao() {
+        sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     @Override
-    public void setClass(Class<Product> classToSet) {
-        this.productClass = classToSet;
+    public void setClass(Class<Product> productClass) {
+        this.productClass = productClass; // Gán giá trị cho productClass
+    }
+
+    @Override
+    public boolean create(Product product) throws Exception {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.save(product);
+            transaction.commit();
+            Log.info("Product persisted successfully: " + product.getName());
+            return true;
+        } catch (Exception e) {
+            Log.error("Error while saving Product", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
     }
 
     @Override
     public Product findById(long id) throws Exception {
-        // Truy vấn Product theo ID
-        return entityManager.find(productClass, id);
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Product product = session.get(Product.class, id);
+            if (product != null) {
+                Log.info("Product with id: " + id + " retrieved successfully: " + product.getName());
+            } else {
+                Log.warn("Product with id: " + id + " not found");
+            }
+            return product;
+        } catch (Exception e) {
+            Log.error("Error while retrieving Product with id: " + id, e);
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
     }
 
     @Override
     public List<Product> findAll() throws Exception {
-        // Truy vấn tất cả Product
-        String query = "SELECT p FROM Product p";
-        TypedQuery<Product> typedQuery = entityManager.createQuery(query, productClass);
-        return typedQuery.getResultList();
-    }
-
-    @Override
-    public boolean create(Product entity) throws Exception {
+        Session session = null;
         try {
-            // Lưu Product mới
-            entityManager.getTransaction().begin();
-            entityManager.persist(entity);
-            entityManager.getTransaction().commit();
-            return true;
+            session = sessionFactory.openSession();
+            List<Product> products = session.createQuery("from Product", Product.class).list();
+            Log.info("All products retrieved successfully. Total count: " + products.size());
+            return products;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            throw e; // Hoặc xử lý lỗi theo cách của bạn
-        }
-    }
-
-    @Override
-    public boolean update(Product entity) throws Exception {
-        try {
-            // Cập nhật Product
-            entityManager.getTransaction().begin();
-            entityManager.merge(entity);
-            entityManager.getTransaction().commit();
-            return true;
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error while retrieving all Products", e);
             throw e;
+        } finally {
+            if (session != null) session.close();
         }
     }
 
     @Override
-    public boolean delete(Product entity) throws Exception {
+    public boolean update(Product product) throws Exception {
+        Session session = null;
+        Transaction transaction = null;
         try {
-            // Xóa Product
-            entityManager.getTransaction().begin();
-            entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
-            entityManager.getTransaction().commit();
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.update(product);
+            transaction.commit();
+            Log.info("Product updated successfully: " + product.getName());
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error while updating Product", e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            if (session != null) session.close();
         }
     }
 
     @Override
-    public boolean deleteById(long entityId) throws Exception {
+    public boolean deleteById(long id) throws Exception {
+        Session session = null;
+        Transaction transaction = null;
         try {
-            // Xóa Product theo ID
-            Product product = findById(entityId);
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            Product product = session.get(Product.class, id);
             if (product != null) {
-                return delete(product);
+                session.delete(product);
+                transaction.commit();
+                Log.info("Product with id: " + id + " deleted successfully");
+            } else {
+                Log.warn("Product with id: " + id + " not found for deletion");
             }
-            return false;
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    // Tìm Product theo tên (unique)
-    public Product findByName(String name) throws Exception {
-        String query = "SELECT p FROM Product p WHERE p.name = :name";
-        TypedQuery<Product> typedQuery = entityManager.createQuery(query, productClass);
-        typedQuery.setParameter("name", name);
-        List<Product> results = typedQuery.getResultList();
-        return results.isEmpty() ? null : results.get(0); // Trả về null nếu không tìm thấy
-    }
-
-    // Tìm tất cả sản phẩm theo danh mục
-    public List<Product> findByCategory(Category category) throws Exception {
-        String query = "SELECT p FROM Product p WHERE p.category = :category";
-        TypedQuery<Product> typedQuery = entityManager.createQuery(query, productClass);
-        typedQuery.setParameter("category", category);
-        return typedQuery.getResultList();
-    }
-
-    // Lấy tất cả sản phẩm có sẵn (status = true)
-    public List<Product> findAvailableProducts() throws Exception {
-        String query = "SELECT p FROM Product p WHERE p.status = true";
-        TypedQuery<Product> typedQuery = entityManager.createQuery(query, productClass);
-        return typedQuery.getResultList();
-    }
-
-    // Cập nhật số lượng sản phẩm sau mỗi đơn hàng
-    public boolean updateProductQuantity(Long productId, Integer quantitySold) throws Exception {
-        Product product = findById(productId);
-        if (product != null && product.getQuantity() >= quantitySold) {
-            product.setQuantity(product.getQuantity() - quantitySold);
-            update(product);
             return true;
+        } catch (Exception e) {
+            Log.error("Error while deleting Product with id: " + id, e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            if (session != null) session.close();
         }
-        return false; // Nếu không đủ số lượng sản phẩm
+    }
+
+    @Override
+    public boolean delete(Product product) throws Exception {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.delete(product);
+            transaction.commit();
+            Log.info("Product deleted successfully: " + product.getName());
+            return true;
+        } catch (Exception e) {
+            Log.error("Error while deleting Product", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
     }
 }
-

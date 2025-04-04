@@ -1,110 +1,155 @@
 package dao;
 
-import model.Dashboard;
-import jakarta.persistence.*;
-
-import java.util.Date;
 import java.util.List;
+
+import model.Dashboard;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+import util.HibernateUtil;
 
 public class DashboardDao implements GenericDao<Dashboard> {
 
-    private Class<Dashboard> dashboardClass;
-    private EntityManager entityManager;
+    private static final Logger Log = LogManager.getLogger(DashboardDao.class);
 
-    public DashboardDao(EntityManager entityManager) {
-        this.entityManager = entityManager;
-        this.dashboardClass = Dashboard.class;
+    private SessionFactory sessionFactory;
+    private Class<Dashboard> Dashboard;
+
+    public DashboardDao() {
+        sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     @Override
-    public void setClass(Class<Dashboard> classToSet) {
-        this.dashboardClass = classToSet;
+    public void setClass(Class<Dashboard> Dashboard) {
+        this.Dashboard = Dashboard;
+    }
+
+    @Override
+    public boolean create(Dashboard dashboard) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.save(dashboard);
+            transaction.commit();
+            Log.info("Dashboard persisted in database successfully");
+            return true;
+        } catch (Exception e) {
+            Log.error("Database error while persisting Dashboard", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public Dashboard findById(long id) throws Exception {
-        // Truy vấn Dashboard theo ID
-        return entityManager.find(dashboardClass, id);
+        Session session = sessionFactory.openSession();
+        try {
+            Dashboard dashboard = session.get(Dashboard.class, id);
+            Log.info("Dashboard with id: " + id + " retrieved successfully from database");
+            return dashboard;
+        } catch (Exception e) {
+            Log.error("Database error while retrieving Dashboard", e);
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public List<Dashboard> findAll() throws Exception {
-        // Truy vấn tất cả Dashboard
-        String query = "SELECT d FROM Dashboard d";
-        TypedQuery<Dashboard> typedQuery = entityManager.createQuery(query, dashboardClass);
-        return typedQuery.getResultList();
+        Session session = sessionFactory.openSession();
+        try {
+            List<Dashboard> dashboards = session.createQuery("from Dashboard", Dashboard.class).list();
+            Log.info("All Dashboards retrieved successfully from database");
+            return dashboards;
+        } catch (Exception e) {
+            Log.error("Database error while retrieving all Dashboards", e);
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
-    public boolean create(Dashboard entity) throws Exception {
+    public boolean update(Dashboard dashboard) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Lưu Dashboard mới
-            entityManager.getTransaction().begin();
-            entityManager.persist(entity);
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            session.update(dashboard);
+            transaction.commit();
+            Log.info("Dashboard updated in database successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            throw e; // Hoặc xử lý lỗi theo cách của bạn
+            Log.error("Database error while updating Dashboard", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
         }
     }
 
     @Override
-    public boolean update(Dashboard entity) throws Exception {
+    public boolean deleteById(long id) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Cập nhật Dashboard
-            entityManager.getTransaction().begin();
-            entityManager.merge(entity);
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            Dashboard dashboard = session.get(Dashboard.class, id);
+            session.delete(dashboard);
+            transaction.commit();
+            Log.info("Dashboard deleted from database successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Database error while deleting Dashboard", e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            session.close();
         }
     }
 
     @Override
-    public boolean delete(Dashboard entity) throws Exception {
+    public boolean delete(Dashboard dashboard) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Xóa Dashboard
-            entityManager.getTransaction().begin();
-            entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            session.delete(dashboard);
+            transaction.commit();
+            Log.info("Dashboard deleted from database successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Database error while deleting Dashboard", e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            session.close();
         }
     }
-
-    @Override
-    public boolean deleteById(long entityId) throws Exception {
+    
+    public Dashboard findLatestDashboardByStoreId(Long storeId) throws Exception {
+        Session session = sessionFactory.openSession();
         try {
-            // Xóa Dashboard theo ID
-            Dashboard dashboard = findById(entityId);
-            if (dashboard != null) {
-                return delete(dashboard);
-            }
-            return false;
+            String hql = "FROM Dashboard WHERE storeId = :storeId ORDER BY timestamp DESC";
+            Dashboard latestDashboard = session.createQuery(hql, Dashboard.class)
+                    .setParameter("storeId", storeId)
+                    .setMaxResults(1)
+                    .uniqueResult();
+            Log.info("Latest dashboard retrieved for storeId: " + storeId);
+            return latestDashboard;
         } catch (Exception e) {
+            Log.error("Error retrieving latest dashboard for storeId: " + storeId, e);
             throw e;
+        } finally {
+            session.close();
         }
     }
 
-    // Tìm Dashboard theo các chỉ số (ví dụ: tổng doanh thu theo tháng)
-    public List<Dashboard> findByMonthRevenue(Double monthRevenue) throws Exception {
-        String query = "SELECT d FROM Dashboard d WHERE d.monthRevenue = :monthRevenue";
-        TypedQuery<Dashboard> typedQuery = entityManager.createQuery(query, dashboardClass);
-        typedQuery.setParameter("monthRevenue", monthRevenue);
-        return typedQuery.getResultList();
-    }
-
-    // Tìm Dashboard theo thời gian (timestamp)
-    public List<Dashboard> findByTimestamp(Date timestamp) throws Exception {
-        String query = "SELECT d FROM Dashboard d WHERE d.timestamp = :timestamp";
-        TypedQuery<Dashboard> typedQuery = entityManager.createQuery(query, dashboardClass);
-        typedQuery.setParameter("timestamp", timestamp);
-        return typedQuery.getResultList();
-    }
 }
-

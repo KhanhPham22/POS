@@ -1,107 +1,135 @@
 package dao;
 
-import jakarta.persistence.*;
 import java.util.List;
+
 import model.Payment;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+import util.HibernateUtil;
+
 public class PaymentDao implements GenericDao<Payment> {
 
-    private Class<Payment> paymentClass;
-    private EntityManager entityManager;
+    private static final Logger Log = LogManager.getLogger(PaymentDao.class);
 
-    public PaymentDao(EntityManager entityManager) {
-        this.entityManager = entityManager;
-        this.paymentClass = Payment.class;
+    private SessionFactory sessionFactory;
+    private Class<Payment> Payment;
+
+    public PaymentDao() {
+        sessionFactory = HibernateUtil.getSessionFactory();
+    }
+
+    public void setClass(Class<Payment> Payment) {
+        this.Payment = Payment;
     }
 
     @Override
-    public void setClass(Class<Payment> classToSet) {
-        this.paymentClass = classToSet;
+    public boolean create(Payment payment) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.save(payment);
+            transaction.commit();
+            Log.info("Payment persisted successfully");
+            return true;
+        } catch (Exception e) {
+            Log.error("Error while saving Payment", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public Payment findById(long id) throws Exception {
-        // Truy vấn Payment theo ID
-        return entityManager.find(paymentClass, id);
+        Session session = sessionFactory.openSession();
+        try {
+            Payment payment = session.get(Payment.class, id);
+            Log.info("Payment with id: " + id + " retrieved successfully");
+            return payment;
+        } catch (Exception e) {
+            Log.error("Error while retrieving Payment", e);
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public List<Payment> findAll() throws Exception {
-        // Truy vấn tất cả Payment
-        String query = "SELECT p FROM Payment p";
-        TypedQuery<Payment> typedQuery = entityManager.createQuery(query, paymentClass);
-        return typedQuery.getResultList();
+        Session session = sessionFactory.openSession();
+        try {
+            List<Payment> payments = session.createQuery("from Payment", Payment.class).list();
+            Log.info("All Payments retrieved successfully");
+            return payments;
+        } catch (Exception e) {
+            Log.error("Error while retrieving all Payments", e);
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
     @Override
-    public boolean create(Payment entity) throws Exception {
+    public boolean update(Payment payment) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Lưu Payment mới
-            entityManager.getTransaction().begin();
-            entityManager.persist(entity);
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            session.update(payment);
+            transaction.commit();
+            Log.info("Payment updated successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            throw e; // Hoặc xử lý lỗi theo cách của bạn
+            Log.error("Error while updating Payment", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
         }
     }
 
     @Override
-    public boolean update(Payment entity) throws Exception {
+    public boolean deleteById(long id) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Cập nhật Payment
-            entityManager.getTransaction().begin();
-            entityManager.merge(entity);
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            Payment payment = session.get(Payment.class, id);
+            session.delete(payment);
+            transaction.commit();
+            Log.info("Payment deleted successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error while deleting Payment by id", e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            session.close();
         }
     }
 
     @Override
-    public boolean delete(Payment entity) throws Exception {
+    public boolean delete(Payment payment) throws Exception {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
         try {
-            // Xóa Payment
-            entityManager.getTransaction().begin();
-            entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
-            entityManager.getTransaction().commit();
+            transaction = session.beginTransaction();
+            session.delete(payment);
+            transaction.commit();
+            Log.info("Payment deleted successfully");
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error while deleting Payment", e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            session.close();
         }
-    }
-
-    @Override
-    public boolean deleteById(long entityId) throws Exception {
-        try {
-            // Xóa Payment theo ID
-            Payment payment = findById(entityId);
-            if (payment != null) {
-                return delete(payment);
-            }
-            return false;
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    // Tìm Payment theo Order ID
-    public List<Payment> findByOrderId(long orderId) throws Exception {
-        String query = "SELECT p FROM Payment p WHERE p.order.orderId = :orderId";
-        TypedQuery<Payment> typedQuery = entityManager.createQuery(query, paymentClass);
-        typedQuery.setParameter("orderId", orderId);
-        return typedQuery.getResultList();
-    }
-
-    // Tìm Payment theo phương thức thanh toán
-    public List<Payment> findByPaymentMethod(String paymentMethod) throws Exception {
-        String query = "SELECT p FROM Payment p WHERE p.paymentMethod = :paymentMethod";
-        TypedQuery<Payment> typedQuery = entityManager.createQuery(query, paymentClass);
-        typedQuery.setParameter("paymentMethod", paymentMethod);
-        return typedQuery.getResultList();
     }
 }
-

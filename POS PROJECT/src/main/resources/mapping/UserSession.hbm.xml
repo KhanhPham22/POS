@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="model.UserSession" table="user_sessions">
+        <!-- Định nghĩa ID của UserSession -->
+        <id name="sessionId" column="session_id">
+            <generator class="sequence">
+                <param name="sequence">user_session_sequence</param>
+            </generator>
+        </id>
+
+        <!-- Ánh xạ các thuộc tính của UserSession -->
+        <property name="sessionToken" column="session_token"/>
+        <property name="timestamp" column="timestamp"/>
+        <property name="expiryTime" column="expiry_time"/>
+        <property name="employeeNumber" column="employee_number"/>
+        <property name="sessionData" column="session_data"/>
+
+        <!-- Ánh xạ mối quan hệ nhiều - một với Employee -->
+        <many-to-one name="employee" class="model.Employee" fetch="lazy">
+            <column name="employee_number" />
+        </many-to-one>
+
+    </class>
+
+</hibernate-mapping>

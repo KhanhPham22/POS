@@ -1,101 +1,149 @@
 package dao;
 
 import model.Category;
-import jakarta.persistence.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import util.HibernateUtil;
+
 import java.util.List;
 
 public class CategoryDao implements GenericDao<Category> {
 
-    private Class<Category> categoryClass;
-    private EntityManager entityManager;
+    private static final Logger Log = LogManager.getLogger(CategoryDao.class);
 
-    public CategoryDao(EntityManager entityManager) {
-        this.entityManager = entityManager;
-        this.categoryClass = Category.class;
+    private SessionFactory sessionFactory;
+    private Class<Category> categoryClass; // Biến để lưu lớp Category
+
+    public CategoryDao() {
+        sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     @Override
-    public void setClass(Class<Category> classToSet) {
-        this.categoryClass = classToSet;
+    public void setClass(Class<Category> categoryClass) {
+        this.categoryClass = categoryClass; // Gán lớp Category
+    }
+
+    @Override
+    public boolean create(Category category) throws Exception {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.save(category);
+            transaction.commit();
+            Log.info("Category persisted successfully: " + category.getName());
+            return true;
+        } catch (Exception e) {
+            Log.error("Error while saving Category", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
     }
 
     @Override
     public Category findById(long id) throws Exception {
-        // Truy vấn Category theo ID
-        return entityManager.find(categoryClass, id);
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Category category = session.get(Category.class, id);
+            if (category != null) {
+                Log.info("Category with id: " + id + " retrieved successfully: " + category.getName());
+            } else {
+                Log.warn("Category with id: " + id + " not found");
+            }
+            return category;
+        } catch (Exception e) {
+            Log.error("Error while retrieving Category with id: " + id, e);
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
     }
 
     @Override
     public List<Category> findAll() throws Exception {
-        // Truy vấn tất cả Category
-        String query = "SELECT c FROM Category c";
-        TypedQuery<Category> typedQuery = entityManager.createQuery(query, categoryClass);
-        return typedQuery.getResultList();
-    }
-
-    @Override
-    public boolean create(Category entity) throws Exception {
+        Session session = null;
         try {
-            // Lưu Category mới
-            entityManager.getTransaction().begin();
-            entityManager.persist(entity);
-            entityManager.getTransaction().commit();
-            return true;
+            session = sessionFactory.openSession();
+            List<Category> categories = session.createQuery("from Category", Category.class).list();
+            Log.info("All categories retrieved successfully. Total count: " + categories.size());
+            return categories;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            throw e; // Hoặc xử lý lỗi theo cách của bạn
-        }
-    }
-
-    @Override
-    public boolean update(Category entity) throws Exception {
-        try {
-            // Cập nhật Category
-            entityManager.getTransaction().begin();
-            entityManager.merge(entity);
-            entityManager.getTransaction().commit();
-            return true;
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error while retrieving all Categories", e);
             throw e;
+        } finally {
+            if (session != null) session.close();
         }
     }
 
     @Override
-    public boolean delete(Category entity) throws Exception {
+    public boolean update(Category category) throws Exception {
+        Session session = null;
+        Transaction transaction = null;
         try {
-            // Xóa Category
-            entityManager.getTransaction().begin();
-            entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
-            entityManager.getTransaction().commit();
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.update(category);
+            transaction.commit();
+            Log.info("Category updated successfully: " + category.getName());
             return true;
         } catch (Exception e) {
-            entityManager.getTransaction().rollback();
+            Log.error("Error while updating Category", e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            if (session != null) session.close();
         }
     }
 
     @Override
-    public boolean deleteById(long entityId) throws Exception {
+    public boolean deleteById(long id) throws Exception {
+        Session session = null;
+        Transaction transaction = null;
         try {
-            // Xóa Category theo ID
-            Category category = findById(entityId);
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            Category category = session.get(Category.class, id);
             if (category != null) {
-                return delete(category);
+                session.delete(category);
+                transaction.commit();
+                Log.info("Category with id: " + id + " deleted successfully");
+            } else {
+                Log.warn("Category with id: " + id + " not found for deletion");
             }
-            return false;
+            return true;
         } catch (Exception e) {
+            Log.error("Error while deleting Category with id: " + id, e);
+            if (transaction != null) transaction.rollback();
             throw e;
+        } finally {
+            if (session != null) session.close();
         }
     }
 
-    // Tìm Category theo tên (unique)
-    public Category findByName(String name) throws Exception {
-        String query = "SELECT c FROM Category c WHERE c.name = :name";
-        TypedQuery<Category> typedQuery = entityManager.createQuery(query, categoryClass);
-        typedQuery.setParameter("name", name);
-        List<Category> results = typedQuery.getResultList();
-        return results.isEmpty() ? null : results.get(0); // Trả về Category đầu tiên nếu có
-        	
-}
+    @Override
+    public boolean delete(Category category) throws Exception {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.delete(category);
+            transaction.commit();
+            Log.info("Category deleted successfully: " + category.getName());
+            return true;
+        } catch (Exception e) {
+            Log.error("Error while deleting Category", e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
+    }
 }

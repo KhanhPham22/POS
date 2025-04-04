@@ -1,41 +1,54 @@
 package model;
 
-import jakarta.persistence.*;
-import lombok.*;
+import java.util.UUID;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name = "Owner")
-public class Owner extends BaseEntity { 
+public class Owner extends Person { 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "owner_id")
-    private Long ownerId;
+    private String ownerNumber;
+    private String description;
+    private String loginUsername;
+    private String loginPassword;
 
-    @Column(name = "name", nullable = false, length = 100)
-    private String name;
+    public Owner() {
+    }
 
-    @Column(name = "password", nullable = false)
-    private String password;
+    public void generateOwnerId() {
+        this.ownerNumber = "OWN-" + UUID.randomUUID().toString();
+    }
 
-    @Column(name = "email", nullable = false, unique = true, length = 150)
-    private String email;
+    // Getter and Setter for ownerNumber
+    public String getOwnerNumber() {
+        return ownerNumber;
+    }
 
-    @Column(name = "phone", nullable = false, unique = true, length = 20)
-    private String phone;
+    public void setOwnerNumber(String ownerNumber) {
+        this.ownerNumber = ownerNumber;
+    }
 
-    @Column(name = "address", length = 255)
-    private String address;
+    // Getter and Setter for description
+    public String getDescription() {
+        return description;
+    }
 
-    @Column(name = "national", length = 50)
-    private String national;
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    @Column(name = "notes", columnDefinition = "TEXT")
-    private String notes;
+    // Getter and Setter for loginUsername
+    public String getLoginUsername() {
+        return loginUsername;
+    }
+
+    public void setLoginUsername(String loginUsername) {
+        this.loginUsername = loginUsername;
+    }
+
+    // Getter and Setter for loginPassword
+    public String getLoginPassword() {
+        return loginPassword;
+    }
+
+    public void setLoginPassword(String loginPassword) {
+        this.loginPassword = loginPassword;
+    }
 }
-
-

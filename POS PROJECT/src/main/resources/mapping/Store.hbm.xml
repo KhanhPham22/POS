@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="model.Store" table="store">
+        <id name="storeId" column="store_id">
+            <generator class="sequence">
+                <param name="sequence">store_sequence</param>
+            </generator>
+        </id>
+        
+        <property name="name" column="name" />
+        <property name="shortName" column="short_name" />
+        <property name="description" column="description" />
+        <property name="city" column="city" />
+        <property name="state" column="state" />
+        <property name="zip" column="zip" />
+        <property name="address" column="address" />
+        <property name="phone" column="phone" />
+        <property name="email" column="email" />
+        <property name="website" column="website" />
+        <property name="fax" column="fax" />
+        
+    </class>
+
+</hibernate-mapping>
