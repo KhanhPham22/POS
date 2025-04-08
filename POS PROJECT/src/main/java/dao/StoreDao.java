@@ -133,4 +133,37 @@ public class StoreDao implements GenericDao<Store> {
             session.close();
         }
     }
+    
+    public List<Store> findByName(String name) throws Exception {
+        Session session = sessionFactory.openSession();
+        try {
+            List<Store> stores = session.createQuery("from Store where name = :name", Store.class)
+                                        .setParameter("name", name)
+                                        .list();
+            Log.info("Stores with name '" + name + "' retrieved successfully from database");
+            return stores;
+        } catch (Exception e) {
+            Log.error("Database error while retrieving Stores by name", e);
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
+    public List<Store> findByCity(String city) throws Exception {
+        Session session = sessionFactory.openSession();
+        try {
+            List<Store> stores = session.createQuery("from Store where city = :city", Store.class)
+                                        .setParameter("city", city)
+                                        .list();
+            Log.info("Stores with city '" + city + "' retrieved successfully from database");
+            return stores;
+        } catch (Exception e) {
+            Log.error("Database error while retrieving Stores by city", e);
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
 }

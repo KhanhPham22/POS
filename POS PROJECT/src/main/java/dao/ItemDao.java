@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import util.HibernateUtil;
 
@@ -132,4 +133,40 @@ public class ItemDao implements GenericDao<Item> {
             session.close();
         }
     }
+    public Item findByEAN13(String ean13) {
+		Session session = sessionFactory.openSession();
+		try {
+			String hql = "FROM Item WHERE bar_code = :name";
+			Query<Item> query = session.createQuery(hql, Item.class);
+			query.setParameter("name", ean13);
+			return query.uniqueResult();
+		} finally {
+			session.close();
+		}
+	}
+    
+    public List<Item> findByName(String input) {
+        Session session = sessionFactory.openSession();
+        try {
+            String hql = "FROM Item WHERE LOWER(name) LIKE :name";
+            Query<Item> query = session.createQuery(hql, Item.class);
+            query.setParameter("name", "%" + input.toLowerCase() + "%");
+            return query.list();
+        } finally {
+            session.close();
+        }
+    }
+
+    public List<Item> findItem(String input) {
+        Session session = sessionFactory.openSession();
+        try {
+            String hql = "FROM Item WHERE LOWER(name) LIKE :input OR LOWER(description) LIKE :input";
+            Query<Item> query = session.createQuery(hql, Item.class);
+            query.setParameter("input", "%" + input.toLowerCase() + "%");
+            return query.list();
+        } finally {
+            session.close();
+        }
+    }
+
 }

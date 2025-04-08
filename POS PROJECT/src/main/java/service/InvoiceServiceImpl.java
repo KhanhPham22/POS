@@ -1,0 +1,110 @@
+package service;
+
+import java.util.Date;
+import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import dao.InvoiceDao;
+import model.Invoice;
+
+public class InvoiceServiceImpl implements InvoiceService {
+
+    private static final Logger Log = LogManager.getLogger(InvoiceServiceImpl.class);
+    private final InvoiceDao invoiceDao;
+
+    public InvoiceServiceImpl() {
+        this.invoiceDao = new InvoiceDao();
+    }
+
+    @Override
+    public boolean createInvoice(Invoice invoice) {
+        try {
+            return invoiceDao.create(invoice);
+        } catch (Exception e) {
+            Log.error("Failed to create invoice", e);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean updateInvoice(Invoice invoice) {
+        try {
+            return invoiceDao.update(invoice);
+        } catch (Exception e) {
+            Log.error("Failed to update invoice", e);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteInvoiceById(Long invoiceId) {
+        try {
+            return invoiceDao.deleteById(invoiceId);
+        } catch (Exception e) {
+            Log.error("Failed to delete invoice with ID: " + invoiceId, e);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteInvoice(Invoice invoice) {
+        try {
+            return invoiceDao.delete(invoice);
+        } catch (Exception e) {
+            Log.error("Failed to delete invoice", e);
+            return false;
+        }
+    }
+
+    @Override
+    public Invoice getInvoiceById(Long invoiceId) {
+        try {
+            return invoiceDao.findById(invoiceId);
+        } catch (Exception e) {
+            Log.error("Failed to retrieve invoice with ID: " + invoiceId, e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<Invoice> getAllInvoices() {
+        try {
+            return invoiceDao.findAll();
+        } catch (Exception e) {
+            Log.error("Failed to retrieve all invoices", e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<Invoice> getInvoicesByPaymentMethod(String paymentMethod) {
+        try {
+            return invoiceDao.findByPaymentMethod(paymentMethod);
+        } catch (Exception e) {
+            Log.error("Failed to retrieve invoices with payment method: " + paymentMethod, e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<Invoice> getInvoicesByStatus(String status) {
+        try {
+            return invoiceDao.findByStatus(status);
+        } catch (Exception e) {
+            Log.error("Failed to retrieve invoices with status: " + status, e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<Invoice> getInvoicesByDate(Date date) {
+        try {
+            return invoiceDao.findByInvoiceDate(date);
+        } catch (Exception e) {
+            Log.error("Failed to retrieve invoices by date: " + date, e);
+            return null;
+        }
+    }
+}
+

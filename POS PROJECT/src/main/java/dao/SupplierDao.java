@@ -146,4 +146,22 @@ public class SupplierDao implements GenericDao<Supplier> {
             if (session != null) session.close();
         }
     }
+    public List<Supplier> findByName(String name) throws Exception {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            String hql = "FROM Supplier WHERE lower(name) LIKE :name";
+            List<Supplier> suppliers = session.createQuery(hql, Supplier.class)
+                .setParameter("name", "%" + name.toLowerCase() + "%")
+                .list();
+            Log.info("Suppliers retrieved with name like: " + name);
+            return suppliers;
+        } catch (Exception e) {
+            Log.error("Error while retrieving suppliers by name: " + name, e);
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
+    }
+
 }
