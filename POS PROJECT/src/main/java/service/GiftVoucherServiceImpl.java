@@ -12,7 +12,7 @@ public class GiftVoucherServiceImpl implements GiftVoucherService {
     private static final Logger Log = LogManager.getLogger(GiftVoucherServiceImpl.class);
     private final GiftVoucherDao giftVoucherDao;
 
-    public GiftVoucherServiceImpl() {
+    public GiftVoucherServiceImpl(GiftVoucherDao giftVoucherDao) {
         this.giftVoucherDao = new GiftVoucherDao();
         this.giftVoucherDao.setClass(GiftVoucher.class);
     }
@@ -76,5 +76,16 @@ public class GiftVoucherServiceImpl implements GiftVoucherService {
             return null;
         }
     }
+    
+    @Override
+    public GiftVoucher getGiftVoucherByName(String voucherName) {
+        try {
+            return giftVoucherDao.findByVoucherName(voucherName);
+        } catch (Exception e) {
+            Log.error("Failed to retrieve gift voucher with name: " + voucherName, e);
+            return null;
+        }
+    }
+
 }
 

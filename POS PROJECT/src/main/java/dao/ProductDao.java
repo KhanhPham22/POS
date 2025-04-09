@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
 import util.HibernateUtil;
 
 import java.util.List;
@@ -146,4 +148,60 @@ public class ProductDao implements GenericDao<Product> {
             if (session != null) session.close();
         }
     }
+    
+    public Product getProductByName(String name) throws Exception {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+
+            Query<Product> query = session.createQuery("from Product where name = :name", Product.class);
+            query.setParameter("name", name);
+            query.setMaxResults(1); // Lấy sản phẩm đầu tiên nếu trùng tên
+            Product product = query.uniqueResult();
+
+            transaction.commit();
+
+            if (product != null) {
+                Log.info("Product with name: " + name + " retrieved successfully: " + product.getProductId());
+            } else {
+                Log.warn("Product with name: " + name + " not found");
+            }
+            return product;
+        } catch (Exception e) {
+            Log.error("Error while retrieving Product with name: " + name, e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
+    }
+    
+    public Product findByEAN13(String ean13) throws Exception {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Query<Product> query = session.createQuery("from Product where ean13 = :ean13", Product.class);
+            query.setParameter("ean13", ean13);
+
+            Product product = query.uniqueResult(); // Mã vạch là duy nhất
+
+            if (product != null) {
+                Log.info("Product with EAN13: " + ean13 + " retrieved successfully: " + product.getProductId());
+            } else {
+                Log.warn("Product with EAN13: " + ean13 + " not found");
+            }
+            return product;
+        } catch (Exception e) {
+            Log.error("Error while retrieving Product with EAN13: " + ean13, e);
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
+    }
+
+
+
+
 }

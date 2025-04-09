@@ -111,18 +111,7 @@ public class ItemServiceImpl implements ItemService{
 
 	}
 
-	@Override
-	public Item findbyEAN13(String ean13) {
-		try {
-			
-			Item item =  itemDao.findByEAN13(ean13);
-			Log.info("Find Item by EAN-13 successfully");
-			return item;
-		} catch (Exception e) {
-			Log.error("Error while finding Item by EAN-13", e);
-			return null;
-		}
-	}
+	
 	@Override
 	public List<Item> findItem(String input) {
 		try {

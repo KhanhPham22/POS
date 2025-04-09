@@ -12,4 +12,6 @@ public interface PaymentService {
 	Payment getPayment(long paymentId) ;
 
 	List<Payment> getAllPayments();
+	
+	List<Payment> getPaymentByCustomerName(String customerName);
 }

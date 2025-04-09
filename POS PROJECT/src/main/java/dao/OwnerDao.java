@@ -132,4 +132,20 @@ public class OwnerDao implements GenericDao<Owner> {
             session.close();
         }
     }
+    
+    public Owner findByUsername(String username) throws Exception {
+    	Session session = sessionFactory.openSession();
+    	try {
+    		Owner owner = session.createQuery("from Owner where loginUsername = :username", Owner.class)
+    				.setParameter("username", username).uniqueResult();
+    		Log.info("Owner with username: " + username + " retrieved successfully from database");
+    		return owner;
+    	} catch (Exception e) {
+    		Log.error("Database error while retrieving Owner with username: " + username, e);
+    		throw e;
+    	} finally {
+    		session.close();
+    	}
+    }
+
 }

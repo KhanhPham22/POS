@@ -75,4 +75,37 @@ private WarehouseImportDao warehouseDao ;
 			return null;
 		}
 	}
+	
+	@Override
+	public WarehouseImport getWarehouseByName(String name) throws Exception {
+		try {
+			WarehouseImport warehouse = warehouseDao.findByName(name);
+			if (warehouse != null) {
+				Log.info("Warehouse with name: " + name + " found successfully");
+			} else {
+				Log.warn("No warehouse found with name: " + name);
+			}
+			return warehouse;
+		} catch (Exception e) {
+			Log.error("Error while finding warehouse with name: " + name, e);
+			return null;
+		}
+	}
+
+	@Override
+	public WarehouseImport getWarehouseByShortName(String shortName) throws Exception {
+		try {
+			WarehouseImport warehouse = warehouseDao.findByShortName(shortName);
+			if (warehouse != null) {
+				Log.info("Warehouse with shortName: " + shortName + " found successfully");
+			} else {
+				Log.warn("No warehouse found with shortName: " + shortName);
+			}
+			return warehouse;
+		} catch (Exception e) {
+			Log.error("Error while finding warehouse with shortName: " + shortName, e);
+			return null;
+		}
+	}
+
 }

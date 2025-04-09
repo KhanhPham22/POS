@@ -13,7 +13,7 @@ public class StoreServiceImpl implements StoreService {
     private static final Logger Log = LogManager.getLogger(StoreServiceImpl.class);
     private final StoreDao storeDao;
 
-    public StoreServiceImpl() {
+    public StoreServiceImpl(StoreDao storeDao) {
         this.storeDao = new StoreDao();
     }
 

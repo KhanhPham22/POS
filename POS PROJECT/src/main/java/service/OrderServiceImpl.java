@@ -12,7 +12,7 @@ public class OrderServiceImpl implements OrderService {
     private static final Logger Log = LogManager.getLogger(OrderServiceImpl.class);
     private final OrderDetailDao orderDao;
 
-    public OrderServiceImpl() {
+    public OrderServiceImpl(OrderDetailDao orderDao) {
         this.orderDao = new OrderDetailDao();
         this.orderDao.setClass(OrderDetail.class);
     }
@@ -76,5 +76,16 @@ public class OrderServiceImpl implements OrderService {
             return null;
         }
     }
+    
+    @Override
+    public List<OrderDetail> getOrderByCustomerName(String customerName) {
+        try {
+            return orderDao.findByCustomerName(customerName);
+        } catch (Exception e) {
+            Log.error("Failed to retrieve orders for customer name: " + customerName, e);
+            return null;
+        }
+    }
+
 }
 

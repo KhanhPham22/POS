@@ -133,4 +133,22 @@ public class OrderDetailDao implements GenericDao<OrderDetail> {
             session.close();
         }
     }
+    
+    public List<OrderDetail> findByCustomerName(String customerName) throws Exception {
+        Session session = sessionFactory.openSession();
+        try {
+            String hql = "FROM OrderDetail o WHERE o.customer.name = :name";
+            List<OrderDetail> results = session.createQuery(hql, OrderDetail.class)
+                                               .setParameter("name", customerName)
+                                               .list();
+            Log.info("Retrieved OrderDetails for customer name: " + customerName);
+            return results;
+        } catch (Exception e) {
+            Log.error("Database error while retrieving OrderDetails for customer name: " + customerName, e);
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
 }

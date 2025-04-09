@@ -19,5 +19,7 @@
         <!-- Many-to-one relationship to 'OrderDetail' -->
         <many-to-one name="order" class="model.OrderDetail" column="order_id" not-null="true"/>
 
+		 <!-- Many-to-one relationship to 'Customer' -->
+        <many-to-one name="customer" class="model.Customer" column="customer_id" not-null="true"/>
     </class>
 </hibernate-mapping>

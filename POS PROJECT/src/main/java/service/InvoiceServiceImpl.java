@@ -13,8 +13,9 @@ public class InvoiceServiceImpl implements InvoiceService {
     private static final Logger Log = LogManager.getLogger(InvoiceServiceImpl.class);
     private final InvoiceDao invoiceDao;
 
-    public InvoiceServiceImpl() {
-        this.invoiceDao = new InvoiceDao();
+    public InvoiceServiceImpl(InvoiceDao invoiceDao) {
+        this.invoiceDao =  invoiceDao;
+        
     }
 
     @Override
@@ -106,5 +107,26 @@ public class InvoiceServiceImpl implements InvoiceService {
             return null;
         }
     }
+    
+    @Override
+    public List<Invoice> getInvoicesByEmployeeName(String employeeName) {
+        try {
+            return invoiceDao.findByEmployeeName(employeeName);
+        } catch (Exception e) {
+            Log.error("Failed to retrieve invoices with employee name: " + employeeName, e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<Invoice> getInvoicesByCustomerName(String customerName) {
+        try {
+            return invoiceDao.findByCustomerName(customerName);
+        } catch (Exception e) {
+            Log.error("Failed to retrieve invoices with customer name: " + customerName, e);
+            return null;
+        }
+    }
+
 }
 

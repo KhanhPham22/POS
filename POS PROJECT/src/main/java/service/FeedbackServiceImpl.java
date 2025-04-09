@@ -13,7 +13,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     private static final Logger Log = LogManager.getLogger(FeedbackServiceImpl.class);
     private final FeedbackDao feedbackDao;
 
-    public FeedbackServiceImpl() {
+    public FeedbackServiceImpl(FeedbackDao feedbackDao) {
         this.feedbackDao = new FeedbackDao();
         this.feedbackDao.setClass(Feedback.class);
     }

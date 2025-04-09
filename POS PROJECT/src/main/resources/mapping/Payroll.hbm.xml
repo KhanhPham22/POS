@@ -17,6 +17,17 @@
         <property name="commission" column="commission" />
         <property name="totalSalary" column="total_salary" not-null="true"/>
 
+        <!-- Mapping 'month' as integer -->
+        <property name="month" column="month" type="org.hibernate.type.EnumType">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">java.time.Month</param>
+                <param name="useNamed">false</param> <!-- lưu theo ordinal (0-11) -->
+            </type>
+        </property>
+
+        <!-- Mapping 'year' as integer (convert Year to int) -->
+        <property name="year" column="year" type="integer"/>
+
         <!-- Many-to-one relationship to 'Employee' using 'employeeNumber' -->
         <many-to-one name="employee" class="model.Employee" column="employee_number" not-null="true"/>
 

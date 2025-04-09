@@ -18,6 +18,6 @@ boolean createItem(Item item) ;
 	List<Item> getAllItems() ;
 	
 	List<Item> getItemByName(String input) ;
-	public Item findbyEAN13(String ean13) ;
+	
 	public List<Item> findItem(String input) ;
 }

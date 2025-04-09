@@ -14,6 +14,8 @@ public interface OrderService {
 
     OrderDetail getOrderById(long orderId);
 
+    List<OrderDetail> getOrderByCustomerName(String customerName);
+    
     List<OrderDetail> getAllOrders();
 }
 

@@ -1,5 +1,8 @@
 package model;
 
+import java.time.Month;
+import java.time.Year;
+
 public class Payroll extends BaseEntity {
 
     private Long payrollId;
@@ -8,6 +11,8 @@ public class Payroll extends BaseEntity {
     private Double bonus = 0.0;
     private Double commission = 0.0;
     private Double totalSalary;
+    private Month month;
+    private Year year; // Đổi sang java.time.Year
 
     // Default Constructor
     public Payroll() {}
@@ -60,4 +65,21 @@ public class Payroll extends BaseEntity {
     public void setTotalSalary(Double totalSalary) {
         this.totalSalary = totalSalary;
     }
+
+    public Month getMonth() {
+        return month;
+    }
+
+    public void setMonth(Month month) {
+        this.month = month;
+    }
+
+    public Year getYear() {
+        return year;
+    }
+
+    public void setYear(Year year) {
+        this.year = year;
+    }
 }
+

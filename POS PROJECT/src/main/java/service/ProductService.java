@@ -2,6 +2,7 @@ package service;
 
 import java.util.List;
 
+
 import model.Product;
 
 
@@ -18,6 +19,10 @@ public interface ProductService {
 
     Product getProductById(long productId);
 
+    Product getProductByName(String name);
+    
+    public Product findbyEAN13(String ean13) ;
+    
     List<Product> getAllProducts();
 }
 

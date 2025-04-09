@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
 import util.HibernateUtil;
 
 import java.util.List;
@@ -146,4 +148,26 @@ public class CategoryDao implements GenericDao<Category> {
             if (session != null) session.close();
         }
     }
+    
+    public Category findByName(String name) throws Exception {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Query<Category> query = session.createQuery("from Category where name = :name", Category.class);
+            query.setParameter("name", name);
+            Category category = query.uniqueResult();
+            if (category != null) {
+                Log.info("Category with name: " + name + " retrieved successfully.");
+            } else {
+                Log.warn("Category with name: " + name + " not found.");
+            }
+            return category;
+        } catch (Exception e) {
+            Log.error("Error while retrieving Category with name: " + name, e);
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
+    }
+
 }

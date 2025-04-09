@@ -12,7 +12,7 @@ public class DashboardServiceImpl implements DashboardService {
     private static final Logger Log = LogManager.getLogger(DashboardServiceImpl.class);
     private final DashboardDao dashboardDao;
 
-    public DashboardServiceImpl() {
+    public DashboardServiceImpl(DashboardDao dashboardDao) {
         this.dashboardDao = new DashboardDao();
     }
 

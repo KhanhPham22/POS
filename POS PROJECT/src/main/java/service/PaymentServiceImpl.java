@@ -12,10 +12,11 @@ public class PaymentServiceImpl implements PaymentService {
     private static final Logger Log = LogManager.getLogger(PaymentServiceImpl.class);
     private final PaymentDao paymentDao;
 
-    public PaymentServiceImpl() {
-        this.paymentDao = new PaymentDao();
+    public PaymentServiceImpl(PaymentDao paymentDao) {
+        this.paymentDao = paymentDao;
         this.paymentDao.setClass(Payment.class);
     }
+
 
     @Override
     public boolean createPayment(Payment payment) {
@@ -66,5 +67,16 @@ public class PaymentServiceImpl implements PaymentService {
             return null;
         }
     }
+    
+    @Override
+    public List<Payment> getPaymentByCustomerName(String customerName) {
+        try {
+            return paymentDao.findByCustomerName(customerName);
+        } catch (Exception e) {
+            Log.error("Failed to get payments for customer name: " + customerName, e);
+            return null;
+        }
+    }
+
 }
 

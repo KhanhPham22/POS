@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import util.HibernateUtil;
 
@@ -132,4 +133,23 @@ public class GiftVoucherDao implements GenericDao<GiftVoucher> {
             session.close();
         }
     }
+    
+    public GiftVoucher findByVoucherName(String voucherName) throws Exception {
+        Session session = sessionFactory.openSession();
+        try {
+            Query<GiftVoucher> query = session.createQuery(
+                "FROM GiftVoucher WHERE voucherName = :voucherName", GiftVoucher.class
+            );
+            query.setParameter("voucherName", voucherName);
+            GiftVoucher result = query.uniqueResult();
+            Log.info("GiftVoucher with voucherName: " + voucherName + " retrieved successfully");
+            return result;
+        } catch (Exception e) {
+            Log.error("Error while retrieving GiftVoucher by voucherName", e);
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
 }

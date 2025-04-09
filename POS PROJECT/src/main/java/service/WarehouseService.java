@@ -12,5 +12,10 @@ public interface WarehouseService {
 
 	WarehouseImport getWarehouse(long warehouseId) throws Exception;
 
+	WarehouseImport getWarehouseByName(String name) throws Exception;
+
+	WarehouseImport getWarehouseByShortName(String shortName) throws Exception;
+
+	
 	List<WarehouseImport> getAllWarehouses() throws Exception;
 }

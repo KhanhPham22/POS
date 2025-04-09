@@ -132,4 +132,22 @@ public class PaymentDao implements GenericDao<Payment> {
             session.close();
         }
     }
+    
+    public List<Payment> findByCustomerName(String customerName) throws Exception {
+        Session session = sessionFactory.openSession();
+        try {
+            String hql = "FROM Payment p WHERE p.customer.name = :customerName";
+            List<Payment> payments = session.createQuery(hql)
+                    .setParameter("customerName", customerName)
+                    .list();
+            Log.info("Payments retrieved successfully by customer name: " + customerName);
+            return payments;
+        } catch (Exception e) {
+            Log.error("Error while retrieving Payments by customer name", e);
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+    
 }

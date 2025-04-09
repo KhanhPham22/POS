@@ -157,4 +157,35 @@ public class InvoiceDao {
             throw e;
         }
     }
+    
+ // Tìm hóa đơn theo tên nhân viên
+    public List<Invoice> findByEmployeeName(String employeeName) throws Exception {
+        try (Session session = sessionFactory.openSession()) {
+            List<Invoice> invoices = session.createQuery(
+                    "FROM Invoice WHERE employee.name = :employeeName", Invoice.class)
+                    .setParameter("employeeName", employeeName)
+                    .list();
+            Log.info("Invoices with employee name '" + employeeName + "' retrieved successfully");
+            return invoices;
+        } catch (Exception e) {
+            Log.error("Error retrieving invoices with employee name: " + employeeName, e);
+            throw e;
+        }
+    }
+
+    // Tìm hóa đơn theo tên khách hàng
+    public List<Invoice> findByCustomerName(String customerName) throws Exception {
+        try (Session session = sessionFactory.openSession()) {
+            List<Invoice> invoices = session.createQuery(
+                    "FROM Invoice WHERE customer.name = :customerName", Invoice.class)
+                    .setParameter("customerName", customerName)
+                    .list();
+            Log.info("Invoices with customer name '" + customerName + "' retrieved successfully");
+            return invoices;
+        } catch (Exception e) {
+            Log.error("Error retrieving invoices with customer name: " + customerName, e);
+            throw e;
+        }
+    }
+
 }

@@ -1,5 +1,7 @@
 package service;
 
+import java.time.Month;
+import java.time.Year;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +14,7 @@ public class PayrollServiceImpl implements PayrollService {
     private static final Logger Log = LogManager.getLogger(PayrollServiceImpl.class);
     private final PayrollDao payrollDao;
 
-    public PayrollServiceImpl() {
+    public PayrollServiceImpl(PayrollDao payrollDao) {
         this.payrollDao = new PayrollDao();
         this.payrollDao.setClass(Payroll.class);
     }
@@ -73,6 +75,16 @@ public class PayrollServiceImpl implements PayrollService {
             return payrollDao.findAll();
         } catch (Exception e) {
             Log.error("Failed to retrieve all payrolls", e);
+            return null;
+        }
+    }
+    
+    @Override
+    public List<Payroll> getPayrollsByMonthAndYear(Month month, Year year) {
+        try {
+            return payrollDao.findByMonthAndYear(month, year);
+        } catch (Exception e) {
+            Log.error("Failed to retrieve payrolls by month and year: " + month + ", " + year, e);
             return null;
         }
     }

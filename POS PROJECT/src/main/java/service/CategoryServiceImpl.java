@@ -12,7 +12,7 @@ public class CategoryServiceImpl implements CategoryService {
     private static final Logger Log = LogManager.getLogger(CategoryServiceImpl.class);
     private final CategoryDao categoryDao;
 
-    public CategoryServiceImpl() {
+    public CategoryServiceImpl(CategoryDao categoryDao) {
         this.categoryDao = new CategoryDao();
         this.categoryDao.setClass(Category.class);
     }
@@ -76,5 +76,16 @@ public class CategoryServiceImpl implements CategoryService {
             return null;
         }
     }
+    
+    @Override
+    public Category getCategoryByName(String name) {
+        try {
+            return categoryDao.findByName(name);
+        } catch (Exception e) {
+            Log.error("Failed to retrieve category with name: " + name, e);
+            return null;
+        }
+    }
+
 }
 

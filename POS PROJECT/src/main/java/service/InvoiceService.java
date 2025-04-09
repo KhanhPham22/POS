@@ -24,5 +24,9 @@ public interface InvoiceService {
     List<Invoice> getInvoicesByStatus(String status);
 
     List<Invoice> getInvoicesByDate(Date date);
+    
+    List<Invoice> getInvoicesByEmployeeName(String employeeName);
+
+    List<Invoice> getInvoicesByCustomerName(String customerName);
 }
 

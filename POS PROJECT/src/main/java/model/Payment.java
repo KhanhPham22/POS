@@ -7,6 +7,7 @@ public class Payment extends BaseEntity {
     private Double amount;
     private String status;
     private OrderDetail order;
+    private Customer customer; // Thêm biến customer
 
     // Default Constructor
     public Payment() {}
@@ -51,4 +52,13 @@ public class Payment extends BaseEntity {
     public void setOrder(OrderDetail order) {
         this.order = order;
     }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 }
+

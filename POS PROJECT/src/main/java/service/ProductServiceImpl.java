@@ -12,7 +12,7 @@ public class ProductServiceImpl implements ProductService {
     private static final Logger Log = LogManager.getLogger(ProductServiceImpl.class);
     private final ProductDao productDao;
 
-    public ProductServiceImpl() {
+    public ProductServiceImpl(ProductDao productDao) {
         this.productDao = new ProductDao();
         this.productDao.setClass(Product.class);
     }
@@ -76,5 +76,27 @@ public class ProductServiceImpl implements ProductService {
             return null;
         }
     }
+    
+    @Override
+    public Product getProductByName(String name) {
+        try {
+            return productDao.getProductByName(name);
+        } catch (Exception e) {
+            Log.error("Failed to retrieve product with name: " + name, e);
+            return null;
+        }
+    }
+
+    @Override
+    public Product findbyEAN13(String ean13) {
+        try {
+            return productDao.findByEAN13(ean13);
+        } catch (Exception e) {
+            Log.error("Failed to retrieve product with EAN13: " + ean13, e);
+            return null;
+        }
+    }
+
+    
 }
 

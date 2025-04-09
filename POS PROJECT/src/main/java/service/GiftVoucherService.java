@@ -15,6 +15,9 @@ public interface GiftVoucherService {
 
     GiftVoucher getGiftVoucherById(long giftVoucherId);
 
+    GiftVoucher getGiftVoucherByName(String voucherName);
+
+    
     List<GiftVoucher> getAllGiftVouchers();
 }
 

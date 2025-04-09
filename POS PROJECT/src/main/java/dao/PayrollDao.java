@@ -1,5 +1,7 @@
 package dao;
 
+import java.time.Month;
+import java.time.Year;
 import java.util.List;
 
 import model.Payroll;
@@ -127,6 +129,24 @@ public class PayrollDao implements GenericDao<Payroll> {
         } catch (Exception e) {
             Log.error("Error while deleting Payroll", e);
             if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+    
+    public List<Payroll> findByMonthAndYear(Month month, Year year) throws Exception {
+        Session session = sessionFactory.openSession();
+        try {
+            String hql = "FROM Payroll p WHERE p.month = :month AND p.year = :year";
+            List<Payroll> payrolls = session.createQuery(hql, Payroll.class)
+                    .setParameter("month", month)
+                    .setParameter("year", year)
+                    .list();
+            Log.info("Payrolls for month " + month + " and year " + year + " retrieved successfully");
+            return payrolls;
+        } catch (Exception e) {
+            Log.error("Error while retrieving Payrolls by month and year", e);
             throw e;
         } finally {
             session.close();

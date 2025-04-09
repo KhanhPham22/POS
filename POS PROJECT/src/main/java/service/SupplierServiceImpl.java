@@ -12,7 +12,7 @@ public class SupplierServiceImpl implements SupplierService {
     private static final Logger Log = LogManager.getLogger(SupplierServiceImpl.class);
     private final SupplierDao supplierDao;
 
-    public SupplierServiceImpl() {
+    public SupplierServiceImpl(SupplierDao supplierDao) {
         this.supplierDao = new SupplierDao();
     }
 

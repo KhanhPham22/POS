@@ -133,17 +133,7 @@ public class ItemDao implements GenericDao<Item> {
             session.close();
         }
     }
-    public Item findByEAN13(String ean13) {
-		Session session = sessionFactory.openSession();
-		try {
-			String hql = "FROM Item WHERE bar_code = :name";
-			Query<Item> query = session.createQuery(hql, Item.class);
-			query.setParameter("name", ean13);
-			return query.uniqueResult();
-		} finally {
-			session.close();
-		}
-	}
+  
     
     public List<Item> findByName(String input) {
         Session session = sessionFactory.openSession();

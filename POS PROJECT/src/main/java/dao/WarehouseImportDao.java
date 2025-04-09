@@ -146,4 +146,49 @@ public class WarehouseImportDao implements GenericDao<WarehouseImport> {
             if (session != null) session.close();
         }
     }
+    
+    public WarehouseImport findByName(String name) throws Exception {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            String hql = "FROM WarehouseImport WHERE name = :name";
+            WarehouseImport result = session.createQuery(hql, WarehouseImport.class)
+                                            .setParameter("name", name)
+                                            .uniqueResult();
+            if (result != null) {
+                Log.info("WarehouseImport with name: " + name + " retrieved successfully");
+            } else {
+                Log.warn("No WarehouseImport found with name: " + name);
+            }
+            return result;
+        } catch (Exception e) {
+            Log.error("Error while retrieving WarehouseImport by name: " + name, e);
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
+    }
+
+    public WarehouseImport findByShortName(String shortName) throws Exception {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            String hql = "FROM WarehouseImport WHERE shortName = :shortName";
+            WarehouseImport result = session.createQuery(hql, WarehouseImport.class)
+                                            .setParameter("shortName", shortName)
+                                            .uniqueResult();
+            if (result != null) {
+                Log.info("WarehouseImport with shortName: " + shortName + " retrieved successfully");
+            } else {
+                Log.warn("No WarehouseImport found with shortName: " + shortName);
+            }
+            return result;
+        } catch (Exception e) {
+            Log.error("Error while retrieving WarehouseImport by shortName: " + shortName, e);
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
+    }
+
 }
