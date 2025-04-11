@@ -2,6 +2,10 @@ package model;
 
 import java.util.Date;
 
+
+
+
+
 public class Dashboard extends BaseEntity {
 
     private Long dashboardId;
@@ -17,16 +21,18 @@ public class Dashboard extends BaseEntity {
     private Integer totalFeedback;
     private Double averageRating;
     private Date timestamp = new Date(); // Default to current time
-    private Long storeId; // New field for storeId
+
+    private Store store; // Quan hệ với Store qua store_id
+    private String storeName; // Snapshot tên store
 
     // Default constructor
     public Dashboard() {}
 
     // Constructor with all fields
-    public Dashboard(Long dashboardId, Double totalSalary, Double totalRevenue, Integer totalOrders, 
-                     Integer totalUsers, Integer totalProducts, Double dayRevenue, Double monthRevenue, 
-                     Double yearRevenue, Integer pendingOrders, Integer totalFeedback, Double averageRating, 
-                     Date timestamp, Long storeId) {
+    public Dashboard(Long dashboardId, Double totalSalary, Double totalRevenue, Integer totalOrders,
+                     Integer totalUsers, Integer totalProducts, Double dayRevenue, Double monthRevenue,
+                     Double yearRevenue, Integer pendingOrders, Integer totalFeedback, Double averageRating,
+                     Date timestamp, Store store, String storeName) {
         this.dashboardId = dashboardId;
         this.totalSalary = totalSalary;
         this.totalRevenue = totalRevenue;
@@ -40,10 +46,11 @@ public class Dashboard extends BaseEntity {
         this.totalFeedback = totalFeedback;
         this.averageRating = averageRating;
         this.timestamp = timestamp;
-        this.storeId = storeId; // Initialize storeId
+        this.store = store;
+        this.storeName = storeName;
     }
 
-    // Getter and Setter methods for all fields
+    // Getter and Setter methods
     public Long getDashboardId() {
         return dashboardId;
     }
@@ -148,11 +155,21 @@ public class Dashboard extends BaseEntity {
         this.timestamp = timestamp;
     }
 
-    public Long getStoreId() {
-        return storeId;
+    public Store getStore() {
+        return store;
     }
 
-    public void setStoreId(Long storeId) {
-        this.storeId = storeId;
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 }
+
+

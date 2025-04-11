@@ -21,6 +21,12 @@
         <property name="website" column="website" />
         <property name="fax" column="fax" />
         
+        <!-- Quan hệ One-to-Many với Dashboard -->
+        <set name="dashboards" table="dashboard" inverse="true" cascade="all">
+            <key column="store_Id"/>
+            <one-to-many class="model.Dashboard"/>
+        </set>
+        
     </class>
 
 </hibernate-mapping>

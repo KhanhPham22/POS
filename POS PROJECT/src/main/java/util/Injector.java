@@ -18,6 +18,7 @@ import dao.StoreDao;
 import dao.SupplierDao;
 import dao.UserSessionDao;
 import dao.WarehouseImportDao;
+import service.AuthenticationService;
 import service.CategoryService;
 import service.CategoryServiceImpl;
 import service.DashboardService;
@@ -26,6 +27,7 @@ import service.FeedbackService;
 import service.FeedbackServiceImpl;
 import service.GiftVoucherService;
 import service.GiftVoucherServiceImpl;
+import service.HashService;
 import service.InvoiceService;
 import service.InvoiceServiceImpl;
 import service.ItemService;
@@ -194,6 +196,11 @@ public class Injector {
 		}
 		return warehouseDao;
 	}
+	
+	public static AuthenticationService createAuthenticationService() {
+	    return new AuthenticationService(getEmployeeDao(), getUserSessionDao(), new HashService());
+	}
+
 	
 	public static PaymentService createPaymentService() {
 		return new PaymentServiceImpl(getPaymentDao());

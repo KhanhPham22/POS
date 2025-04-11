@@ -1,5 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
 <hibernate-mapping>
     <class name="model.BaseEntity" abstract="true">
+        <!-- Thêm id dù là abstract class -->
+        <id name="id" type="long" column="id">
+            <generator class="native"/>
+        </id>
+        
+        <!-- Các property sau id -->
         <property name="createdBy" column="created_by" type="long"/>
         <property name="createdDate" column="created_date" type="timestamp"/>
         <property name="lastUpdatedDate" column="updated_date" type="timestamp"/>

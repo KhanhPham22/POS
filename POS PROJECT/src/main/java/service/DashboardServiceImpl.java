@@ -85,5 +85,16 @@ public class DashboardServiceImpl implements DashboardService {
             return null;
         }
     }
+    
+    @Override
+    public Dashboard getDashboardByStoreName(String storeName) {
+        try {
+            return dashboardDao.getDashboardByStoreName(storeName);
+        } catch (Exception e) {
+            Log.error("Failed to retrieve dashboard for store name: " + storeName, e);
+            return null;
+        }
+    }
+
 }
 

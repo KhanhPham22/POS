@@ -21,7 +21,8 @@
         <property name="timestamp" column="timestamp" />
 
         <property name="storeId" column="store_id" />
-        
+        <!-- Quan hệ theo store name -->
+   <many-to-one name="store" class="model.Store" column="store_id" not-null="false"/>
     </class>
 
 </hibernate-mapping>

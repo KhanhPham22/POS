@@ -152,4 +152,24 @@ public class DashboardDao implements GenericDao<Dashboard> {
         }
     }
 
+    
+    public Dashboard getDashboardByStoreName(String storeName) throws Exception {
+        Session session = sessionFactory.openSession();
+        try {
+            String hql = "FROM Dashboard d WHERE d.store.name = :storeName ORDER BY d.timestamp DESC";
+            Dashboard dashboard = session.createQuery(hql, Dashboard.class)
+                    .setParameter("storeName", storeName)
+                    .setMaxResults(1)
+                    .uniqueResult();
+            Log.info("Dashboard retrieved for storeName: " + storeName);
+            return dashboard;
+        } catch (Exception e) {
+            Log.error("Error retrieving dashboard for storeName: " + storeName, e);
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
+
 }

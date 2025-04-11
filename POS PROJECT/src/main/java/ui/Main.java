@@ -4,57 +4,44 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import model.Employee;
+import dao.EmployeeDao;
 import util.HibernateUtil;
-
 public class Main {
-
     public static void main(String[] args) {
-        // Lấy session từ Hibernate
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        Session session = sessionFactory.getCurrentSession();
-        Transaction transaction = null;
-
         try {
-            // Bắt đầu transaction
-            transaction = session.beginTransaction();
+            // Tạo đối tượng DAO
+            EmployeeDao employeeDao = new EmployeeDao();
+            employeeDao.setClass(Employee.class);
 
-            // Mock data using array without constructor
-            Employee[] employees = new Employee[3];
+            // Tạo mock employee
+            Employee employee = new Employee();
+            employee.setPersonFirstName("Khanh");
+            employee.setPersonLastName("Pham");
+            employee.setPersonGender("Male");
+            employee.setPhone("0123456789");
+            employee.setEmail("khanh@example.com");
+            employee.setAddress("123 Đường ABC, TP.HCM");
+            employee.setLoginUsername("khanh123");
+            employee.setLoginPassword("secret");
+            employee.setEmployeeType("Full-time");
+            employee.setDescription("Nhân viên test");
+            employee.generateEmployeeNumber(); // Tạo số hiệu nhân viên
 
-            // Tạo đối tượng Employee sử dụng setter tự động từ Lombok
-			/*
-			 * employees[0] = new Employee(); employees[0].setName("Nguyễn Văn A");
-			 * employees[0].setEmail("a@example.com"); employees[0].setPassword("123456");
-			 * employees[0].setGender("Male"); employees[0].setAge(30);
-			 * employees[0].setNational("Vietnam"); employees[0].setAddress("Hà Nội");
-			 * 
-			 * employees[1] = new Employee(); employees[1].setName("Trần Thị B");
-			 * employees[1].setEmail("b@example.com"); employees[1].setPassword("abcdef");
-			 * employees[1].setGender("Female"); employees[1].setAge(28);
-			 * employees[1].setNational("Vietnam"); employees[1].setAddress("Hồ Chí Minh");
-			 * 
-			 * employees[2] = new Employee(); employees[2].setName("Lê Văn C");
-			 * employees[2].setEmail("c@example.com"); employees[2].setPassword("qwerty");
-			 * employees[2].setGender("Male"); employees[2].setAge(25);
-			 * employees[2].setNational("Vietnam"); employees[2].setAddress("Đà Nẵng");
-			 */
-            // Persist mock data
-            for (Employee emp : employees) {
-                session.save(emp); // Sử dụng Hibernate để lưu đối tượng Employee
+            // Gọi hàm tạo employee
+            boolean created = employeeDao.create(employee);
+            System.out.println("Tạo employee thành công: " + created);
+
+            // Lấy employee theo username
+            Employee found = employeeDao.findByUsername("khanh123");
+            if (found != null) {
+                System.out.println("Tìm thấy employee: " + found.getPersonFirstName() + " " + found.getPersonLastName());
+            } else {
+                System.out.println("Không tìm thấy employee theo username");
             }
-
-            // Commit the transaction
-            transaction.commit();
-
-            System.out.println("Inserted employees into the database!");
 
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             e.printStackTrace();
-        } finally {
-            HibernateUtil.shutdown();
         }
     }
 }
+
