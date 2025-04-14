@@ -2,7 +2,6 @@ package model;
 
 public class Item extends BaseEntity {
 
-    private Long itemId;
     private String name;
     private String type;
     private String unit;
@@ -12,8 +11,8 @@ public class Item extends BaseEntity {
     public Item() {}
 
     // Constructor with all fields
-    public Item(Long itemId, String name, String type, String unit, String description) {
-        this.itemId = itemId;
+    public Item(Long id, String name, String type, String unit, String description) {
+        setId(id); // Use BaseEntity's id
         this.name = name;
         this.type = type;
         this.unit = unit;
@@ -21,14 +20,6 @@ public class Item extends BaseEntity {
     }
 
     // Getter and Setter Methods
-    public Long getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
-    }
-
     public String getName() {
         return name;
     }

@@ -13,14 +13,11 @@ public class HibernateUtil {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration();
-                configuration.configure();
-                
-                // Thêm các mapping class nếu cần
-                // configuration.addAnnotatedClass(MyEntity.class);
-                
+                configuration.configure("hibernate.cfg.xml");                  
                 sessionFactory = configuration.buildSessionFactory();
             } catch (Throwable ex) {
                 Log.error("Initial SessionFactory creation failed", ex);
+                ex.printStackTrace();
                 throw new ExceptionInInitializerError(ex);
             }
         }

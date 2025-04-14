@@ -2,56 +2,60 @@ package model;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
-
-
 public class UserSession extends BaseEntity {
 
-    private long sessionId; // ID của phiên làm việc, có thể tự động sinh trong CSDL
-    private String sessionToken;  // Mã thông báo phiên làm việc (Token)
-    private Timestamp timestamp;  // Thời gian đăng nhập
-    private Timestamp expiryTime; // Thời gian hết hạn phiên
-    private String employeeNumber;  // Mã nhân viên thay vì employeeId
-    private Employee employee; // Đối tượng Employee nếu cần tham chiếu
-    private String sessionData; // Dữ liệu phiên làm việc (tùy chọn)
+    private String sessionToken;
+    private Timestamp timestamp;
+    private Timestamp expiryTime;
+    private String employeeNumber;
+    private Employee employee;
+    private String sessionData;
 
+    // Default Constructor (required by Hibernate)
+    public UserSession() {}
+
+    // Constructor with Employee
     public UserSession(Employee employee) {
         this.employee = employee;
-        this.employeeNumber = employee.getEmployeeNumber(); // Lấy employeeNumber từ đối tượng Employee
+        this.employeeNumber = employee.getEmployeeNumber();
         this.timestamp = Timestamp.from(Instant.now());
         this.sessionToken = generateSessionToken();
-        this.expiryTime = calculateExpiryDate();  // Phiên hết hạn sau 8 giờ
+        this.expiryTime = calculateExpiryDate();
     }
 
-    // Tạo mã thông báo phiên (token) duy nhất
+    // Constructor with all fields
+    public UserSession(Long id, String sessionToken, Timestamp timestamp, Timestamp expiryTime,
+                       String employeeNumber, Employee employee, String sessionData) {
+        setId(id); // Use BaseEntity's id
+        this.sessionToken = sessionToken;
+        this.timestamp = timestamp;
+        this.expiryTime = expiryTime;
+        this.employeeNumber = employeeNumber;
+        this.employee = employee;
+        this.sessionData = sessionData;
+    }
+
+    // Generate unique session token
     private String generateSessionToken() {
-        return UUID.randomUUID().toString(); // Mã thông báo phiên duy nhất
+        return UUID.randomUUID().toString();
     }
 
-    // Tính toán thời gian hết hạn của phiên (8 giờ sau)
+    // Calculate expiry time (8 hours from now)
     private Timestamp calculateExpiryDate() {
         Instant now = Instant.now();
-        Instant expiryInstant = now.plus(8, ChronoUnit.HOURS);  // Cộng thêm 8 giờ
+        Instant expiryInstant = now.plus(8, ChronoUnit.HOURS);
         return Timestamp.from(expiryInstant);
     }
 
-    // Kiểm tra xem phiên làm việc có hết hạn không
+    // Check if session is expired
     public boolean isExpired() {
         return Instant.now().isAfter(expiryTime.toInstant());
     }
 
-    // Getter và Setter
-    public long getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(long sessionId) {
-        this.sessionId = sessionId;
-    }
-
+    // Getter and Setter methods
     public String getSessionToken() {
         return sessionToken;
     }
@@ -100,5 +104,3 @@ public class UserSession extends BaseEntity {
         this.sessionData = sessionData;
     }
 }
-
-

@@ -1,25 +1,17 @@
 package model;
 
-import java.util.Date;
-
-public class Feedback extends BaseEntity { 
-
-    private Long feedbackId;
+public class Feedback extends BaseEntity {
 
     private Customer customer;
-
     private String type;
-
     private String content;
-
     private Integer rating;
-
     private Store store; // Added store field
 
     public Feedback() {}
 
-    public Feedback(Long feedbackId, Customer customer, String type, String content, Integer rating, Store store) {
-        this.feedbackId = feedbackId;
+    public Feedback(Long id, Customer customer, String type, String content, Integer rating, Store store) {
+        setId(id); // Use BaseEntity's id
         this.customer = customer;
         this.type = type;
         this.content = content;
@@ -27,15 +19,9 @@ public class Feedback extends BaseEntity {
         this.store = store; // Initializing store field
     }
 
-    // Getters and setters
-    public Long getFeedbackId() {
-        return feedbackId;
-    }
 
-    public void setFeedbackId(Long feedbackId) {
-        this.feedbackId = feedbackId;
-    }
 
+	// Getters and setters
     public Customer getCustomer() {
         return customer;
     }

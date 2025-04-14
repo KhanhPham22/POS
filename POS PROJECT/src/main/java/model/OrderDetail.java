@@ -1,10 +1,7 @@
 package model;
 
-import java.util.List;
-
 public class OrderDetail extends BaseEntity {
 
-    private Long orderId;
     private Customer customer;
     private Product product;
     private Integer quantity;
@@ -17,15 +14,22 @@ public class OrderDetail extends BaseEntity {
     // Default Constructor
     public OrderDetail() {}
 
+    // Constructor with all fields
+    public OrderDetail(Long id, Customer customer, Product product, Integer quantity, 
+                       Double unitPrice, Double totalPrice, Double discount, 
+                       String paymentMethod, String status) {
+        setId(id); // Use BaseEntity's id
+        this.customer = customer;
+        this.product = product;
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.totalPrice = totalPrice;
+        this.discount = discount;
+        this.paymentMethod = paymentMethod;
+        this.status = status;
+    }
+
     // Getter and Setter Methods
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
     public Customer getCustomer() {
         return customer;
     }

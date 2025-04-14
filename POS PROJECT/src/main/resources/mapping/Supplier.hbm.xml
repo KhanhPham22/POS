@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class name="Supplier" table="Supplier">
-    <id name="supplierId" column="supplier_id">
-        <generator class="identity"/>
-    </id>
-    <property name="name" column="name" not-null="true"/>
-    <property name="contactName" column="contact_name"/>
-    <property name="phone" column="phone" not-null="true" unique="true"/>
-    <property name="email" column="email" unique="true"/>
-    <property name="address" column="address"/>
-    <property name="taxCode" column="tax_code" unique="true"/>
-    
-    <set name="warehouseImports" cascade="all" fetch="lazy">
-        <key column="supplier_id"/>
-        <one-to-many class="WarehouseImport"/>
-    </set>
-</class>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <joined-subclass name="model.Supplier" extends="model.BaseEntity" table="supplier">
+        <key column="supplier_id" />
+
+        <property name="name" column="name" not-null="true" length="100" />
+        <property name="contactName" column="contact_name" length="100" />
+        <property name="phone" column="phone" not-null="true" unique="true" length="20" />
+        <property name="email" column="email" unique="true" length="100" />
+        <property name="address" column="address" length="255" />
+        <property name="taxCode" column="tax_code" unique="true" length="50" />
+        
+        <set name="warehouse" cascade="all" lazy="true" inverse="true">
+            <key column="supplier_id" />
+            <one-to-many class="model.Warehouse" />
+        </set>
+    </joined-subclass>
+</hibernate-mapping>

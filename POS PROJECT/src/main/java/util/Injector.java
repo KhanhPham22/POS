@@ -17,7 +17,7 @@ import dao.ProductDao;
 import dao.StoreDao;
 import dao.SupplierDao;
 import dao.UserSessionDao;
-import dao.WarehouseImportDao;
+import dao.WarehouseDao;
 import service.AuthenticationService;
 import service.CategoryService;
 import service.CategoryServiceImpl;
@@ -69,7 +69,7 @@ public class Injector {
 	private static ItemDao itemDao;
 	private static PersonDao personDao;
 	private static UserSessionDao userSessionDao;
-	private static WarehouseImportDao warehouseDao;
+	private static WarehouseDao warehouseDao;
 	
 	public static EmployeeDao getEmployeeDao() {
 		if (employeeDao == null) {
@@ -190,9 +190,9 @@ public class Injector {
 		return userSessionDao;
 	}
 	
-	public static WarehouseImportDao getWarehouseImportDao() {
+	public static WarehouseDao getWarehouseImportDao() {
 		if (warehouseDao == null) {
-			warehouseDao = new WarehouseImportDao();
+			warehouseDao = new WarehouseDao();
 		}
 		return warehouseDao;
 	}

@@ -1,26 +1,28 @@
 package model;
 
-public class Payment extends BaseEntity { 
+public class Payment extends BaseEntity {
 
-    private Long paymentId;
     private String paymentMethod;
     private Double amount;
     private String status;
     private OrderDetail order;
-    private Customer customer; // Thêm biến customer
+    private Customer customer;
 
     // Default Constructor
     public Payment() {}
 
+    // Constructor with all fields
+    public Payment(Long id, String paymentMethod, Double amount, String status, 
+                   OrderDetail order, Customer customer) {
+        setId(id); // Use BaseEntity's id
+        this.paymentMethod = paymentMethod;
+        this.amount = amount;
+        this.status = status;
+        this.order = order;
+        this.customer = customer;
+    }
+
     // Getter and Setter Methods
-    public Long getPaymentId() {
-        return paymentId;
-    }
-
-    public void setPaymentId(Long paymentId) {
-        this.paymentId = paymentId;
-    }
-
     public String getPaymentMethod() {
         return paymentMethod;
     }
@@ -61,4 +63,3 @@ public class Payment extends BaseEntity {
         this.customer = customer;
     }
 }
-

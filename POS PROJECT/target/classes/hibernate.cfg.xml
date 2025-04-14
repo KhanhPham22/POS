@@ -7,7 +7,7 @@
     <session-factory>
         <!-- Kết nối Oracle -->
         <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
-        <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:xe</property>
+        <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521/orcl</property>
         <property name="hibernate.connection.username">Khanh</property>
         <property name="hibernate.connection.password">strongpassword</property>
 
@@ -38,6 +38,6 @@
 		<mapping resource="mapping/Store.hbm.xml"/>
 		<mapping resource="mapping/Supplier.hbm.xml"/>
 		<mapping resource="mapping/UserSession.hbm.xml"/>
-		<mapping resource="mapping/WarehouseImport.hbm.xml"/>        
+		<mapping resource="mapping/Warehouse.hbm.xml"/>        
     </session-factory>
 </hibernate-configuration>

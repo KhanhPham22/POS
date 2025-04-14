@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <!-- Mapping the 'Category' class to the 'category' table -->
-    <class name="model.Category" table="category">
-        
-        <!-- Mapping the primary key for 'categoryId' -->
-        <id name="categoryId" column="category_id">
-            <generator class="identity"/>
-        </id>
+    <!-- Mapping the 'Category' class as a joined-subclass of BaseEntity -->
+    <joined-subclass name="model.Category" extends="model.BaseEntity" table="category">
+        <!-- Foreign key linking to BaseEntity's id -->
+        <key column="id"/>
 
         <!-- Mapping properties of 'Category' -->
         <property name="name" column="name" length="100" not-null="true"/>
         <property name="description" column="description" length="255"/>
 
         <!-- One-to-many relationship with 'Product' -->
-        <one-to-many name="products" class="model.Product" cascade="all" fetch="select"/>
-        
-    </class>
+        <set name="products" cascade="all" fetch="select">
+            <key column="category_id"/>
+            <one-to-many class="model.Product"/>
+        </set>
+    </joined-subclass>
 </hibernate-mapping>

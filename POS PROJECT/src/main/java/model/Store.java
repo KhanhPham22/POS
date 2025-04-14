@@ -2,7 +2,7 @@ package model;
 
 public class Store extends BaseEntity {
 
-    private long storeId;
+    
     private static Store instance;
     private String name;
     private String shortName;
@@ -20,9 +20,9 @@ public class Store extends BaseEntity {
     public Store() {}
 
     // Constructor with all fields
-    public Store(long storeId, String name, String shortName, String description, String city, String state,
+    public Store(long id, String name, String shortName, String description, String city, String state,
                  String zip, String address, String phone, String email, String website, String fax) {
-        this.storeId = storeId;
+    	setId(id); // Use BaseEntity's id
         this.name = name;
         this.shortName = shortName;
         this.description = description;
@@ -37,13 +37,7 @@ public class Store extends BaseEntity {
     }
 
     // Getter and Setter methods
-    public long getStoreId() {
-        return storeId;
-    }
-
-    public void setStoreId(long storeId) {
-        this.storeId = storeId;
-    }
+   
 
     public static Store getInstance() {
         if (instance == null) {

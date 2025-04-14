@@ -3,7 +3,8 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="model.Person" table="person">
+    <class name="model.Person" table="person" abstract="true">
+
         
         <id name="personId" column="person_id">
             <generator class="sequence">
@@ -24,5 +25,5 @@
         <property name="country"/>
         <property name="enabledFlag" column="enabled_flag"/>
         
-    </class>
+    </class>	
 </hibernate-mapping>

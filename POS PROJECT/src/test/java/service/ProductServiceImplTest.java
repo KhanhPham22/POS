@@ -80,13 +80,13 @@ public class ProductServiceImplTest {
     @Test
     public void testGetProductById_Found() throws Exception {
         Product product = new Product();
-        product.setProductId(1L);
+        product.setId(1L);
         when(mockProductDao.findById(1L)).thenReturn(product);
 
         Product result = productService.getProductById(1L);
 
         assertNotNull(result);
-        assertEquals(1L, result.getProductId());
+        assertEquals(1L, result.getId());
     }
 
     @Test

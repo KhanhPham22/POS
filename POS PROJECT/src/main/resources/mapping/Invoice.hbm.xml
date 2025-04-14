@@ -1,34 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="model.Invoice" table="invoice">
-        
-        <!-- Mapping the primary key for 'invoiceId' -->
-        <id name="invoiceId" column="invoice_id">
-            <generator class="identity"/>
-        </id>
+    <joined-subclass name="model.Invoice" table="invoice" extends="model.BaseEntity">
+        <key column="invoice_id" />
 
-        <!-- Mapping relationships (ManyToOne) -->
-        <many-to-one name="order" class="model.Order" column="order_id" not-null="true"/>
-        <many-to-one name="customer" class="model.Customer" column="customer_id" not-null="true"/>
-        <many-to-one name="employee" class="model.Employee" column="employee_id" not-null="true"/>
-		
-		 <!-- Mapping relationships (OneToMany) -->
-		<set name="payments" cascade="all" inverse="true">
-    <key column="invoice_id"/>
-    <one-to-many class="model.Payment"/>
-</set>
+        <many-to-one name="order" class="model.OrderDetail" column="order_id" not-null="true" />
+        <many-to-one name="customer" class="model.Customer" column="person_id" not-null="true" />
+        <many-to-one name="employee" class="model.Employee" column="person_id" not-null="true" />
 
-		
-        <!-- Mapping properties of 'Invoice' -->
-        <property name="totalPrice" column="total_price" not-null="true"/>
+        <property name="totalPrice" column="total_price" not-null="true" />
         <property name="discount" column="discount" />
-        <property name="finalPrice" column="final_price" not-null="true"/>
-        <property name="paymentMethod" column="payment_method" length="50"/>
-        <property name="invoiceDay" column="invoice_day" type="timestamp" not-null="true"/>
-        <property name="status" column="status" length="20"/>
-        
-    </class>
+        <property name="finalPrice" column="final_price" not-null="true" />
+        <property name="paymentMethod" column="payment_method" length="50" />
+        <property name="invoiceDay" column="invoice_day" type="timestamp" not-null="true" />
+        <property name="status" column="status" length="20" />
+    </joined-subclass>
 </hibernate-mapping>

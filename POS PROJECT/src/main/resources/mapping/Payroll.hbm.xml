@@ -1,35 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <!-- Mapping the 'Payroll' class to the 'payroll' table -->
-    <class name="model.Payroll" table="payroll">
-        
-        <!-- Mapping the primary key for 'payrollId' -->
-        <id name="payrollId" column="payroll_id">
-            <generator class="identity"/>
-        </id>
+    <joined-subclass name="model.Payroll" table="payroll" extends="model.BaseEntity">
+        <key column="payroll_id" />
 
-        <!-- Mapping properties of 'Payroll' -->
-        <property name="baseSalary" column="base_salary" not-null="true"/>
+        <many-to-one name="employee" class="model.Employee" column="person_id" not-null="true" />
+        <property name="baseSalary" column="base_salary" not-null="true" />
         <property name="bonus" column="bonus" />
         <property name="commission" column="commission" />
-        <property name="totalSalary" column="total_salary" not-null="true"/>
-
-        <!-- Mapping 'month' as integer -->
+        <property name="totalSalary" column="total_salary" not-null="true" />
         <property name="month" column="month" type="org.hibernate.type.EnumType">
             <type name="org.hibernate.type.EnumType">
                 <param name="enumClass">java.time.Month</param>
-                <param name="useNamed">false</param> <!-- lưu theo ordinal (0-11) -->
+                <param name="useNamed">false</param> <!-- Store as ordinal (0-11) -->
             </type>
         </property>
-
-        <!-- Mapping 'year' as integer (convert Year to int) -->
-        <property name="year" column="year" type="integer"/>
-
-        <!-- Many-to-one relationship to 'Employee' using 'employeeNumber' -->
-        <many-to-one name="employee" class="model.Employee" column="employee_number" not-null="true"/>
-
-    </class>
+        <property name="year" column="year" type="integer" />
+    </joined-subclass>
 </hibernate-mapping>

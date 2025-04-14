@@ -4,7 +4,6 @@ import java.util.Date;
 
 public class Invoice extends BaseEntity {
 
-    private Long invoiceId;
     private OrderDetail order;
     private Customer customer; // Changed from 'user' to 'customer'
     private Employee employee;
@@ -19,10 +18,10 @@ public class Invoice extends BaseEntity {
     public Invoice() {}
 
     // Constructor with all fields
-    public Invoice(Long invoiceId, OrderDetail order, Customer customer, Employee employee, 
+    public Invoice(Long id, OrderDetail order, Customer customer, Employee employee, 
                    Double totalPrice, Double discount, Double finalPrice, String paymentMethod, 
                    Date invoiceDay, String status) {
-        this.invoiceId = invoiceId;
+        setId(id); // Use BaseEntity's id
         this.order = order;
         this.customer = customer;
         this.employee = employee;
@@ -35,14 +34,6 @@ public class Invoice extends BaseEntity {
     }
 
     // Getter and Setter methods
-    public Long getInvoiceId() {
-        return invoiceId;
-    }
-
-    public void setInvoiceId(Long invoiceId) {
-        this.invoiceId = invoiceId;
-    }
-
     public OrderDetail getOrder() {
         return order;
     }

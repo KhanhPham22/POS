@@ -1,6 +1,6 @@
 package dao;
 
-import model.WarehouseImport;
+import model.Warehouse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -10,24 +10,24 @@ import util.HibernateUtil;
 
 import java.util.List;
 
-public class WarehouseImportDao implements GenericDao<WarehouseImport> {
+public class WarehouseDao implements GenericDao<Warehouse> {
 
-    private static final Logger Log = LogManager.getLogger(WarehouseImportDao.class);
+    private static final Logger Log = LogManager.getLogger(WarehouseDao.class);
 
     private SessionFactory sessionFactory;
-    private Class<WarehouseImport> warehouseImportClass;
+    private Class<Warehouse> warehouseImportClass;
 
-    public WarehouseImportDao() {
+    public WarehouseDao() {
         sessionFactory = HibernateUtil.getSessionFactory();
     }
 
     @Override
-    public void setClass(Class<WarehouseImport> warehouseImportClass) {
+    public void setClass(Class<Warehouse> warehouseImportClass) {
         this.warehouseImportClass = warehouseImportClass; // Gán lớp WarehouseImport
     }
 
     @Override
-    public boolean create(WarehouseImport warehouseImport) throws Exception {
+    public boolean create(Warehouse warehouseImport) throws Exception {
         Session session = null;
         Transaction transaction = null;
         try {
@@ -47,11 +47,11 @@ public class WarehouseImportDao implements GenericDao<WarehouseImport> {
     }
 
     @Override
-    public WarehouseImport findById(long id) throws Exception {
+    public Warehouse findById(long id) throws Exception {
         Session session = null;
         try {
             session = sessionFactory.openSession();
-            WarehouseImport warehouseImport = session.get(WarehouseImport.class, id);
+            Warehouse warehouseImport = session.get(Warehouse.class, id);
             if (warehouseImport != null) {
                 Log.info("WarehouseImport with id: " + id + " retrieved successfully");
             } else {
@@ -67,11 +67,11 @@ public class WarehouseImportDao implements GenericDao<WarehouseImport> {
     }
 
     @Override
-    public List<WarehouseImport> findAll() throws Exception {
+    public List<Warehouse> findAll() throws Exception {
         Session session = null;
         try {
             session = sessionFactory.openSession();
-            List<WarehouseImport> warehouseImports = session.createQuery("from WarehouseImport", WarehouseImport.class).list();
+            List<Warehouse> warehouseImports = session.createQuery("from WarehouseImport", Warehouse.class).list();
             Log.info("All WarehouseImports retrieved successfully. Total count: " + warehouseImports.size());
             return warehouseImports;
         } catch (Exception e) {
@@ -83,7 +83,7 @@ public class WarehouseImportDao implements GenericDao<WarehouseImport> {
     }
 
     @Override
-    public boolean update(WarehouseImport warehouseImport) throws Exception {
+    public boolean update(Warehouse warehouseImport) throws Exception {
         Session session = null;
         Transaction transaction = null;
         try {
@@ -109,7 +109,7 @@ public class WarehouseImportDao implements GenericDao<WarehouseImport> {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            WarehouseImport warehouseImport = session.get(WarehouseImport.class, id);
+            Warehouse warehouseImport = session.get(Warehouse.class, id);
             if (warehouseImport != null) {
                 session.delete(warehouseImport);
                 transaction.commit();
@@ -128,7 +128,7 @@ public class WarehouseImportDao implements GenericDao<WarehouseImport> {
     }
 
     @Override
-    public boolean delete(WarehouseImport warehouseImport) throws Exception {
+    public boolean delete(Warehouse warehouseImport) throws Exception {
         Session session = null;
         Transaction transaction = null;
         try {
@@ -147,12 +147,12 @@ public class WarehouseImportDao implements GenericDao<WarehouseImport> {
         }
     }
     
-    public WarehouseImport findByName(String name) throws Exception {
+    public Warehouse findByName(String name) throws Exception {
         Session session = null;
         try {
             session = sessionFactory.openSession();
             String hql = "FROM WarehouseImport WHERE name = :name";
-            WarehouseImport result = session.createQuery(hql, WarehouseImport.class)
+            Warehouse result = session.createQuery(hql, Warehouse.class)
                                             .setParameter("name", name)
                                             .uniqueResult();
             if (result != null) {
@@ -169,12 +169,12 @@ public class WarehouseImportDao implements GenericDao<WarehouseImport> {
         }
     }
 
-    public WarehouseImport findByShortName(String shortName) throws Exception {
+    public Warehouse findByShortName(String shortName) throws Exception {
         Session session = null;
         try {
             session = sessionFactory.openSession();
             String hql = "FROM WarehouseImport WHERE shortName = :shortName";
-            WarehouseImport result = session.createQuery(hql, WarehouseImport.class)
+            Warehouse result = session.createQuery(hql, Warehouse.class)
                                             .setParameter("shortName", shortName)
                                             .uniqueResult();
             if (result != null) {

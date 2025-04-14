@@ -3,12 +3,8 @@ package model;
 import java.util.Date;
 
 
-
-
-
 public class Dashboard extends BaseEntity {
 
-    private Long dashboardId;
     private Double totalSalary;
     private Double totalRevenue;
     private Integer totalOrders;
@@ -29,11 +25,11 @@ public class Dashboard extends BaseEntity {
     public Dashboard() {}
 
     // Constructor with all fields
-    public Dashboard(Long dashboardId, Double totalSalary, Double totalRevenue, Integer totalOrders,
+    public Dashboard(Long id, Double totalSalary, Double totalRevenue, Integer totalOrders,
                      Integer totalUsers, Integer totalProducts, Double dayRevenue, Double monthRevenue,
                      Double yearRevenue, Integer pendingOrders, Integer totalFeedback, Double averageRating,
                      Date timestamp, Store store, String storeName) {
-        this.dashboardId = dashboardId;
+        setId(id); // Use BaseEntity's id
         this.totalSalary = totalSalary;
         this.totalRevenue = totalRevenue;
         this.totalOrders = totalOrders;
@@ -50,15 +46,9 @@ public class Dashboard extends BaseEntity {
         this.storeName = storeName;
     }
 
-    // Getter and Setter methods
-    public Long getDashboardId() {
-        return dashboardId;
-    }
+    
 
-    public void setDashboardId(Long dashboardId) {
-        this.dashboardId = dashboardId;
-    }
-
+	
     public Double getTotalSalary() {
         return totalSalary;
     }

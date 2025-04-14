@@ -4,20 +4,20 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import dao.WarehouseImportDao;
-import model.WarehouseImport;
+import dao.WarehouseDao;
+import model.Warehouse;
 
 public class WarehouseServiceImpl implements WarehouseService {
 	private static final Logger Log = LogManager.getLogger(WarehouseServiceImpl.class);
 	
-private WarehouseImportDao warehouseDao ;
+private WarehouseDao warehouseDao ;
 	
-	public WarehouseServiceImpl(WarehouseImportDao warehouseDao) {
+	public WarehouseServiceImpl(WarehouseDao warehouseDao) {
 		this.warehouseDao = warehouseDao;
 	}
 
 	@Override
-	public boolean createWarehouse(WarehouseImport warehouse) throws Exception {
+	public boolean createWarehouse(Warehouse warehouse) throws Exception {
 		try {
 			warehouseDao.create(warehouse);
 			Log.info("Warehouse created successfully");
@@ -41,21 +41,21 @@ private WarehouseImportDao warehouseDao ;
 	}
 
 	@Override
-	public boolean updateWarehouse(WarehouseImport warehouse) throws Exception {
+	public boolean updateWarehouse(Warehouse warehouse) throws Exception {
 		try {
 			warehouseDao.update(warehouse);
-			Log.info("Warehouse with id: " + warehouse.getWarehouseId() + " updated successfully");
+			Log.info("Warehouse with id: " + warehouse.getId() + " updated successfully");
 			return true;
 		} catch (Exception e) {
-			Log.error("Error while updating warehouse with id: " + warehouse.getWarehouseId(), e);
+			Log.error("Error while updating warehouse with id: " + warehouse.getId(), e);
 			return false;
 		}
 	}
 
 	@Override
-	public WarehouseImport getWarehouse(long warehouseId) throws Exception {
+	public Warehouse getWarehouse(long warehouseId) throws Exception {
 		try {
-			WarehouseImport warehouse = warehouseDao.findById(warehouseId);
+			Warehouse warehouse = warehouseDao.findById(warehouseId);
 			Log.info("Warehouse with id: " + warehouseId + " found successfully");
 			return warehouse;
 		} catch (Exception e) {
@@ -65,9 +65,9 @@ private WarehouseImportDao warehouseDao ;
 	}
 
 	@Override
-	public List<WarehouseImport> getAllWarehouses() throws Exception {
+	public List<Warehouse> getAllWarehouses() throws Exception {
 		try {
-			List<WarehouseImport> warehouses = warehouseDao.findAll();
+			List<Warehouse> warehouses = warehouseDao.findAll();
 			Log.info("All warehouses retrieved successfully");
 			return warehouses;
 		} catch (Exception e) {
@@ -77,9 +77,9 @@ private WarehouseImportDao warehouseDao ;
 	}
 	
 	@Override
-	public WarehouseImport getWarehouseByName(String name) throws Exception {
+	public Warehouse getWarehouseByName(String name) throws Exception {
 		try {
-			WarehouseImport warehouse = warehouseDao.findByName(name);
+			Warehouse warehouse = warehouseDao.findByName(name);
 			if (warehouse != null) {
 				Log.info("Warehouse with name: " + name + " found successfully");
 			} else {
@@ -93,9 +93,9 @@ private WarehouseImportDao warehouseDao ;
 	}
 
 	@Override
-	public WarehouseImport getWarehouseByShortName(String shortName) throws Exception {
+	public Warehouse getWarehouseByShortName(String shortName) throws Exception {
 		try {
-			WarehouseImport warehouse = warehouseDao.findByShortName(shortName);
+			Warehouse warehouse = warehouseDao.findByShortName(shortName);
 			if (warehouse != null) {
 				Log.info("Warehouse with shortName: " + shortName + " found successfully");
 			} else {

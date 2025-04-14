@@ -1,28 +1,35 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Supplier extends BaseEntity { 
+public class Supplier extends BaseEntity {
 
-    private Long supplierId;
     private String name;
     private String contactName;
     private String phone;
     private String email;
     private String address;
     private String taxCode;
-    private List<WarehouseImport> warehouseImports;
+    private List<Warehouse> warehouseImports = new ArrayList<>();
+
+    // Default Constructor
+    public Supplier() {}
+
+    // Constructor with all fields
+    public Supplier(Long id, String name, String contactName, String phone, String email, 
+                    String address, String taxCode, List<Warehouse> warehouseImports) {
+        setId(id); // Use BaseEntity's id
+        this.name = name;
+        this.contactName = contactName;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
+        this.taxCode = taxCode;
+        this.warehouseImports = warehouseImports != null ? warehouseImports : new ArrayList<>();
+    }
 
     // Getter and Setter methods
-
-    public Long getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(Long supplierId) {
-        this.supplierId = supplierId;
-    }
-
     public String getName() {
         return name;
     }
@@ -71,13 +78,11 @@ public class Supplier extends BaseEntity {
         this.taxCode = taxCode;
     }
 
-    public List<WarehouseImport> getWarehouseImports() {
+    public List<Warehouse> getWarehouseImports() {
         return warehouseImports;
     }
 
-    public void setWarehouseImports(List<WarehouseImport> warehouseImports) {
+    public void setWarehouseImports(List<Warehouse> warehouseImports) {
         this.warehouseImports = warehouseImports;
     }
 }
-
-

@@ -5,27 +5,31 @@ import java.time.Year;
 
 public class Payroll extends BaseEntity {
 
-    private Long payrollId;
     private Employee employee;
     private Double baseSalary;
     private Double bonus = 0.0;
     private Double commission = 0.0;
     private Double totalSalary;
     private Month month;
-    private Year year; // Đổi sang java.time.Year
+    private Year year;
 
     // Default Constructor
     public Payroll() {}
 
+    // Constructor with all fields
+    public Payroll(Long id, Employee employee, Double baseSalary, Double bonus, 
+                   Double commission, Double totalSalary, Month month, Year year) {
+        setId(id); // Use BaseEntity's id
+        this.employee = employee;
+        this.baseSalary = baseSalary;
+        this.bonus = bonus;
+        this.commission = commission;
+        this.totalSalary = totalSalary;
+        this.month = month;
+        this.year = year;
+    }
+
     // Getter and Setter Methods
-    public Long getPayrollId() {
-        return payrollId;
-    }
-
-    public void setPayrollId(Long payrollId) {
-        this.payrollId = payrollId;
-    }
-
     public Employee getEmployee() {
         return employee;
     }
@@ -82,4 +86,3 @@ public class Payroll extends BaseEntity {
         this.year = year;
     }
 }
-

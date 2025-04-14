@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import model.Employee;
 import dao.EmployeeDao;
+import service.PersonServiceImpl;
 import util.HibernateUtil;
 public class Main {
     public static void main(String[] args) {
@@ -16,11 +17,15 @@ public class Main {
             // Tạo mock employee
             Employee employee = new Employee();
             employee.setPersonFirstName("Khanh");
+            employee.setPersonMiddleName("Gia");
             employee.setPersonLastName("Pham");
             employee.setPersonGender("Male");
+            employee.setDateOfBirth("2000-01-01");
             employee.setPhone("0123456789");
             employee.setEmail("khanh@example.com");
-            employee.setAddress("123 Đường ABC, TP.HCM");
+            employee.setAddress("123 Đường ABC");
+            employee.setCity("HCM");
+            employee.setState("District 1");
             employee.setLoginUsername("khanh123");
             employee.setLoginPassword("secret");
             employee.setEmployeeType("Full-time");

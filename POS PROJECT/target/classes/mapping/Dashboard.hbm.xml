@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-
-    <class name="model.Dashboard" table="Dashboard">
-        <id name="dashboardId" column="dashboard_id">
-            <generator class="increment" />
-        </id>
+    <joined-subclass name="model.Dashboard" table="Dashboard" extends="model.BaseEntity">
+        <key column="dashboard_id" />
 
         <property name="totalSalary" column="total_salary" />
         <property name="totalRevenue" column="total_revenue" />
@@ -19,10 +18,9 @@
         <property name="totalFeedback" column="total_feedback" />
         <property name="averageRating" column="average_rating" />
         <property name="timestamp" column="timestamp" />
+        <property name="storeName" column="store_name" />
 
-        <property name="storeId" column="store_id" />
-        <!-- Quan hệ theo store name -->
-   <many-to-one name="store" class="model.Store" column="store_id" not-null="false"/>
-    </class>
-
+        <!-- Many-to-one relationship with Store -->
+        <many-to-one name="store" class="model.Store" column="store_id" not-null="false" />
+    </joined-subclass>
 </hibernate-mapping>

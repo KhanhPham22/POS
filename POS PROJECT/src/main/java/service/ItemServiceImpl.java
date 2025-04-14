@@ -49,10 +49,10 @@ public class ItemServiceImpl implements ItemService{
 		try {
 			
 			itemDao.update(newItem);
-			Log.info("Item with id: " + newItem.getItemId() + " updated successfully");
+			Log.info("Item with id: " + newItem.getId() + " updated successfully");
 			return true;
 		} catch (Exception e) {
-			Log.error("Error while updating item with id: " + newItem.getItemId(), e);
+			Log.error("Error while updating item with id: " + newItem.getId(), e);
 			return false;
 		}
 	}

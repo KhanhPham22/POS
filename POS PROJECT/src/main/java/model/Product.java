@@ -2,9 +2,10 @@ package model;
 
 import java.util.List;
 
+import java.util.ArrayList;
+
 public class Product extends BaseEntity {
 
-    private Long productId;
     private String name;
     private Double price;
     private String imagePath;
@@ -13,20 +14,28 @@ public class Product extends BaseEntity {
     private String size;
     private Boolean status = true;
     private Category category;
-    private List<OrderDetail> orderDetails;
+    private List<OrderDetail> orderDetails = new ArrayList<>();
 
     // Default Constructor
     public Product() {}
 
+    // Constructor with all fields
+    public Product(Long id, String name, Double price, String imagePath, Double discount, 
+                   Integer quantity, String size, Boolean status, Category category, 
+                   List<OrderDetail> orderDetails) {
+        setId(id); // Use BaseEntity's id
+        this.name = name;
+        this.price = price;
+        this.imagePath = imagePath;
+        this.discount = discount;
+        this.quantity = quantity;
+        this.size = size;
+        this.status = status;
+        this.category = category;
+        this.orderDetails = orderDetails != null ? orderDetails : new ArrayList<>();
+    }
+
     // Getter and Setter Methods
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
     public String getName() {
         return name;
     }

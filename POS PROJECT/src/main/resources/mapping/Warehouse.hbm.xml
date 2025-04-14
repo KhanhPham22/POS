@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <joined-subclass name="model.Warehouse" extends="model.BaseEntity" table="warehouse">
+        <key column="warehouse_id" />
+
+        <many-to-one name="store" class="model.Store" column="store_id" not-null="true" />
+        <property name="shortName" column="short_name" />
+        <property name="name" column="name" not-null="true" />
+        <property name="description" column="description" />
+        <property name="city" column="city" />
+        <property name="state" column="state" />
+        <property name="zip" column="zip" />
+        <property name="address" column="address" not-null="true" />
+        <property name="enabledFlag" column="enabled_flag" />
+    </joined-subclass>
+</hibernate-mapping>

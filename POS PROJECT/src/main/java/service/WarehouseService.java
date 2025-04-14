@@ -1,21 +1,21 @@
 package service;
-import model.WarehouseImport;
+import model.Warehouse;
 import java.util.*;
 
 
 public interface WarehouseService {
-	boolean createWarehouse(WarehouseImport warehouse) throws Exception;
+	boolean createWarehouse(Warehouse warehouse) throws Exception;
 
 	boolean deleteWarehouse(long warehouseId) throws Exception;
 
-	boolean updateWarehouse(WarehouseImport warehouse) throws Exception;
+	boolean updateWarehouse(Warehouse warehouse) throws Exception;
 
-	WarehouseImport getWarehouse(long warehouseId) throws Exception;
+	Warehouse getWarehouse(long warehouseId) throws Exception;
 
-	WarehouseImport getWarehouseByName(String name) throws Exception;
+	Warehouse getWarehouseByName(String name) throws Exception;
 
-	WarehouseImport getWarehouseByShortName(String shortName) throws Exception;
+	Warehouse getWarehouseByShortName(String shortName) throws Exception;
 
 	
-	List<WarehouseImport> getAllWarehouses() throws Exception;
+	List<Warehouse> getAllWarehouses() throws Exception;
 }

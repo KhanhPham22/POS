@@ -22,7 +22,13 @@ public class EmployeeDao implements GenericDao<Employee> {
 	private Class<Employee> Employee;
 
 	public EmployeeDao() {
-		sessionFactory = HibernateUtil.getSessionFactory();
+	    try {
+	        sessionFactory = HibernateUtil.getSessionFactory();
+	        System.out.println("SessionFactory initialized successfully");
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        throw new RuntimeException("Failed to initialize SessionFactory", e);
+	    }
 	}
 
 	public void setClass(Class<Employee> Employee) {

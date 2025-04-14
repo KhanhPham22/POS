@@ -6,26 +6,8 @@
 <hibernate-mapping package="model">
 
     <!-- Kế thừa từ Person -->
-    <class name="Customer" table="customers">
-        
-        <!-- Mapping cho khóa chính kế thừa từ Person -->
-        <id name="personId" column="person_id">
-            <generator class="increment"/>
-        </id>
-
-        <!-- Mapping cho các thuộc tính của Person -->
-        <property name="personFirstName" column="first_name"/>
-        <property name="personMiddleName" column="middle_name"/>
-        <property name="personLastName" column="last_name"/>
-        <property name="personGender" column="gender"/>
-        <property name="dateOfBirth" column="date_of_birth"/>
-        <property name="phone" column="phone"/>
-        <property name="email" column="email"/>
-        <property name="address" column="address"/>
-        <property name="city" column="city"/>
-        <property name="state" column="state"/>
-        <property name="country" column="country"/>
-        <property name="enabledFlag" column="enabled_flag"/>
+    <joined-subclass name="Customer" extends="Person" table="customers">
+        <key column="person_id"/>    
 
         <!-- Mapping cho các thuộc tính riêng của Customer -->
         <property name="customerNumber" column="customer_number"/>
@@ -41,21 +23,27 @@
         
         <!-- Quan hệ 1-n với OrderDetail -->
         <set name="orderDetails" cascade="all" inverse="true">
-            <key column="customer_id"/>
+            <key column="person_id"/>
             <one-to-many class="model.OrderDetail"/>
         </set>
 
 
  <!-- Quan hệ 1-n với Payment -->
         <set name="payments" cascade="all" inverse="true">
-            <key column="customer_id"/>
+            <key column="person_id"/>
             <one-to-many class="model.Payment"/>
         </set>
 
         <!-- Quan hệ 1-n với GiftVoucher -->
         <set name="giftVouchers" cascade="all" inverse="true">
-            <key column="customer_id"/>
+            <key column="person_id"/>
             <one-to-many class="model.GiftVoucher"/>
         </set>
-    </class>
+        
+        <!-- Quan hệ 1-n với Feedback -->
+        <set name="feedback" cascade="all" inverse="true">
+            <key column="person_id"/>
+            <one-to-many class="model.FeedBack"/>
+        </set>
+    </joined-subclass>
 </hibernate-mapping>

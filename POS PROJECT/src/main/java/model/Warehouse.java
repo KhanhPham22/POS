@@ -1,37 +1,36 @@
 package model;
 
-public class WarehouseImport extends BaseEntity {
+public class Warehouse extends BaseEntity {
 
-    private long warehouseId;
-    
     private Store store;
-    
     private String shortName;
-    
     private String name;
-    
     private String description;
-    
     private String city;
-    
     private String state;
-    
     private String zip;
-    
     private String address;
-    
     private int enabledFlag;
 
+    // Default Constructor
+    public Warehouse() {}
+
+    // Constructor with all fields
+    public Warehouse(Long id, Store store, String shortName, String name, String description, 
+                     String city, String state, String zip, String address, int enabledFlag) {
+        setId(id); // Use BaseEntity's id
+        this.store = store;
+        this.shortName = shortName;
+        this.name = name;
+        this.description = description;
+        this.city = city;
+        this.state = state;
+        this.zip = zip;
+        this.address = address;
+        this.enabledFlag = enabledFlag;
+    }
+
     // Getter and Setter methods
-
-    public long getWarehouseId() {
-        return warehouseId;
-    }
-
-    public void setWarehouseId(long warehouseId) {
-        this.warehouseId = warehouseId;
-    }
-
     public Store getStore() {
         return store;
     }
@@ -104,6 +103,3 @@ public class WarehouseImport extends BaseEntity {
         this.enabledFlag = enabledFlag;
     }
 }
-
-
-

@@ -4,7 +4,6 @@ import java.util.List;
 
 public class Category extends BaseEntity {
 
-    private Long categoryId;
     private String name;
     private String description;
     private List<Product> products;
@@ -14,14 +13,6 @@ public class Category extends BaseEntity {
     }
 
     // Getter and Setter Methods
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
-
     public String getName() {
         return name;
     }

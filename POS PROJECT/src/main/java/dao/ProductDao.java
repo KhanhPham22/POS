@@ -164,7 +164,7 @@ public class ProductDao implements GenericDao<Product> {
             transaction.commit();
 
             if (product != null) {
-                Log.info("Product with name: " + name + " retrieved successfully: " + product.getProductId());
+                Log.info("Product with name: " + name + " retrieved successfully: " + product.getId());
             } else {
                 Log.warn("Product with name: " + name + " not found");
             }
@@ -188,7 +188,7 @@ public class ProductDao implements GenericDao<Product> {
             Product product = query.uniqueResult(); // Mã vạch là duy nhất
 
             if (product != null) {
-                Log.info("Product with EAN13: " + ean13 + " retrieved successfully: " + product.getProductId());
+                Log.info("Product with EAN13: " + ean13 + " retrieved successfully: " + product.getId());
             } else {
                 Log.warn("Product with EAN13: " + ean13 + " not found");
             }
