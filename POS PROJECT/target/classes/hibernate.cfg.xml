@@ -12,11 +12,11 @@
         <property name="hibernate.connection.password">strongpassword</property>
 
         <!-- Cấu hình Hibernate -->
-        <property name="hibernate.dialect">org.hibernate.dialect.Oracle19cDialect</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">update</property>
-
+<!--        <property name="hibernate.hbm2ddl.auto">update</property>-->
+		<property name="hibernate.hbm2ddl.auto">create</property>
 
         
         <!-- Load file XML mapping -->
@@ -25,7 +25,7 @@
         <mapping resource="mapping/Customer.hbm.xml"/>
         <mapping resource="mapping/Dashboard.hbm.xml"/>
         <mapping resource="mapping/Employee.hbm.xml"/>
-        <mapping resource="mapping/FeedBack.hbm.xml"/>
+        <mapping resource="mapping/Feedback.hbm.xml"/>
         <mapping resource="mapping/GiftVoucher.hbm.xml"/>
         <mapping resource="mapping/Invoice.hbm.xml"/>
         <mapping resource="mapping/Item.hbm.xml"/>

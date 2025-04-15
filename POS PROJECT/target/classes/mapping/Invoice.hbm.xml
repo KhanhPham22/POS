@@ -8,7 +8,8 @@
 
         <many-to-one name="order" class="model.OrderDetail" column="order_id" not-null="true" />
         <many-to-one name="customer" class="model.Customer" column="person_id" not-null="true" />
-        <many-to-one name="employee" class="model.Employee" column="person_id" not-null="true" />
+        <!-- Ánh xạ Employee với person_id, nhưng không insert/update -->
+    <many-to-one name="employee" class="model.Employee" column="person_id" not-null="true" insert="false" update="false" />
 
         <property name="totalPrice" column="total_price" not-null="true" />
         <property name="discount" column="discount" />

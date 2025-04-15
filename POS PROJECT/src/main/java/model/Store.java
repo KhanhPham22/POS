@@ -1,5 +1,8 @@
 package model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Store extends BaseEntity {
 
     
@@ -15,7 +18,9 @@ public class Store extends BaseEntity {
     private String email;
     private String website;
     private String fax;
-
+    
+    private Set<Dashboard> dashboards = new HashSet<>();
+    private Set<Warehouse> warehouseImports = new HashSet<>();
     // Default constructor
     public Store() {}
 
@@ -132,5 +137,21 @@ public class Store extends BaseEntity {
 
     public void setFax(String fax) {
         this.fax = fax;
+    }
+    
+    public Set<Dashboard> getDashboards() {
+        return dashboards;
+    }
+    
+    public void setDashboards(Set<Dashboard> dashboards) {
+        this.dashboards = dashboards;
+    }
+    
+    public Set<Warehouse> getWarehouseImports() {
+        return warehouseImports;
+    }
+    
+    public void setWarehouseImports(Set<Warehouse> warehouseImports) {
+        this.warehouseImports = warehouseImports;
     }
 }

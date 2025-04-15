@@ -22,5 +22,7 @@
 
         <!-- Many-to-one relationship with Store -->
         <many-to-one name="store" class="model.Store" column="store_id" not-null="false" />
+        <many-to-one name="owner" class="model.Owner" column="person_id" not-null="true"/>
+
     </joined-subclass>
 </hibernate-mapping>

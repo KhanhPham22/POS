@@ -3,7 +3,7 @@
     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="model">
-    <joined-subclass name="Employee" extends="Person" table="employee">
+    <joined-subclass name="Employee" extends="model.Person" table="employee">
         <key column="person_id" />
 
         <property name="employeeNumber" column="employee_number" not-null="true" />

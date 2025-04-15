@@ -76,7 +76,7 @@ public class Supplier extends BaseEntity {
 
     public void setTaxCode(String taxCode) {
         this.taxCode = taxCode;
-    }
+    }	
 
     public List<Warehouse> getWarehouseImports() {
         return warehouseImports;

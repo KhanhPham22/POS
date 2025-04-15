@@ -4,13 +4,24 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="model">
 
-    <joined-subclass name="Owner" extends="Person" table="owner">
+    <joined-subclass name="Owner" extends="model.Person" table="owner">
         <key column="person_id"/>
 
         <property name="ownerNumber" column="owner_number"/>
         <property name="description" column="description"/>
         <property name="loginUsername" column="login_username"/>
         <property name="loginPassword" column="login_password"/>
+        
+        <!-- Quan hệ One-to-Many với Dashboard -->
+        <set name="dashboards" cascade="all" inverse="true">
+            <key column="person_id"/>
+            <one-to-many class="model.Dashboard"/>
+        </set>
+         <!-- Quan hệ One-to-Many với Warehouse -->
+         <set name="warehouseImports" cascade="all" inverse="true">
+            <key column="person_id"/>
+            <one-to-many class="model.Warehouse"/>
+        </set>
     </joined-subclass>
 
 </hibernate-mapping>

@@ -4,19 +4,18 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <joined-subclass name="model.Product" table="product" extends="model.BaseEntity">
-        <key column="product_id" />
-
-        <property name="name" column="name" length="100" not-null="true" />
-        <property name="price" column="price" not-null="true" />
-        <property name="imagePath" column="image_path" length="255" />
-        <property name="discount" column="discount" />
-        <property name="quantity" column="quantity" not-null="true" />
-        <property name="size" column="size" length="20" />
-        <property name="status" column="status" not-null="true" />
-        <many-to-one name="category" class="model.Category" column="category_id" not-null="true" />
+        <key column="product_id"/>
+        <property name="name" column="name" type="string" length="100" not-null="true"/>
+        <property name="price" column="price" type="big_decimal" not-null="true"/>
+        <property name="imagePath" column="image_path" type="string" length="255"/>
+        <property name="discount" column="discount" type="big_decimal"/>
+        <property name="quantity" column="quantity" type="integer" not-null="true"/>
+        <property name="size" column="size" type="string" length="20"/>
+        <property name="status" column="status" type="integer" not-null="true"/>
+        <many-to-one name="category" class="model.Category" column="category_id" not-null="true"/>
         <set name="orderDetails" cascade="all" inverse="true">
-            <key column="product_id" />
-            <one-to-many class="model.OrderDetail" />
+            <key column="product_id"/>
+            <one-to-many class="model.OrderDetail"/>
         </set>
     </joined-subclass>
 </hibernate-mapping>

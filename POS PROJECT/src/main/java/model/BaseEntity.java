@@ -10,7 +10,7 @@ public abstract class BaseEntity implements Serializable {
     // issues (like InvalidClassException) when reading old serialized objects.
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private long id;
     
     private long createdBy = 0;
     private Date createdDate;
@@ -22,11 +22,11 @@ public abstract class BaseEntity implements Serializable {
     public BaseEntity() {}
 
     // Getter và Setter cho id
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
     // Getter và Setter

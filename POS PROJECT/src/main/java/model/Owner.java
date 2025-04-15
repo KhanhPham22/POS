@@ -1,6 +1,9 @@
 package model;
 
 import java.util.UUID;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Owner extends Person { 
 
@@ -8,7 +11,9 @@ public class Owner extends Person {
     private String description;
     private String loginUsername;
     private String loginPassword;
-
+    private Set<Dashboard> dashboards = new HashSet<>();
+    private Set<Warehouse> warehouseImports = new HashSet<>();
+    
     public Owner() {
     }
 
@@ -50,5 +55,22 @@ public class Owner extends Person {
 
     public void setLoginPassword(String loginPassword) {
         this.loginPassword = loginPassword;
+    }
+    
+    public Set<Dashboard> getDashboards(){
+    	return dashboards;
+    }
+    
+    
+    public void setDashboards(Set<Dashboard>dashboards) {
+    	this.dashboards = dashboards;
+    }
+    
+    public Set<Warehouse> getWarehouseImports(){
+    	 return warehouseImports;
+    }
+    
+    public void setWarehouseImports(Set<Warehouse> warehouseImports) {
+        this.warehouseImports = warehouseImports;
     }
 }

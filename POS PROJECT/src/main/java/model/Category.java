@@ -1,15 +1,23 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Category extends BaseEntity {
 
     private String name;
     private String description;
-    private List<Product> products;
+    private List<Product> products = new ArrayList<>(); // Initialize to avoid null
 
     // Default Constructor
-    public Category() {
+    public Category() {}
+
+    // Constructor with all fields
+    public Category(Long id, String name, String description, List<Product> products) {
+        setId(id); // Use BaseEntity's id
+        this.name = name;
+        this.description = description;
+        this.products = products != null ? products : new ArrayList<>();
     }
 
     // Getter and Setter Methods
@@ -34,6 +42,6 @@ public class Category extends BaseEntity {
     }
 
     public void setProducts(List<Product> products) {
-        this.products = products;
+        this.products = products != null ? products : new ArrayList<>();
     }
 }

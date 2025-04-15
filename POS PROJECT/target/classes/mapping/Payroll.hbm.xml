@@ -7,16 +7,11 @@
         <key column="payroll_id" />
 
         <many-to-one name="employee" class="model.Employee" column="person_id" not-null="true" />
-        <property name="baseSalary" column="base_salary" not-null="true" />
-        <property name="bonus" column="bonus" />
-        <property name="commission" column="commission" />
-        <property name="totalSalary" column="total_salary" not-null="true" />
-        <property name="month" column="month" type="org.hibernate.type.EnumType">
-            <type name="org.hibernate.type.EnumType">
-                <param name="enumClass">java.time.Month</param>
-                <param name="useNamed">false</param> <!-- Store as ordinal (0-11) -->
-            </type>
-        </property>
-        <property name="year" column="year" type="integer" />
+        <property name="baseSalary" column="base_salary" type="double" not-null="true" />
+        <property name="bonus" column="bonus" type="double" />
+        <property name="commission" column="commission" type="double" />
+        <property name="totalSalary" column="total_salary" type="double" not-null="true" />
+        <property name="month" column="month" type="model.MonthUserType" />
+        <property name="year" column="year" type="model.YearUserType" />
     </joined-subclass>
 </hibernate-mapping>

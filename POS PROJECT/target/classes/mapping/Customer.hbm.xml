@@ -6,7 +6,7 @@
 <hibernate-mapping package="model">
 
     <!-- Kế thừa từ Person -->
-    <joined-subclass name="Customer" extends="Person" table="customers">
+    <joined-subclass name="Customer" extends="model.Person" table="customers">
         <key column="person_id"/>    
 
         <!-- Mapping cho các thuộc tính riêng của Customer -->
@@ -43,7 +43,7 @@
         <!-- Quan hệ 1-n với Feedback -->
         <set name="feedback" cascade="all" inverse="true">
             <key column="person_id"/>
-            <one-to-many class="model.FeedBack"/>
+            <one-to-many class="model.Feedback"/>
         </set>
     </joined-subclass>
 </hibernate-mapping>

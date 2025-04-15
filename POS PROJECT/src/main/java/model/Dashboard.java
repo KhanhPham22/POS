@@ -20,7 +20,9 @@ public class Dashboard extends BaseEntity {
 
     private Store store; // Quan hệ với Store qua store_id
     private String storeName; // Snapshot tên store
-
+    
+    private Owner owner;
+    
     // Default constructor
     public Dashboard() {}
 
@@ -159,6 +161,14 @@ public class Dashboard extends BaseEntity {
 
     public void setStoreName(String storeName) {
         this.storeName = storeName;
+    }
+    
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
 }
 

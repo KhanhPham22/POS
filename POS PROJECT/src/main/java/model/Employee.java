@@ -1,5 +1,7 @@
 package model;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -10,7 +12,9 @@ public class Employee extends Person {
     private String description;
     private String loginUsername;
     private String loginPassword;
-
+    private Set<Invoice> invoices = new HashSet<>();
+    private Set<Payroll> payrolls = new HashSet<>();
+    
     public Employee() {
     }
 
@@ -58,6 +62,22 @@ public class Employee extends Person {
 
     public void setLoginPassword(String loginPassword) {
         this.loginPassword = loginPassword;
+    }
+    
+    public Set<Invoice> getInvoices() {
+        return invoices;
+    }
+    
+    public void setInvoices(Set<Invoice> invoices) {
+        this.invoices = invoices;
+    }
+    
+    public Set<Payroll> getPayrolls() {
+    	return payrolls;
+    }
+    
+    public void setPayrolls(Set<Payroll>payrolls) {
+    	this.payrolls = payrolls;
     }
 }
 

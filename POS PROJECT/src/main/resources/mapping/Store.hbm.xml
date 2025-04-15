@@ -24,9 +24,9 @@
         </set>
 
         <!-- Quan hệ One-to-Many với WarehouseImport -->
-        <set name="warehouse" cascade="all" inverse="true">
+        <set name="warehouseImports" cascade="all" inverse="true">
             <key column="store_id" />
-            <one-to-many class="model.WarehouseImport" />
+            <one-to-many class="model.Warehouse" />
         </set>
 
     </joined-subclass>

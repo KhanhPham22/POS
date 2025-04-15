@@ -1,13 +1,19 @@
 package model;
 
 import java.util.UUID;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Customer extends Person {
 
     private String customerNumber;
     private String description;
     private double points;
-
+    private Set<Invoice> invoices = new HashSet<>();
+    private Set<Payment> payments = new HashSet<>();
+    private Set<GiftVoucher> giftVouchers = new HashSet<>();
+    private Set<Feedback> feedback = new HashSet<>();
+    private Set<OrderDetail> orderDetails = new HashSet<>();
     public Customer() {
     }
 
@@ -62,5 +68,45 @@ public class Customer extends Person {
 
     public void setCustomerPhone(String phone) {
         setPhone(phone); // dùng setter của Person
+    }
+    
+    public Set<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(Set<Invoice> invoices) {
+        this.invoices = invoices;
+    }
+    
+    public Set<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(Set<Payment> payments) {
+        this.payments = payments;
+    }
+
+    public Set<GiftVoucher> getGiftVouchers() {
+        return giftVouchers;
+    }
+
+    public void setGiftVouchers(Set<GiftVoucher> giftVouchers) {
+        this.giftVouchers = giftVouchers;
+    }
+
+    public Set<Feedback> getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(Set<Feedback> feedback) {
+        this.feedback = feedback;
+    }
+    
+    public Set<OrderDetail> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(Set<OrderDetail> orderDetails) {
+        this.orderDetails = orderDetails;
     }
 }

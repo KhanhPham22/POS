@@ -13,7 +13,7 @@
         <property name="address" column="address" length="255" />
         <property name="taxCode" column="tax_code" unique="true" length="50" />
         
-        <set name="warehouse" cascade="all" lazy="true" inverse="true">
+        <set name="warehouseImports" cascade="all" lazy="true" inverse="true">
             <key column="supplier_id" />
             <one-to-many class="model.Warehouse" />
         </set>

@@ -1,18 +1,18 @@
 package model;
 
 import java.util.List;
-
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class Product extends BaseEntity {
 
     private String name;
-    private Double price;
+    private BigDecimal price;
     private String imagePath;
-    private Double discount = 0.0;
+    private BigDecimal discount ;
     private Integer quantity;
     private String size;
-    private Boolean status = true;
+    private Integer status = 1; // Changed from Boolean to Integer to match NUMBER(1,0)
     private Category category;
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
@@ -20,8 +20,8 @@ public class Product extends BaseEntity {
     public Product() {}
 
     // Constructor with all fields
-    public Product(Long id, String name, Double price, String imagePath, Double discount, 
-                   Integer quantity, String size, Boolean status, Category category, 
+    public Product(Long id, String name, BigDecimal price, String imagePath, BigDecimal discount, 
+                   Integer quantity, String size, Integer status, Category category, 
                    List<OrderDetail> orderDetails) {
         setId(id); // Use BaseEntity's id
         this.name = name;
@@ -30,7 +30,7 @@ public class Product extends BaseEntity {
         this.discount = discount;
         this.quantity = quantity;
         this.size = size;
-        this.status = status;
+        this.status = status != null ? status : 1; // Default to 1 (active)
         this.category = category;
         this.orderDetails = orderDetails != null ? orderDetails : new ArrayList<>();
     }
@@ -44,11 +44,11 @@ public class Product extends BaseEntity {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -60,11 +60,11 @@ public class Product extends BaseEntity {
         this.imagePath = imagePath;
     }
 
-    public Double getDiscount() {
+    public BigDecimal getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Double discount) {
+    public void setDiscount(BigDecimal discount) {
         this.discount = discount;
     }
 
@@ -84,11 +84,11 @@ public class Product extends BaseEntity {
         this.size = size;
     }
 
-    public Boolean getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
