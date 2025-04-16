@@ -198,7 +198,7 @@ public class Injector {
 	}
 	
 	public static AuthenticationService createAuthenticationService() {
-	    return new AuthenticationService(getEmployeeDao(), getUserSessionDao(), new HashService());
+	    return new AuthenticationService(getEmployeeDao(), getOwnerDao(), getUserSessionDao(), new HashService());
 	}
 
 	

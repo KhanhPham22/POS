@@ -10,7 +10,10 @@
         <property name="timestamp" column="timestamp" not-null="true" />
         <property name="expiryTime" column="expiry_time" not-null="true" />
         <property name="employeeNumber" column="employee_number" />
+        <property name="ownerNumber" column="owner_number" />
         <property name="sessionData" column="session_data" />
         <many-to-one name="employee" class="model.Employee" column="person_id" not-null="true" lazy="proxy" />
+        <many-to-one name="owner" class="model.Owner" column="owner_id" not-null="false" lazy="proxy" />
+
     </joined-subclass>
 </hibernate-mapping>

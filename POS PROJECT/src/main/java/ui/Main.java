@@ -6,10 +6,16 @@ import org.hibernate.Transaction;
 import model.Employee;
 import model.Owner;
 import model.Customer;
+import model.Category;
+import model.Product;
+import dao.CategoryDao;
+import dao.ProductDao;
 import dao.CustomerDao;
 import dao.EmployeeDao;
 import dao.OwnerDao;
 import service.PersonServiceImpl;
+import service.ProductServiceImpl;
+import service.CategoryServiceImpl;
 import util.HibernateUtil;
 
 public class Main {

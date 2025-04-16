@@ -15,8 +15,8 @@
         <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
-<!--        <property name="hibernate.hbm2ddl.auto">update</property>-->
-		<property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+		
 
         
         <!-- Load file XML mapping -->
@@ -29,12 +29,13 @@
         <mapping resource="mapping/GiftVoucher.hbm.xml"/>
         <mapping resource="mapping/Invoice.hbm.xml"/>
         <mapping resource="mapping/Item.hbm.xml"/>
-        <mapping resource="mapping/OrderDetail.hbm.xml"/>
+        
         <mapping resource="mapping/Owner.hbm.xml"/>
 		<mapping resource="mapping/Payment.hbm.xml"/>
 		<mapping resource="mapping/Payroll.hbm.xml"/>
 		<mapping resource="mapping/Person.hbm.xml"/>
 		<mapping resource="mapping/Product.hbm.xml"/>
+		<mapping resource="mapping/OrderDetail.hbm.xml"/>
 		<mapping resource="mapping/Store.hbm.xml"/>
 		<mapping resource="mapping/Supplier.hbm.xml"/>
 		<mapping resource="mapping/UserSession.hbm.xml"/>

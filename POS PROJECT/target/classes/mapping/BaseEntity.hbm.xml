@@ -4,7 +4,7 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="model.BaseEntity" abstract="true">
+    <class name="model.BaseEntity" table="base_entity"  abstract="true">
         <!-- Thêm id dù là abstract class -->
         <id name="id" type="long" column="id">
             <generator class="native"/>

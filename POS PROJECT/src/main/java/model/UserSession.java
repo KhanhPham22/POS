@@ -11,30 +11,43 @@ public class UserSession extends BaseEntity {
     private Timestamp timestamp;
     private Timestamp expiryTime;
     private String employeeNumber;
+    private String ownerNumber;
     private Employee employee;
+    private Owner owner;
     private String sessionData;
 
     // Default Constructor (required by Hibernate)
     public UserSession() {}
 
-    // Constructor with Employee
-    public UserSession(Employee employee) {
-        this.employee = employee;
-        this.employeeNumber = employee.getEmployeeNumber();
+    // Constructor with Employee,Owner
+    public UserSession(Employee employee, Owner owner) {
+        if (employee != null) {
+            this.employee = employee;
+            this.employeeNumber = employee.getEmployeeNumber();
+        }
+
+        if (owner != null) {
+            this.owner = owner;
+            this.ownerNumber = owner.getOwnerNumber();
+        }
+
         this.timestamp = Timestamp.from(Instant.now());
         this.sessionToken = generateSessionToken();
         this.expiryTime = calculateExpiryDate();
     }
 
+
     // Constructor with all fields
     public UserSession(Long id, String sessionToken, Timestamp timestamp, Timestamp expiryTime,
-                       String employeeNumber, Employee employee, String sessionData) {
+                       String employeeNumber, Employee employee,String ownerNumber, Owner owner ,String sessionData) {
         setId(id); // Use BaseEntity's id
         this.sessionToken = sessionToken;
         this.timestamp = timestamp;
         this.expiryTime = expiryTime;
         this.employeeNumber = employeeNumber;
         this.employee = employee;
+        this.ownerNumber = ownerNumber;
+        this.owner = owner;
         this.sessionData = sessionData;
     }
 
@@ -87,6 +100,14 @@ public class UserSession extends BaseEntity {
     public void setEmployeeNumber(String employeeNumber) {
         this.employeeNumber = employeeNumber;
     }
+    
+    public String getOwnerNumber() {
+    	return ownerNumber;
+    }
+    
+    public void setOwnerNumber(String ownerNumber) {
+    	this.ownerNumber = ownerNumber;
+    }
 
     public Employee getEmployee() {
         return employee;
@@ -94,6 +115,14 @@ public class UserSession extends BaseEntity {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+    
+    public Owner getOwner() {
+    	return owner;
+    }
+    
+    public void setOwner(Owner owner) {
+    	this.owner = owner;
     }
 
     public String getSessionData() {

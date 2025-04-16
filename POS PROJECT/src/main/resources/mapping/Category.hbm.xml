@@ -4,7 +4,8 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <joined-subclass name="model.Category" table="category" extends="model.BaseEntity">
-        <key column="category_id"/>
+       <key column="category_id" />
+
         <property name="name" column="name" type="string" length="100" not-null="true"/>
         <property name="description" column="description" type="string" length="255"/>
         <set name="products" cascade="all" inverse="true">
