@@ -15,6 +15,7 @@ public class ItemServiceImpl implements ItemService{
 	
 	public ItemServiceImpl(ItemDao itemDao) {
 		this.itemDao = itemDao;
+		this.itemDao.setClass(Item.class);
 	}
 	
 	@Override
@@ -58,18 +59,27 @@ public class ItemServiceImpl implements ItemService{
 	}
 
 	@Override
-	public boolean updateListItem(Item[] items)  {
-		try {
-			for (Item item : items) {
-				itemDao.update(item);
-			}
-			Log.info("Items updated successfully");
-			return true;
-		} catch (Exception e) {
-			Log.error("Error while updating items", e);
-			return false;
-		}
+	public boolean updateListItem(Item[] items) {
+	    boolean updateFailed = false;
+
+	    for (Item item : items) {
+	        try {
+	            itemDao.update(item);
+	        } catch (Exception e) {
+	            Log.error("Error while updating item", e);
+	            updateFailed = true;  // Flag the update as failed
+	        }
+	    }
+
+	    if (updateFailed) {
+	        return false; // Return false if any update failed
+	    }
+
+	    Log.info("Items updated successfully");
+	    return true;
 	}
+
+
 
 	@Override
 	public Item getItem(long itemId)  {

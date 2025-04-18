@@ -15,7 +15,7 @@ public class PayrollServiceImpl implements PayrollService {
     private final PayrollDao payrollDao;
 
     public PayrollServiceImpl(PayrollDao payrollDao) {
-        this.payrollDao = new PayrollDao();
+        this.payrollDao =  payrollDao;
         this.payrollDao.setClass(Payroll.class);
     }
 

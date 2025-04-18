@@ -13,7 +13,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderDetailDao orderDao;
 
     public OrderServiceImpl(OrderDetailDao orderDao) {
-        this.orderDao = new OrderDetailDao();
+        this.orderDao =  orderDao;
         this.orderDao.setClass(OrderDetail.class);
     }
 

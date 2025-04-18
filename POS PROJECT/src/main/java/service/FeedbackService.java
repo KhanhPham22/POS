@@ -16,4 +16,8 @@ public interface FeedbackService {
     Feedback findFeedbackById(Long feedbackId);
     
     List<Feedback> findAllFeedback();
+
+	List<Feedback> findFeedbackByProductId(Long productId);
+
+	List<Feedback> findFeedbackByPersonId(Long personId);
 }

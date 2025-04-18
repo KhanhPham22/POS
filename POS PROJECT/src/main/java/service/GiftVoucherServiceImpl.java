@@ -13,7 +13,7 @@ public class GiftVoucherServiceImpl implements GiftVoucherService {
     private final GiftVoucherDao giftVoucherDao;
 
     public GiftVoucherServiceImpl(GiftVoucherDao giftVoucherDao) {
-        this.giftVoucherDao = new GiftVoucherDao();
+        this.giftVoucherDao =  giftVoucherDao;
         this.giftVoucherDao.setClass(GiftVoucher.class);
     }
 

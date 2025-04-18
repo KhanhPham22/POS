@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
 import util.HibernateUtil;
 
 import java.util.List;
@@ -141,6 +143,42 @@ public class FeedbackDao implements GenericDao<Feedback> {
         } catch (Exception e) {
             Log.error("Error while deleting Feedback", e);
             if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
+    }
+    
+ // Tìm kiếm feedback theo UserId
+    public List<Feedback> findByPersonId(long personId) throws Exception {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Query<Feedback> query = session.createQuery("from Feedback where customer.id = :personId", Feedback.class);
+            query.setParameter("personId", personId);
+            List<Feedback> feedbacks = query.list();
+            Log.info("Retrieved " + feedbacks.size() + " feedbacks for person with ID: " + personId);
+            return feedbacks;
+        } catch (Exception e) {
+            Log.error("Error while retrieving feedback for user with ID: " + personId, e);
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
+    }
+
+    // Tìm kiếm feedback theo ProductId
+    public List<Feedback> findByProductId(long productId) throws Exception {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            Query<Feedback> query = session.createQuery("from Feedback where product.id = :productId", Feedback.class);
+            query.setParameter("productId", productId);
+            List<Feedback> feedbacks = query.list();
+            Log.info("Retrieved " + feedbacks.size() + " feedbacks for product with ID: " + productId);
+            return feedbacks;
+        } catch (Exception e) {
+            Log.error("Error while retrieving feedback for product with ID: " + productId, e);
             throw e;
         } finally {
             if (session != null) session.close();

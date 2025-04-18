@@ -13,7 +13,8 @@ public class DashboardServiceImpl implements DashboardService {
     private final DashboardDao dashboardDao;
 
     public DashboardServiceImpl(DashboardDao dashboardDao) {
-        this.dashboardDao = new DashboardDao();
+        this.dashboardDao =  dashboardDao;
+        this.dashboardDao.setClass(Dashboard.class);
     }
 
     @Override

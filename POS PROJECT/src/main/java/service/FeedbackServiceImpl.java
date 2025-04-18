@@ -14,7 +14,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     private final FeedbackDao feedbackDao;
 
     public FeedbackServiceImpl(FeedbackDao feedbackDao) {
-        this.feedbackDao = new FeedbackDao();
+        this.feedbackDao =  feedbackDao;
         this.feedbackDao.setClass(Feedback.class);
     }
 
@@ -77,5 +77,27 @@ public class FeedbackServiceImpl implements FeedbackService {
             return null;
         }
     }
+    
+    @Override
+    public List<Feedback> findFeedbackByPersonId(Long personId) {
+        try {
+            return feedbackDao.findByPersonId(personId);
+        } catch (Exception e) {
+            Log.error("Failed to retrieve feedback for user with ID: " + personId, e);
+            return null;
+        }
+    }
+
+    @Override
+    public List<Feedback> findFeedbackByProductId(Long productId) {
+        try {
+            return feedbackDao.findByProductId(productId);
+        } catch (Exception e) {
+            Log.error("Failed to retrieve feedback for product with ID: " + productId, e);
+            return null;
+        }
+    }
 }
+
+
 

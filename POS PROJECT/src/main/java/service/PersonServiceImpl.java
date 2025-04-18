@@ -179,7 +179,7 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public Customer getCustomerByNameandPhone(String name,String phone) throws Exception {
 		Customer customer = customerDao.findByNameAndPhone(name, phone);
-		Log.info("Customer with name and phone"+ name +phone +"retrieved");
+		Log.info("Customer with name " + name + " and phone " + phone + " retrieved");
 		return customer;
 	}
 	

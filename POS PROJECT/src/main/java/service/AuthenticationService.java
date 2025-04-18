@@ -89,5 +89,19 @@ public class AuthenticationService {
         Log.warn("Logout failed: Token not found");
         return false;
     }
+    
+    // Lấy thông tin người dùng từ token
+    public UserSession getUserFromToken(String token) throws Exception {
+        List<UserSession> allSessions = userSessionDao.findAll();
+        for (UserSession session : allSessions) {
+            if (session.getSessionToken().equals(token) && !session.isExpired()) {
+                return session;
+            }
+        }
+        Log.warn("Token không hợp lệ hoặc đã hết hạn: " + token);
+        throw new Exception("Token không hợp lệ hoặc đã hết hạn");
+    }
 }
+
+
 

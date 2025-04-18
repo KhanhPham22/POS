@@ -13,7 +13,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductDao productDao;
 
     public ProductServiceImpl(ProductDao productDao) {
-        this.productDao = new ProductDao();
+        this.productDao = productDao;
         this.productDao.setClass(Product.class);
     }
 

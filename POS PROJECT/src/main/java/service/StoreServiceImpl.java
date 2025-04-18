@@ -14,7 +14,8 @@ public class StoreServiceImpl implements StoreService {
     private final StoreDao storeDao;
 
     public StoreServiceImpl(StoreDao storeDao) {
-        this.storeDao = new StoreDao();
+        this.storeDao =  storeDao;
+        this.storeDao.setClass(Store.class);
     }
 
     @Override

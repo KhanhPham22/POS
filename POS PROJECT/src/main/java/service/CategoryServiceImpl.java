@@ -13,7 +13,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryDao categoryDao;
 
     public CategoryServiceImpl(CategoryDao categoryDao) {
-        this.categoryDao = new CategoryDao();
+        this.categoryDao =  categoryDao;
         this.categoryDao.setClass(Category.class);
     }
 

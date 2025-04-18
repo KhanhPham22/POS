@@ -13,7 +13,8 @@ public class SupplierServiceImpl implements SupplierService {
     private final SupplierDao supplierDao;
 
     public SupplierServiceImpl(SupplierDao supplierDao) {
-        this.supplierDao = new SupplierDao();
+        this.supplierDao =  supplierDao;
+        this.supplierDao.setClass(Supplier.class);
     }
 
     @Override
