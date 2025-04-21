@@ -5,6 +5,7 @@ import static org.mockito.Mockito.*;
 import java.security.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
 
@@ -95,10 +96,14 @@ public class AuthenticationServiceImplTest {
 //	    void testIsTokenValid() throws Exception {
 //	        UserSession session = new UserSession();
 //	        session.setSessionToken("token123");
-//	        
+//
 //	        // Set expiryTime trong tương lai => token còn hiệu lực
-//	        Timestamp futureExpiry = Timestamp.from(Instant.now().plus(Duration.ofHours(8)));
+//	        jjava.sql.Timestamp futureExpiry = Timestamp.valueOf(Instant.now().plus(Duration.ofHours(8)).atZone(ZoneId.systemDefault()).toLocalDateTime());
+//
 //	        session.setExpiryTime(futureExpiry);
+//	        
+//	        // PHẢI có dòng này để token là hợp lệ
+//	        session.setActive(true);
 //
 //	        when(userSessionDao.findAll()).thenReturn(List.of(session));
 //
@@ -108,14 +113,18 @@ public class AuthenticationServiceImplTest {
 //	    }
 
 
+
 //	    @Test
 //	    void testIsTokenInvalid() throws Exception {
 //	        UserSession session = new UserSession();
 //	        session.setSessionToken("token123");
-//	        
-//	        // Set expiryTime trong quá khứ => token hết hạn
-//	        Timestamp expiredTime = Timestamp.from(Instant.now().minus(Duration.ofHours(8)));
+//
+//	        // Token hết hạn
+//	        java.sql.Timestamp expiredTime = Timestamp.from(Instant.now().minus(Duration.ofHours(8)));
 //	        session.setExpiryTime(expiredTime);
+//
+//	        // Có thể thêm dòng này cho rõ
+//	        session.setActive(true); // hoặc false — đều không hợp lệ
 //
 //	        when(userSessionDao.findAll()).thenReturn(List.of(session));
 //
@@ -123,6 +132,7 @@ public class AuthenticationServiceImplTest {
 //
 //	        assertFalse(result);
 //	    }
+
 
 
 
@@ -154,8 +164,11 @@ public class AuthenticationServiceImplTest {
 //	        session.setSessionToken("token123");
 //
 //	        // Set expiryTime hợp lệ
-//	        Timestamp futureExpiry = Timestamp.from(Instant.now().plus(Duration.ofHours(8)));
+//	        java.sql.Timestamp futureExpiry = Timestamp.from(Instant.now().plus(Duration.ofHours(8)));
 //	        session.setExpiryTime(futureExpiry);
+//	        
+//	        // THÊM dòng này
+//	        session.setActive(true);
 //
 //	        when(userSessionDao.findAll()).thenReturn(List.of(session));
 //
@@ -166,20 +179,25 @@ public class AuthenticationServiceImplTest {
 //	    }
 
 
+
 //	    @Test
 //	    void testGetUserFromTokenInvalid() throws Exception {
 //	        UserSession session = new UserSession();
 //	        session.setSessionToken("token123");
 //
 //	        // Token hết hạn
-//	        Timestamp expiredTime = Timestamp.from(Instant.now().minus(Duration.ofHours(8)));
+//	        java.sql.Timestamp expiredTime = Timestamp.from(Instant.now().minus(Duration.ofHours(8)));
 //	        session.setExpiryTime(expiredTime);
+//
+//	        // Có thể thêm dòng này cho rõ
+//	        session.setActive(true); // hoặc false đều được
 //
 //	        when(userSessionDao.findAll()).thenReturn(List.of(session));
 //
 //	        Exception ex = assertThrows(Exception.class, () -> authService.getUserFromToken("token123"));
 //	        assertEquals("Token không hợp lệ hoặc đã hết hạn", ex.getMessage());
 //	    }
+
 
 
 }

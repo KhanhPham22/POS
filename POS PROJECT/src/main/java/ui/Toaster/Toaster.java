@@ -2,95 +2,46 @@ package ui.Toaster;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Toaster {
-    private static final int STARTING_Y_POS = 15;
-    private static final int SPACER_DISTANCE = 15;
-    private static final ArrayList<ToasterBody> toasterBodies = new ArrayList<>();
-    private final static AtomicInteger CURRENT_Y_OFFSET = new AtomicInteger();
-    private final JPanel panelToToastOn;
 
-    public Toaster(JPanel panelToToastOn) {
-        this.panelToToastOn = panelToToastOn;
+    private final JComponent componentToToastOn;
+
+    public Toaster(JComponent componentToToastOn) {
+        this.componentToToastOn = componentToToastOn;
     }
 
-    public void error(String... messages) {
-        for (String s : messages) {
-            toast(s, new Color(181, 59, 86));
-        }
+    public void success(String message) {
+        showToast(message, new Color(76, 175, 80)); // Green
     }
 
-    public void success(String... messages) {
-        for (String s : messages) {
-            toast(s, new Color(33, 181, 83));
-        }
+    public void error(String message) {
+        showToast(message, new Color(244, 67, 54)); // Red
     }
 
-    public void info(String... messages) {
-        for (String s : messages) {
-            toast(s, new Color(13, 116, 181));
-        }
-    }
+    private void showToast(String message, Color backgroundColor) {
+        JLabel toastLabel = new JLabel(message);
+        toastLabel.setOpaque(true);
+        toastLabel.setBackground(backgroundColor);
+        toastLabel.setForeground(Color.WHITE);
+        toastLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        toastLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        toastLabel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        toastLabel.setSize(toastLabel.getPreferredSize());
 
-    public void warn(String... messages) {
-        for (String s : messages) {
-            toast(s, new Color(181, 147, 10));
-        }
-    }
+        JLayeredPane layeredPane = componentToToastOn.getRootPane().getLayeredPane();
+        Dimension paneSize = componentToToastOn.getSize();
 
-    private void toast(String message, Color bgColor) {
-        ToasterBody toasterBody;
+        int x = (paneSize.width - toastLabel.getWidth()) / 2;
+        int y = 30; // top padding
 
-        if (toasterBodies.isEmpty()) {
-            toasterBody = new ToasterBody(panelToToastOn, message, bgColor, STARTING_Y_POS);
-            CURRENT_Y_OFFSET.set(STARTING_Y_POS + toasterBody.getHeightOfToast());
-        } else {
-            toasterBody = new ToasterBody(panelToToastOn, message, bgColor, CURRENT_Y_OFFSET.get() + SPACER_DISTANCE);
-            CURRENT_Y_OFFSET.addAndGet(SPACER_DISTANCE + toasterBody.getHeightOfToast());
-        }
+        toastLabel.setBounds(x, y, toastLabel.getWidth(), toastLabel.getHeight());
+        layeredPane.add(toastLabel, JLayeredPane.POPUP_LAYER);
 
-        toasterBodies.add(toasterBody);
+        Timer timer = new Timer(2500, e -> layeredPane.remove(toastLabel));
+        timer.setRepeats(false);
+        timer.start();
 
-        new Thread(() -> {
-            toasterBody.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    removeToast(toasterBody);
-                }
-            });
-
-            panelToToastOn.add(toasterBody, 0);
-            panelToToastOn.repaint();
-
-            try {
-                Thread.sleep(6000);
-                removeToast(toasterBody);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }).start();
-    }
-
-    private synchronized void removeToast(ToasterBody toasterBody) {
-        if (!toasterBody.getStopDisplaying()) {
-            toasterBody.setStopDisplaying(true);
-
-            toasterBodies.forEach(toasterBody1 -> {
-                if (toasterBodies.indexOf(toasterBody1) >= toasterBodies.indexOf(toasterBody)) {
-                    toasterBody1.setyPos(toasterBody1.getyPos() - toasterBody.getHeightOfToast() - SPACER_DISTANCE);
-                }
-            });
-
-            toasterBodies.remove(toasterBody);
-
-            CURRENT_Y_OFFSET.set(CURRENT_Y_OFFSET.get() - SPACER_DISTANCE - toasterBody.getHeightOfToast());
-
-            panelToToastOn.remove(toasterBody);
-            panelToToastOn.repaint();
-        }
+        layeredPane.repaint();
     }
 }

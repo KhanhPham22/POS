@@ -1,27 +1,32 @@
 package ui;
 
 import javax.swing.*;
+
+import dao.EmployeeDao;
+import dao.OwnerDao;
+import dao.UserSessionDao;
+import model.UserSession;
+import service.AuthenticationService;
+import service.HashService;
+
 import java.awt.*;
 import java.awt.event.*;
+import ui.Utils.*;
+import ui.Toaster.Toaster;
 
 public class LoginFrame {
-
-    private JFrame frame;
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    LoginFrame window = new LoginFrame();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+	
+	private final AuthenticationService authService;
+    JFrame frame;
 
     public LoginFrame() {
+        
+        this.authService = new AuthenticationService(
+            new EmployeeDao(), 
+            new OwnerDao(),   
+            new UserSessionDao(), 
+            new HashService() 
+        );
         initialize();
     }
 
@@ -33,115 +38,179 @@ public class LoginFrame {
         frame.setLocationRelativeTo(null);
         frame.getContentPane().setLayout(new BorderLayout());
 
-        // **PANEL ĐĂNG NHẬP (WEST)**
+        Toaster toaster = new Toaster(frame.getRootPane());
+
+        // === LOGIN PANEL (WEST) ===
         JPanel loginPanel = new JPanel();
-        loginPanel.setPreferredSize(new Dimension(350, 600));
+        loginPanel.setPreferredSize(new Dimension(400, 600));
         loginPanel.setLayout(new GridBagLayout());
+        loginPanel.setBackground(Color.WHITE); // trắng cho hiện đại
         frame.getContentPane().add(loginPanel, BorderLayout.WEST);
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        Font fontLabel = new Font("Arial", Font.BOLD, 24);
+        Font fontField = new Font("Arial", Font.PLAIN, 16);
 
-        // **Tiêu đề "Login"**
+        GridBagConstraints gbc;
+
+        // **Tiêu đề**
         JLabel lblLogin = new JLabel("Coffee LCK");
-        lblLogin.setFont(new Font("Arial", Font.BOLD, 24));
+        lblLogin.setFont(fontLabel);
         lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
+        gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
+        gbc.insets = new Insets(20, 10, 30, 10);
+        gbc.anchor = GridBagConstraints.CENTER;
         loginPanel.add(lblLogin, gbc);
-        gbc = new GridBagConstraints();
-        
-        // **Ô nhập Email với Icon**
-        JPanel emailPanel = new JPanel(new BorderLayout(5, 0));
-        emailPanel.setBorder(BorderFactory.createTitledBorder("Email Address"));
 
-        
-        ImageIcon emailIcon = new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\login.png"); // Thay bằng đường dẫn icon của bạn
-        Image emailImg = emailIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        // **Email**
+        JPanel emailPanel = new JPanel(new BorderLayout(10, 0));
+        emailPanel.setBorder(BorderFactory.createTitledBorder("Username"));
+        emailPanel.setBackground(Color.WHITE);
+
+        ImageIcon emailIcon = new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\login.png");
+        Image emailImg = emailIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
         JLabel emailIconLabel = new JLabel(new ImageIcon(emailImg));
         emailPanel.add(emailIconLabel, BorderLayout.WEST);
 
         JTextField emailField = new JTextField(20);
-        emailField.setFont(new Font("Arial", Font.PLAIN, 16)); // Tăng kích thước font
-        emailField.setPreferredSize(new Dimension(200, 40)); // Tăng chiều cao
+        emailField.setFont(fontField);
+        emailField.setBorder(null);
         emailPanel.add(emailField, BorderLayout.CENTER);
 
+        gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 2;
+        gbc.insets = new Insets(10, 20, 10, 20);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         loginPanel.add(emailPanel, gbc);
-        gbc = new GridBagConstraints();
-        
-        // **Ô nhập Password với Icon**
-        JPanel passwordPanel = new JPanel(new BorderLayout(5, 0));
-        passwordPanel.setBorder(BorderFactory.createTitledBorder("Password"));
 
-        // Tải icon password
-        ImageIcon passwordIcon = new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\password.png"); 
-        Image passwordImg = passwordIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
-        JLabel passwordIconLabel = new JLabel(new ImageIcon(passwordImg));
-        passwordPanel.add(passwordIconLabel, BorderLayout.WEST);
+        // **Password**
+        JPanel passwordPanel = new JPanel(new BorderLayout(10, 0));
+        passwordPanel.setBorder(BorderFactory.createTitledBorder("Password"));
+        passwordPanel.setBackground(Color.WHITE);
+
+        ImageIcon passIcon = new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\password.png");
+        Image passImg = passIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+        JLabel passIconLabel = new JLabel(new ImageIcon(passImg));
+        passwordPanel.add(passIconLabel, BorderLayout.WEST);
 
         JPasswordField passwordField = new JPasswordField(20);
-        passwordField.setFont(new Font("Arial", Font.PLAIN, 16)); // Tăng kích thước font
-        passwordField.setPreferredSize(new Dimension(200, 40)); // Tăng chiều cao
+        passwordField.setFont(fontField);
+        passwordField.setBorder(null);
         passwordPanel.add(passwordField, BorderLayout.CENTER);
 
+        gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
+        gbc.insets = new Insets(10, 20, 10, 20);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         loginPanel.add(passwordPanel, gbc);
-        gbc = new GridBagConstraints();
-        
+
         // **Checkbox "Keep me logged in"**
         JCheckBox keepMeLoggedIn = new JCheckBox("Keep me logged in");
+        keepMeLoggedIn.setBackground(Color.WHITE);
+        gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 3;
-        gbc.gridwidth = 1;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(5, 20, 5, 20);
+        gbc.anchor = GridBagConstraints.WEST;
         loginPanel.add(keepMeLoggedIn, gbc);
+
+        // **Link Forgot Password**
+        HyperlinkText forgotPasswordLink = new HyperlinkText("Forgot password?", 100, 0, () -> {
+            ResetPasswordFrame resetFrame = new ResetPasswordFrame();
+            resetFrame.setVisible(true);
+        });
         gbc = new GridBagConstraints();
-        
-        // **Nút "Log in"**
-        JButton loginButton = new JButton("Log in");
-        loginButton.setBackground(new Color(30, 144, 255));
-        loginButton.setForeground(Color.WHITE);
-        loginButton.setFocusPainted(false);
-        loginButton.setFont(new Font("Arial", Font.BOLD, 18)); 
-        loginButton.setPreferredSize(new Dimension(150, 50));
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.gridwidth = 2;
-        loginPanel.add(loginButton, gbc);
+        gbc.insets = new Insets(5, 20, 20, 20);
+        gbc.anchor = GridBagConstraints.CENTER;
+        loginPanel.add(forgotPasswordLink, gbc);
+
+        // **Nút Login**
+        JButton loginButton = new JButton("Log in");
+        loginButton.setBackground(new Color(30, 144, 255));
+        loginButton.setForeground(Color.WHITE);
+        loginButton.setFont(new Font("Arial", Font.BOLD, 18));
+        loginButton.setPreferredSize(new Dimension(160, 45));
+        loginButton.setFocusPainted(false);
         gbc = new GridBagConstraints();
-        
-        // **PANEL HÌNH ẢNH (CENTER)**
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(30, 20, 10, 20);
+        gbc.anchor = GridBagConstraints.CENTER;
+        loginPanel.add(loginButton, gbc);
+
+        // === IMAGE PANEL (CENTER) ===
         JPanel imagePanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2d = (Graphics2D) g;
-                // Tạo gradient từ màu #E6F0FA (trên) đến #B3D4FF (dưới)
                 GradientPaint gradient = new GradientPaint(
-                    0, 0, new Color(230, 240, 250), // #E6F0FA
-                    0, getHeight(), new Color(179, 212, 255) // #B3D4FF
+                    0, 0, new Color(230, 240, 250),
+                    0, getHeight(), new Color(179, 212, 255)
                 );
                 g2d.setPaint(gradient);
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
         };
+        imagePanel.setLayout(new GridBagLayout());
         frame.getContentPane().add(imagePanel, BorderLayout.CENTER);
 
-        // **Tải ảnh & resize**
-        String imagePath = "C:\\TTTN\\POS PROJECT\\img\\lck.png"; // Đường dẫn ảnh
-        ImageIcon icon = new ImageIcon(imagePath);
-        Image img = icon.getImage();
-        Image newImg = img.getScaledInstance(400, 300, Image.SCALE_SMOOTH);
-        ImageIcon resizedIcon = new ImageIcon(newImg);
-
-        // **Hiển thị ảnh**
-        JLabel imageLabel = new JLabel(resizedIcon);
+        ImageIcon icon = new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\lck.png");
+        Image img = icon.getImage().getScaledInstance(400, 300, Image.SCALE_SMOOTH);
+        JLabel imageLabel = new JLabel(new ImageIcon(img));
         imagePanel.add(imageLabel);
+
+        // Login logic
+        loginButton.addActionListener(e -> handleLogin(emailField, passwordField, toaster));
+
+        frame.setVisible(true);
     }
+
+        
+    private void handleLogin(JTextField emailField, JPasswordField passwordField, Toaster toaster) {
+        String username = emailField.getText().trim();
+        String password = new String(passwordField.getPassword());
+
+        if (username.isEmpty() || password.isEmpty()) {
+            toaster.error("Username and password cannot be empty!");
+            return;
+        }
+
+        try {
+            UserSession session = authService.login(username, password);
+            toaster.success("Login successful!");
+
+            if (session.getEmployee() != null) {
+                SwingUtilities.invokeLater(() -> {
+                    PosUI posUI = new PosUI();
+                    posUI.setVisible(true);
+                });
+            } else if (session.getOwner() != null) {
+                SwingUtilities.invokeLater(() -> {
+                    ManagerFrame managerFrame = new ManagerFrame();
+                    managerFrame.setVisible(true);
+                });
+            } else {
+                toaster.error("Unknown role!");
+                return;
+            }
+
+            frame.dispose(); // đóng login sau khi thành công
+
+        } catch (Exception ex) {
+            toaster.error("Login failed: " + ex.getMessage());
+        }
+        }
+    
 }

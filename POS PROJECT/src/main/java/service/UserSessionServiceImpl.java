@@ -49,6 +49,7 @@ public class UserSessionServiceImpl implements UserSessionService {
 
         newSession.setSessionData(null);
         newSession.setCreatedBy(owner.getPersonId());
+        newSession.setCreatedDate(new Date());
         newSession.setLastUpdatedDate(new Date());
 
         try {

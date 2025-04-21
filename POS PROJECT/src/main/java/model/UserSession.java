@@ -15,6 +15,7 @@ public class UserSession extends BaseEntity {
     private Employee employee;
     private Owner owner;
     private String sessionData;
+    private boolean active;
 
     // Default Constructor (required by Hibernate)
     public UserSession() {}
@@ -34,6 +35,8 @@ public class UserSession extends BaseEntity {
         this.timestamp = Timestamp.from(Instant.now());
         this.sessionToken = generateSessionToken();
         this.expiryTime = calculateExpiryDate();
+        this.active = true;
+
     }
 
 
@@ -49,6 +52,8 @@ public class UserSession extends BaseEntity {
         this.ownerNumber = ownerNumber;
         this.owner = owner;
         this.sessionData = sessionData;
+        this.active = true;
+
     }
 
     // Generate unique session token
@@ -132,4 +137,37 @@ public class UserSession extends BaseEntity {
     public void setSessionData(String sessionData) {
         this.sessionData = sessionData;
     }
+    
+    public void refreshSession() {
+        this.timestamp = Timestamp.from(Instant.now());
+        this.expiryTime = calculateExpiryDate();
+    }
+ // Thêm phương thức invalidate
+    public void invalidate() {
+        this.active = false;
+        this.expiryTime = Timestamp.from(Instant.now());
+    }
+
+    // Kiểm tra session còn hợp lệ (không chỉ dựa trên thời gian)
+    public boolean isValid() {
+        return active && !isExpired();
+    }
+    
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
+    public boolean isEmployeeSession() {
+        return employee != null;
+    }
+
+    public boolean isOwnerSession() {
+        return owner != null;
+    }
+
+
 }

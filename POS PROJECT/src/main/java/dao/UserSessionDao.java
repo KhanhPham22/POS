@@ -142,4 +142,61 @@ public class UserSessionDao implements GenericDao<UserSession> {
 			session.close();
 		}
 	}
+	
+	public boolean invalidateSession(long id) throws Exception {
+		Session session = sessionFactory.openSession();
+		Transaction transaction = null;
+		try {
+			transaction = session.beginTransaction();
+			UserSession userSession = session.get(UserSession.class, id);
+			if (userSession != null) {
+				userSession.invalidate(); // Đặt active = false và cập nhật expiry
+				session.update(userSession);
+				transaction.commit();
+				Log.info("UserSession invalidated successfully");
+				return true;
+			}
+			return false;
+		} catch (Exception e) {
+			if (transaction != null) transaction.rollback();
+			Log.error("Error invalidating session", e);
+			throw e;
+		} finally {
+			session.close();
+		}
+	}
+
+	
+	public List<UserSession> findActiveSessions() throws Exception {
+		Session session = sessionFactory.openSession();
+		try {
+			List<UserSession> sessions = session.createQuery(
+				"FROM UserSession WHERE active = true", UserSession.class).list();
+			Log.info("Active sessions retrieved successfully");
+			return sessions;
+		} catch (Exception e) {
+			Log.error("Error retrieving active sessions", e);
+			throw e;
+		} finally {
+			session.close();
+		}
+	}
+
+	public UserSession findBySessionToken(String token) throws Exception {
+		Session session = sessionFactory.openSession();
+		try {
+			UserSession userSession = session.createQuery(
+				"FROM UserSession WHERE sessionToken = :token", UserSession.class)
+				.setParameter("token", token)
+				.uniqueResult();
+			Log.info("Session retrieved by token successfully");
+			return userSession;
+		} catch (Exception e) {
+			Log.error("Error retrieving session by token", e);
+			throw e;
+		} finally {
+			session.close();
+		}
+	}
+
 }
