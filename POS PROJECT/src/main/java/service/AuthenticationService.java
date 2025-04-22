@@ -101,6 +101,29 @@ public class AuthenticationService {
         Log.warn("Token không hợp lệ hoặc đã hết hạn: " + token);
         throw new Exception("Token không hợp lệ hoặc đã hết hạn");
     }
+    
+    public boolean resetPasswordByUsername(String username, String newPassword) throws Exception {
+        Log.info("Reset password attempt for username: " + username);
+
+        Employee employee = employeeDao.findByUsername(username);
+        if (employee != null) {
+            String hashedPassword = hashService.hash(newPassword);
+            employee.setLoginPassword(hashedPassword);
+            return employeeDao.update(employee);
+        }
+
+        Owner owner = ownerDao.findByUsername(username);
+        if (owner != null) {
+            String hashedPassword = hashService.hash(newPassword);
+            owner.setLoginPassword(hashedPassword);
+            return ownerDao.update(owner);
+        }
+
+        Log.warn("No account found with username: " + username);
+        throw new Exception("Không tìm thấy tài khoản với tên đăng nhập này");
+    }
+
+
 }
 
 

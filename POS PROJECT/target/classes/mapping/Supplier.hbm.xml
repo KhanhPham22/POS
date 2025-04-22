@@ -17,5 +17,11 @@
             <key column="supplier_id" />
             <one-to-many class="model.Warehouse" />
         </set>
+        
+        <set name="items" cascade="all" lazy="true" inverse="true">
+    <key column="supplier_id"/>
+    <one-to-many class="model.Item"/>
+</set>
+
     </joined-subclass>
 </hibernate-mapping>

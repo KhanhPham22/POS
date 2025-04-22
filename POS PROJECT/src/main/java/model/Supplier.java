@@ -12,13 +12,14 @@ public class Supplier extends BaseEntity {
     private String address;
     private String taxCode;
     private List<Warehouse> warehouseImports = new ArrayList<>();
-
+    private List<Item> items = new ArrayList<>();
+    
     // Default Constructor
     public Supplier() {}
 
     // Constructor with all fields
     public Supplier(Long id, String name, String contactName, String phone, String email, 
-                    String address, String taxCode, List<Warehouse> warehouseImports) {
+                    String address, String taxCode, List<Warehouse> warehouseImports,List<Item> items) {
         setId(id); // Use BaseEntity's id
         this.name = name;
         this.contactName = contactName;
@@ -27,6 +28,7 @@ public class Supplier extends BaseEntity {
         this.address = address;
         this.taxCode = taxCode;
         this.warehouseImports = warehouseImports != null ? warehouseImports : new ArrayList<>();
+        this.items = items != null ? items : new ArrayList<>();
     }
 
     // Getter and Setter methods
@@ -84,5 +86,13 @@ public class Supplier extends BaseEntity {
 
     public void setWarehouseImports(List<Warehouse> warehouseImports) {
         this.warehouseImports = warehouseImports;
+    }
+    
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 }

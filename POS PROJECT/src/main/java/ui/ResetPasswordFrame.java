@@ -1,11 +1,19 @@
 package ui;
 
 import javax.swing.*;
+
+import service.AuthenticationService;
+import dao.EmployeeDao;
+import dao.OwnerDao;
+import dao.UserSessionDao;
+import model.UserSession;
+import service.HashService;
+
 import java.awt.*;
 
 public class ResetPasswordFrame extends JFrame {
 
-    public ResetPasswordFrame() {
+    public ResetPasswordFrame(AuthenticationService authService) {
         setTitle("Reset Password - Coffee LCK");
         setSize(500, 400);
         setLocationRelativeTo(null);
@@ -28,25 +36,25 @@ public class ResetPasswordFrame extends JFrame {
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         contentPanel.add(titleLabel, gbcTitle);
 
-        // ===== Email Label =====
-        GridBagConstraints gbcEmailLabel = new GridBagConstraints();
-        gbcEmailLabel.insets = new Insets(10, 20, 10, 10);
-        gbcEmailLabel.gridx = 0;
-        gbcEmailLabel.gridy = 1;
-        gbcEmailLabel.anchor = GridBagConstraints.EAST;
+        // ===== Username Label =====
+        GridBagConstraints gbcUsernameLabel = new GridBagConstraints();
+        gbcUsernameLabel.insets = new Insets(10, 20, 10, 10);
+        gbcUsernameLabel.gridx = 0;
+        gbcUsernameLabel.gridy = 1;
+        gbcUsernameLabel.anchor = GridBagConstraints.EAST;
 
-        JLabel emailLabel = new JLabel("Email:");
-        contentPanel.add(emailLabel, gbcEmailLabel);
+        JLabel usernameLabel = new JLabel("Username:");
+        contentPanel.add(usernameLabel, gbcUsernameLabel);
 
-        // ===== Email Field =====
-        GridBagConstraints gbcEmailField = new GridBagConstraints();
-        gbcEmailField.insets = new Insets(10, 10, 10, 20);
-        gbcEmailField.gridx = 1;
-        gbcEmailField.gridy = 1;
-        gbcEmailField.fill = GridBagConstraints.HORIZONTAL;
+        // ===== Username Field =====
+        GridBagConstraints gbcUsernameField = new GridBagConstraints();
+        gbcUsernameField.insets = new Insets(10, 10, 10, 20);
+        gbcUsernameField.gridx = 1;
+        gbcUsernameField.gridy = 1;
+        gbcUsernameField.fill = GridBagConstraints.HORIZONTAL;
 
-        JTextField emailField = new JTextField(20);
-        contentPanel.add(emailField, gbcEmailField);
+        JTextField usernameField = new JTextField(20);
+        contentPanel.add(usernameField, gbcUsernameField);
 
         // ===== New Password Label =====
         GridBagConstraints gbcNewPassLabel = new GridBagConstraints();
@@ -105,11 +113,11 @@ public class ResetPasswordFrame extends JFrame {
 
         // ===== Event Reset =====
         resetButton.addActionListener(e -> {
-            String email = emailField.getText().trim();
+            String username = usernameField.getText().trim();
             String newPassword = new String(newPasswordField.getPassword());
             String confirmPassword = new String(confirmPasswordField.getPassword());
 
-            if (email.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
+            if (username.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please fill in all fields.");
                 return;
             }
@@ -119,12 +127,21 @@ public class ResetPasswordFrame extends JFrame {
                 return;
             }
 
-            // TODO: Gọi service reset mật khẩu ở đây
-            JOptionPane.showMessageDialog(this, "Password reset successfully!");
-            dispose();
+            try {
+                boolean success = authService.resetPasswordByUsername(username, newPassword);
+                if (success) {
+                    JOptionPane.showMessageDialog(this, "Password reset successfully!");
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Failed to reset password.");
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+            }
         });
     }
 }
+
 
 
 

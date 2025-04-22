@@ -6,6 +6,7 @@ public class Item extends BaseEntity {
     private String type;
     private String unit;
     private String description;
+    private Supplier supplier;
 
     // Default Constructor
     public Item() {}
@@ -50,5 +51,13 @@ public class Item extends BaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 }

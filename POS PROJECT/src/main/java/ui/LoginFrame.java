@@ -123,7 +123,7 @@ public class LoginFrame {
 
         // **Link Forgot Password**
         HyperlinkText forgotPasswordLink = new HyperlinkText("Forgot password?", 100, 0, () -> {
-            ResetPasswordFrame resetFrame = new ResetPasswordFrame();
+            ResetPasswordFrame resetFrame = new ResetPasswordFrame(authService);
             resetFrame.setVisible(true);
         });
         gbc = new GridBagConstraints();
