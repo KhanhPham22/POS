@@ -1,200 +1,251 @@
 package ui;
 
 import javax.swing.*;
+
+import dao.StoreDao;
+import model.Store;
 import java.awt.*;
+import ui.Elements.*;
+import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
-public class StoreFrame extends JFrame {
-    public StoreFrame() {
-        // Thiết lập JFrame chính
-        setTitle("Thông tin cửa hàng");
-        setSize(600, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
+	private JPanel contentPanel;
+	private final String iconPath = "C:\\TTTN\\POS PROJECT\\img\\";
+	private final String[] sidebarIcons = { "home_icon.png", "customers.png", "employee.png", "product.png",
+			"dashboard.png", "supplier.png", "warehouse.png", "store.png", "logout_icon.png" };
+	private final String[] sidebarNames = { "Home", "Customer", "Employee", "Product", "Dashboard", "Supplier",
+			"Warehouse", "Store", "Logout" };
+	private final String username = "admin"; // Replace with actual username
+	private final ImageIcon logoIcon = new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\lck.png");
 
-        // Panel chính chứa toàn bộ nội dung, đặt tên là storePanel
-        JPanel storePanel = new JPanel();
-        storePanel.setLayout(new BorderLayout(10, 10));
-        storePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        storePanel.setBackground(Color.WHITE);
+	public StoreFrame() {
+		setTitle("Quản lý cửa hàng");
+		setSize(800, 600);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 
-        // Panel chứa tiêu đề
-        JPanel titlePanel = new JPanel();
-        titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-        JLabel titleLabel = new JLabel("Thông tin cửa hàng");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        titlePanel.add(titleLabel);
-        titlePanel.setBackground(Color.WHITE);
+		setLayout(new BorderLayout());
 
-        // Panel chứa logo và thông tin chi tiết
-        JPanel infoPanel = new JPanel();
-        infoPanel.setLayout(new BorderLayout(10, 10));
-        infoPanel.setBackground(Color.WHITE);
-        infoPanel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+		contentPanel = new JPanel(new BorderLayout());
+		contentPanel.setBackground(Color.WHITE);
 
-        // Logo
-        JPanel logoPanel = new JPanel();
-        logoPanel.setBackground(Color.WHITE);
-        JLabel logoLabel = new JLabel("LOGO SHOP", SwingConstants.CENTER);
-        logoLabel.setPreferredSize(new Dimension(100, 100));
-        logoLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        logoPanel.add(logoLabel);
+		SidebarPanel sidebar = new SidebarPanel(sidebarIcons, sidebarNames, iconPath, username, this);
+		add(sidebar, BorderLayout.WEST);
 
-        // Thông tin chi tiết
-        JPanel detailsPanel = new JPanel();
-        detailsPanel.setLayout(new GridBagLayout());
-        detailsPanel.setBackground(Color.WHITE);
+		loadStorePanel(); // Default to Store page
+		add(contentPanel, BorderLayout.CENTER);
+	}
 
-        // Tiêu đề thông tin chi tiết
-        JLabel infoTitleLabel = new JLabel("Thông tin chi tiết");
-        infoTitleLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        GridBagConstraints gbcInfoTitle = new GridBagConstraints();
-        gbcInfoTitle.insets = new Insets(5, 5, 5, 5);
-        gbcInfoTitle.anchor = GridBagConstraints.WEST;
-        gbcInfoTitle.gridx = 0;
-        gbcInfoTitle.gridy = 0;
-        gbcInfoTitle.gridwidth = 2;
-        detailsPanel.add(infoTitleLabel, gbcInfoTitle);
+	@Override
+	public void onSidebarItemClick(String pageName) {
+		contentPanel.removeAll();
+		switch (pageName) {
+		case "Home":
+			loadHomePanel();
+			break;
+		case "Customer":
+			loadCustomerPanel();
+			break;
+		case "Employee":
+			loadEmployeePanel();
+			break;
+		case "Product":
+			loadProductPanel();
+			break;
+		case "Dashboard":
+			loadDashboardPanel();
+			break;
+		case "Supplier":
+			loadSupplierPanel();
+			break;
+		case "Warehouse":
+			loadWarehousePanel();
+			break;
+		case "Store":
+			loadStorePanel();
+			break;
+		case "Logout":
+			handleLogout();
+			break;
+		default:
+			contentPanel.add(new JLabel("Unknown page: " + pageName, SwingConstants.CENTER));
+		}
+		contentPanel.revalidate();
+		contentPanel.repaint();
+	}
 
-        // Thông tin cửa hàng - Tên cửa hàng
-        GridBagConstraints gbcStoreNameLabel = new GridBagConstraints();
-        gbcStoreNameLabel.insets = new Insets(5, 5, 5, 5);
-        gbcStoreNameLabel.anchor = GridBagConstraints.WEST;
-        gbcStoreNameLabel.gridx = 0;
-        gbcStoreNameLabel.gridy = 1;
-        detailsPanel.add(new JLabel("Tên cửa hàng:"), gbcStoreNameLabel);
+	private void loadStorePanel() {
+	    StoreDao storeDao = new StoreDao();
+	    storeDao.setClass(Store.class);
+	    try {
+	        List<Store> stores = storeDao.findAll();
+	        if (!stores.isEmpty()) {
+	            Store store = stores.get(0);
 
-        GridBagConstraints gbcStoreNameValue = new GridBagConstraints();
-        gbcStoreNameValue.insets = new Insets(5, 5, 5, 5);
-        gbcStoreNameValue.anchor = GridBagConstraints.WEST;
-        gbcStoreNameValue.gridx = 1;
-        gbcStoreNameValue.gridy = 1;
-        detailsPanel.add(new JLabel("Coffee House"), gbcStoreNameValue);
+	            Color blueBg = new Color(230, 240, 255); // Light blue background
+	            Color borderColor = new Color(180, 200, 230); // Light border
+	            JPanel storePanel = new JPanel(new BorderLayout(10, 10));
+	            storePanel.setBackground(Color.WHITE);
 
-        // Địa chỉ
-        GridBagConstraints gbcAddressLabel = new GridBagConstraints();
-        gbcAddressLabel.insets = new Insets(5, 5, 5, 5);
-        gbcAddressLabel.anchor = GridBagConstraints.WEST;
-        gbcAddressLabel.gridx = 0;
-        gbcAddressLabel.gridy = 2;
-        detailsPanel.add(new JLabel("Địa chỉ:"), gbcAddressLabel);
+	            // Title panel
+	            JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	            JLabel titleLabel = new JLabel("Thông tin cửa hàng");
+	            titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+	            titlePanel.add(titleLabel);
+	            titlePanel.setBackground(Color.WHITE);
 
-        GridBagConstraints gbcAddressValue = new GridBagConstraints();
-        gbcAddressValue.insets = new Insets(5, 5, 5, 5);
-        gbcAddressValue.anchor = GridBagConstraints.WEST;
-        gbcAddressValue.gridx = 1;
-        gbcAddressValue.gridy = 2;
-        detailsPanel.add(new JLabel("123 Đường Lê Lợi, Quận 1"), gbcAddressValue);
+	            // Main content panel with centered logo and details
+	            JPanel mainContentPanel = new JPanel(new BorderLayout(10, 10));
+	            mainContentPanel.setBackground(Color.WHITE);
+	            mainContentPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Add padding for more white space
 
-        // Số điện thoại
-        GridBagConstraints gbcPhoneLabel = new GridBagConstraints();
-        gbcPhoneLabel.insets = new Insets(5, 5, 5, 5);
-        gbcPhoneLabel.anchor = GridBagConstraints.WEST;
-        gbcPhoneLabel.gridx = 0;
-        gbcPhoneLabel.gridy = 3;
-        detailsPanel.add(new JLabel("Số điện thoại:"), gbcPhoneLabel);
+	            // Logo panel (centered)
+	            JPanel logoPanel = new JPanel();
+	            logoPanel.setBackground(Color.WHITE);
+	            logoPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+	            JLabel logoLabel = new JLabel();
+	            if (logoIcon.getImage() != null) {
+	                Image scaledImage = logoIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+	                logoLabel.setIcon(new ImageIcon(scaledImage));
+	            } else {
+	                logoLabel.setText("LOGO SHOP");
+	            }
+	            logoLabel.setPreferredSize(new Dimension(100, 100));
+	            logoLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+	            logoPanel.add(logoLabel);
 
-        GridBagConstraints gbcPhoneValue = new GridBagConstraints();
-        gbcPhoneValue.insets = new Insets(5, 5, 5, 5);
-        gbcPhoneValue.anchor = GridBagConstraints.WEST;
-        gbcPhoneValue.gridx = 1;
-        gbcPhoneValue.gridy = 3;
-        detailsPanel.add(new JLabel("028 1234 5678"), gbcPhoneValue);
+	            // Details panel (wrapped in a frame with a table)
+	            JPanel detailsWrapper = new JPanel(new BorderLayout());
+	            detailsWrapper.setBackground(blueBg);
+	            detailsWrapper.setBorder(BorderFactory.createLineBorder(borderColor));
+	            detailsWrapper.setPreferredSize(new Dimension(0, 300)); // Adjust height as needed
 
-        // Email
-        GridBagConstraints gbcEmailLabel = new GridBagConstraints();
-        gbcEmailLabel.insets = new Insets(5, 5, 5, 5);
-        gbcEmailLabel.anchor = GridBagConstraints.WEST;
-        gbcEmailLabel.gridx = 0;
-        gbcEmailLabel.gridy = 4;
-        detailsPanel.add(new JLabel("Email:"), gbcEmailLabel);
+	            // Create table for store details
+	            String[] columnNames = {"Thông tin", "Chi tiết"};
+	            Object[][] data = {
+	                {"Tên cửa hàng:", store.getName()},
+	                {"Tên viết tắt cửa hàng:", store.getShortName()},
+	                {"Mô tả:", store.getDescription()},
+	                {"Địa chỉ:", store.getAddress()},
+	                {"Thành phố:", store.getCity()},
+	                {"Quận:", store.getState()},
+	                {"Zip:", store.getZip()},
+	                {"Số điện thoại:", store.getPhone()},
+	                {"Email:", store.getEmail()},
+	                {"Số fax:", store.getFax()}
+	            };
 
-        GridBagConstraints gbcEmailValue = new GridBagConstraints();
-        gbcEmailValue.insets = new Insets(5, 5, 5, 5);
-        gbcEmailValue.anchor = GridBagConstraints.WEST;
-        gbcEmailValue.gridx = 1;
-        gbcEmailValue.gridy = 4;
-        detailsPanel.add(new JLabel("info@coffeehouse.com"), gbcEmailValue);
+	            JTable table = new JTable(data, columnNames);
+	            table.setBackground(blueBg);
+	            table.setFillsViewportHeight(true);
+	            table.setRowHeight(25); // Adjust row height for better readability
+	            table.setGridColor(Color.LIGHT_GRAY); // Border color for table cells
+	            table.setShowGrid(true); // Show grid lines
+	            table.setEnabled(false); // Disable editing to make it display-only
 
-        // Mã số thuế
-        GridBagConstraints gbcTaxLabel = new GridBagConstraints();
-        gbcTaxLabel.insets = new Insets(5, 5, 5, 5);
-        gbcTaxLabel.anchor = GridBagConstraints.WEST;
-        gbcTaxLabel.gridx = 0;
-        gbcTaxLabel.gridy = 5;
-        detailsPanel.add(new JLabel("Mã số thuế:"), gbcTaxLabel);
+	            // Customize table header with a bolder font
+                Font headerFont = new Font("Arial", Font.BOLD, 16); // Even bolder for header
+                table.getTableHeader().setFont(headerFont);
+                table.getTableHeader().setBackground(new Color(200, 220, 240)); // Slightly darker blue for header
 
-        GridBagConstraints gbcTaxValue = new GridBagConstraints();
-        gbcTaxValue.insets = new Insets(5, 5, 5, 5);
-        gbcTaxValue.anchor = GridBagConstraints.WEST;
-        gbcTaxValue.gridx = 1;
-        gbcTaxValue.gridy = 5;
-        detailsPanel.add(new JLabel("0123456789"), gbcTaxValue);
+	            // Add table to a scroll pane
+	            JScrollPane scrollPane = new JScrollPane(table);
+	            scrollPane.setBackground(blueBg);
+	            scrollPane.setBorder(BorderFactory.createEmptyBorder()); // Remove scroll pane border for seamless look
 
-        // Giờ mở cửa - Tiêu đề
-        JLabel openHoursTitleLabel = new JLabel("Giờ mở cửa");
-        openHoursTitleLabel.setFont(new Font("Arial", Font.BOLD, 14));
-        GridBagConstraints gbcOpenHoursTitle = new GridBagConstraints();
-        gbcOpenHoursTitle.insets = new Insets(5, 5, 5, 5);
-        gbcOpenHoursTitle.anchor = GridBagConstraints.WEST;
-        gbcOpenHoursTitle.gridx = 0;
-        gbcOpenHoursTitle.gridy = 6;
-        gbcOpenHoursTitle.gridwidth = 2;
-        detailsPanel.add(openHoursTitleLabel, gbcOpenHoursTitle);
+	            detailsWrapper.add(scrollPane, BorderLayout.CENTER);
 
-        // Giờ mở cửa - Thứ Hai đến Thứ Sáu
-        GridBagConstraints gbcMonFriLabel = new GridBagConstraints();
-        gbcMonFriLabel.insets = new Insets(5, 5, 5, 5);
-        gbcMonFriLabel.anchor = GridBagConstraints.WEST;
-        gbcMonFriLabel.gridx = 0;
-        gbcMonFriLabel.gridy = 7;
-        detailsPanel.add(new JLabel("Thứ Hai - Thứ Sáu:"), gbcMonFriLabel);
+	            // Add components to main content panel
+	            mainContentPanel.add(logoPanel, BorderLayout.NORTH);
+	            mainContentPanel.add(detailsWrapper, BorderLayout.CENTER);
 
-        GridBagConstraints gbcMonFriValue = new GridBagConstraints();
-        gbcMonFriValue.insets = new Insets(5, 5, 5, 5);
-        gbcMonFriValue.anchor = GridBagConstraints.WEST;
-        gbcMonFriValue.gridx = 1;
-        gbcMonFriValue.gridy = 7;
-        detailsPanel.add(new JLabel("7:00 - 22:00"), gbcMonFriValue);
+	            // Add components to store panel
+	            storePanel.add(titlePanel, BorderLayout.NORTH);
+	            storePanel.add(mainContentPanel, BorderLayout.CENTER);
 
-        // Giờ mở cửa - Thứ Bảy đến Chủ Nhật
-        GridBagConstraints gbcSatSunLabel = new GridBagConstraints();
-        gbcSatSunLabel.insets = new Insets(5, 5, 5, 5);
-        gbcSatSunLabel.anchor = GridBagConstraints.WEST;
-        gbcSatSunLabel.gridx = 0;
-        gbcSatSunLabel.gridy = 8;
-        detailsPanel.add(new JLabel("Thứ Bảy - Chủ Nhật:"), gbcSatSunLabel);
+	            contentPanel.add(storePanel, BorderLayout.CENTER);
+	        } else {
+	            JOptionPane.showMessageDialog(this, "Không tìm thấy cửa hàng trong cơ sở dữ liệu.", "Lỗi",
+	                    JOptionPane.ERROR_MESSAGE);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        JOptionPane.showMessageDialog(this, "Lỗi khi truy xuất dữ liệu: " + e.getMessage(), "Lỗi",
+	                JOptionPane.ERROR_MESSAGE);
+	    }
+	}
 
-        GridBagConstraints gbcSatSunValue = new GridBagConstraints();
-        gbcSatSunValue.insets = new Insets(5, 5, 5, 5);
-        gbcSatSunValue.anchor = GridBagConstraints.WEST;
-        gbcSatSunValue.gridx = 1;
-        gbcSatSunValue.gridy = 8;
-        detailsPanel.add(new JLabel("8:00 - 23:00"), gbcSatSunValue);
+	private void loadHomePanel() {
+		JPanel homePanel = new JPanel(new BorderLayout());
+		homePanel.setBackground(Color.WHITE);
+		homePanel.add(new JLabel("Home Page (Under Construction)", SwingConstants.CENTER));
+		contentPanel.add(homePanel, BorderLayout.CENTER);
+	}
 
-        // Thêm logo và thông tin vào infoPanel
-        infoPanel.add(logoPanel, BorderLayout.WEST);
-        infoPanel.add(detailsPanel, BorderLayout.CENTER);
+	private void loadCustomerPanel() {
+		JPanel customerPanel = new JPanel(new BorderLayout());
+		customerPanel.setBackground(Color.WHITE);
+		customerPanel.add(new JLabel("Customer Page (Under Construction)", SwingConstants.CENTER));
+		contentPanel.add(customerPanel, BorderLayout.CENTER);
+	}
 
-        // Panel chứa các nút
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.setBackground(Color.WHITE);
+	private void loadEmployeePanel() {
+		JPanel employeePanel = new JPanel(new BorderLayout());
+		employeePanel.setBackground(Color.WHITE);
+		employeePanel.add(new JLabel("Employee Page (Under Construction)", SwingConstants.CENTER));
+		contentPanel.add(employeePanel, BorderLayout.CENTER);
+	}
 
-        JButton editButton = new JButton("Chỉnh sửa");
-        editButton.setBackground(new Color(0, 120, 215)); // Màu xanh
-        editButton.setForeground(Color.WHITE);
-        JButton addInfoButton = new JButton("Thêm thông tin");
-        addInfoButton.setBackground(Color.LIGHT_GRAY);
+	private void loadProductPanel() {
+		JPanel productPanel = new JPanel(new BorderLayout());
+		productPanel.setBackground(Color.WHITE);
+		productPanel.add(new JLabel("Product Page (Under Construction)", SwingConstants.CENTER));
+		contentPanel.add(productPanel, BorderLayout.CENTER);
+	}
 
-        buttonPanel.add(editButton);
-        buttonPanel.add(addInfoButton);
+	private void loadDashboardPanel() {
+		JPanel dashboardPanel = new JPanel(new BorderLayout());
+		dashboardPanel.setBackground(Color.WHITE);
+		dashboardPanel.add(new JLabel("Dashboard Page (Under Construction)", SwingConstants.CENTER));
+		contentPanel.add(dashboardPanel, BorderLayout.CENTER);
+	}
 
-        // Thêm các thành phần vào storePanel
-        storePanel.add(titlePanel, BorderLayout.NORTH);
-        storePanel.add(infoPanel, BorderLayout.CENTER);
-        storePanel.add(buttonPanel, BorderLayout.SOUTH);
+	private void loadSupplierPanel() {
+		JPanel supplierPanel = new JPanel(new BorderLayout());
+		supplierPanel.setBackground(Color.WHITE);
+		supplierPanel.add(new JLabel("Supplier Page (Under Construction)", SwingConstants.CENTER));
+		contentPanel.add(supplierPanel, BorderLayout.CENTER);
+	}
 
-        // Thêm storePanel vào JFrame
-        add(storePanel);
-    }
+	private void loadWarehousePanel() {
+		JPanel warehousePanel = new JPanel(new BorderLayout());
+		warehousePanel.setBackground(Color.WHITE);
+		warehousePanel.add(new JLabel("Warehouse Page (Under Construction)", SwingConstants.CENTER));
+		contentPanel.add(warehousePanel, BorderLayout.CENTER);
+	}
+
+	private void handleLogout() {
+		int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận đăng xuất",
+				JOptionPane.YES_NO_OPTION);
+		if (confirm == JOptionPane.YES_OPTION) {
+			dispose(); // Close the frame (or redirect to login screen)
+		}
+	}
+
+	private void addInfoRow(JPanel panel, GridBagConstraints gbc, int row, String labelText, String valueText) {
+		gbc.gridx = 0;
+		gbc.gridy = row;
+		panel.add(new JLabel(labelText), gbc);
+
+		gbc.gridx = 1;
+		panel.add(new JLabel(valueText != null ? valueText : ""), gbc);
+	}
+
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(() -> {
+			new StoreFrame().setVisible(true);
+		});
+	}
 }

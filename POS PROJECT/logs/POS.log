@@ -1,293 +1,206 @@
-[INFO ] 21-04-2025 13:04:56 [main] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
-[WARN ] 21-04-2025 13:04:57 [main] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[INFO ] 21-04-2025 13:04:57 [main] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-[WARN ] 21-04-2025 13:04:58 [main] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 13:04:58 [main] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 13:04:58 [main] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 13:04:58 [main] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[INFO ] 21-04-2025 13:04:58 [main] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
-[INFO ] 21-04-2025 13:04:58 [main] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
-[INFO ] 21-04-2025 13:04:58 [main] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
-[INFO ] 21-04-2025 13:04:58 [main] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
-[INFO ] 21-04-2025 13:04:59 [main] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
-[INFO ] 21-04-2025 13:05:01 [main] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@7c8df667] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 13:05:01 [main] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@48ee3c2d] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 13:05:02 [main] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@4e5364a3] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 13:05:03 [main] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-[INFO ] 21-04-2025 13:05:04 [main] EmployeeDao - Employee persisted in database successfully
-[INFO ] 21-04-2025 13:05:04 [main] PersonServiceImpl - Employee created
-[INFO ] 21-04-2025 13:05:04 [main] EmployeeDao - Employee with username: rom123 retrieved successfully from database
-[INFO ] 21-04-2025 13:05:04 [main] PersonServiceImpl - Employee with username rom123 retrieved
-[INFO ] 21-04-2025 13:05:04 [main] CustomerDao - Customer persisted in database successfully
-[INFO ] 21-04-2025 13:05:04 [main] PersonServiceImpl - Customer created
-[INFO ] 21-04-2025 13:05:04 [main] CustomerDao - No Customer found with name: Na and phone: 0987654321
-[INFO ] 21-04-2025 13:05:04 [main] PersonServiceImpl - Customer with name Na and phone 0987654321 retrieved
-[INFO ] 21-04-2025 13:05:04 [main] OwnerDao - Owner persisted successfully
-[INFO ] 21-04-2025 13:05:04 [main] PersonServiceImpl - Owner created
-[INFO ] 21-04-2025 13:05:04 [main] OwnerDao - Owner with username: minhowner retrieved successfully from database
-[INFO ] 21-04-2025 13:05:04 [main] PersonServiceImpl - Owner with username minhowner retrieved
-[INFO ] 21-04-2025 13:05:04 [main] StoreDao - Store persisted in database successfully
-[ERROR] 21-04-2025 13:05:04 [main] CategoryDao - Error while saving Category
-java.lang.ClassCastException: class java.util.ArrayList cannot be cast to class java.util.Set (java.util.ArrayList and java.util.Set are in module java.base of loader 'bootstrap')
-	at org.hibernate.type.SetType.wrap(SetType.java:43) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.WrapVisitor.processArrayOrNewCollection(WrapVisitor.java:117) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.WrapVisitor.processCollection(WrapVisitor.java:79) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractVisitor.processValue(AbstractVisitor.java:104) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.WrapVisitor.processValue(WrapVisitor.java:132) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractVisitor.processEntityPropertyValues(AbstractVisitor.java:59) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractSaveEventListener.visitCollectionsBeforeSave(AbstractSaveEventListener.java:365) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractSaveEventListener.performSaveOrReplicate(AbstractSaveEventListener.java:271) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractSaveEventListener.performSave(AbstractSaveEventListener.java:192) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:134) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveOrUpdateEventListener.saveWithGeneratedOrRequestedId(DefaultSaveOrUpdateEventListener.java:194) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveEventListener.saveWithGeneratedOrRequestedId(DefaultSaveEventListener.java:38) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveOrUpdateEventListener.entityIsTransient(DefaultSaveOrUpdateEventListener.java:179) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveEventListener.performSaveOrUpdate(DefaultSaveEventListener.java:32) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveOrUpdateEventListener.onSaveOrUpdate(DefaultSaveOrUpdateEventListener.java:75) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:107) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.internal.SessionImpl.fireSave(SessionImpl.java:672) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.internal.SessionImpl.save(SessionImpl.java:665) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.internal.SessionImpl.save(SessionImpl.java:660) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at dao.CategoryDao.create(CategoryDao.java:38) [classes/:?]
-	at service.CategoryServiceImpl.createCategory(CategoryServiceImpl.java:23) [classes/:?]
-	at ui.Main.main(Main.java:159) [classes/:?]
-[ERROR] 21-04-2025 13:05:04 [main] CategoryServiceImpl - Failed to create category
-java.lang.ClassCastException: class java.util.ArrayList cannot be cast to class java.util.Set (java.util.ArrayList and java.util.Set are in module java.base of loader 'bootstrap')
-	at org.hibernate.type.SetType.wrap(SetType.java:43) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.WrapVisitor.processArrayOrNewCollection(WrapVisitor.java:117) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.WrapVisitor.processCollection(WrapVisitor.java:79) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractVisitor.processValue(AbstractVisitor.java:104) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.WrapVisitor.processValue(WrapVisitor.java:132) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractVisitor.processEntityPropertyValues(AbstractVisitor.java:59) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractSaveEventListener.visitCollectionsBeforeSave(AbstractSaveEventListener.java:365) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractSaveEventListener.performSaveOrReplicate(AbstractSaveEventListener.java:271) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractSaveEventListener.performSave(AbstractSaveEventListener.java:192) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:134) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveOrUpdateEventListener.saveWithGeneratedOrRequestedId(DefaultSaveOrUpdateEventListener.java:194) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveEventListener.saveWithGeneratedOrRequestedId(DefaultSaveEventListener.java:38) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveOrUpdateEventListener.entityIsTransient(DefaultSaveOrUpdateEventListener.java:179) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveEventListener.performSaveOrUpdate(DefaultSaveEventListener.java:32) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveOrUpdateEventListener.onSaveOrUpdate(DefaultSaveOrUpdateEventListener.java:75) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:107) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.internal.SessionImpl.fireSave(SessionImpl.java:672) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.internal.SessionImpl.save(SessionImpl.java:665) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.internal.SessionImpl.save(SessionImpl.java:660) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at dao.CategoryDao.create(CategoryDao.java:38) ~[classes/:?]
-	at service.CategoryServiceImpl.createCategory(CategoryServiceImpl.java:23) [classes/:?]
-	at ui.Main.main(Main.java:159) [classes/:?]
-[ERROR] 21-04-2025 13:05:04 [main] ProductDao - Error while saving Product
-java.lang.ClassCastException: class java.util.ArrayList cannot be cast to class java.util.Set (java.util.ArrayList and java.util.Set are in module java.base of loader 'bootstrap')
-	at org.hibernate.type.SetType.wrap(SetType.java:43) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.WrapVisitor.processArrayOrNewCollection(WrapVisitor.java:117) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.WrapVisitor.processCollection(WrapVisitor.java:79) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractVisitor.processValue(AbstractVisitor.java:104) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.WrapVisitor.processValue(WrapVisitor.java:132) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractVisitor.processEntityPropertyValues(AbstractVisitor.java:59) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractSaveEventListener.visitCollectionsBeforeSave(AbstractSaveEventListener.java:365) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractSaveEventListener.performSaveOrReplicate(AbstractSaveEventListener.java:271) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractSaveEventListener.performSave(AbstractSaveEventListener.java:192) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:134) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveOrUpdateEventListener.saveWithGeneratedOrRequestedId(DefaultSaveOrUpdateEventListener.java:194) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveEventListener.saveWithGeneratedOrRequestedId(DefaultSaveEventListener.java:38) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveOrUpdateEventListener.entityIsTransient(DefaultSaveOrUpdateEventListener.java:179) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveEventListener.performSaveOrUpdate(DefaultSaveEventListener.java:32) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveOrUpdateEventListener.onSaveOrUpdate(DefaultSaveOrUpdateEventListener.java:75) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:107) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.internal.SessionImpl.fireSave(SessionImpl.java:672) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.internal.SessionImpl.save(SessionImpl.java:665) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.internal.SessionImpl.save(SessionImpl.java:660) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at dao.ProductDao.create(ProductDao.java:38) [classes/:?]
-	at service.ProductServiceImpl.createProduct(ProductServiceImpl.java:23) [classes/:?]
-	at ui.Main.main(Main.java:173) [classes/:?]
-[ERROR] 21-04-2025 13:05:04 [main] ProductServiceImpl - Failed to create product
-java.lang.ClassCastException: class java.util.ArrayList cannot be cast to class java.util.Set (java.util.ArrayList and java.util.Set are in module java.base of loader 'bootstrap')
-	at org.hibernate.type.SetType.wrap(SetType.java:43) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.WrapVisitor.processArrayOrNewCollection(WrapVisitor.java:117) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.WrapVisitor.processCollection(WrapVisitor.java:79) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractVisitor.processValue(AbstractVisitor.java:104) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.WrapVisitor.processValue(WrapVisitor.java:132) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractVisitor.processEntityPropertyValues(AbstractVisitor.java:59) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractSaveEventListener.visitCollectionsBeforeSave(AbstractSaveEventListener.java:365) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractSaveEventListener.performSaveOrReplicate(AbstractSaveEventListener.java:271) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractSaveEventListener.performSave(AbstractSaveEventListener.java:192) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:134) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveOrUpdateEventListener.saveWithGeneratedOrRequestedId(DefaultSaveOrUpdateEventListener.java:194) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveEventListener.saveWithGeneratedOrRequestedId(DefaultSaveEventListener.java:38) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveOrUpdateEventListener.entityIsTransient(DefaultSaveOrUpdateEventListener.java:179) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveEventListener.performSaveOrUpdate(DefaultSaveEventListener.java:32) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.internal.DefaultSaveOrUpdateEventListener.onSaveOrUpdate(DefaultSaveOrUpdateEventListener.java:75) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:107) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.internal.SessionImpl.fireSave(SessionImpl.java:672) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.internal.SessionImpl.save(SessionImpl.java:665) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at org.hibernate.internal.SessionImpl.save(SessionImpl.java:660) ~[hibernate-core-5.6.15.Final.jar:5.6.15.Final]
-	at dao.ProductDao.create(ProductDao.java:38) ~[classes/:?]
-	at service.ProductServiceImpl.createProduct(ProductServiceImpl.java:23) [classes/:?]
-	at ui.Main.main(Main.java:173) [classes/:?]
-[INFO ] 21-04-2025 14:05:12 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
-[WARN ] 21-04-2025 14:05:12 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[INFO ] 21-04-2025 14:05:12 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-[WARN ] 21-04-2025 14:05:13 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 14:05:13 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 14:05:13 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 14:05:13 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[INFO ] 21-04-2025 14:05:13 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
-[INFO ] 21-04-2025 14:05:13 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
-[INFO ] 21-04-2025 14:05:13 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
-[INFO ] 21-04-2025 14:05:13 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
-[INFO ] 21-04-2025 14:05:14 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
-[INFO ] 21-04-2025 14:05:16 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@60a36923] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 14:05:16 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@24c20f46] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 14:05:24 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-[INFO ] 21-04-2025 14:05:25 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
-[INFO ] 21-04-2025 14:51:03 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
-[WARN ] 21-04-2025 14:51:04 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[INFO ] 21-04-2025 14:51:04 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-[WARN ] 21-04-2025 14:51:05 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 14:51:05 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 14:51:05 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 14:51:05 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[INFO ] 21-04-2025 14:51:05 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
-[INFO ] 21-04-2025 14:51:05 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
-[INFO ] 21-04-2025 14:51:05 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
-[INFO ] 21-04-2025 14:51:05 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
-[INFO ] 21-04-2025 14:51:06 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
-[INFO ] 21-04-2025 14:51:07 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@27d0a348] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 14:51:08 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@53522c1b] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 14:51:09 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-[INFO ] 21-04-2025 14:51:09 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
-[INFO ] 21-04-2025 14:51:42 [AWT-EventQueue-0] AuthenticationService - Login attempt for username: rom123
-[INFO ] 21-04-2025 14:51:42 [AWT-EventQueue-0] EmployeeDao - Employee with username: rom123 retrieved successfully from database
-[INFO ] 21-04-2025 14:51:42 [AWT-EventQueue-0] HashService - Hashing successful
-[WARN ] 21-04-2025 14:51:42 [AWT-EventQueue-0] AuthenticationService - Incorrect password for employee username: rom123
-[INFO ] 21-04-2025 14:51:54 [AWT-EventQueue-0] AuthenticationService - Login attempt for username: rom1234
-[INFO ] 21-04-2025 14:51:54 [AWT-EventQueue-0] EmployeeDao - Employee with username: rom1234 retrieved successfully from database
-[INFO ] 21-04-2025 14:51:54 [AWT-EventQueue-0] OwnerDao - Owner with username: rom1234 retrieved successfully from database
-[WARN ] 21-04-2025 14:51:54 [AWT-EventQueue-0] AuthenticationService - No account found with username: rom1234
-[INFO ] 21-04-2025 14:55:40 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
-[WARN ] 21-04-2025 14:55:40 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[INFO ] 21-04-2025 14:55:41 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-[WARN ] 21-04-2025 14:55:41 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 14:55:41 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 14:55:41 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 14:55:41 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[INFO ] 21-04-2025 14:55:41 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
-[INFO ] 21-04-2025 14:55:41 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
-[INFO ] 21-04-2025 14:55:41 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
-[INFO ] 21-04-2025 14:55:42 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
-[INFO ] 21-04-2025 14:55:42 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
-[INFO ] 21-04-2025 14:55:44 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@4b554bf4] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 14:55:44 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-[INFO ] 21-04-2025 14:55:44 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
-[INFO ] 21-04-2025 14:56:25 [AWT-EventQueue-0] AuthenticationService - Login attempt for username: minhowner
-[INFO ] 21-04-2025 14:56:25 [AWT-EventQueue-0] EmployeeDao - Employee with username: minhowner retrieved successfully from database
-[INFO ] 21-04-2025 14:56:25 [AWT-EventQueue-0] OwnerDao - Owner with username: minhowner retrieved successfully from database
-[INFO ] 21-04-2025 14:56:25 [AWT-EventQueue-0] HashService - Hashing successful
-[WARN ] 21-04-2025 14:56:25 [AWT-EventQueue-0] AuthenticationService - Incorrect password for owner username: minhowner
-[INFO ] 21-04-2025 15:10:33 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
-[WARN ] 21-04-2025 15:10:33 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[INFO ] 21-04-2025 15:10:33 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-[WARN ] 21-04-2025 15:10:34 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 15:10:34 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 15:10:34 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 15:10:34 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[INFO ] 21-04-2025 15:10:34 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
-[INFO ] 21-04-2025 15:10:34 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
-[INFO ] 21-04-2025 15:10:34 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
-[INFO ] 21-04-2025 15:10:34 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
-[INFO ] 21-04-2025 15:10:35 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
-[INFO ] 21-04-2025 15:10:37 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@4b554bf4] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 15:10:37 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@67cf6bfb] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 15:10:38 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-[INFO ] 21-04-2025 15:10:38 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
-[INFO ] 21-04-2025 15:10:51 [AWT-EventQueue-0] AuthenticationService - Login attempt for username: aaa
-[INFO ] 21-04-2025 15:10:51 [AWT-EventQueue-0] EmployeeDao - Employee with username: aaa retrieved successfully from database
-[INFO ] 21-04-2025 15:10:51 [AWT-EventQueue-0] OwnerDao - Owner with username: aaa retrieved successfully from database
-[WARN ] 21-04-2025 15:10:51 [AWT-EventQueue-0] AuthenticationService - No account found with username: aaa
-[INFO ] 21-04-2025 15:11:07 [AWT-EventQueue-0] AuthenticationService - Login attempt for username: minhowner
-[INFO ] 21-04-2025 15:11:07 [AWT-EventQueue-0] EmployeeDao - Employee with username: minhowner retrieved successfully from database
-[INFO ] 21-04-2025 15:11:07 [AWT-EventQueue-0] OwnerDao - Owner with username: minhowner retrieved successfully from database
-[INFO ] 21-04-2025 15:11:07 [AWT-EventQueue-0] HashService - Hashing successful
-[WARN ] 21-04-2025 15:11:07 [AWT-EventQueue-0] AuthenticationService - Incorrect password for owner username: minhowner
-[INFO ] 21-04-2025 15:40:01 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
-[WARN ] 21-04-2025 15:40:01 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[INFO ] 21-04-2025 15:40:01 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-[WARN ] 21-04-2025 15:40:02 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 15:40:02 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 15:40:02 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 15:40:02 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[INFO ] 21-04-2025 15:40:02 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
-[INFO ] 21-04-2025 15:40:02 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
-[INFO ] 21-04-2025 15:40:02 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
-[INFO ] 21-04-2025 15:40:02 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
-[INFO ] 21-04-2025 15:40:03 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
-[INFO ] 21-04-2025 15:40:04 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@17c335a0] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 15:40:05 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@46575bd] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 15:40:05 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-[INFO ] 21-04-2025 15:40:05 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
-[INFO ] 21-04-2025 15:41:38 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
-[WARN ] 21-04-2025 15:41:38 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[INFO ] 21-04-2025 15:41:39 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-[WARN ] 21-04-2025 15:41:39 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 15:41:39 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 15:41:39 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 15:41:39 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[INFO ] 21-04-2025 15:41:39 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
-[INFO ] 21-04-2025 15:41:39 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
-[INFO ] 21-04-2025 15:41:39 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
-[INFO ] 21-04-2025 15:41:40 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
-[INFO ] 21-04-2025 15:41:40 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
-[INFO ] 21-04-2025 15:41:42 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@17c335a0] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 15:41:42 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@768c3af1] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 15:41:43 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@70ba870d] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 15:41:44 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-[INFO ] 21-04-2025 15:41:44 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
-[INFO ] 21-04-2025 15:51:00 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
-[WARN ] 21-04-2025 15:51:00 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[INFO ] 21-04-2025 15:51:01 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-[WARN ] 21-04-2025 15:51:01 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 15:51:01 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 15:51:01 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 15:51:01 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[INFO ] 21-04-2025 15:51:01 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
-[INFO ] 21-04-2025 15:51:01 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
-[INFO ] 21-04-2025 15:51:01 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
-[INFO ] 21-04-2025 15:51:02 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
-[INFO ] 21-04-2025 15:51:03 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
-[INFO ] 21-04-2025 15:51:04 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@c9050a0] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 15:51:04 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@27a93779] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 15:51:05 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@745fec86] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 15:51:05 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-[INFO ] 21-04-2025 15:51:06 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
-[INFO ] 21-04-2025 15:55:01 [main] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
-[WARN ] 21-04-2025 15:55:01 [main] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[INFO ] 21-04-2025 15:55:01 [main] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
-[WARN ] 21-04-2025 15:55:02 [main] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 15:55:02 [main] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 15:55:02 [main] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[WARN ] 21-04-2025 15:55:02 [main] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
-[INFO ] 21-04-2025 15:55:02 [main] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
-[INFO ] 21-04-2025 15:55:02 [main] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
-[INFO ] 21-04-2025 15:55:02 [main] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
-[INFO ] 21-04-2025 15:55:02 [main] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
-[INFO ] 21-04-2025 15:55:03 [main] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
-[INFO ] 21-04-2025 15:55:04 [main] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@38e7860c] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 15:55:04 [main] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@56c6d515] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 15:55:05 [main] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@111fe921] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
-[INFO ] 21-04-2025 15:55:06 [main] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-[INFO ] 21-04-2025 15:55:06 [main] HashService - HashService initialized with SHA-256
-[INFO ] 21-04-2025 15:55:06 [main] HashService - Hashing successful
-[INFO ] 21-04-2025 15:55:06 [main] EmployeeDao - Employee persisted in database successfully
-[INFO ] 21-04-2025 15:55:06 [main] PersonServiceImpl - Employee created
-[INFO ] 21-04-2025 15:55:06 [main] EmployeeDao - Employee with username: tungtungsahur retrieved successfully from database
-[INFO ] 21-04-2025 15:55:06 [main] PersonServiceImpl - Employee with username tungtungsahur retrieved
-[INFO ] 21-04-2025 15:55:06 [main] HashService - Hashing successful
-[INFO ] 21-04-2025 15:55:07 [main] OwnerDao - Owner persisted successfully
-[INFO ] 21-04-2025 15:55:07 [main] PersonServiceImpl - Owner created
-[INFO ] 21-04-2025 15:55:07 [main] OwnerDao - Owner with username: lytran retrieved successfully from database
-[INFO ] 21-04-2025 15:55:07 [main] PersonServiceImpl - Owner with username lytran retrieved
-[INFO ] 21-04-2025 15:55:07 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
-[INFO ] 21-04-2025 15:57:27 [AWT-EventQueue-0] AuthenticationService - Login attempt for username: tungtungsahur
-[INFO ] 21-04-2025 15:57:27 [AWT-EventQueue-0] EmployeeDao - Employee with username: tungtungsahur retrieved successfully from database
-[INFO ] 21-04-2025 15:57:27 [AWT-EventQueue-0] HashService - Hashing successful
-[INFO ] 21-04-2025 15:57:27 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
-[INFO ] 21-04-2025 15:57:27 [AWT-EventQueue-0] AuthenticationService - Employee login successful for username: tungtungsahur
+[INFO ] 23-04-2025 14:31:46 [main] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 23-04-2025 14:31:47 [main] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 14:31:47 [main] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 23-04-2025 14:31:47 [main] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 23-04-2025 14:31:48 [main] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 14:31:48 [main] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 14:31:48 [main] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 14:31:48 [main] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 14:31:48 [main] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 23-04-2025 14:31:48 [main] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 23-04-2025 14:31:48 [main] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 23-04-2025 14:31:48 [main] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 23-04-2025 14:31:50 [main] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 23-04-2025 14:31:51 [main] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@3a7469ca] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 14:31:51 [main] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@2d0f548a] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 14:32:00 [main] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 23-04-2025 14:32:00 [main] HashService - HashService initialized with SHA-256
+[INFO ] 23-04-2025 14:32:00 [main] HashService - Hashing successful
+[INFO ] 23-04-2025 14:32:01 [main] EmployeeDao - Employee persisted in database successfully
+[INFO ] 23-04-2025 14:32:01 [main] PersonServiceImpl - Employee created
+[INFO ] 23-04-2025 14:32:01 [main] EmployeeDao - Employee with username: tranquangtien retrieved successfully from database
+[INFO ] 23-04-2025 14:32:01 [main] PersonServiceImpl - Employee with username tranquangtien retrieved
+[INFO ] 23-04-2025 14:32:01 [main] HashService - Hashing successful
+[INFO ] 23-04-2025 14:32:01 [main] OwnerDao - Owner persisted successfully
+[INFO ] 23-04-2025 14:32:01 [main] PersonServiceImpl - Owner created
+[INFO ] 23-04-2025 14:32:01 [main] OwnerDao - Owner with username: rommu retrieved successfully from database
+[INFO ] 23-04-2025 14:32:01 [main] PersonServiceImpl - Owner with username rommu retrieved
+[INFO ] 23-04-2025 14:32:02 [main] StoreDao - Store persisted in database successfully
+[INFO ] 23-04-2025 14:32:02 [main] StoreDao - Stores with name 'Cà phê LCK quận 12' retrieved successfully from database
+[INFO ] 23-04-2025 14:32:02 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 23-04-2025 14:36:19 [AWT-EventQueue-0] AuthenticationService - Login attempt for username: rommu
+[INFO ] 23-04-2025 14:36:19 [AWT-EventQueue-0] EmployeeDao - Employee with username: rommu retrieved successfully from database
+[INFO ] 23-04-2025 14:36:19 [AWT-EventQueue-0] OwnerDao - Owner with username: rommu retrieved successfully from database
+[INFO ] 23-04-2025 14:36:19 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 23-04-2025 14:36:19 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 23-04-2025 14:36:19 [AWT-EventQueue-0] AuthenticationService - Owner login successful for username: rommu
+[INFO ] 23-04-2025 15:20:46 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 23-04-2025 15:20:46 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 15:20:46 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 23-04-2025 15:20:46 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 23-04-2025 15:20:47 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 15:20:47 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 15:20:47 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 15:20:47 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 15:20:47 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 23-04-2025 15:20:47 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 23-04-2025 15:20:47 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 23-04-2025 15:20:47 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 23-04-2025 15:20:48 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 23-04-2025 15:20:50 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@80da26c] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 15:20:50 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@1ffb8be1] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 15:20:52 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 23-04-2025 15:20:52 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully from database
+[INFO ] 23-04-2025 15:24:33 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 23-04-2025 15:24:33 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 15:24:33 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 23-04-2025 15:24:34 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 23-04-2025 15:24:34 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 15:24:34 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 15:24:34 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 15:24:34 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 15:24:34 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 23-04-2025 15:24:34 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 23-04-2025 15:24:34 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 23-04-2025 15:24:34 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 23-04-2025 15:24:35 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 23-04-2025 15:24:37 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@80da26c] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 15:24:37 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@1ffb8be1] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 15:24:38 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 23-04-2025 15:24:38 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully from database
+[INFO ] 23-04-2025 15:28:21 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 23-04-2025 15:28:22 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 15:28:22 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 23-04-2025 15:28:22 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 23-04-2025 15:28:22 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 15:28:23 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 15:28:23 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 15:28:23 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 15:28:23 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 23-04-2025 15:28:23 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 23-04-2025 15:28:23 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 23-04-2025 15:28:23 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 23-04-2025 15:28:24 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 23-04-2025 15:28:25 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@3d4d4c79] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 15:28:25 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@907cafd] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 15:28:26 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 23-04-2025 15:28:26 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully from database
+[INFO ] 23-04-2025 15:43:43 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 23-04-2025 15:43:43 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 15:43:43 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 23-04-2025 15:43:43 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 23-04-2025 15:43:44 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 15:43:44 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 15:43:44 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 15:43:44 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 15:43:44 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 23-04-2025 15:43:44 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 23-04-2025 15:43:44 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 23-04-2025 15:43:44 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 23-04-2025 15:43:45 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 23-04-2025 15:43:46 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@7ff2beea] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 15:43:46 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@582f4e86] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 15:43:47 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 23-04-2025 15:43:47 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully from database
+[INFO ] 23-04-2025 15:51:44 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 23-04-2025 15:51:44 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 15:51:44 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 23-04-2025 15:51:44 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 23-04-2025 15:51:45 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 15:51:45 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 15:51:45 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 15:51:45 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 15:51:45 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 23-04-2025 15:51:45 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 23-04-2025 15:51:45 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 23-04-2025 15:51:46 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 23-04-2025 15:51:46 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 23-04-2025 15:51:48 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@4aca8aa7] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 15:51:48 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@4a6c649a] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 15:51:48 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 23-04-2025 15:51:48 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully from database
+[INFO ] 23-04-2025 15:56:39 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 23-04-2025 15:56:39 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 15:56:40 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 23-04-2025 15:56:40 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 23-04-2025 15:56:40 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 15:56:40 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 15:56:40 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 15:56:40 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 15:56:40 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 23-04-2025 15:56:40 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 23-04-2025 15:56:40 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 23-04-2025 15:56:41 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 23-04-2025 15:56:41 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 23-04-2025 15:56:43 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@3d4fe2a8] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 15:56:43 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@f6aa09b] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 15:56:43 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 23-04-2025 15:56:44 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully from database
+[INFO ] 23-04-2025 16:04:05 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 23-04-2025 16:04:05 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 16:04:06 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 23-04-2025 16:04:06 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 23-04-2025 16:04:06 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 16:04:06 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 16:04:06 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 16:04:06 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 16:04:07 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 23-04-2025 16:04:07 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 23-04-2025 16:04:07 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 23-04-2025 16:04:07 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 23-04-2025 16:04:08 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 23-04-2025 16:04:09 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@17997cd5] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 16:04:09 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@74b0d6a6] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 16:04:10 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 23-04-2025 16:04:10 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully from database
+[INFO ] 23-04-2025 16:08:00 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 23-04-2025 16:08:00 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 16:08:01 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 23-04-2025 16:08:01 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 23-04-2025 16:08:01 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 16:08:01 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 16:08:01 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 16:08:01 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 16:08:01 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 23-04-2025 16:08:01 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 23-04-2025 16:08:01 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 23-04-2025 16:08:02 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 23-04-2025 16:08:03 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 23-04-2025 16:08:04 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@53126a9d] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 16:08:04 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@56977036] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 16:08:05 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 23-04-2025 16:08:05 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully from database
+[INFO ] 23-04-2025 16:40:32 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 23-04-2025 16:40:32 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 16:40:32 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 23-04-2025 16:40:32 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 23-04-2025 16:40:33 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 16:40:33 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 16:40:33 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 16:40:33 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 16:40:33 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 23-04-2025 16:40:33 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 23-04-2025 16:40:33 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 23-04-2025 16:40:33 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 23-04-2025 16:40:34 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 23-04-2025 16:40:35 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@53126a9d] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 16:40:36 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@56977036] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 16:40:36 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 23-04-2025 16:40:37 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully from database
+[INFO ] 23-04-2025 16:54:35 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 23-04-2025 16:54:35 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 16:54:36 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 23-04-2025 16:54:36 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 23-04-2025 16:54:36 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 16:54:36 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 16:54:36 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 23-04-2025 16:54:36 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 23-04-2025 16:54:37 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 23-04-2025 16:54:37 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 23-04-2025 16:54:37 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 23-04-2025 16:54:37 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 23-04-2025 16:54:38 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 23-04-2025 16:54:39 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@53126a9d] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 16:54:40 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@56977036] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 23-04-2025 16:54:40 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 23-04-2025 16:54:41 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully from database
