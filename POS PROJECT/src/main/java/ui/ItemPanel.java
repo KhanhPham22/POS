@@ -1,16 +1,129 @@
 package ui;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
-public class ItemPanel extends JPanel {
+import model.Item;
+import model.Supplier;
+import service.ItemService;
+import service.ItemServiceImpl;
+import service.SupplierService;
+import service.SupplierServiceImpl;
 
-	private static final long serialVersionUID = 1L;
+import java.awt.*;
 
-	/**
-	 * Create the panel.
-	 */
-	public ItemPanel() {
+public class ItemPanel extends JDialog {
+    private JTextField txtId,txtName, txtType, txtUnit, txtDescription, txtQuantity;
+    private JButton btnSave, btnCancel;
+    private Item item;
+    private Supplier supplier;
+    private ItemService itemService;
+    private SupplierPanel supplierPanel; // Thêm tham chiếu đến SupplierPanel
 
+    public ItemPanel(JFrame parent, Supplier supplier, ItemService itemService, SupplierPanel supplierPanel) {
+        super(parent, "Thêm Item Mới", true);
+        this.supplier = supplier;
+        this.itemService = itemService;
+        this.supplierPanel = supplierPanel; // Lưu reference
+        this.item = new Item();
+        initUI();
+        setLocationRelativeTo(parent);
+        setSize(400, 350);
+    }
+
+    private void initUI() {
+        setLayout(new BorderLayout());
+
+        // Main panel
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Form Panel với tất cả các trường
+        JPanel formPanel = new JPanel(new GridLayout(6, 2, 5, 5));
+
+        txtId = new JTextField();
+        txtName = new JTextField();
+        txtType = new JTextField();
+        txtUnit = new JTextField();
+        txtDescription = new JTextField();
+        txtQuantity = new JTextField();
+
+        formPanel.add(new JLabel("Mã sản phẩm"));
+        formPanel.add(txtId);
+        formPanel.add(new JLabel("Tên sản phẩm:"));
+        formPanel.add(txtName);
+        formPanel.add(new JLabel("Loại:"));
+        formPanel.add(txtType);
+        formPanel.add(new JLabel("Đơn vị:"));
+        formPanel.add(txtUnit);
+        formPanel.add(new JLabel("Mô tả:"));
+        formPanel.add(txtDescription);
+        formPanel.add(new JLabel("Số lượng:"));
+        formPanel.add(txtQuantity);
+
+        mainPanel.add(formPanel);
+
+        // Button Panel
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        btnCancel = new JButton("Hủy");
+        btnCancel.setBackground(new Color(231, 76, 60));
+        btnCancel.addActionListener(e -> {
+            dispose();
+            supplierPanel.setVisible(true); // Hiển thị lại SupplierPanel
+        });
+
+        btnSave = new JButton("Lưu");
+        btnSave.setBackground(new Color(46, 204, 113));
+        btnSave.addActionListener(e -> saveItem());
+
+        buttonPanel.add(btnCancel);
+        buttonPanel.add(btnSave);
+        add(mainPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    private void saveItem() {
+    	try {
+            // Validate ID (kiểu long)
+            long id = Long.parseLong(txtId.getText().trim());
+            if (id <= 0) {
+                JOptionPane.showMessageDialog(this, "ID phải là số nguyên dương!");
+                return;
+            }
+
+            // Validate số lượng (kiểu int)
+            int quantity = Integer.parseInt(txtQuantity.getText().trim());
+            if (quantity <= 0) {
+                JOptionPane.showMessageDialog(this, "Số lượng phải lớn hơn 0!");
+                return;
+            }
+
+
+            // Thiết lập thông tin item
+            item.setId(id); // Sử dụng setter cho kiểu long
+            item.setName(txtName.getText().trim());
+            item.setType(txtType.getText().trim());
+            item.setUnit(txtUnit.getText().trim());
+            item.setDescription(txtDescription.getText().trim());
+            item.setQuantity(quantity);
+            item.setSupplier(supplier);
+
+            // Lưu vào database
+            if (itemService.createItem(item)) {
+                JOptionPane.showMessageDialog(this, "Lưu item thành công!");
+                supplierPanel.refreshItems(); // Cập nhật danh sách items
+                dispose();
+                supplierPanel.setVisible(true); // Quay về SupplierPanel
+            } else {
+                JOptionPane.showMessageDialog(this, "Lỗi khi lưu item!");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Số lượng phải là số nguyên dương!");
+        }
+    }
+
+	public void setItem(Item currentItem) {
+		// TODO Auto-generated method stub
+		
 	}
-
 }

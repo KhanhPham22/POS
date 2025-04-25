@@ -1,8 +1,11 @@
 package service;
 
 import java.util.List;
+import java.util.Set;
 
+import model.Item;
 import model.Supplier;
+import model.Warehouse;
 
 public interface SupplierService {
 
@@ -10,15 +13,18 @@ public interface SupplierService {
 
     boolean updateSupplier(Supplier supplier);
 
-    boolean deleteSupplierById(Long supplierId);
+    boolean deleteSupplierById(long supplierId);
 
     boolean deleteSupplier(Supplier supplier);
 
-    Supplier getSupplierById(Long supplierId);
+    Supplier getSupplierById(long supplierId);
 
     List<Supplier> getAllSuppliers();
     
     List<Supplier> getSuppliersByName(String name);
+    
+    Set<Item> getItemsBySupplierId(long supplierId);
 
+    Set<Warehouse> getWarehouseBySupplierId(long supplierId);
 }
 

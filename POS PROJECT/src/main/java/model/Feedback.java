@@ -10,7 +10,7 @@ public class Feedback extends BaseEntity {
 
     public Feedback() {}
 
-    public Feedback(Long id, Customer customer, String type, String content, Integer rating, Store store) {
+    public Feedback(long id, Customer customer, String type, String content, Integer rating, Store store) {
         setId(id); // Use BaseEntity's id
         this.customer = customer;
         this.type = type;

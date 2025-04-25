@@ -20,7 +20,7 @@ public class Product extends BaseEntity {
     public Product() {}
 
     // Constructor with all fields
-    public Product(Long id, String name, BigDecimal price, String imagePath, BigDecimal discount, 
+    public Product(long id, String name, BigDecimal price, String imagePath, BigDecimal discount, 
                    Integer quantity, String size, Integer status, Category category, 
                    List<OrderDetail> orderDetails) {
         setId(id); // Use BaseEntity's id

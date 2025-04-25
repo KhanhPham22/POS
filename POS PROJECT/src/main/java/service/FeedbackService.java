@@ -9,15 +9,15 @@ public interface FeedbackService {
     
     boolean updateFeedback(Feedback feedback);
     
-    boolean deleteFeedbackById(Long feedbackId);
+    boolean deleteFeedbackById(long feedbackId);
     
     boolean deleteFeedback(Feedback feedback);
     
-    Feedback findFeedbackById(Long feedbackId);
+    Feedback findFeedbackById(long feedbackId);
     
     List<Feedback> findAllFeedback();
 
-	List<Feedback> findFeedbackByProductId(Long productId);
+	List<Feedback> findFeedbackByProductId(long productId);
 
-	List<Feedback> findFeedbackByPersonId(Long personId);
+	List<Feedback> findFeedbackByPersonId(long personId);
 }

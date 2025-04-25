@@ -11,11 +11,11 @@ public interface InvoiceService {
 
     boolean updateInvoice(Invoice invoice);
 
-    boolean deleteInvoiceById(Long invoiceId);
+    boolean deleteInvoiceById(long invoiceId);
 
     boolean deleteInvoice(Invoice invoice);
 
-    Invoice getInvoiceById(Long invoiceId);
+    Invoice getInvoiceById(long invoiceId);
 
     List<Invoice> getAllInvoices();
 

@@ -15,7 +15,7 @@ public class OrderDetail extends BaseEntity {
     public OrderDetail() {}
 
     // Constructor with all fields
-    public OrderDetail(Long id, Customer customer, Product product, Integer quantity, 
+    public OrderDetail(long id, Customer customer, Product product, Integer quantity, 
                        Double unitPrice, Double totalPrice, Double discount, 
                        String paymentMethod, String status) {
         setId(id); // Use BaseEntity's id

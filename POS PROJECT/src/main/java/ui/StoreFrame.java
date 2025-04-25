@@ -4,6 +4,9 @@ import javax.swing.*;
 
 import dao.StoreDao;
 import model.Store;
+import service.ItemService;
+import service.SupplierService;
+
 import java.awt.*;
 import ui.Elements.*;
 import javax.swing.*;
@@ -19,8 +22,15 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
 			"Warehouse", "Store", "Logout" };
 	private final String username = "admin"; // Replace with actual username
 	private final ImageIcon logoIcon = new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\lck.png");
+	//truyen service de mo supplier frame
+	private  SupplierService supplierService;
+	private  ItemService itemService;
 
-	public StoreFrame() {
+	
+	public StoreFrame(SupplierService supplierService, ItemService itemService) {
+		//goi de chuyen huong sang supplier frame
+		this.supplierService = supplierService;
+		this.itemService = itemService;
 		setTitle("Quản lý cửa hàng");
 		setSize(800, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,7 +68,7 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
 			loadDashboardPanel();
 			break;
 		case "Supplier":
-			loadSupplierPanel();
+			openSupplierFrame(); 
 			break;
 		case "Warehouse":
 			loadWarehousePanel();
@@ -212,11 +222,9 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
 		contentPanel.add(dashboardPanel, BorderLayout.CENTER);
 	}
 
-	private void loadSupplierPanel() {
-		JPanel supplierPanel = new JPanel(new BorderLayout());
-		supplierPanel.setBackground(Color.WHITE);
-		supplierPanel.add(new JLabel("Supplier Page (Under Construction)", SwingConstants.CENTER));
-		contentPanel.add(supplierPanel, BorderLayout.CENTER);
+	private void openSupplierFrame() {
+		new SupplierFrame(supplierService, itemService);
+		dispose(); // đóng SupplierFrame hiện tại
 	}
 
 	private void loadWarehousePanel() {
@@ -243,9 +251,9 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
 		panel.add(new JLabel(valueText != null ? valueText : ""), gbc);
 	}
 
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> {
-			new StoreFrame().setVisible(true);
-		});
-	}
+//	public static void main(String[] args) {
+//		SwingUtilities.invokeLater(() -> {
+//			new StoreFrame(supplierService, itemService).setVisible(true);
+//		});
+//	}
 }

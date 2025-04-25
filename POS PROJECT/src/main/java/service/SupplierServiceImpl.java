@@ -1,11 +1,15 @@
 package service;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import dao.SupplierDao;
+import model.Item;
 import model.Supplier;
+import model.Warehouse;
 
 public class SupplierServiceImpl implements SupplierService {
 
@@ -38,7 +42,7 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public boolean deleteSupplierById(Long supplierId) {
+    public boolean deleteSupplierById(long supplierId) {
         try {
             return supplierDao.deleteById(supplierId);
         } catch (Exception e) {
@@ -58,7 +62,7 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public Supplier getSupplierById(Long supplierId) {
+    public Supplier getSupplierById(long supplierId) {
         try {
             return supplierDao.findById(supplierId);
         } catch (Exception e) {
@@ -70,10 +74,13 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     public List<Supplier> getAllSuppliers() {
         try {
-            return supplierDao.findAll();
+            List<Supplier> suppliers = supplierDao.findAll();
+            // Thêm log debug
+            System.out.println("Số supplier lấy từ DB: " + (suppliers != null ? suppliers.size() : "null")); 
+            return suppliers != null ? suppliers : Collections.emptyList();
         } catch (Exception e) {
-            Log.error("Failed to retrieve all suppliers", e);
-            return null;
+            Log.error("Lỗi chi tiết: ", e); // Ghi log đầy đủ
+            return Collections.emptyList();
         }
     }
     
@@ -87,5 +94,26 @@ public class SupplierServiceImpl implements SupplierService {
         }
     }
 
+    @Override
+    public Set<Item> getItemsBySupplierId(long supplierId) {
+        try {
+            Supplier supplier = supplierDao.findById(supplierId);
+            return supplier != null ? supplier.getItems() : Collections.emptySet();
+        } catch (Exception e) {
+            Log.error("Failed to get items for supplier ID: " + supplierId, e);
+            return Collections.emptySet();
+        }
+    }
+
+    @Override
+    public Set<Warehouse> getWarehouseBySupplierId(long supplierId) {
+        try {
+            Supplier supplier = supplierDao.findById(supplierId);
+            return supplier != null ? supplier.getWarehouseImports() : Collections.emptySet();
+        } catch (Exception e) {
+            Log.error("Failed to get warehouses for supplier ID: " + supplierId, e);
+            return Collections.emptySet();
+        }
+    }
 }
 

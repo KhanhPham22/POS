@@ -17,7 +17,7 @@ public class Payroll extends BaseEntity {
     public Payroll() {}
 
     // Constructor with all fields
-    public Payroll(Long id, Employee employee, Double baseSalary, Double bonus, 
+    public Payroll(long id, Employee employee, Double baseSalary, Double bonus, 
                    Double commission, Double totalSalary, Month month, Year year) {
         setId(id); // Use BaseEntity's id
         this.employee = employee;

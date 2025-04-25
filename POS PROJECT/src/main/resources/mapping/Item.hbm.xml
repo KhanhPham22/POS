@@ -10,6 +10,7 @@
         <property name="type" column="type" />
         <property name="unit" column="unit" />
         <property name="description" column="description" type="text" />
+        <property name="quantity" column="quantity" type="integer" not-null="true"/>
         <many-to-one name="supplier" class="model.Supplier" column="supplier_id" not-null="true" />
 
     </joined-subclass>

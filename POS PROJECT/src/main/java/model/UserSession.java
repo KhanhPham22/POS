@@ -41,7 +41,7 @@ public class UserSession extends BaseEntity {
 
 
     // Constructor with all fields
-    public UserSession(Long id, String sessionToken, Timestamp timestamp, Timestamp expiryTime,
+    public UserSession(long id, String sessionToken, Timestamp timestamp, Timestamp expiryTime,
                        String employeeNumber, Employee employee,String ownerNumber, Owner owner ,String sessionData) {
         setId(id); // Use BaseEntity's id
         this.sessionToken = sessionToken;

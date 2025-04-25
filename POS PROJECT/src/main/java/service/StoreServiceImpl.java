@@ -39,7 +39,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public boolean deleteStoreById(Long storeId) {
+    public boolean deleteStoreById(long storeId) {
         try {
             return storeDao.deleteById(storeId);
         } catch (Exception e) {
@@ -59,7 +59,7 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public Store getStoreById(Long storeId) {
+    public Store getStoreById(long storeId) {
         try {
             return storeDao.findById(storeId);
         } catch (Exception e) {

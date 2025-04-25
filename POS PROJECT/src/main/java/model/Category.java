@@ -13,7 +13,7 @@ public class Category extends BaseEntity {
     public Category() {}
 
     // Constructor with all fields
-    public Category(Long id, String name, String description, List<Product> products) {
+    public Category(long id, String name, String description, List<Product> products) {
         setId(id); // Use BaseEntity's id
         this.name = name;
         this.description = description;

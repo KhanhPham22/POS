@@ -38,7 +38,7 @@ public class DashboardServiceImpl implements DashboardService {
     }
 
     @Override
-    public boolean deleteDashboardById(Long dashboardId) {
+    public boolean deleteDashboardById(long dashboardId) {
         try {
             return dashboardDao.deleteById(dashboardId);
         } catch (Exception e) {
@@ -58,7 +58,7 @@ public class DashboardServiceImpl implements DashboardService {
     }
 
     @Override
-    public Dashboard getDashboardById(Long dashboardId) {
+    public Dashboard getDashboardById(long dashboardId) {
         try {
             return dashboardDao.findById(dashboardId);
         } catch (Exception e) {
@@ -78,7 +78,7 @@ public class DashboardServiceImpl implements DashboardService {
     }
 
     @Override
-    public Dashboard getLatestDashboardByStoreId(Long storeId) {
+    public Dashboard getLatestDashboardByStoreId(long storeId) {
         try {
             return dashboardDao.findLatestDashboardByStoreId(storeId);
         } catch (Exception e) {

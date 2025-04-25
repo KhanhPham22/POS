@@ -16,7 +16,7 @@ public class Warehouse extends BaseEntity {
     public Warehouse() {}
 
     // Constructor with all fields
-    public Warehouse(Long id, Store store, String shortName, String name, String description, 
+    public Warehouse(long id, Store store, String shortName, String name, String description, 
                      String city, String state, String zip, String address, int enabledFlag) {
         setId(id); // Use BaseEntity's id
         this.store = store;

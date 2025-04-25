@@ -39,7 +39,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public boolean deleteInvoiceById(Long invoiceId) {
+    public boolean deleteInvoiceById(long invoiceId) {
         try {
             return invoiceDao.deleteById(invoiceId);
         } catch (Exception e) {
@@ -59,7 +59,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public Invoice getInvoiceById(Long invoiceId) {
+    public Invoice getInvoiceById(long invoiceId) {
         try {
             return invoiceDao.findById(invoiceId);
         } catch (Exception e) {

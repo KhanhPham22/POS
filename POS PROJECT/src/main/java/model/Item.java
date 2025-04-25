@@ -7,17 +7,19 @@ public class Item extends BaseEntity {
     private String unit;
     private String description;
     private Supplier supplier;
-
+    private Integer quantity;
+    
     // Default Constructor
     public Item() {}
 
     // Constructor with all fields
-    public Item(Long id, String name, String type, String unit, String description) {
+    public Item(long id, String name, String type, String unit, String description,Integer quantity) {
         setId(id); // Use BaseEntity's id
         this.name = name;
         this.type = type;
         this.unit = unit;
         this.description = description;
+        this.quantity = quantity;
     }
 
     // Getter and Setter Methods
@@ -59,5 +61,13 @@ public class Item extends BaseEntity {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+    
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 }

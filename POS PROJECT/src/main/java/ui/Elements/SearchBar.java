@@ -3,12 +3,17 @@ package ui.Elements;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import service.SupplierService;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class SearchBar extends JPanel {
-    private JTextField searchField;
+	private SupplierService supplierService;
+	private JTextField searchField;
     private SearchListener searchListener;
 
     public interface SearchListener {
@@ -22,7 +27,7 @@ public class SearchBar extends JPanel {
 
     private void initUI() {
         setLayout(new BorderLayout());
-        searchField = new JTextField("Search product...");
+        searchField = new JTextField("Search ...");
         searchField.setPreferredSize(new Dimension(0, 40));
         searchField.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 

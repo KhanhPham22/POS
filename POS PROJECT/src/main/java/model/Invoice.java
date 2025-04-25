@@ -18,7 +18,7 @@ public class Invoice extends BaseEntity {
     public Invoice() {}
 
     // Constructor with all fields
-    public Invoice(Long id, OrderDetail order, Customer customer, Employee employee, 
+    public Invoice(long id, OrderDetail order, Customer customer, Employee employee, 
                    Double totalPrice, Double discount, Double finalPrice, String paymentMethod, 
                    Date invoiceDay, String status) {
         setId(id); // Use BaseEntity's id

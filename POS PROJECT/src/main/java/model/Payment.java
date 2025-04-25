@@ -12,7 +12,7 @@ public class Payment extends BaseEntity {
     public Payment() {}
 
     // Constructor with all fields
-    public Payment(Long id, String paymentMethod, Double amount, String status, 
+    public Payment(long id, String paymentMethod, Double amount, String status, 
                    OrderDetail order, Customer customer) {
         setId(id); // Use BaseEntity's id
         this.paymentMethod = paymentMethod;

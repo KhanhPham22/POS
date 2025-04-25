@@ -15,7 +15,7 @@ public class GiftVoucher extends BaseEntity {
     public GiftVoucher() {}
 
     // Constructor with parameters
-    public GiftVoucher(Long id, Customer customer, String voucherName, Boolean discountStatus, Date startDate, Date endDate, String discountType) {
+    public GiftVoucher(long id, Customer customer, String voucherName, Boolean discountStatus, Date startDate, Date endDate, String discountType) {
         setId(id); // Use BaseEntity's id
         this.customer = customer;
         this.voucherName = voucherName;

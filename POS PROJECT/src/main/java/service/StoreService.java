@@ -10,11 +10,11 @@ public interface StoreService {
 
     boolean updateStore(Store store);
 
-    boolean deleteStoreById(Long storeId);
+    boolean deleteStoreById(long storeId);
 
     boolean deleteStore(Store store);
 
-    Store getStoreById(Long storeId);
+    Store getStoreById(long storeId);
 
     List<Store> getAllStores();
 

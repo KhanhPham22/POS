@@ -39,7 +39,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public boolean deleteFeedbackById(Long feedbackId) {
+    public boolean deleteFeedbackById(long feedbackId) {
         try {
             return feedbackDao.deleteById(feedbackId);
         } catch (Exception e) {
@@ -59,7 +59,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public Feedback findFeedbackById(Long feedbackId) {
+    public Feedback findFeedbackById(long feedbackId) {
         try {
             return feedbackDao.findById(feedbackId);
         } catch (Exception e) {
@@ -79,7 +79,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
     
     @Override
-    public List<Feedback> findFeedbackByPersonId(Long personId) {
+    public List<Feedback> findFeedbackByPersonId(long personId) {
         try {
             return feedbackDao.findByPersonId(personId);
         } catch (Exception e) {
@@ -89,7 +89,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public List<Feedback> findFeedbackByProductId(Long productId) {
+    public List<Feedback> findFeedbackByProductId(long productId) {
         try {
             return feedbackDao.findByProductId(productId);
         } catch (Exception e) {

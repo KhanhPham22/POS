@@ -8,15 +8,15 @@ public interface DashboardService {
     
     boolean updateDashboard(Dashboard dashboard);
     
-    boolean deleteDashboardById(Long dashboardId);
+    boolean deleteDashboardById(long dashboardId);
     
     boolean deleteDashboard(Dashboard dashboard);
     
-    Dashboard getDashboardById(Long dashboardId);
+    Dashboard getDashboardById(long dashboardId);
     
     List<Dashboard> getAllDashboards();
     
-    Dashboard getLatestDashboardByStoreId(Long storeId);
+    Dashboard getLatestDashboardByStoreId(long storeId);
     
     Dashboard getDashboardByStoreName(String storeName);
 }

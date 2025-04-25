@@ -27,7 +27,7 @@ public class Dashboard extends BaseEntity {
     public Dashboard() {}
 
     // Constructor with all fields
-    public Dashboard(Long id, Double totalSalary, Double totalRevenue, Integer totalOrders,
+    public Dashboard(long id, Double totalSalary, Double totalRevenue, Integer totalOrders,
                      Integer totalUsers, Integer totalProducts, Double dayRevenue, Double monthRevenue,
                      Double yearRevenue, Integer pendingOrders, Integer totalFeedback, Double averageRating,
                      Date timestamp, Store store, String storeName) {

@@ -1,7 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Supplier extends BaseEntity {
 
@@ -11,15 +13,15 @@ public class Supplier extends BaseEntity {
     private String email;
     private String address;
     private String taxCode;
-    private List<Warehouse> warehouseImports = new ArrayList<>();
-    private List<Item> items = new ArrayList<>();
+    private Set<Warehouse> warehouseImports = new HashSet<>();
+    private Set<Item> items = new HashSet<>();
     
     // Default Constructor
     public Supplier() {}
 
     // Constructor with all fields
-    public Supplier(Long id, String name, String contactName, String phone, String email, 
-                    String address, String taxCode, List<Warehouse> warehouseImports,List<Item> items) {
+    public Supplier(long id, String name, String contactName, String phone, String email, 
+                    String address, String taxCode, Set<Warehouse> warehouseImports,Set<Item> items) {
         setId(id); // Use BaseEntity's id
         this.name = name;
         this.contactName = contactName;
@@ -27,8 +29,8 @@ public class Supplier extends BaseEntity {
         this.email = email;
         this.address = address;
         this.taxCode = taxCode;
-        this.warehouseImports = warehouseImports != null ? warehouseImports : new ArrayList<>();
-        this.items = items != null ? items : new ArrayList<>();
+        this.warehouseImports = warehouseImports != null ? warehouseImports : new HashSet<>();
+        this.items = items != null ? items : new HashSet<>();
     }
 
     // Getter and Setter methods
@@ -80,19 +82,19 @@ public class Supplier extends BaseEntity {
         this.taxCode = taxCode;
     }	
 
-    public List<Warehouse> getWarehouseImports() {
+    public Set<Warehouse> getWarehouseImports() {
         return warehouseImports;
     }
 
-    public void setWarehouseImports(List<Warehouse> warehouseImports) {
+    public void setWarehouseImports(Set<Warehouse> warehouseImports) {
         this.warehouseImports = warehouseImports;
     }
     
-    public List<Item> getItems() {
+    public Set<Item> getItems() {
         return items;
     }
 
-    public void setItems(List<Item> items) {
+    public void setItems(Set<Item> items) {
         this.items = items;
     }
 }
