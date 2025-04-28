@@ -15,7 +15,7 @@ public interface FeedbackService {
     
     Feedback findFeedbackById(long feedbackId);
     
-    List<Feedback> findAllFeedback();
+    List<Feedback> findAllFeedback(int pageNumber, int pageSize);
 
 	List<Feedback> findFeedbackByProductId(long productId);
 

@@ -16,6 +16,6 @@ public interface CategoryService {
 
     Category getCategoryByName(String name);
     
-    List<Category> getAllCategories();
+    List<Category> getAllCategories(int pageNumber, int pageSize);
 }
 

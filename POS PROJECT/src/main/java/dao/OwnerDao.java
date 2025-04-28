@@ -61,19 +61,31 @@ public class OwnerDao implements GenericDao<Owner> {
     }
 
     @Override
-    public List<Owner> findAll() throws Exception {
-        Session session = sessionFactory.openSession();
+    public List<Owner> findAll(int pageNumber, int pageSize) throws Exception {
+        Session session = null;
         try {
-            List<Owner> owners = session.createQuery("from Owner", Owner.class).list();
-            Log.info("All Owners retrieved successfully");
+            session = sessionFactory.openSession();
+
+            // Tính toán offset dựa trên pageNumber và pageSize
+            int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+
+            // Sử dụng HQL để lấy tất cả các Owner, và áp dụng phân trang
+            List<Owner> owners = session.createQuery("from Owner", Owner.class)
+                                        .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
+                                        .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
+                                        .list();
+
+            Log.info("All Owners retrieved successfully with pagination");
             return owners;
         } catch (Exception e) {
-            Log.error("Error while retrieving all Owners", e);
+            Log.error("Error while retrieving all Owners with pagination", e);
             throw e;
         } finally {
-            session.close();
+            if (session != null)
+                session.close();
         }
     }
+
 
     @Override
     public boolean update(Owner owner) throws Exception {

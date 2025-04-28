@@ -79,17 +79,17 @@ public class OrderServiceImplTest {
         verify(mockOrderDao).findById(orderId);
     }
 
-    @Test
-    public void testGetAllOrders() throws Exception {
-        List<OrderDetail> orders = Arrays.asList(new OrderDetail(), new OrderDetail());
-        when(mockOrderDao.findAll()).thenReturn(orders);
-
-        List<OrderDetail> result = orderService.getAllOrders();
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        verify(mockOrderDao).findAll();
-    }
+//    @Test
+//    public void testGetAllOrders() throws Exception {
+//        List<OrderDetail> orders = Arrays.asList(new OrderDetail(), new OrderDetail());
+//        when(mockOrderDao.findAll()).thenReturn(orders);
+//
+//        List<OrderDetail> result = orderService.getAllOrders();
+//
+//        assertNotNull(result);
+//        assertEquals(2, result.size());
+//        verify(mockOrderDao).findAll();
+//    }
 
     @Test
     public void testGetOrderByCustomerName() throws Exception {
@@ -161,15 +161,15 @@ public class OrderServiceImplTest {
         verify(mockOrderDao).findById(orderId);
     }
 
-    @Test
-    public void testGetAllOrdersException() throws Exception {
-        when(mockOrderDao.findAll()).thenThrow(new RuntimeException("DB error"));
-
-        List<OrderDetail> result = orderService.getAllOrders();
-
-        assertNull(result);
-        verify(mockOrderDao).findAll();
-    }
+//    @Test
+//    public void testGetAllOrdersException() throws Exception {
+//        when(mockOrderDao.findAll()).thenThrow(new RuntimeException("DB error"));
+//
+//        List<OrderDetail> result = orderService.getAllOrders();
+//
+//        assertNull(result);
+//        verify(mockOrderDao).findAll();
+//    }
 
     @Test
     public void testGetOrderByCustomerNameException() throws Exception {

@@ -68,9 +68,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProducts() {
+    public List<Product> getAllProducts(int pageNumber, int pageSize) {
         try {
-            return productDao.findAll();
+            return productDao.findAll(pageNumber,pageSize);
         } catch (Exception e) {
             Log.error("Failed to retrieve all products", e);
             return null;

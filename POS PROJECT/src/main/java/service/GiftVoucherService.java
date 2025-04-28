@@ -18,6 +18,6 @@ public interface GiftVoucherService {
     GiftVoucher getGiftVoucherByName(String voucherName);
 
     
-    List<GiftVoucher> getAllGiftVouchers();
+    List<GiftVoucher> getAllGiftVouchers(int pageNumber, int pageSize);
 }
 

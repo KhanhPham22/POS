@@ -11,7 +11,9 @@ public class Warehouse extends BaseEntity {
     private String zip;
     private String address;
     private int enabledFlag;
-
+    private Supplier supplier;
+    private Item item;
+    
     // Default Constructor
     public Warehouse() {}
 
@@ -101,5 +103,21 @@ public class Warehouse extends BaseEntity {
 
     public void setEnabledFlag(int enabledFlag) {
         this.enabledFlag = enabledFlag;
+    }
+    
+    public Supplier getSupplier() {
+        return supplier;
+    }
+    
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
     }
 }

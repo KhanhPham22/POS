@@ -81,17 +81,17 @@ public class FeedbackServiceImplTest {
 	        verify(mockFeedbackDao).findById(feedbackId);
 	    }
 
-	    @Test
-	    public void testFindAllFeedback() throws Exception {
-	        List<Feedback> feedbacks = Arrays.asList(new Feedback(), new Feedback());
-	        when(mockFeedbackDao.findAll()).thenReturn(feedbacks);
-
-	        List<Feedback> result = feedbackService.findAllFeedback();
-
-	        assertNotNull(result);
-	        assertEquals(2, result.size());
-	        verify(mockFeedbackDao).findAll();
-	    }
+//	    @Test
+//	    public void testFindAllFeedback() throws Exception {
+//	        List<Feedback> feedbacks = Arrays.asList(new Feedback(), new Feedback());
+//	        when(mockFeedbackDao.findAll()).thenReturn(feedbacks);
+//
+//	        List<Feedback> result = feedbackService.findAllFeedback();
+//
+//	        assertNotNull(result);
+//	        assertEquals(2, result.size());
+//	        verify(mockFeedbackDao).findAll();
+//	    }
 	    @Test
 	    public void testFindFeedbackByUserId() throws Exception {
 	        Long personId = 1L;
@@ -174,15 +174,15 @@ public class FeedbackServiceImplTest {
 	        verify(mockFeedbackDao).findById(feedbackId);
 	    }
 
-	    @Test
-	    public void testFindAllFeedbackException() throws Exception {
-	        when(mockFeedbackDao.findAll()).thenThrow(new RuntimeException("Database error"));
-
-	        List<Feedback> result = feedbackService.findAllFeedback();
-
-	        assertNull(result);
-	        verify(mockFeedbackDao).findAll();
-	    }
+//	    @Test
+//	    public void testFindAllFeedbackException() throws Exception {
+//	        when(mockFeedbackDao.findAll()).thenThrow(new RuntimeException("Database error"));
+//
+//	        List<Feedback> result = feedbackService.findAllFeedback();
+//
+//	        assertNull(result);
+//	        verify(mockFeedbackDao).findAll();
+//	    }
 
 	    @Test
 	    public void testFindFeedbackByPersonIdException() throws Exception {

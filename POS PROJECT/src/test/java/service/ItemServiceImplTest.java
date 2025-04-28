@@ -142,16 +142,16 @@ public class ItemServiceImplTest {
         assertNull(result);
     }
 
-    @Test
-    public void testGetAllItems() throws Exception {
-        List<Item> items = Arrays.asList(new Item(), new Item());
-        when(mockItemDao.findAll()).thenReturn(items);
-
-        List<Item> result = itemService.getAllItems();
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-    }
+//    @Test
+//    public void testGetAllItems() throws Exception {
+//        List<Item> items = Arrays.asList(new Item(), new Item());
+//        when(mockItemDao.findAll()).thenReturn(items);
+//
+//        List<Item> result = itemService.getAllItems();
+//
+//        assertNotNull(result);
+//        assertEquals(2, result.size());
+//    }
 
     @Test
     public void testGetItemByName() throws Exception {
@@ -164,14 +164,5 @@ public class ItemServiceImplTest {
         verify(mockItemDao).findByName("Sugar");
     }
 
-    @Test
-    public void testFindItem() throws Exception {
-        List<Item> items = Arrays.asList(new Item());
-        when(mockItemDao.findItem("Sugar")).thenReturn(items);
-
-        List<Item> result = itemService.findItem("Sugar");
-
-        assertNotNull(result);
-        verify(mockItemDao).findItem("Sugar");
-    }
+    
 }

@@ -62,19 +62,31 @@ public class StoreDao implements GenericDao<Store> {
     }
 
     @Override
-    public List<Store> findAll() throws Exception {
-        Session session = sessionFactory.openSession();
+    public List<Store> findAll(int pageNumber, int pageSize) throws Exception {
+        Session session = null;
         try {
-            List<Store> stores = session.createQuery("from Store", Store.class).list();
-            Log.info("All Stores retrieved successfully from database");
+            session = sessionFactory.openSession();
+
+            // Tính toán offset dựa trên pageNumber và pageSize
+            int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+
+            // Sử dụng HQL để lấy tất cả các Store, và áp dụng phân trang
+            List<Store> stores = session.createQuery("from Store", Store.class)
+                                        .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
+                                        .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
+                                        .list();
+
+            Log.info("All Stores retrieved successfully with pagination");
             return stores;
         } catch (Exception e) {
-            Log.error("Database error while retrieving all Stores", e);
+            Log.error("Error while retrieving all Stores with pagination", e);
             throw e;
         } finally {
-            session.close();
+            if (session != null)
+                session.close();
         }
     }
+
 
     @Override
     public boolean update(Store store) throws Exception {

@@ -69,9 +69,9 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     @Override
-    public List<Invoice> getAllInvoices() {
+    public List<Invoice> getAllInvoices(int pageNumber, int pageSize) {
         try {
-            return invoiceDao.findAll();
+            return invoiceDao.findAll(pageNumber, pageSize);
         } catch (Exception e) {
             Log.error("Failed to retrieve all invoices", e);
             return null;

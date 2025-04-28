@@ -14,7 +14,7 @@ public interface DashboardService {
     
     Dashboard getDashboardById(long dashboardId);
     
-    List<Dashboard> getAllDashboards();
+    List<Dashboard> getAllDashboards(int pageNumber, int pageSize);
     
     Dashboard getLatestDashboardByStoreId(long storeId);
     

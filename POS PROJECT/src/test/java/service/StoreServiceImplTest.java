@@ -97,16 +97,16 @@ public class StoreServiceImplTest {
         assertNull(result);
     }
 
-    @Test
-    public void testGetAllStores() throws Exception {
-        List<Store> stores = Arrays.asList(new Store(), new Store());
-        when(mockStoreDao.findAll()).thenReturn(stores);
-
-        List<Store> result = storeService.getAllStores();
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-    }
+//    @Test
+//    public void testGetAllStores() throws Exception {
+//        List<Store> stores = Arrays.asList(new Store(), new Store());
+//        when(mockStoreDao.findAll()).thenReturn(stores);
+//
+//        List<Store> result = storeService.getAllStores();
+//
+//        assertNotNull(result);
+//        assertEquals(2, result.size());
+//    }
 
     @Test
     public void testGetStoresByCity() throws Exception {

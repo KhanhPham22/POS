@@ -69,9 +69,9 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public List<Feedback> findAllFeedback() {
+    public List<Feedback> findAllFeedback(int pageNumber, int pageSize) {
         try {
-            return feedbackDao.findAll();
+            return feedbackDao.findAll(pageNumber, pageSize);
         } catch (Exception e) {
             Log.error("Failed to retrieve all feedback", e);
             return null;

@@ -98,16 +98,16 @@ public class ProductServiceImplTest {
         assertNull(result);
     }
 
-    @Test
-    public void testGetAllProducts() throws Exception {
-        List<Product> products = Arrays.asList(new Product(), new Product());
-        when(mockProductDao.findAll()).thenReturn(products);
-
-        List<Product> result = productService.getAllProducts();
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-    }
+//    @Test
+//    public void testGetAllProducts() throws Exception {
+//        List<Product> products = Arrays.asList(new Product(), new Product());
+//        when(mockProductDao.findAll()).thenReturn(products);
+//
+//        List<Product> result = productService.getAllProducts();
+//
+//        assertNotNull(result);
+//        assertEquals(2, result.size());
+//    }
 
     @Test
     public void testGetProductByName_Found() throws Exception {

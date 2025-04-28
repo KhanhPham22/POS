@@ -148,23 +148,23 @@ public class PersonServiceImpl implements PersonService {
 	}
 	
 	@Override
-	public List<Employee> getAllEmployees() throws Exception {
-		List<Employee> employees = employeeDao.findAll();
+	public List<Employee> getAllEmployees(int pageNumber, int pageSize) throws Exception {
+		List<Employee> employees = employeeDao.findAll(pageNumber,pageSize);
 		Log.info("All Employees retrieved");
 		return employees;
 
 	}
 
 	@Override
-	public List<Customer> getAllCustomers() throws Exception {
-		List<Customer> customers = customerDao.findAll();
+	public List<Customer> getAllCustomers(int pageNumber, int pageSize) throws Exception {
+		List<Customer> customers = customerDao.findAll(pageNumber,pageSize);
 		Log.info("All Customers retrieved");
 		return customers;
 	}
 	
 	@Override
-	public List<Owner> getAllOwner() throws Exception {
-		List<Owner> owner = ownerDao.findAll();
+	public List<Owner> getAllOwner(int pageNumber, int pageSize) throws Exception {
+		List<Owner> owner = ownerDao.findAll(pageNumber,pageSize);
 		Log.info("All Owner retrieved");
 		return owner;
 	}

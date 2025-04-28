@@ -59,9 +59,9 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public List<Payment> getAllPayments() {
+    public List<Payment> getAllPayments(int pageNumber, int pageSize) {
         try {
-            return paymentDao.findAll();
+            return paymentDao.findAll(pageNumber,pageSize);
         } catch (Exception e) {
             Log.error("Failed to get all payments", e);
             return null;

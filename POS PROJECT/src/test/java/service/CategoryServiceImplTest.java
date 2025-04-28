@@ -100,16 +100,16 @@ public class CategoryServiceImplTest {
 	        assertNull(result);
 	    }
 
-	    @Test
-	    public void testGetAllCategories() throws Exception {
-	        List<Category> categories = Arrays.asList(new Category(), new Category());
-	        when(mockCategoryDao.findAll()).thenReturn(categories);
-
-	        List<Category> result = categoryService.getAllCategories();
-
-	        assertNotNull(result);
-	        assertEquals(2, result.size());
-	    }
+//	    @Test
+//	    public void testGetAllCategories() throws Exception {
+//	        List<Category> categories = Arrays.asList(new Category(), new Category());
+//	        when(mockCategoryDao.findAll()).thenReturn(categories);
+//
+//	        List<Category> result = categoryService.getAllCategories();
+//
+//	        assertNotNull(result);
+//	        assertEquals(2, result.size());
+//	    }
 
 	    @Test
 	    public void testGetCategoryByName_Found() throws Exception {

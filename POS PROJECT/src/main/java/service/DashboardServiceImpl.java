@@ -68,14 +68,15 @@ public class DashboardServiceImpl implements DashboardService {
     }
 
     @Override
-    public List<Dashboard> getAllDashboards() {
+    public List<Dashboard> getAllDashboards(int pageNumber, int pageSize) {
         try {
-            return dashboardDao.findAll();
+            return dashboardDao.findAll(pageNumber, pageSize); // Gọi phương thức findAll với phân trang
         } catch (Exception e) {
             Log.error("Failed to retrieve all dashboards", e);
             return null;
         }
     }
+
 
     @Override
     public Dashboard getLatestDashboardByStoreId(long storeId) {

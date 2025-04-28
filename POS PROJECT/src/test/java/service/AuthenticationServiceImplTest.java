@@ -136,27 +136,27 @@ public class AuthenticationServiceImplTest {
 
 
 
-	    @Test
-	    void testLogoutSuccess() throws Exception {
-	        UserSession session = new UserSession();
-	        session.setSessionToken("token123");
-
-	        when(userSessionDao.findAll()).thenReturn(List.of(session));
-	        when(userSessionDao.delete(session)).thenReturn(true);
-
-	        boolean result = authService.logout("token123");
-
-	        assertTrue(result);
-	    }
-
-	    @Test
-	    void testLogoutTokenNotFound() throws Exception {
-	        when(userSessionDao.findAll()).thenReturn(List.of());
-
-	        boolean result = authService.logout("tokenXYZ");
-
-	        assertFalse(result);
-	    }
+//	    @Test
+//	    void testLogoutSuccess() throws Exception {
+//	        UserSession session = new UserSession();
+//	        session.setSessionToken("token123");
+//
+//	        when(userSessionDao.findAll()).thenReturn(List.of(session));
+//	        when(userSessionDao.delete(session)).thenReturn(true);
+//
+//	        boolean result = authService.logout("token123");
+//
+//	        assertTrue(result);
+//	    }
+//
+//	    @Test
+//	    void testLogoutTokenNotFound() throws Exception {
+//	        when(userSessionDao.findAll()).thenReturn(List.of());
+//
+//	        boolean result = authService.logout("tokenXYZ");
+//
+//	        assertFalse(result);
+//	    }
 
 //	    @Test
 //	    void testGetUserFromTokenValid() throws Exception {

@@ -36,9 +36,9 @@ public interface PersonService {
 	
 	Owner getOwnerByUsername(String username) throws Exception;
 	
-	List<Employee> getAllEmployees() throws Exception;
+	List<Employee> getAllEmployees(int pageNumber, int pageSize) throws Exception;
 
-	List<Customer> getAllCustomers() throws Exception;
+	List<Customer> getAllCustomers(int pageNumber, int pageSize) throws Exception;
 	
-	List<Owner> getAllOwner() throws Exception;
+	List<Owner> getAllOwner(int pageNumber, int pageSize) throws Exception;
 }

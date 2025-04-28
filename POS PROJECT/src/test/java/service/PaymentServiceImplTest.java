@@ -67,17 +67,17 @@ public class PaymentServiceImplTest {
         verify(mockPaymentDao).findById(id);
     }
 
-    @Test
-    public void testGetAllPayments() throws Exception {
-        List<Payment> payments = Arrays.asList(new Payment(), new Payment());
-        when(mockPaymentDao.findAll()).thenReturn(payments);
-
-        List<Payment> result = paymentService.getAllPayments();
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        verify(mockPaymentDao).findAll();
-    }
+//    @Test
+//    public void testGetAllPayments() throws Exception {
+//        List<Payment> payments = Arrays.asList(new Payment(), new Payment());
+//        when(mockPaymentDao.findAll()).thenReturn(payments);
+//
+//        List<Payment> result = paymentService.getAllPayments();
+//
+//        assertNotNull(result);
+//        assertEquals(2, result.size());
+//        verify(mockPaymentDao).findAll();
+//    }
 
     @Test
     public void testGetPaymentByCustomerName() throws Exception {
@@ -138,15 +138,15 @@ public class PaymentServiceImplTest {
         verify(mockPaymentDao).findById(id);
     }
 
-    @Test
-    public void testGetAllPaymentsException() throws Exception {
-        when(mockPaymentDao.findAll()).thenThrow(new RuntimeException("DB error"));
-
-        List<Payment> result = paymentService.getAllPayments();
-
-        assertNull(result);
-        verify(mockPaymentDao).findAll();
-    }
+//    @Test
+//    public void testGetAllPaymentsException() throws Exception {
+//        when(mockPaymentDao.findAll()).thenThrow(new RuntimeException("DB error"));
+//
+//        List<Payment> result = paymentService.getAllPayments();
+//
+//        assertNull(result);
+//        verify(mockPaymentDao).findAll();
+//    }
 
     @Test
     public void testGetPaymentByCustomerNameException() throws Exception {

@@ -68,8 +68,8 @@ public class AuthenticationService {
 
 
     // Kiểm tra token có hợp lệ không
-    public boolean isTokenValid(String token) throws Exception {
-        List<UserSession> allSessions = userSessionDao.findAll();
+    public boolean isTokenValid(String token,int pageNumber, int pageSize) throws Exception {
+        List<UserSession> allSessions = userSessionDao.findAll(pageNumber,pageSize);
         for (UserSession session : allSessions) {
             if (session.getSessionToken().equals(token) && !session.isExpired()) {
                 return true;
@@ -79,8 +79,8 @@ public class AuthenticationService {
     }
 
     // Logout theo session token
-    public boolean logout(String token) throws Exception {
-        List<UserSession> allSessions = userSessionDao.findAll();
+    public boolean logout(String token,int pageNumber, int pageSize) throws Exception {
+        List<UserSession> allSessions = userSessionDao.findAll(pageNumber,pageSize);
         for (UserSession session : allSessions) {
             if (session.getSessionToken().equals(token)) {
                 return userSessionDao.delete(session);
@@ -91,8 +91,8 @@ public class AuthenticationService {
     }
     
     // Lấy thông tin người dùng từ token
-    public UserSession getUserFromToken(String token) throws Exception {
-        List<UserSession> allSessions = userSessionDao.findAll();
+    public UserSession getUserFromToken(String token,int pageNumber, int pageSize) throws Exception {
+        List<UserSession> allSessions = userSessionDao.findAll(pageNumber,pageSize);
         for (UserSession session : allSessions) {
             if (session.getSessionToken().equals(token) && !session.isExpired()) {
                 return session;

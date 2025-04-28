@@ -69,20 +69,31 @@ public class ProductDao implements GenericDao<Product> {
     }
 
     @Override
-    public List<Product> findAll() throws Exception {
+    public List<Product> findAll(int pageNumber, int pageSize) throws Exception {
         Session session = null;
         try {
             session = sessionFactory.openSession();
-            List<Product> products = session.createQuery("from Product", Product.class).list();
-            Log.info("All products retrieved successfully. Total count: " + products.size());
+
+            // Tính toán offset dựa trên pageNumber và pageSize
+            int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+
+            // Sử dụng HQL để lấy tất cả các Product, và áp dụng phân trang
+            List<Product> products = session.createQuery("from Product", Product.class)
+                                            .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
+                                            .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
+                                            .list();
+
+            Log.info("All products retrieved successfully with pagination. Total count: " + products.size());
             return products;
         } catch (Exception e) {
-            Log.error("Error while retrieving all Products", e);
+            Log.error("Error while retrieving all Products with pagination", e);
             throw e;
         } finally {
-            if (session != null) session.close();
+            if (session != null)
+                session.close();
         }
     }
+
 
     @Override
     public boolean update(Product product) throws Exception {

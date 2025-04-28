@@ -11,7 +11,7 @@ public interface PaymentService {
 
 	Payment getPayment(long paymentId) ;
 
-	List<Payment> getAllPayments();
+	List<Payment> getAllPayments(int pageNumber, int pageSize);
 	
 	List<Payment> getPaymentByCustomerName(String customerName);
 }

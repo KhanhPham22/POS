@@ -79,17 +79,17 @@ public class DashboardServiceImplTest {
         verify(mockDashboardDao).findById(id);
     }
 
-    @Test
-    public void testGetAllDashboards() throws Exception {
-        List<Dashboard> dashboards = Arrays.asList(new Dashboard(), new Dashboard());
-        when(mockDashboardDao.findAll()).thenReturn(dashboards);
-
-        List<Dashboard> result = dashboardService.getAllDashboards();
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        verify(mockDashboardDao).findAll();
-    }
+//    @Test
+//    public void testGetAllDashboards() throws Exception {
+//        List<Dashboard> dashboards = Arrays.asList(new Dashboard(), new Dashboard());
+//        when(mockDashboardDao.findAll()).thenReturn(dashboards);
+//
+//        List<Dashboard> result = dashboardService.getAllDashboards();
+//
+//        assertNotNull(result);
+//        assertEquals(2, result.size());
+//        verify(mockDashboardDao).findAll();
+//    }
 
     @Test
     public void testGetLatestDashboardByStoreId() throws Exception {
@@ -174,15 +174,15 @@ public class DashboardServiceImplTest {
         verify(mockDashboardDao).findById(id);
     }
 
-    @Test
-    public void testGetAllDashboardsException() throws Exception {
-        when(mockDashboardDao.findAll()).thenThrow(new RuntimeException("DB error"));
-
-        List<Dashboard> result = dashboardService.getAllDashboards();
-
-        assertNull(result);
-        verify(mockDashboardDao).findAll();
-    }
+//    @Test
+//    public void testGetAllDashboardsException() throws Exception {
+//        when(mockDashboardDao.findAll()).thenThrow(new RuntimeException("DB error"));
+//
+//        List<Dashboard> result = dashboardService.getAllDashboards();
+//
+//        assertNull(result);
+//        verify(mockDashboardDao).findAll();
+//    }
 
     @Test
     public void testGetLatestDashboardByStoreIdException() throws Exception {

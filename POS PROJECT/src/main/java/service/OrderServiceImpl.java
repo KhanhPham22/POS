@@ -68,9 +68,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDetail> getAllOrders() {
+    public List<OrderDetail> getAllOrders(int pageNumber, int pageSize) {
         try {
-            return orderDao.findAll();
+            return orderDao.findAll(pageNumber,pageSize);
         } catch (Exception e) {
             Log.error("Failed to retrieve all orders", e);
             return null;

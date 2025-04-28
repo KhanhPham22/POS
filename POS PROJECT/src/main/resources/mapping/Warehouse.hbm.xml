@@ -7,6 +7,9 @@
         <key column="warehouse_id" />
 
         <many-to-one name="store" class="model.Store" column="store_id" not-null="true" />
+        <many-to-one name="supplier" class="model.Supplier" column="supplier_id" not-null="true" />
+		<many-to-one name="item" class="model.Item" column="item_id" not-null="true" />
+
         <property name="shortName" column="short_name" />
         <property name="name" column="name" not-null="true" />
         <property name="description" column="description" />

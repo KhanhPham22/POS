@@ -101,17 +101,22 @@ public class InvoiceDao {
         }
     }
 
-    // Lấy danh sách tất cả hóa đơn
-    public List<Invoice> findAll() throws Exception {
+ // Lấy danh sách tất cả hóa đơn với phân trang
+    public List<Invoice> findAll(int pageNumber, int pageSize) throws Exception {
         try (Session session = sessionFactory.openSession()) {
-            List<Invoice> invoices = session.createQuery("FROM Invoice", Invoice.class).list();
-            Log.info("All invoices retrieved successfully");
+            int offset = pageNumber * pageSize; // Tính toán offset dựa trên pageNumber và pageSize
+            List<Invoice> invoices = session.createQuery("FROM Invoice", Invoice.class)
+                    .setFirstResult(offset)
+                    .setMaxResults(pageSize) // Áp dụng phân trang
+                    .list();
+            Log.info("All invoices retrieved successfully with pagination");
             return invoices;
         } catch (Exception e) {
-            Log.error("Error retrieving all invoices", e);
+            Log.error("Error retrieving invoices with pagination", e);
             throw e;
         }
     }
+
 
     // Tìm hóa đơn theo phương thức thanh toán
     public List<Invoice> findByPaymentMethod(String paymentMethod) throws Exception {

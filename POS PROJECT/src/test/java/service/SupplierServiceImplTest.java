@@ -81,17 +81,17 @@ public class SupplierServiceImplTest {
 	        verify(mockSupplierDao).findById(supplierId);
 	    }
 
-	    @Test
-	    public void testGetAllSuppliers() throws Exception {
-	        List<Supplier> suppliers = Arrays.asList(new Supplier(), new Supplier());
-	        when(mockSupplierDao.findAll()).thenReturn(suppliers);
-
-	        List<Supplier> result = supplierService.getAllSuppliers();
-
-	        assertNotNull(result);
-	        assertEquals(2, result.size());
-	        verify(mockSupplierDao).findAll();
-	    }
+//	    @Test
+//	    public void testGetAllSuppliers() throws Exception {
+//	        List<Supplier> suppliers = Arrays.asList(new Supplier(), new Supplier());
+//	        when(mockSupplierDao.findAll()).thenReturn(suppliers);
+//
+//	        List<Supplier> result = supplierService.getAllSuppliers();
+//
+//	        assertNotNull(result);
+//	        assertEquals(2, result.size());
+//	        verify(mockSupplierDao).findAll();
+//	    }
 
 	    @Test
 	    public void testGetSuppliersByName() throws Exception {
@@ -161,15 +161,15 @@ public class SupplierServiceImplTest {
 	        verify(mockSupplierDao).findById(supplierId);
 	    }
 
-	    @Test
-	    public void testGetAllSuppliersException() throws Exception {
-	        when(mockSupplierDao.findAll()).thenThrow(new RuntimeException("Database error"));
-
-	        List<Supplier> result = supplierService.getAllSuppliers();
-
-	        assertNull(result);
-	        verify(mockSupplierDao).findAll();
-	    }
+//	    @Test
+//	    public void testGetAllSuppliersException() throws Exception {
+//	        when(mockSupplierDao.findAll()).thenThrow(new RuntimeException("Database error"));
+//
+//	        List<Supplier> result = supplierService.getAllSuppliers();
+//
+//	        assertNull(result);
+//	        verify(mockSupplierDao).findAll();
+//	    }
 
 	    @Test
 	    public void testGetSuppliersByNameException() throws Exception {

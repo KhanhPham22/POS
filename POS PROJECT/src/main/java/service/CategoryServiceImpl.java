@@ -68,14 +68,15 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> getAllCategories() {
+    public List<Category> getAllCategories(int pageNumber, int pageSize) {
         try {
-            return categoryDao.findAll();
+            return categoryDao.findAll(pageNumber, pageSize); // Gọi phương thức findAll với phân trang
         } catch (Exception e) {
             Log.error("Failed to retrieve all categories", e);
             return null;
         }
     }
+
     
     @Override
     public Category getCategoryByName(String name) {

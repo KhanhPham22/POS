@@ -16,6 +16,6 @@ public interface OrderService {
 
     List<OrderDetail> getOrderByCustomerName(String customerName);
     
-    List<OrderDetail> getAllOrders();
+    List<OrderDetail> getAllOrders(int pageNumber, int pageSize);
 }
 

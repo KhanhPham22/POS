@@ -61,19 +61,31 @@ public class PaymentDao implements GenericDao<Payment> {
     }
 
     @Override
-    public List<Payment> findAll() throws Exception {
-        Session session = sessionFactory.openSession();
+    public List<Payment> findAll(int pageNumber, int pageSize) throws Exception {
+        Session session = null;
         try {
-            List<Payment> payments = session.createQuery("from Payment", Payment.class).list();
-            Log.info("All Payments retrieved successfully");
+            session = sessionFactory.openSession();
+
+            // Tính toán offset dựa trên pageNumber và pageSize
+            int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+
+            // Sử dụng HQL để lấy tất cả các Payment, và áp dụng phân trang
+            List<Payment> payments = session.createQuery("from Payment", Payment.class)
+                                            .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
+                                            .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
+                                            .list();
+
+            Log.info("All Payments retrieved successfully with pagination");
             return payments;
         } catch (Exception e) {
-            Log.error("Error while retrieving all Payments", e);
+            Log.error("Error while retrieving all Payments with pagination", e);
             throw e;
         } finally {
-            session.close();
+            if (session != null)
+                session.close();
         }
     }
+
 
     @Override
     public boolean update(Payment payment) throws Exception {

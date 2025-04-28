@@ -69,20 +69,31 @@ public class FeedbackDao implements GenericDao<Feedback> {
     }
 
     @Override
-    public List<Feedback> findAll() throws Exception {
+    public List<Feedback> findAll(int pageNumber, int pageSize) throws Exception {
         Session session = null;
         try {
             session = sessionFactory.openSession();
-            List<Feedback> feedbacks = session.createQuery("from Feedback", Feedback.class).list();
-            Log.info("All feedbacks retrieved successfully. Total count: " + feedbacks.size());
+
+            // Tính toán offset dựa trên pageNumber và pageSize
+            int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+
+            // Sử dụng HQL để lấy tất cả các Feedback, và áp dụng phân trang
+            List<Feedback> feedbacks = session.createQuery("from Feedback", Feedback.class)
+                                              .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
+                                              .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
+                                              .list();
+
+            Log.info("All feedbacks retrieved successfully with pagination. Total count: " + feedbacks.size());
             return feedbacks;
         } catch (Exception e) {
-            Log.error("Error while retrieving all Feedbacks", e);
+            Log.error("Error while retrieving feedbacks with pagination", e);
             throw e;
         } finally {
-            if (session != null) session.close();
+            if (session != null)
+                session.close();
         }
     }
+
 
     @Override
     public boolean update(Feedback feedback) throws Exception {

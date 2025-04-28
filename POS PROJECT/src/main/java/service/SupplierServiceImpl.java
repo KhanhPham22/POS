@@ -72,9 +72,9 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public List<Supplier> getAllSuppliers() {
+    public List<Supplier> getAllSuppliers(int pageNumber, int pageSize) {
         try {
-            List<Supplier> suppliers = supplierDao.findAll();
+            List<Supplier> suppliers = supplierDao.findAll(pageNumber, pageSize);
             // Thêm log debug
             System.out.println("Số supplier lấy từ DB: " + (suppliers != null ? suppliers.size() : "null")); 
             return suppliers != null ? suppliers : Collections.emptyList();
@@ -83,6 +83,7 @@ public class SupplierServiceImpl implements SupplierService {
             return Collections.emptyList();
         }
     }
+
     
     @Override
     public List<Supplier> getSuppliersByName(String name) {

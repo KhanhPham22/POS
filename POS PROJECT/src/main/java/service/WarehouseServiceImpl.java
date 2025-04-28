@@ -65,9 +65,9 @@ private WarehouseDao warehouseDao ;
 	}
 
 	@Override
-	public List<Warehouse> getAllWarehouses() throws Exception {
+	public List<Warehouse> getAllWarehouses(int pageNumber, int pageSize) throws Exception {
 		try {
-			List<Warehouse> warehouses = warehouseDao.findAll();
+			List<Warehouse> warehouses = warehouseDao.findAll(pageNumber,pageSize);
 			Log.info("All warehouses retrieved successfully");
 			return warehouses;
 		} catch (Exception e) {

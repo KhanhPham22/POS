@@ -8,9 +8,8 @@ public interface GenericDao<T extends Serializable> {
     void setClass(Class< T > classToSet);
 
     T findById(final long id) throws Exception;
-    
 
-    List<T> findAll() throws Exception ;
+    List<T> findAll(int pageNumber, int pageSize) throws Exception ;
 
     boolean create(final T entity) throws Exception;
 

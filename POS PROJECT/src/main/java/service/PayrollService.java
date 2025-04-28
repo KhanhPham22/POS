@@ -16,7 +16,7 @@ public interface PayrollService {
 
     Payroll getPayrollById(long payrollId);
 
-    List<Payroll> getAllPayrolls();
+    List<Payroll> getAllPayrolls(int pageNumber, int pageSize);
     
  // Lấy theo cả tháng và năm
     List<Payroll> getPayrollsByMonthAndYear(Month month, Year year);

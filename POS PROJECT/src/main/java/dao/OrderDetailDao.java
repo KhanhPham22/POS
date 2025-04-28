@@ -62,19 +62,31 @@ public class OrderDetailDao implements GenericDao<OrderDetail> {
     }
 
     @Override
-    public List<OrderDetail> findAll() throws Exception {
-        Session session = sessionFactory.openSession();
+    public List<OrderDetail> findAll(int pageNumber, int pageSize) throws Exception {
+        Session session = null;
         try {
-            List<OrderDetail> orderDetails = session.createQuery("from OrderDetail", OrderDetail.class).list();
-            Log.info("All OrderDetails retrieved successfully from database");
+            session = sessionFactory.openSession();
+
+            // Tính toán offset dựa trên pageNumber và pageSize
+            int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+
+            // Sử dụng HQL để lấy tất cả các OrderDetail, và áp dụng phân trang
+            List<OrderDetail> orderDetails = session.createQuery("from OrderDetail", OrderDetail.class)
+                                                    .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
+                                                    .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
+                                                    .list();
+
+            Log.info("All OrderDetails retrieved successfully with pagination from database");
             return orderDetails;
         } catch (Exception e) {
-            Log.error("Error while retrieving OrderDetails from database", e);
+            Log.error("Error while retrieving OrderDetails with pagination from database", e);
             throw e;
         } finally {
-            session.close();
+            if (session != null)
+                session.close();
         }
     }
+
 
     @Override
     public boolean update(OrderDetail orderDetail) throws Exception {

@@ -70,9 +70,9 @@ public class PayrollServiceImpl implements PayrollService {
     }
 
     @Override
-    public List<Payroll> getAllPayrolls() {
+    public List<Payroll> getAllPayrolls(int pageNumber, int pageSize) {
         try {
-            return payrollDao.findAll();
+            return payrollDao.findAll(pageNumber,pageSize);
         } catch (Exception e) {
             Log.error("Failed to retrieve all payrolls", e);
             return null;

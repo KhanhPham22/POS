@@ -68,19 +68,31 @@ public class CustomerDao implements GenericDao<Customer> {
 	}
 
 	@Override
-	public List<Customer> findAll() throws Exception {
-		Session session = sessionFactory.openSession();
-		try {
-			List<Customer> Customers = session.createQuery("from Customer", Customer.class).list();
-			Log.info("All Customers retrieved successfully from database");
-			return Customers;
-		} catch (Exception e) {
-			Log.error("Error while retrieving all Customers from database", e);
-			throw e;
-		} finally {
-			session.close();
-		}
+	public List<Customer> findAll(int pageNumber, int pageSize) throws Exception {
+	    Session session = null;
+	    try {
+	        session = sessionFactory.openSession();
+
+	        // Tính toán offset dựa trên pageNumber và pageSize
+	        int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+
+	        // Sử dụng HQL để lấy tất cả các Customer, và áp dụng phân trang
+	        List<Customer> customers = session.createQuery("from Customer", Customer.class)
+	                                          .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
+	                                          .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
+	                                          .list();
+
+	        Log.info("All Customers retrieved successfully from database. Total count: " + customers.size());
+	        return customers;
+	    } catch (Exception e) {
+	        Log.error("Error while retrieving all Customers with pagination from database", e);
+	        throw e;
+	    } finally {
+	        if (session != null)
+	            session.close();
+	    }
 	}
+
 
 	@Override
 	public boolean update(Customer customer) throws Exception {

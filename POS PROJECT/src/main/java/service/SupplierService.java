@@ -19,7 +19,7 @@ public interface SupplierService {
 
     Supplier getSupplierById(long supplierId);
 
-    List<Supplier> getAllSuppliers();
+    List<Supplier> getAllSuppliers(int pageNumber, int pageSize);
     
     List<Supplier> getSuppliersByName(String name);
     

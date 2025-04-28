@@ -25,27 +25,27 @@ public class CategoryPanel extends JPanel {
         this.listener = listener;
         setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         setBackground(Color.WHITE);
-        refreshCategories(); // Load lần đầu
+        //refreshCategories(); // Load lần đầu
     }
 
-    public void refreshCategories() {
-        removeAll(); // Xoá các button cũ
-        List<Category> categories = categoryService.getAllCategories();
-        if (categories == null || categories.isEmpty()) {
-            add(new JLabel("No categories available"));
-            revalidate();
-            repaint();
-            return;
-        }
-
-        for (Category category : categories) {
-            JButton button = createCategoryButton(category);
-            add(button);
-        }
-
-        revalidate();
-        repaint();
-    }
+//    public void refreshCategories() {
+//        removeAll(); // Xoá các button cũ
+//        List<Category> categories = categoryService.getAllCategories();
+//        if (categories == null || categories.isEmpty()) {
+//            add(new JLabel("No categories available"));
+//            revalidate();
+//            repaint();
+//            return;
+//        }
+//
+//        for (Category category : categories) {
+//            JButton button = createCategoryButton(category);
+//            add(button);
+//        }
+//
+//        revalidate();
+//        repaint();
+//    }
 
     private JButton createCategoryButton(Category category) {
         JButton button;

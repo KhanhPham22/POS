@@ -63,19 +63,31 @@ public class PayrollDao implements GenericDao<Payroll> {
     }
 
     @Override
-    public List<Payroll> findAll() throws Exception {
-        Session session = sessionFactory.openSession();
+    public List<Payroll> findAll(int pageNumber, int pageSize) throws Exception {
+        Session session = null;
         try {
-            List<Payroll> payrolls = session.createQuery("from Payroll", Payroll.class).list();
-            Log.info("All Payrolls retrieved successfully");
+            session = sessionFactory.openSession();
+
+            // Tính toán offset dựa trên pageNumber và pageSize
+            int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+
+            // Sử dụng HQL để lấy tất cả các Payroll, và áp dụng phân trang
+            List<Payroll> payrolls = session.createQuery("from Payroll", Payroll.class)
+                                            .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
+                                            .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
+                                            .list();
+
+            Log.info("All Payrolls retrieved successfully with pagination");
             return payrolls;
         } catch (Exception e) {
-            Log.error("Error while retrieving all Payrolls", e);
+            Log.error("Error while retrieving all Payrolls with pagination", e);
             throw e;
         } finally {
-            session.close();
+            if (session != null)
+                session.close();
         }
     }
+
 
     @Override
     public boolean update(Payroll payroll) throws Exception {

@@ -16,7 +16,7 @@ public interface StoreService {
 
     Store getStoreById(long storeId);
 
-    List<Store> getAllStores();
+    List<Store> getAllStores(int pageNumber, int pageSize);
 
     List<Store> getStoresByCity(String city);
 

@@ -23,7 +23,7 @@ public interface ProductService {
     
     public Product findbyEAN13(String ean13) ;
     
-    List<Product> getAllProducts();
+    List<Product> getAllProducts(int pageNumber, int pageSize);
 }
 
 

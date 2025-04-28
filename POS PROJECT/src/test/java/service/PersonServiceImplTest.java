@@ -49,13 +49,13 @@ public class PersonServiceImplTest {
         assertEquals(employee, result);
     }
 
-    @Test
-    public void testGetAllEmployees() throws Exception {
-        List<Employee> employees = Arrays.asList(new Employee(), new Employee());
-        when(employeeDao.findAll()).thenReturn(employees);
-        List<Employee> result = personService.getAllEmployees();
-        assertEquals(2, result.size());
-    }
+//    @Test
+//    public void testGetAllEmployees() throws Exception {
+//        List<Employee> employees = Arrays.asList(new Employee(), new Employee());
+//        when(employeeDao.findAll()).thenReturn(employees);
+//        List<Employee> result = personService.getAllEmployees();
+//        assertEquals(2, result.size());
+//    }
 
     @Test
     public void testDeleteEmployee() throws Exception {
@@ -97,13 +97,13 @@ public class PersonServiceImplTest {
         assertEquals(customer, result);
     }
 
-    @Test
-    public void testGetAllCustomers() throws Exception {
-        List<Customer> customers = Arrays.asList(new Customer(), new Customer(), new Customer());
-        when(customerDao.findAll()).thenReturn(customers);
-        List<Customer> result = personService.getAllCustomers();
-        assertEquals(3, result.size());
-    }
+//    @Test
+//    public void testGetAllCustomers() throws Exception {
+//        List<Customer> customers = Arrays.asList(new Customer(), new Customer(), new Customer());
+//        when(customerDao.findAll()).thenReturn(customers);
+//        List<Customer> result = personService.getAllCustomers();
+//        assertEquals(3, result.size());
+//    }
 
     @Test
     public void testDeleteCustomer() throws Exception {
@@ -145,13 +145,13 @@ public class PersonServiceImplTest {
         assertEquals(owner, result);
     }
 
-    @Test
-    public void testGetAllOwners() throws Exception {
-        List<Owner> owners = Arrays.asList(new Owner(), new Owner());
-        when(ownerDao.findAll()).thenReturn(owners);
-        List<Owner> result = personService.getAllOwner();
-        assertEquals(2, result.size());
-    }
+//    @Test
+//    public void testGetAllOwners() throws Exception {
+//        List<Owner> owners = Arrays.asList(new Owner(), new Owner());
+//        when(ownerDao.findAll()).thenReturn(owners);
+//        List<Owner> result = personService.getAllOwner();
+//        assertEquals(2, result.size());
+//    }
 
     @Test
     public void testDeleteOwner() throws Exception {

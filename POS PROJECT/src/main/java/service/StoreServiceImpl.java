@@ -69,9 +69,9 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<Store> getAllStores() {
+    public List<Store> getAllStores(int pageNumber, int pageSize) {
         try {
-            return storeDao.findAll();
+            return storeDao.findAll(pageNumber,pageSize);
         } catch (Exception e) {
             Log.error("Failed to retrieve all stores", e);
             return null;

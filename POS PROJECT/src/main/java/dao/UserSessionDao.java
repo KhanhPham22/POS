@@ -65,19 +65,31 @@ public class UserSessionDao implements GenericDao<UserSession> {
 	}
 
 	@Override
-	public List<UserSession> findAll() throws Exception {
-		Session session = sessionFactory.openSession();
-		try {
-			List<UserSession> UserSessions = session.createQuery("from UserSession", UserSession.class).list();
-			Log.info("All UserSessions retrieved successfully from database");
-			return UserSessions;
-		} catch (Exception e) {
-			Log.error("Database error while retrieving all UserSessions", e);
-			throw e;
-		} finally {
-			session.close();
-		}
+	public List<UserSession> findAll(int pageNumber, int pageSize) throws Exception {
+	    Session session = null;
+	    try {
+	        session = sessionFactory.openSession();
+
+	        // Tính toán offset dựa trên pageNumber và pageSize
+	        int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+
+	        // Sử dụng HQL để lấy tất cả các UserSession, và áp dụng phân trang
+	        List<UserSession> userSessions = session.createQuery("from UserSession", UserSession.class)
+	                                                 .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
+	                                                 .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
+	                                                 .list();
+
+	        Log.info("All UserSessions retrieved successfully with pagination");
+	        return userSessions;
+	    } catch (Exception e) {
+	        Log.error("Error while retrieving all UserSessions with pagination", e);
+	        throw e;
+	    } finally {
+	        if (session != null)
+	            session.close();
+	    }
 	}
+
 
 	@Override
 	public boolean update(UserSession UserSession) throws Exception {

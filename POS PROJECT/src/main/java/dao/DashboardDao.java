@@ -62,19 +62,31 @@ public class DashboardDao implements GenericDao<Dashboard> {
     }
 
     @Override
-    public List<Dashboard> findAll() throws Exception {
-        Session session = sessionFactory.openSession();
+    public List<Dashboard> findAll(int pageNumber, int pageSize) throws Exception {
+        Session session = null;
         try {
-            List<Dashboard> dashboards = session.createQuery("from Dashboard", Dashboard.class).list();
-            Log.info("All Dashboards retrieved successfully from database");
+            session = sessionFactory.openSession();
+
+            // Tính toán offset dựa trên pageNumber và pageSize
+            int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+
+            // Sử dụng HQL để lấy tất cả các Dashboard, và áp dụng phân trang
+            List<Dashboard> dashboards = session.createQuery("from Dashboard", Dashboard.class)
+                                                .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
+                                                .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
+                                                .list();
+
+            Log.info("All Dashboards retrieved successfully from database. Total count: " + dashboards.size());
             return dashboards;
         } catch (Exception e) {
-            Log.error("Database error while retrieving all Dashboards", e);
+            Log.error("Database error while retrieving all Dashboards with pagination", e);
             throw e;
         } finally {
-            session.close();
+            if (session != null)
+                session.close();
         }
     }
+
 
     @Override
     public boolean update(Dashboard dashboard) throws Exception {

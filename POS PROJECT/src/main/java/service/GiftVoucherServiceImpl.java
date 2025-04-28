@@ -68,9 +68,9 @@ public class GiftVoucherServiceImpl implements GiftVoucherService {
     }
 
     @Override
-    public List<GiftVoucher> getAllGiftVouchers() {
+    public List<GiftVoucher> getAllGiftVouchers(int pageNumber, int pageSize) {
         try {
-            return giftVoucherDao.findAll();
+            return giftVoucherDao.findAll(pageNumber,pageSize);
         } catch (Exception e) {
             Log.error("Failed to retrieve all gift vouchers", e);
             return null;

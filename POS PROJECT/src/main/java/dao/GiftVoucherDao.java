@@ -62,19 +62,31 @@ public class GiftVoucherDao implements GenericDao<GiftVoucher> {
     }
 
     @Override
-    public List<GiftVoucher> findAll() throws Exception {
-        Session session = sessionFactory.openSession();
+    public List<GiftVoucher> findAll(int pageNumber, int pageSize) throws Exception {
+        Session session = null;
         try {
-            List<GiftVoucher> giftVouchers = session.createQuery("from GiftVoucher", GiftVoucher.class).list();
-            Log.info("All GiftVouchers retrieved successfully");
+            session = sessionFactory.openSession();
+
+            // Tính toán offset dựa trên pageNumber và pageSize
+            int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+
+            // Sử dụng HQL để lấy tất cả các GiftVoucher, và áp dụng phân trang
+            List<GiftVoucher> giftVouchers = session.createQuery("from GiftVoucher", GiftVoucher.class)
+                                                     .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
+                                                     .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
+                                                     .list();
+
+            Log.info("All GiftVouchers retrieved successfully with pagination");
             return giftVouchers;
         } catch (Exception e) {
-            Log.error("Error while retrieving all GiftVouchers", e);
+            Log.error("Error while retrieving all GiftVouchers with pagination", e);
             throw e;
         } finally {
-            session.close();
+            if (session != null)
+                session.close();
         }
     }
+
 
     @Override
     public boolean update(GiftVoucher giftVoucher) throws Exception {

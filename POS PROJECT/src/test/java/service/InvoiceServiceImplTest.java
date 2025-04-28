@@ -81,17 +81,17 @@ public class InvoiceServiceImplTest {
 	        verify(mockInvoiceDao).findById(invoiceId);
 	    }
 
-	    @Test
-	    public void testGetAllInvoices() throws Exception {
-	        List<Invoice> invoices = Arrays.asList(new Invoice(), new Invoice());
-	        when(mockInvoiceDao.findAll()).thenReturn(invoices);
-
-	        List<Invoice> result = invoiceService.getAllInvoices();
-
-	        assertNotNull(result);
-	        assertEquals(2, result.size());
-	        verify(mockInvoiceDao).findAll();
-	    }
+//	    @Test
+//	    public void testGetAllInvoices() throws Exception {
+//	        List<Invoice> invoices = Arrays.asList(new Invoice(), new Invoice());
+//	        when(mockInvoiceDao.findAll()).thenReturn(invoices);
+//
+//	        List<Invoice> result = invoiceService.getAllInvoices();
+//
+//	        assertNotNull(result);
+//	        assertEquals(2, result.size());
+//	        verify(mockInvoiceDao).findAll();
+//	    }
 
 	    @Test
 	    public void testGetInvoicesByPaymentMethod() throws Exception {

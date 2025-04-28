@@ -71,19 +71,31 @@ public class EmployeeDao implements GenericDao<Employee> {
 	}
 
 	@Override
-	public List<Employee> findAll() throws Exception {
-		Session session = sessionFactory.openSession();
-		try {
-			List<Employee> Employees = session.createQuery("from Employee").list();
-			Log.info("All Employees retrieved successfully from database");
-			return Employees;
-		} catch (Exception e) {
-			Log.error("Error while retrieving Employees from database", e);
-			throw e;
-		} finally {
-			session.close();
-		}
+	public List<Employee> findAll(int pageNumber, int pageSize) throws Exception {
+	    Session session = null;
+	    try {
+	        session = sessionFactory.openSession();
+
+	        // Tính toán offset dựa trên pageNumber và pageSize
+	        int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+
+	        // Sử dụng HQL để lấy tất cả các Employee, và áp dụng phân trang
+	        List<Employee> employees = session.createQuery("from Employee", Employee.class)
+	                                          .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
+	                                          .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
+	                                          .list();
+
+	        Log.info("All Employees retrieved successfully from database. Total count: " + employees.size());
+	        return employees;
+	    } catch (Exception e) {
+	        Log.error("Error while retrieving Employees with pagination from database", e);
+	        throw e;
+	    } finally {
+	        if (session != null)
+	            session.close();
+	    }
 	}
+
 
 	@Override
 	public boolean update(Employee Employee) throws Exception {

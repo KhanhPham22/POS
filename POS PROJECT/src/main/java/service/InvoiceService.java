@@ -17,7 +17,7 @@ public interface InvoiceService {
 
     Invoice getInvoiceById(long invoiceId);
 
-    List<Invoice> getAllInvoices();
+    List<Invoice> getAllInvoices(int pageNumber, int pageSize);
 
     List<Invoice> getInvoicesByPaymentMethod(String paymentMethod);
 

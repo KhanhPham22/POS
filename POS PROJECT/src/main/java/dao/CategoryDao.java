@@ -69,20 +69,31 @@ public class CategoryDao implements GenericDao<Category> {
     }
 
     @Override
-    public List<Category> findAll() throws Exception {
+    public List<Category> findAll(int pageNumber, int pageSize) throws Exception {
         Session session = null;
         try {
             session = sessionFactory.openSession();
-            List<Category> categories = session.createQuery("from Category", Category.class).list();
+            
+            // Tính toán offset dựa trên pageNumber và pageSize
+            int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+
+            // Sử dụng HQL để lấy tất cả các Category, và áp dụng phân trang
+            List<Category> categories = session.createQuery("from Category", Category.class)
+                                               .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
+                                               .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
+                                               .list();
+
             Log.info("All categories retrieved successfully. Total count: " + categories.size());
             return categories;
         } catch (Exception e) {
-            Log.error("Error while retrieving all Categories", e);
+            Log.error("Error while retrieving all Categories with pagination", e);
             throw e;
         } finally {
-            if (session != null) session.close();
+            if (session != null)
+                session.close();
         }
     }
+
 
     @Override
     public boolean update(Category category) throws Exception {

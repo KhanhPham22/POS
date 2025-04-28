@@ -65,19 +65,31 @@ public class PersonDao implements GenericDao<Person> {
 	}
 
 	@Override
-	public List<Person> findAll() throws Exception {
-		Session session = sessionFactory.openSession();
-		try {
-			List<Person> Person = session.createQuery("from Person", Person.class).list();
-			Log.info("All Person retrieved successfully from database");
-			return Person;
-		} catch (Exception e) {
-			Log.error("Database error while retrieving all Person", e);
-			throw e;
-		} finally {
-			session.close();
-		}
+	public List<Person> findAll(int pageNumber, int pageSize) throws Exception {
+	    Session session = null;
+	    try {
+	        session = sessionFactory.openSession();
+
+	        // Tính toán offset dựa trên pageNumber và pageSize
+	        int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+
+	        // Sử dụng HQL để lấy tất cả các Person, và áp dụng phân trang
+	        List<Person> persons = session.createQuery("from Person", Person.class)
+	                                      .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
+	                                      .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
+	                                      .list();
+
+	        Log.info("All Persons retrieved successfully with pagination from database");
+	        return persons;
+	    } catch (Exception e) {
+	        Log.error("Error while retrieving all Persons with pagination from database", e);
+	        throw e;
+	    } finally {
+	        if (session != null)
+	            session.close();
+	    }
 	}
+
 
 	@Override
 	public boolean update(Person Person) throws Exception {

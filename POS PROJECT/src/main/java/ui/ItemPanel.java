@@ -83,24 +83,23 @@ public class ItemPanel extends JDialog {
     }
 
     private void saveItem() {
-    	try {
-            // Validate ID (kiểu long)
-            long id = Long.parseLong(txtId.getText().trim());
-            if (id <= 0) {
-                JOptionPane.showMessageDialog(this, "ID phải là số nguyên dương!");
-                return;
-            }
-
-            // Validate số lượng (kiểu int)
+        try {
             int quantity = Integer.parseInt(txtQuantity.getText().trim());
             if (quantity <= 0) {
                 JOptionPane.showMessageDialog(this, "Số lượng phải lớn hơn 0!");
                 return;
             }
 
+            if (item.getId() == 0) {
+                // Nếu item mới (id = 0) → Parse ID
+                long id = Long.parseLong(txtId.getText().trim());
+                if (id <= 0) {
+                    JOptionPane.showMessageDialog(this, "ID phải là số nguyên dương!");
+                    return;
+                }
+                item.setId(id);
+            }
 
-            // Thiết lập thông tin item
-            item.setId(id); // Sử dụng setter cho kiểu long
             item.setName(txtName.getText().trim());
             item.setType(txtType.getText().trim());
             item.setUnit(txtUnit.getText().trim());
@@ -108,22 +107,37 @@ public class ItemPanel extends JDialog {
             item.setQuantity(quantity);
             item.setSupplier(supplier);
 
-            // Lưu vào database
-            if (itemService.createItem(item)) {
+            boolean success;
+            if (itemService.getItem(item.getId()) != null) {
+                success = itemService.updateItem(item); // Nếu có ID rồi thì cập nhật
+            } else {
+                success = itemService.createItem(item); // Không có thì tạo mới
+            }
+
+            if (success) {
                 JOptionPane.showMessageDialog(this, "Lưu item thành công!");
-                supplierPanel.refreshItems(); // Cập nhật danh sách items
+                supplierPanel.refreshItems();
                 dispose();
-                supplierPanel.setVisible(true); // Quay về SupplierPanel
+                supplierPanel.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Lỗi khi lưu item!");
             }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Số lượng phải là số nguyên dương!");
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số hợp lệ!");
         }
     }
 
-	public void setItem(Item currentItem) {
-		// TODO Auto-generated method stub
-		
-	}
+    public void setItem(Item currentItem) {
+        if (currentItem != null) {
+            this.item = currentItem;
+            txtId.setText(String.valueOf(item.getId()));
+            txtName.setText(item.getName());
+            txtType.setText(item.getType());
+            txtUnit.setText(item.getUnit());
+            txtDescription.setText(item.getDescription());
+            txtQuantity.setText(String.valueOf(item.getQuantity()));
+            txtId.setEditable(false); // ID không cho sửa
+        }
+}
+    
 }

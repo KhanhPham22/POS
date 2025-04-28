@@ -17,5 +17,5 @@ public interface WarehouseService {
 	Warehouse getWarehouseByShortName(String shortName) throws Exception;
 
 	
-	List<Warehouse> getAllWarehouses() throws Exception;
+	List<Warehouse> getAllWarehouses(int pageNumber, int pageSize) throws Exception;
 }

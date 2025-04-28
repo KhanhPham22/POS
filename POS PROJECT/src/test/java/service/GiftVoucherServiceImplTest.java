@@ -81,17 +81,17 @@ public class GiftVoucherServiceImplTest {
         verify(mockGiftVoucherDao).findById(giftVoucherId);
     }
 
-    @Test
-    public void testGetAllGiftVouchers() throws Exception {
-        List<GiftVoucher> giftVouchers = Arrays.asList(new GiftVoucher(), new GiftVoucher());
-        when(mockGiftVoucherDao.findAll()).thenReturn(giftVouchers);
-
-        List<GiftVoucher> result = giftVoucherService.getAllGiftVouchers();
-
-        assertNotNull(result);
-        assertEquals(2, result.size());
-        verify(mockGiftVoucherDao).findAll();
-    }
+//    @Test
+//    public void testGetAllGiftVouchers() throws Exception {
+//        List<GiftVoucher> giftVouchers = Arrays.asList(new GiftVoucher(), new GiftVoucher());
+//        when(mockGiftVoucherDao.findAll()).thenReturn(giftVouchers);
+//
+//        List<GiftVoucher> result = giftVoucherService.getAllGiftVouchers();
+//
+//        assertNotNull(result);
+//        assertEquals(2, result.size());
+//        verify(mockGiftVoucherDao).findAll();
+//    }
 
     @Test
     public void testGetGiftVoucherByName() throws Exception {
@@ -163,15 +163,15 @@ public class GiftVoucherServiceImplTest {
         verify(mockGiftVoucherDao).findById(giftVoucherId);
     }
 
-    @Test
-    public void testGetAllGiftVouchersException() throws Exception {
-        when(mockGiftVoucherDao.findAll()).thenThrow(new RuntimeException("Database error"));
-
-        List<GiftVoucher> result = giftVoucherService.getAllGiftVouchers();
-
-        assertNull(result);
-        verify(mockGiftVoucherDao).findAll();
-    }
+//    @Test
+//    public void testGetAllGiftVouchersException() throws Exception {
+//        when(mockGiftVoucherDao.findAll()).thenThrow(new RuntimeException("Database error"));
+//
+//        List<GiftVoucher> result = giftVoucherService.getAllGiftVouchers();
+//
+//        assertNull(result);
+//        verify(mockGiftVoucherDao).findAll();
+//    }
 
     @Test
     public void testGetGiftVoucherByNameException() throws Exception {

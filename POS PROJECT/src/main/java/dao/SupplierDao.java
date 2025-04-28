@@ -3,6 +3,7 @@ package dao;
 import model.Supplier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -66,21 +67,36 @@ public class SupplierDao implements GenericDao<Supplier> {
         }
     }
 
-    @Override
-    public List<Supplier> findAll() throws Exception {
+    public List<Supplier> findAll(int pageNumber, int pageSize) throws Exception {
         Session session = null;
         try {
             session = sessionFactory.openSession();
-            List<Supplier> suppliers = session.createQuery("from Supplier", Supplier.class).list();
-            Log.info("All suppliers retrieved successfully. Total count: " + suppliers.size());
+            
+            // Tính toán OFFSET từ pageNumber và pageSize
+            int offset = pageNumber * pageSize;
+            
+            // Sử dụng Hibernate để truy vấn với phân trang
+            List<Supplier> suppliers = session.createQuery("from Supplier", Supplier.class)
+                .setFirstResult(offset)
+                .setMaxResults(pageSize)
+                .list();
+            
+            // ✅ Initialize items cho từng supplier ngay khi session còn mở
+            for (Supplier supplier : suppliers) {
+                Hibernate.initialize(supplier.getItems());
+            }
+
+            Log.info("Suppliers retrieved with pagination. Page: " + pageNumber + ", Size: " + pageSize);
             return suppliers;
         } catch (Exception e) {
-            Log.error("Error while retrieving all Suppliers", e);
+            Log.error("Error while retrieving suppliers with pagination", e);
             throw e;
         } finally {
             if (session != null) session.close();
         }
     }
+
+
 
     @Override
     public boolean update(Supplier supplier) throws Exception {
@@ -146,6 +162,7 @@ public class SupplierDao implements GenericDao<Supplier> {
             if (session != null) session.close();
         }
     }
+    
     public List<Supplier> findByName(String name) throws Exception {
         Session session = null;
         try {
@@ -154,6 +171,11 @@ public class SupplierDao implements GenericDao<Supplier> {
             List<Supplier> suppliers = session.createQuery(hql, Supplier.class)
                 .setParameter("name", "%" + name.toLowerCase() + "%")
                 .list();
+
+            for (Supplier supplier : suppliers) {
+                Hibernate.initialize(supplier.getItems());
+            }
+
             Log.info("Suppliers retrieved with name like: " + name);
             return suppliers;
         } catch (Exception e) {
@@ -163,5 +185,6 @@ public class SupplierDao implements GenericDao<Supplier> {
             if (session != null) session.close();
         }
     }
+
 
 }
