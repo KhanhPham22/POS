@@ -13,6 +13,7 @@
         <property name="size" column="product_size" type="string" length="20"/>
         <property name="status" column="status" type="integer" not-null="true"/>
         <many-to-one name="category" class="model.Category" column="category_id" not-null="true"/>
+        <many-to-one name="giftVoucher" class="model.GiftVoucher" column="gift_voucher_id"/>
         <set name="orderDetails" cascade="all" inverse="true">
             <key column="product_id"/>
             <one-to-many class="model.OrderDetail"/>

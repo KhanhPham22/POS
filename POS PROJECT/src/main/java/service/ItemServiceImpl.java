@@ -120,15 +120,15 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public List<Item> getItemsBySupplierId(long supplierId, int pageNumber, int pageSize) {
-		try {
-			// Gọi phương thức findBySupplierId từ ItemDao với phân trang
-			List<Item> items = itemDao.findBySupplierId(supplierId, pageNumber, pageSize);
-			Log.info("Items for supplier with ID: " + supplierId + " retrieved successfully");
-			return items;
-		} catch (Exception e) {
-			Log.error("Error while retrieving items for supplier with ID: " + supplierId, e);
-			return Collections.emptyList(); // Trả về danh sách rỗng khi có lỗi
-		}
+	    try {
+	        List<Item> items = itemDao.findBySupplierId(supplierId, pageNumber, pageSize);
+	        System.out.println("Items retrieved for supplierId=" + supplierId + ", page=" + pageNumber + ": " + items.size());
+	        Log.info("Items for supplier with ID: " + supplierId + " retrieved successfully");
+	        return items;
+	    } catch (Exception e) {
+	        Log.error("Error while retrieving items for supplier with ID: " + supplierId, e);
+	        return Collections.emptyList();
+	    }
 	}
 
 }

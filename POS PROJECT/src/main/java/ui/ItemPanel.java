@@ -19,16 +19,17 @@ public class ItemPanel extends JDialog {
     private ItemService itemService;
     private SupplierPanel supplierPanel; // Thêm tham chiếu đến SupplierPanel
 
-    public ItemPanel(JFrame parent, Supplier supplier, ItemService itemService, SupplierPanel supplierPanel) {
-        super(parent, "Thêm Item Mới", true);
+    public ItemPanel(Item item, Supplier supplier, ItemService itemService, SupplierPanel supplierPanel) {
+        super((Frame) null, item == null ? "Thêm Item Mới" : "Sửa Item", true);
         this.supplier = supplier;
         this.itemService = itemService;
-        this.supplierPanel = supplierPanel; // Lưu reference
-        this.item = new Item();
+        this.supplierPanel = supplierPanel;
+        this.item = (item == null) ? new Item() : item;
         initUI();
-        setLocationRelativeTo(parent);
+        setLocationRelativeTo(null);
         setSize(400, 350);
     }
+
 
     private void initUI() {
         setLayout(new BorderLayout());
@@ -131,13 +132,13 @@ public class ItemPanel extends JDialog {
         if (currentItem != null) {
             this.item = currentItem;
             txtId.setText(String.valueOf(item.getId()));
-            txtName.setText(item.getName());
-            txtType.setText(item.getType());
-            txtUnit.setText(item.getUnit());
-            txtDescription.setText(item.getDescription());
+            txtName.setText(item.getName() != null ? item.getName() : "");
+            txtType.setText(item.getType() != null ? item.getType() : "");
+            txtUnit.setText(item.getUnit() != null ? item.getUnit() : "");
+            txtDescription.setText(item.getDescription() != null ? item.getDescription() : "");
             txtQuantity.setText(String.valueOf(item.getQuantity()));
             txtId.setEditable(false); // ID không cho sửa
         }
-}
+    }
     
 }

@@ -73,7 +73,7 @@ public class SupplierDao implements GenericDao<Supplier> {
             session = sessionFactory.openSession();
             
             // Tính toán OFFSET từ pageNumber và pageSize
-            int offset = pageNumber * pageSize;
+            int offset = (pageNumber - 1) * pageSize;
             
             // Sử dụng Hibernate để truy vấn với phân trang
             List<Supplier> suppliers = session.createQuery("from Supplier", Supplier.class)
@@ -186,5 +186,33 @@ public class SupplierDao implements GenericDao<Supplier> {
         }
     }
 
+    public Supplier findByPhone(String phone) throws Exception {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            String hql = "FROM Supplier WHERE phone = :phone";
+            return session.createQuery(hql, Supplier.class)
+                          .setParameter("phone", phone)
+                          .uniqueResult();
+        } catch (Exception e) {
+            Log.error("Error while retrieving supplier by phone: " + phone, e);
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
+    }
+
+    public Supplier findByTaxCode(String taxCode) throws Exception {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            String hql = "FROM Supplier WHERE taxCode = :taxCode";
+            return session.createQuery(hql, Supplier.class)
+                          .setParameter("taxCode", taxCode)
+                          .uniqueResult();
+        } finally {
+            if (session != null) session.close();
+        }
+    }
 
 }

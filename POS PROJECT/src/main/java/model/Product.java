@@ -15,7 +15,8 @@ public class Product extends BaseEntity {
     private Integer status = 1; // Changed from Boolean to Integer to match NUMBER(1,0)
     private Category category;
     private List<OrderDetail> orderDetails = new ArrayList<>();
-
+    private GiftVoucher giftVoucher;
+    
     // Default Constructor
     public Product() {}
 
@@ -106,5 +107,13 @@ public class Product extends BaseEntity {
 
     public void setOrderDetails(List<OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
+    }
+    
+    public GiftVoucher getGiftVoucher() {
+        return giftVoucher;
+    }
+
+    public void setGiftVoucher(GiftVoucher giftVoucher) {
+        this.giftVoucher = giftVoucher;
     }
 }

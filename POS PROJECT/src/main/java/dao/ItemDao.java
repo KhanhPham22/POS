@@ -185,20 +185,21 @@ public class ItemDao implements GenericDao<Item> {
 	        session = sessionFactory.openSession();
 	        
 	        // Tính toán offset dựa trên pageNumber và pageSize
-	        int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+	        int offset = (pageNumber - 1) * pageSize;
+	        System.out.println("Fetching items for supplierId=" + supplierId + ", pageNumber=" + pageNumber + ", pageSize=" + pageSize + ", offset=" + offset);
 	        
-	        String hql = "FROM Item WHERE supplier.id = :supplierId"; // Sử dụng supplier.id để truy vấn
-	        
-	        // Tạo query và phân trang
+	        String hql = "FROM Item WHERE supplier.id = :supplierId";
 	        List<Item> items = session.createQuery(hql, Item.class)
 	                                  .setParameter("supplierId", supplierId)
-	                                  .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
-	                                  .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
+	                                  .setFirstResult(offset)
+	                                  .setMaxResults(pageSize)
 	                                  .list();
 
-	        // Initialize các liên kết (nếu có) cho từng item ngay khi session còn mở
+	        // Log số lượng items trả về
+	        System.out.println("Items retrieved: " + items.size());
+
 	        for (Item item : items) {
-	            Hibernate.initialize(item.getSupplier()); // Giả sử Item có liên kết đến Supplier
+	            Hibernate.initialize(item.getSupplier());
 	        }
 
 	        Log.info("Items for supplier with ID: " + supplierId + " retrieved successfully.");

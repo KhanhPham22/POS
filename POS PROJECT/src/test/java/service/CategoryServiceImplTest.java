@@ -100,16 +100,19 @@ public class CategoryServiceImplTest {
 	        assertNull(result);
 	    }
 
-//	    @Test
-//	    public void testGetAllCategories() throws Exception {
-//	        List<Category> categories = Arrays.asList(new Category(), new Category());
-//	        when(mockCategoryDao.findAll()).thenReturn(categories);
-//
-//	        List<Category> result = categoryService.getAllCategories();
-//
-//	        assertNotNull(result);
-//	        assertEquals(2, result.size());
-//	    }
+	    @Test
+	    public void testGetAllCategories_WithPagination() throws Exception {
+	        List<Category> categories = Arrays.asList(new Category(), new Category());
+	        when(mockCategoryDao.findAll(1, 10)).thenReturn(categories); // Giả lập DAO trả 2 category
+
+	        List<Category> result = categoryService.getAllCategories(1, 10); // Gọi service với page 1, size 10
+
+	        assertNotNull(result);
+	        assertEquals(2, result.size());
+	        verify(mockCategoryDao).findAll(1, 10); // Xác nhận DAO được gọi đúng
+	    }
+
+
 
 	    @Test
 	    public void testGetCategoryByName_Found() throws Exception {

@@ -212,7 +212,4 @@ public class ProductDao implements GenericDao<Product> {
         }
     }
 
-
-
-
 }
