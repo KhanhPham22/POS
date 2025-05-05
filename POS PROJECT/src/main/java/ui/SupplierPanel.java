@@ -642,18 +642,19 @@ public class SupplierPanel extends JPanel {
         if (result != JOptionPane.OK_OPTION)
             return;
 
-        if (txtName.getText().isEmpty()) {
+        String name = txtName.getText().trim();
+        if (name.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Tên supplier không được để trống!");
             return;
         }
-
+     
         Supplier supplier = new Supplier();
-        supplier.setName(txtName.getText());
-        supplier.setContactName(txtContactName.getText());
-        supplier.setPhone(txtPhone.getText());
-        supplier.setEmail(txtEmail.getText());
-        supplier.setAddress(txtAddress.getText());
-        supplier.setTaxCode(txtTaxCode.getText());
+        supplier.setName(txtName.getText().trim());
+        supplier.setContactName(txtContactName.getText().trim());
+        supplier.setPhone(txtPhone.getText().trim());
+        supplier.setEmail(txtEmail.getText().trim());
+        supplier.setAddress(txtAddress.getText().trim());
+        supplier.setTaxCode(txtTaxCode.getText().trim());
         supplier.setItems(new HashSet<>());
         supplier.setWarehouseImports(new HashSet<>());
 
@@ -662,7 +663,7 @@ public class SupplierPanel extends JPanel {
             supplierPageNumber = 1;
             loadSuppliers();
         } else {
-            JOptionPane.showMessageDialog(this, "Lỗi: Số điện thoại hoặc mã số thuế đã tồn tại!");
+            JOptionPane.showMessageDialog(this, "Lỗi: Tên,số điện thoại hoặc mã số thuế đã tồn tại!");
         }
     }
 

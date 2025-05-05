@@ -74,7 +74,7 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
                 loadCustomerPanel();
                 break;
             case "Employee":
-                loadEmployeePanel();
+            	openEmployeeManager();
                 break;
             case "Product":
                 loadProductPanel();
@@ -115,11 +115,9 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
         contentPanel.add(customerPanel, BorderLayout.CENTER);
     }
 
-    private void loadEmployeePanel() {
-        JPanel employeePanel = new JPanel(new BorderLayout());
-        employeePanel.setBackground(Color.WHITE);
-        employeePanel.add(new JLabel("Employee Page (Under Construction)", SwingConstants.CENTER));
-        contentPanel.add(employeePanel, BorderLayout.CENTER);
+    private void openEmployeeManager() {
+        
+        
     }
 
     private void loadProductPanel() {

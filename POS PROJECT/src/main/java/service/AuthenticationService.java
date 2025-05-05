@@ -29,7 +29,6 @@ public class AuthenticationService {
         this.ownerDao.setClass(Owner.class);
     }
 
-
     // Đăng nhập
     public UserSession login(String username, String password) throws Exception {
         Log.info("Login attempt for username: " + username);
@@ -66,7 +65,6 @@ public class AuthenticationService {
         throw new Exception("Tài khoản không tồn tại");
     }
 
-
     // Kiểm tra token có hợp lệ không
     public boolean isTokenValid(String token,int pageNumber, int pageSize) throws Exception {
         List<UserSession> allSessions = userSessionDao.findAll(pageNumber,pageSize);
@@ -102,9 +100,29 @@ public class AuthenticationService {
         throw new Exception("Token không hợp lệ hoặc đã hết hạn");
     }
     
+    public boolean isStrongPassword(String password) {
+        if (password == null) return false;
+
+        // Độ dài ít nhất 6 ký tự
+        if (password.length() < 6) return false;
+
+        // Regex kiểm tra các thành phần cần thiết
+        boolean hasUppercase = password.matches(".*[A-Z].*"); //it nhat 1 chu hoa
+        boolean hasLowercase = password.matches(".*[a-z].*"); //it nhat 1 chu thuong
+        boolean hasDigit = password.matches(".*[0-9].*"); //it nhat 1 so tu 0-0
+        boolean hasSpecialChar = password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*"); //it nhat 1 ky tu dac biet
+
+        return hasUppercase && hasLowercase && hasDigit && hasSpecialChar;
+    }
+    
     public boolean resetPasswordByUsername(String username, String newPassword) throws Exception {
         Log.info("Reset password attempt for username: " + username);
 
+        if (!isStrongPassword(newPassword)) {
+            Log.warn("Weak password for username: " + username);
+            throw new Exception("Mật khẩu phải có ít nhất 6 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt");
+        }
+        
         Employee employee = employeeDao.findByUsername(username);
         if (employee != null) {
             String hashedPassword = hashService.hash(newPassword);
@@ -122,7 +140,6 @@ public class AuthenticationService {
         Log.warn("No account found with username: " + username);
         throw new Exception("Không tìm thấy tài khoản với tên đăng nhập này");
     }
-
 
 }
 

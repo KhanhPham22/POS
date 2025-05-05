@@ -18,7 +18,7 @@ public abstract class Person implements Serializable {
     private String city;
     private String state;
     private String country;
-    private boolean enabledFlag = true;
+    private boolean enabledFlag = true; // danh dau nguoi dung con hoat dong
 
     // Constructor mặc định
     public Person() {

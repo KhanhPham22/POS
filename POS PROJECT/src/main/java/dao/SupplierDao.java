@@ -214,5 +214,22 @@ public class SupplierDao implements GenericDao<Supplier> {
             if (session != null) session.close();
         }
     }
+    
+    public Supplier findByNameExact(String name) throws Exception {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            String hql = "FROM Supplier WHERE lower(name) = :name";
+            return session.createQuery(hql, Supplier.class)
+                          .setParameter("name", name.toLowerCase())
+                          .uniqueResult();
+        } catch (Exception e) {
+            Log.error("Error while checking exact name: " + name, e);
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
+    }
+
 
 }

@@ -18,7 +18,7 @@ public class Employee extends Person {
     public Employee() {
     }
 
-    // Thay thế @PrePersist bằng phương thức gọi thủ công trong Service/DAO
+    //random UID employee
     public void generateEmployeeNumber() {
         this.employeeNumber = "EMP-" + UUID.randomUUID().toString();
     }

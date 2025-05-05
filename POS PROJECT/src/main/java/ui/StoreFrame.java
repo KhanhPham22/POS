@@ -3,6 +3,7 @@ package ui;
 import javax.swing.*;
 
 import dao.ItemDao;
+import dao.PersonDao;
 import dao.StoreDao;
 import dao.SupplierDao;
 import model.Item;
@@ -10,13 +11,13 @@ import model.Store;
 import model.Supplier;
 import service.ItemService;
 import service.ItemServiceImpl;
+import service.PersonServiceImpl;
 import service.StoreServiceImpl;
 import service.SupplierService;
 import service.SupplierServiceImpl;
 
 import java.awt.*;
 import ui.Elements.*;
-import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
                 loadCustomerPanel();
                 break;
             case "Employee":
-                loadEmployeePanel();
+            	openEmployeeManager();
                 break;
             case "Product":
                 loadProductPanel();
@@ -111,11 +112,9 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
         contentPanel.add(customerPanel, BorderLayout.CENTER);
     }
 
-    private void loadEmployeePanel() {
-        JPanel employeePanel = new JPanel(new BorderLayout());
-        employeePanel.setBackground(Color.WHITE);
-        employeePanel.add(new JLabel("Employee Page (Under Construction)", SwingConstants.CENTER));
-        contentPanel.add(employeePanel, BorderLayout.CENTER);
+    private void openEmployeeManager() {
+    	//new EmployeeManager(new PersonServiceImpl(new PersonDao()));
+        dispose(); // đóng SupplierFrame
     }
 
     private void loadProductPanel() {
@@ -161,25 +160,25 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
         panel.add(new JLabel(valueText != null ? valueText : ""), gbc);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            SupplierDao supplierDao = new SupplierDao();
-            supplierDao.setClass(Supplier.class);
-
-            ItemDao itemDao = new ItemDao();
-            itemDao.setClass(Item.class);
-
-            StoreDao storeDao = new StoreDao();
-            storeDao.setClass(Store.class);
-
-            SupplierService supplierService = new SupplierServiceImpl(supplierDao);
-            ItemService itemService = new ItemServiceImpl(itemDao);
-            StoreServiceImpl storeService = new StoreServiceImpl(storeDao);
-
-            StoreFrame frame = new StoreFrame(supplierService, itemService, storeService);
-            frame.setVisible(true);
-        });
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(() -> {
+//            SupplierDao supplierDao = new SupplierDao();
+//            supplierDao.setClass(Supplier.class);
+//
+//            ItemDao itemDao = new ItemDao();
+//            itemDao.setClass(Item.class);
+//
+//            StoreDao storeDao = new StoreDao();
+//            storeDao.setClass(Store.class);
+//
+//            SupplierService supplierService = new SupplierServiceImpl(supplierDao);
+//            ItemService itemService = new ItemServiceImpl(itemDao);
+//            StoreServiceImpl storeService = new StoreServiceImpl(storeDao);
+//
+//            StoreFrame frame = new StoreFrame(supplierService, itemService, storeService);
+//            frame.setVisible(true);
+//        });
+//    }
 
 
 }

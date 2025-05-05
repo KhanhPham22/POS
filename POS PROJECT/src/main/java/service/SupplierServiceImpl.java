@@ -22,7 +22,7 @@ public class SupplierServiceImpl implements SupplierService {
 		this.supplierDao.setClass(Supplier.class);
 	}
 
-	//check phone and tax
+	//check phone tax and name
 	@Override
 	public boolean createSupplier(Supplier supplier) {
 	    try {
@@ -33,6 +33,10 @@ public class SupplierServiceImpl implements SupplierService {
 	        if (supplier.getTaxCode() != null && !supplier.getTaxCode().isBlank()
 	            && supplierDao.findByTaxCode(supplier.getTaxCode()) != null) {
 	            Log.warn("Tax code đã tồn tại: " + supplier.getTaxCode());
+	            return false;
+	        }
+	        if (supplierDao.findByNameExact(supplier.getName()) != null) {
+	            Log.warn("Tên supplier đã tồn tại: " + supplier.getName());
 	            return false;
 	        }
 	        return supplierDao.create(supplier);

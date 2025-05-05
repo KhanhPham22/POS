@@ -10,7 +10,7 @@ public class Warehouse extends BaseEntity {
     private String state;
     private String zip;
     private String address;
-    private int enabledFlag;
+    private int enabledFlag; //sau nay sua thanh 1 cho kho con hoat dong,0 cho kho khong hoat dong
     private Supplier supplier;
     private Item item;
     

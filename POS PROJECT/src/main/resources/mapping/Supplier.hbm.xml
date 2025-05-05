@@ -6,7 +6,7 @@
     <joined-subclass name="model.Supplier" extends="model.BaseEntity" table="supplier">
         <key column="supplier_id" />
 
-        <property name="name" column="name" not-null="true" length="100" />
+        <property name="name" column="name" not-null="true" length="100" unique="true" />
         <property name="contactName" column="contact_name" length="100" />
         <property name="phone" column="phone" not-null="true" unique="true" length="20" />
         <property name="email" column="email" unique="true" length="100" />

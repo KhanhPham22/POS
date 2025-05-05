@@ -5,8 +5,6 @@ import java.util.Set;
 
 public class Store extends BaseEntity {
 
-    
-    private static Store instance;
     private String name;
     private String shortName;
     private String description;
@@ -43,13 +41,7 @@ public class Store extends BaseEntity {
 
     // Getter and Setter methods
    
-
-    public static Store getInstance() {
-        if (instance == null) {
-            instance = new Store();
-        }
-        return instance;
-    }
+ 
 
     public String getName() {
         return name;
