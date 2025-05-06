@@ -2,15 +2,20 @@ package ui;
 
 import javax.swing.*;
 
+import dao.CustomerDao;
+import dao.EmployeeDao;
 import dao.ItemDao;
+import dao.OwnerDao;
 import dao.PersonDao;
 import dao.StoreDao;
 import dao.SupplierDao;
 import model.Item;
 import model.Store;
 import model.Supplier;
+import service.HashService;
 import service.ItemService;
 import service.ItemServiceImpl;
+import service.PersonService;
 import service.PersonServiceImpl;
 import service.StoreServiceImpl;
 import service.SupplierService;
@@ -30,14 +35,20 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
             "Warehouse", "Store", "Logout" };
     private final String username = "admin"; // Replace with actual username
     private final ImageIcon logoIcon = new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\lck.png");
+    
     private SupplierService supplierService;
     private ItemService itemService;
     private StoreServiceImpl storeService;
-
-    public StoreFrame(SupplierService supplierService, ItemService itemService, StoreServiceImpl storeService) {
+    private PersonService personService;
+    private HashService hashService;
+    
+    public StoreFrame(SupplierService supplierService, ItemService itemService, StoreServiceImpl storeService,PersonService personService,
+            HashService hashService) {
         this.supplierService = supplierService;
         this.itemService = itemService;
         this.storeService = storeService;
+        this.personService = personService;
+        this.hashService = hashService;
         setTitle("Quản lý cửa hàng");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -113,8 +124,8 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
     }
 
     private void openEmployeeManager() {
-    	//new EmployeeManager(new PersonServiceImpl(new PersonDao()));
-        dispose(); // đóng SupplierFrame
+    	new EmployeeManager(personService,supplierService,itemService,storeService,hashService).setVisible(true);
+        dispose(); 
     }
 
     private void loadProductPanel() {
@@ -132,8 +143,9 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
     }
 
     private void openSupplierFrame() {
-        new SupplierFrame(supplierService, itemService);
-        dispose(); // Close current frame
+        SupplierFrame supplierFrame = new SupplierFrame(supplierService, itemService,storeService,personService,hashService);
+        supplierFrame.setVisible(true);
+        dispose();
     }
 
     private void loadWarehousePanel() {

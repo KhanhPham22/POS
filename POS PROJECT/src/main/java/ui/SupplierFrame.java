@@ -23,8 +23,10 @@ import dao.SupplierDao;
 import model.Item;
 import model.Supplier;
 import model.Warehouse;
+import service.HashService;
 import service.ItemService;
 import service.ItemServiceImpl;
+import service.PersonService;
 import service.StoreService;
 import service.StoreServiceImpl;
 import service.SupplierService;
@@ -43,11 +45,18 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 
     private final SupplierService supplierService;
     private final ItemService itemService;
-
-    public SupplierFrame(SupplierService supplierService, ItemService itemService) {
+    private StoreServiceImpl storeService;
+    private PersonService personService;
+    private HashService hashService;
+    
+    public SupplierFrame(SupplierService supplierService, ItemService itemService,StoreServiceImpl storeService,PersonService personService,
+            HashService hashService) {
         this.supplierService = supplierService;
         this.itemService = itemService;
-
+        this.storeService = storeService;
+        this.personService = personService;
+        this.hashService = hashService;
+        
         setTitle("Supplier Management");
         setSize(1200, 800);
         setLocationRelativeTo(null);
@@ -116,7 +125,8 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
     }
 
     private void openEmployeeManager() {
-        
+    	new EmployeeManager(personService,supplierService,itemService,storeService,hashService).setVisible(true);
+        dispose(); 
         
     }
 
@@ -148,7 +158,7 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 
     private void openStoreFrame() {
         StoreServiceImpl storeService = new StoreServiceImpl(new StoreDao()); // Use StoreServiceImpl directly
-        StoreFrame storeFrame = new StoreFrame(supplierService, itemService, storeService);
+        StoreFrame storeFrame = new StoreFrame(supplierService, itemService, storeService,personService,hashService);
         storeFrame.setVisible(true);
         dispose();
     }
@@ -161,19 +171,19 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            try {
-                SupplierService supplierService = new SupplierServiceImpl(new SupplierDao());
-                ItemService itemService = new ItemServiceImpl(new ItemDao());
-                SupplierFrame frame = new SupplierFrame(supplierService, itemService);
-                frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null,
-                    "Lỗi khi khởi chạy ứng dụng: " + e.getMessage(),
-                    "Lỗi", JOptionPane.ERROR_MESSAGE);
-            }
-        });
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(() -> {
+//            try {
+//                SupplierService supplierService = new SupplierServiceImpl(new SupplierDao());
+//                ItemService itemService = new ItemServiceImpl(new ItemDao());
+//                SupplierFrame frame = new SupplierFrame(supplierService, itemService);
+//                frame.setVisible(true);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                JOptionPane.showMessageDialog(null,
+//                    "Lỗi khi khởi chạy ứng dụng: " + e.getMessage(),
+//                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+//            }
+//        });
+//    }
 }

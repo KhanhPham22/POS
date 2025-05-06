@@ -17,7 +17,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import ui.ManagerFrame;
+
 
 public class SuccessButton extends JButton {
 
@@ -47,7 +47,7 @@ public class SuccessButton extends JButton {
         closeButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ManagerFrame.framesetEnable();
+                //ManagerFrame.framesetEnable();
                 dialog.dispose();
             }
         });
@@ -57,7 +57,7 @@ public class SuccessButton extends JButton {
         panel.getActionMap().put("exit", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ManagerFrame.framesetEnable();
+                //ManagerFrame.framesetEnable();
                 dialog.dispose();
             }
         });

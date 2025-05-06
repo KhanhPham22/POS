@@ -198,8 +198,8 @@ public class LoginFrame {
                 });
             } else if (session.getOwner() != null) {
                 SwingUtilities.invokeLater(() -> {
-                    ManagerFrame managerFrame = new ManagerFrame();
-                    managerFrame.setVisible(true);
+//                    ManagerFrame managerFrame = new ManagerFrame();
+//                    managerFrame.setVisible(true);
                 });
             } else {
                 toaster.error("Unknown role!");
