@@ -12,6 +12,7 @@ import dao.SupplierDao;
 import model.Item;
 import model.Store;
 import model.Supplier;
+import service.AuthenticationService;
 import service.HashService;
 import service.ItemService;
 import service.ItemServiceImpl;
@@ -41,14 +42,17 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
     private StoreServiceImpl storeService;
     private PersonService personService;
     private HashService hashService;
+    private AuthenticationService authService;
     
     public StoreFrame(SupplierService supplierService, ItemService itemService, StoreServiceImpl storeService,PersonService personService,
-            HashService hashService) {
+            HashService hashService,AuthenticationService authService) {
         this.supplierService = supplierService;
         this.itemService = itemService;
         this.storeService = storeService;
         this.personService = personService;
         this.hashService = hashService;
+        this.authService = authService;
+        
         setTitle("Quản lý cửa hàng");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -124,7 +128,7 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
     }
 
     private void openEmployeeManager() {
-    	new EmployeeManager(personService,supplierService,itemService,storeService,hashService).setVisible(true);
+    	new EmployeeManager(personService,supplierService,itemService,storeService,hashService,authService).setVisible(true);
         dispose(); 
     }
 
@@ -143,7 +147,7 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
     }
 
     private void openSupplierFrame() {
-        SupplierFrame supplierFrame = new SupplierFrame(supplierService, itemService,storeService,personService,hashService);
+        SupplierFrame supplierFrame = new SupplierFrame(supplierService, itemService,storeService,personService,hashService,authService);
         supplierFrame.setVisible(true);
         dispose();
     }

@@ -11,6 +11,7 @@ import dao.OwnerDao;
 import dao.PersonDao;
 import dao.StoreDao;
 import dao.SupplierDao;
+import dao.UserSessionDao;
 import model.Employee;
 import model.Owner;
 import service.ItemService;
@@ -20,6 +21,7 @@ import service.PersonServiceImpl;
 import service.StoreServiceImpl;
 import service.SupplierService;
 import service.SupplierServiceImpl;
+import service.AuthenticationService;
 import service.HashService;
 import ui.Elements.SearchBar;
 import ui.Elements.SidebarPanel;
@@ -42,15 +44,17 @@ public class EmployeeManager extends JFrame implements SidebarPanel.SidebarListe
     private ItemService itemService;
     private StoreServiceImpl storeService;
     private HashService hashService;
-
+    private AuthenticationService authService;
+    
     public EmployeeManager(PersonService personService, SupplierService supplierService, 
                          ItemService itemService, StoreServiceImpl storeService, 
-                         HashService hashService) {
+                         HashService hashService,AuthenticationService authService) {
         this.personService = personService;
         this.supplierService = supplierService;
         this.itemService = itemService;
         this.storeService = storeService;
         this.hashService = hashService;
+        this.authService = authService;
         
         setTitle("Quản lý nhân viên");
         setSize(800, 600);
@@ -109,7 +113,7 @@ public class EmployeeManager extends JFrame implements SidebarPanel.SidebarListe
     }
 
     private void loadPersonPanel() {
-        PersonPanel personPanel = new PersonPanel(personService, hashService);
+        PersonPanel personPanel = new PersonPanel(personService, hashService,authService);
         contentPanel.add(personPanel, BorderLayout.CENTER);
     }
 
@@ -149,13 +153,13 @@ public class EmployeeManager extends JFrame implements SidebarPanel.SidebarListe
     }
 
     private void openStoreFrame() {
-        StoreFrame storeFrame = new StoreFrame(supplierService, itemService, storeService,personService,hashService);
+        StoreFrame storeFrame = new StoreFrame(supplierService, itemService, storeService,personService,hashService,authService);
         storeFrame.setVisible(true);
         dispose();
     }
 
     private void openSupplierFrame() {
-        SupplierFrame supplierFrame = new SupplierFrame(supplierService, itemService,storeService,personService,hashService);
+        SupplierFrame supplierFrame = new SupplierFrame(supplierService, itemService,storeService,personService,hashService,authService);
         supplierFrame.setVisible(true);
         dispose();
     }
@@ -178,6 +182,7 @@ public class EmployeeManager extends JFrame implements SidebarPanel.SidebarListe
                 SupplierDao supplierDao = new SupplierDao();
                 ItemDao itemDao = new ItemDao();
                 StoreDao storeDao = new StoreDao();
+                UserSessionDao userSessionDao = new UserSessionDao();
                 
                 // Khởi tạo các service
                 PersonService personService = new PersonServiceImpl(employeeDao, customerDao, ownerDao);
@@ -185,6 +190,7 @@ public class EmployeeManager extends JFrame implements SidebarPanel.SidebarListe
                 ItemService itemService = new ItemServiceImpl(itemDao);
                 StoreServiceImpl storeService = new StoreServiceImpl(storeDao);
                 HashService hashService = new HashService();
+                AuthenticationService authService = new AuthenticationService(employeeDao, ownerDao, userSessionDao, hashService);
                 
                 // Tạo và hiển thị frame chính
                 EmployeeManager frame = new EmployeeManager(
@@ -192,7 +198,8 @@ public class EmployeeManager extends JFrame implements SidebarPanel.SidebarListe
                     supplierService, 
                     itemService, 
                     storeService, 
-                    hashService
+                    hashService,
+                    authService
                 );
                 frame.setVisible(true);
             } catch (Exception e) {

@@ -162,17 +162,32 @@ public class EmployeeDao implements GenericDao<Employee> {
 	}
 	
 	public Employee findByUsername(String username) throws Exception {
-		Session session = sessionFactory.openSession();
-		try {
-			Employee Employee = session.createQuery("from Employee where loginUsername = :username", Employee.class)
-					.setParameter("username", username).uniqueResult();
-			Log.info("Employee with username: " + username + " retrieved successfully from database");
-			return Employee;
-		} catch (Exception e) {
-			Log.error("Database error while retrieving Employee with username:" + username, e);
-			throw e;
-		} finally {
-			session.close();
-		}
-	}
+        Session session = sessionFactory.openSession();
+        try {
+            Employee employee = session.createQuery("from Employee where loginUsername = :username", Employee.class)
+                    .setParameter("username", username).uniqueResult();
+            Log.info("Employee with username: " + username + " retrieved successfully from database");
+            return employee;
+        } catch (Exception e) {
+            Log.error("Database error while retrieving Employee with username:" + username, e);
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+	
+	 public Employee findByEmail(String email) throws Exception {
+	        Session session = sessionFactory.openSession();
+	        try {
+	            Employee employee = session.createQuery("from Employee where email = :email", Employee.class)
+	                    .setParameter("email", email).uniqueResult();
+	            Log.info("Employee with email: " + email + " retrieved successfully from database");
+	            return employee;
+	        } catch (Exception e) {
+	            Log.error("Database error while retrieving Employee with email: " + email, e);
+	            throw e;
+	        } finally {
+	            session.close();
+	        }
+	    }
 }

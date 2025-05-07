@@ -9,7 +9,7 @@
         <property name="employeeNumber" column="employee_number" not-null="true" />
         <property name="employeeType" column="employee_type" />
         <property name="description" column="description" />
-        <property name="loginUsername" column="login_username" not-null="true" />
+        <property name="loginUsername" column="login_username" not-null="true" unique="true" />
         <property name="loginPassword" column="login_password" length="1000" />
 
         <set name="invoices" inverse="true" cascade="all-delete-orphan" lazy="true">

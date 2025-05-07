@@ -23,6 +23,7 @@ import dao.SupplierDao;
 import model.Item;
 import model.Supplier;
 import model.Warehouse;
+import service.AuthenticationService;
 import service.HashService;
 import service.ItemService;
 import service.ItemServiceImpl;
@@ -48,14 +49,16 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
     private StoreServiceImpl storeService;
     private PersonService personService;
     private HashService hashService;
+    private AuthenticationService authService;
     
     public SupplierFrame(SupplierService supplierService, ItemService itemService,StoreServiceImpl storeService,PersonService personService,
-            HashService hashService) {
+            HashService hashService,AuthenticationService authService) {
         this.supplierService = supplierService;
         this.itemService = itemService;
         this.storeService = storeService;
         this.personService = personService;
         this.hashService = hashService;
+        this.authService = authService;
         
         setTitle("Supplier Management");
         setSize(1200, 800);
@@ -125,7 +128,7 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
     }
 
     private void openEmployeeManager() {
-    	new EmployeeManager(personService,supplierService,itemService,storeService,hashService).setVisible(true);
+    	new EmployeeManager(personService,supplierService,itemService,storeService,hashService,authService).setVisible(true);
         dispose(); 
         
     }
@@ -158,7 +161,7 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 
     private void openStoreFrame() {
         StoreServiceImpl storeService = new StoreServiceImpl(new StoreDao()); // Use StoreServiceImpl directly
-        StoreFrame storeFrame = new StoreFrame(supplierService, itemService, storeService,personService,hashService);
+        StoreFrame storeFrame = new StoreFrame(supplierService, itemService, storeService,personService,hashService,authService);
         storeFrame.setVisible(true);
         dispose();
     }

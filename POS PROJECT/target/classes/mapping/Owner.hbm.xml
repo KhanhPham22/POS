@@ -9,7 +9,7 @@
 
         <property name="ownerNumber" column="owner_number"/>
         <property name="description" column="description"/>
-        <property name="loginUsername" column="login_username"/>
+        <property name="loginUsername" column="login_username" unique="true"/>
         <property name="loginPassword" column="login_password"/>
         
         <!-- Quan hệ One-to-Many với Dashboard -->

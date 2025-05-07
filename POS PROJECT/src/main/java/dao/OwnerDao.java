@@ -146,18 +146,33 @@ public class OwnerDao implements GenericDao<Owner> {
     }
     
     public Owner findByUsername(String username) throws Exception {
-    	Session session = sessionFactory.openSession();
-    	try {
-    		Owner owner = session.createQuery("from Owner where loginUsername = :username", Owner.class)
-    				.setParameter("username", username).uniqueResult();
-    		Log.info("Owner with username: " + username + " retrieved successfully from database");
-    		return owner;
-    	} catch (Exception e) {
-    		Log.error("Database error while retrieving Owner with username: " + username, e);
-    		throw e;
-    	} finally {
-    		session.close();
-    	}
+        Session session = sessionFactory.openSession();
+        try {
+            Owner owner = session.createQuery("from Owner where loginUsername = :username", Owner.class)
+                    .setParameter("username", username).uniqueResult();
+            Log.info("Owner with username: " + username + " retrieved successfully from database");
+            return owner;
+        } catch (Exception e) {
+            Log.error("Database error while retrieving Owner with username: " + username, e);
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
+
+    public Owner findByEmail(String email) throws Exception {
+        Session session = sessionFactory.openSession();
+        try {
+            Owner owner = session.createQuery("from Owner where email = :email", Owner.class)
+                    .setParameter("email", email).uniqueResult();
+            Log.info("Owner with email: " + email + " retrieved successfully from database");
+            return owner;
+        } catch (Exception e) {
+            Log.error("Database error while retrieving Owner with email: " + email, e);
+            throw e;
+        } finally {
+            session.close();
+        }
     }
 
 }

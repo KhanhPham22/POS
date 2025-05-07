@@ -189,4 +189,28 @@ public class PersonServiceImpl implements PersonService {
 		Log.info("Owner with username " + username + " retrieved");
 		return owner;
 	}
+	
+	 @Override
+	    public boolean existsByEmail(String email) throws Exception {
+	        try {
+	            boolean exists = employeeDao.findByEmail(email) != null || ownerDao.findByEmail(email) != null ;
+	            Log.info("Checked email existence for: " + email + ", exists: " + exists);
+	            return exists;
+	        } catch (Exception e) {
+	            Log.error("Error while checking email existence: " + email, e);
+	            throw e;
+	        }
+	    }
+
+	    @Override
+	    public boolean existsByUsername(String username) throws Exception {
+	        try {
+	            boolean exists = employeeDao.findByUsername(username) != null || ownerDao.findByUsername(username) != null;
+	            Log.info("Checked username existence for: " + username + ", exists: " + exists);
+	            return exists;
+	        } catch (Exception e) {
+	            Log.error("Error while checking username existence: " + username, e);
+	            throw e;
+	        }
+	    }
 }

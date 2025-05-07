@@ -18,7 +18,7 @@
         <property name="personGender" column="person_gender"/>
         <property name="dateOfBirth" column="date_of_birth"/>
         <property name="phone"/>
-        <property name="email"/>
+        <property name="email" unique="true"/>
         <property name="address"/>
         <property name="city"/>
         <property name="state"/>
