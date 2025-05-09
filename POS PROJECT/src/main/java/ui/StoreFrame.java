@@ -78,7 +78,7 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
                 loadHomePanel();
                 break;
             case "Customer":
-                loadCustomerPanel();
+                openCustomerManager();
                 break;
             case "Employee":
             	openEmployeeManager();
@@ -120,11 +120,9 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
         contentPanel.add(homePanel, BorderLayout.CENTER);
     }
 
-    private void loadCustomerPanel() {
-        JPanel customerPanel = new JPanel(new BorderLayout());
-        customerPanel.setBackground(Color.WHITE);
-        customerPanel.add(new JLabel("Customer Page (Under Construction)", SwingConstants.CENTER));
-        contentPanel.add(customerPanel, BorderLayout.CENTER);
+    private void openCustomerManager() {
+        new CustomerManager(personService, supplierService, itemService, storeService, hashService, authService).setVisible(true);
+        dispose();
     }
 
     private void openEmployeeManager() {

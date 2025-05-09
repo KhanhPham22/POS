@@ -82,7 +82,7 @@ public class EmployeeManager extends JFrame implements SidebarPanel.SidebarListe
                 loadHomePanel();
                 break;
             case "Customer":
-                loadCustomerPanel();
+                openCustomerManager();
                 break;
             case "Employee":
                 loadPersonPanel();
@@ -124,11 +124,9 @@ public class EmployeeManager extends JFrame implements SidebarPanel.SidebarListe
         contentPanel.add(homePanel, BorderLayout.CENTER);
     }
 
-    private void loadCustomerPanel() {
-        JPanel customerPanel = new JPanel(new BorderLayout());
-        customerPanel.setBackground(Color.WHITE);
-        customerPanel.add(new JLabel("Customer Page (Under Construction)", SwingConstants.CENTER));
-        contentPanel.add(customerPanel, BorderLayout.CENTER);
+    private void openCustomerManager() {
+        new CustomerManager(personService, supplierService, itemService, storeService, hashService, authService).setVisible(true);
+        dispose();
     }
 
     private void loadProductPanel() {

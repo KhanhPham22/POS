@@ -25,6 +25,7 @@ public interface PersonService {
 	//getby
 	Employee getEmployeeByUsername(String username) throws Exception;	
 	Customer getCustomerByNameandPhone(String name,String phone) throws Exception;
+	Customer getCustomerByPhone(String phone) throws Exception;
 	Owner getOwnerByUsername(String username) throws Exception;
 	//pagination
 	List<Employee> getAllEmployees(int pageNumber, int pageSize) throws Exception;

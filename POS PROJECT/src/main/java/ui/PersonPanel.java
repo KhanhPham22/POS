@@ -18,6 +18,8 @@ import ui.Elements.SearchBar;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.EventObject;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -98,45 +100,40 @@ public class PersonPanel extends JPanel {
         topPanel.add(addButton, BorderLayout.EAST);
         add(topPanel, BorderLayout.NORTH);
 
-        // Table setup with new columns
-        String[] columnNames = { "ID", "Full Name", "Username", "Type", "Gender", "Date of Birth", "Email", "Contact",
-                "Address", "City", "State", "Status", "Actions" };
+        // Table setup with updated columns
+        String[] columnNames = { "ID", "Full Name", "Username", "Type", "Email", "Gender", "Status", "Actions" };
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 12; // Allow editing only for the Actions column
+                return column == 7; // Allow editing only for the Actions column
             }
         };
 
         personTable = new JTable(tableModel);
-        personTable.setFillsViewportHeight(true); // Ensure table fills the viewport height
+        personTable.setFillsViewportHeight(true);
         personTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
         // Set custom renderer and editor for the Actions column
-        personTable.getColumnModel().getColumn(12).setCellRenderer(new ActionCellRenderer());
-        personTable.getColumnModel().getColumn(12).setCellEditor(new ActionCellEditor());
+        personTable.getColumnModel().getColumn(7).setCellRenderer(new ActionCellRenderer());
+        personTable.getColumnModel().getColumn(7).setCellEditor(new ActionCellEditor());
 
         // Custom renderer for status column
-        personTable.getColumnModel().getColumn(11).setCellRenderer(new StatusCellRenderer());
+        personTable.getColumnModel().getColumn(6).setCellRenderer(new StatusCellRenderer());
 
         // Make header bold
         personTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 16));
 
-        personTable.setRowHeight(60);
-        // Adjusted column widths to accommodate new columns
-        personTable.getColumnModel().getColumn(0).setPreferredWidth(80); // ID
-        personTable.getColumnModel().getColumn(1).setPreferredWidth(140); // Full Name
-        personTable.getColumnModel().getColumn(2).setPreferredWidth(120); // Username
-        personTable.getColumnModel().getColumn(3).setPreferredWidth(80); // Type
-        personTable.getColumnModel().getColumn(4).setPreferredWidth(80); // Gender
-        personTable.getColumnModel().getColumn(5).setPreferredWidth(120); // Date of Birth
-        personTable.getColumnModel().getColumn(6).setPreferredWidth(150); // Email
-        personTable.getColumnModel().getColumn(7).setPreferredWidth(100); // Contact
-        personTable.getColumnModel().getColumn(8).setPreferredWidth(100); // Address
-        personTable.getColumnModel().getColumn(9).setPreferredWidth(100); // City
-        personTable.getColumnModel().getColumn(10).setPreferredWidth(100); // State
-        personTable.getColumnModel().getColumn(11).setPreferredWidth(100); // Status
-        personTable.getColumnModel().getColumn(12).setPreferredWidth(150); // Actions
+        personTable.setRowHeight(61);
+        
+        // Adjusted column widths for balanced layout
+        personTable.getColumnModel().getColumn(0).setPreferredWidth(100); // ID
+        personTable.getColumnModel().getColumn(1).setPreferredWidth(200); // Full Name
+        personTable.getColumnModel().getColumn(2).setPreferredWidth(180); // Username
+        personTable.getColumnModel().getColumn(3).setPreferredWidth(150); // Type
+        personTable.getColumnModel().getColumn(4).setPreferredWidth(200); // Email
+        personTable.getColumnModel().getColumn(5).setPreferredWidth(150); // Gender
+        personTable.getColumnModel().getColumn(6).setPreferredWidth(180); // Status
+        personTable.getColumnModel().getColumn(7).setPreferredWidth(250); // Actions (increased for three buttons)
 
         JScrollPane scrollPane = new JScrollPane(personTable);
         add(scrollPane, BorderLayout.CENTER);
@@ -209,7 +206,7 @@ public class PersonPanel extends JPanel {
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
                 int row, int column) {
             if (row >= table.getModel().getRowCount() || table.getModel().getValueAt(row, column) == null) {
-                return new JPanel(); // Return empty panel if row or cell is invalid
+                return new JPanel();
             }
             return createActionPanel(row, null);
         }
@@ -235,8 +232,8 @@ public class PersonPanel extends JPanel {
         @Override
         public boolean stopCellEditing() {
             if (panel != null) {
-                panel.removeAll(); // Clear all components from the panel
-                panel = null; // Clear the panel reference
+                panel.removeAll();
+                panel = null;
             }
             return super.stopCellEditing();
         }
@@ -244,31 +241,31 @@ public class PersonPanel extends JPanel {
         @Override
         public void cancelCellEditing() {
             if (panel != null) {
-                panel.removeAll(); // Clear all components from the panel
-                panel = null; // Clear the panel reference
+                panel.removeAll();
+                panel = null;
             }
             super.cancelCellEditing();
         }
     }
-
+    //event handle 3 button
     private JPanel createActionPanel(int row, ActionCellEditor editor) {
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 8, 5));
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
         panel.setBackground(Color.WHITE);
 
         JButton editButton = new JButton("Edit");
         editButton.setBackground(new Color(255, 165, 0));
         editButton.setForeground(Color.WHITE);
         editButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        editButton.setPreferredSize(new Dimension(60, 30));
+        editButton.setPreferredSize(new Dimension(70, 50));
         editButton.setMargin(new Insets(2, 5, 2, 5));
         editButton.addActionListener(evt -> {
             int modelRow = personTable.convertRowIndexToModel(row);
-            String personType = (String) tableModel.getValueAt(modelRow, 3);
             String code = (String) tableModel.getValueAt(modelRow, 0);
-            if (personType.equals("Owner")) {
-                editOwner(modelRow, code);
-            } else {
+            String personType = determinePersonType(modelRow);
+            if ("Employee".equals(personType)) {
                 editEmployee(modelRow, code);
+            } else if ("Owner".equals(personType)) {
+                editOwner(modelRow, code);
             }
             if (editor != null) editor.stopCellEditing();
         });
@@ -277,14 +274,14 @@ public class PersonPanel extends JPanel {
         deleteButton.setBackground(new Color(255, 0, 0));
         deleteButton.setForeground(Color.WHITE);
         deleteButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        deleteButton.setPreferredSize(new Dimension(60, 30));
+        deleteButton.setPreferredSize(new Dimension(70, 50));
         deleteButton.setMargin(new Insets(2, 5, 2, 5));
         deleteButton.addActionListener(evtDel -> {
             int modelRow = personTable.convertRowIndexToModel(row);
             if (modelRow >= tableModel.getRowCount()) return;
-            String personType = (String) tableModel.getValueAt(modelRow, 3);
             String code = (String) tableModel.getValueAt(modelRow, 0);
             String name = (String) tableModel.getValueAt(modelRow, 1);
+            String personType = determinePersonType(modelRow);
 
             int confirm = JOptionPane.showConfirmDialog(PersonPanel.this,
                     "Are you sure you want to delete " + name + " (" + code + ")?", "Confirm Delete",
@@ -292,7 +289,7 @@ public class PersonPanel extends JPanel {
 
             if (confirm == JOptionPane.YES_OPTION) {
                 try {
-                    if (personType.equals("Owner")) {
+                    if ("Owner".equals(personType)) {
                         Owner owner = personService.getAllOwner(1, Integer.MAX_VALUE).stream()
                                 .filter(o -> o.getOwnerNumber().equals(code))
                                 .findFirst()
@@ -318,19 +315,44 @@ public class PersonPanel extends JPanel {
             if (editor != null) editor.stopCellEditing();
         });
 
+        JButton detailButton = new JButton("Detail");
+        detailButton.setBackground(new Color(70, 130, 180));
+        detailButton.setForeground(Color.WHITE);
+        detailButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        detailButton.setPreferredSize(new Dimension(70, 50));
+        detailButton.setMargin(new Insets(2, 5, 2, 5));
+        detailButton.addActionListener(evt -> {
+            int modelRow = personTable.convertRowIndexToModel(row);
+            String code = (String) tableModel.getValueAt(modelRow, 0);
+            String personType = determinePersonType(modelRow);
+            if ("Employee".equals(personType)) {
+                showEmployeeDetail(modelRow, code);
+            } else if ("Owner".equals(personType)) {
+                showOwnerDetail(modelRow, code);
+            }
+            if (editor != null) editor.stopCellEditing();
+        });
+
         panel.add(editButton);
         panel.add(deleteButton);
+        panel.add(detailButton);
         return panel;
     }
-    
-
+    //checkEMP id
+    private String determinePersonType(int modelRow) {
+        Object id = tableModel.getValueAt(modelRow, 0);
+        if (id == null) return "Unknown";
+        String idStr = id.toString();
+        return idStr.startsWith("EMP") ? "Employee" : "Owner";
+    }
+    //load person
     private void loadPersonData() {
         if (tableModel == null) {
             System.err.println("TableModel is null, cannot load data");
             return;
         }
         try {
-            tableModel.setRowCount(0); // Clear old data
+            tableModel.setRowCount(0);
             String selectedType = (String) personTypeComboBox.getSelectedItem();
 
             if (selectedType.equals("All Employees") || selectedType.equals("Full-time")
@@ -339,9 +361,8 @@ public class PersonPanel extends JPanel {
                 for (Employee emp : employees) {
                     if (matchesSearchQuery(emp)) {
                         tableModel.addRow(new Object[] { emp.getEmployeeNumber(), getFullName(emp),
-                                emp.getLoginUsername(), emp.getEmployeeType(), emp.getPersonGender(),
-                                emp.getDateOfBirth(), emp.getEmail(), emp.getPhone(), emp.getAddress(), emp.getCity(),
-                                emp.getState(), emp.isEnabledFlag() ? "Active" : "Inactive", "" });
+                                emp.getLoginUsername(), emp.getEmployeeType(), emp.getEmail(), emp.getPersonGender(),
+                                emp.isEnabledFlag() ? "Active" : "Inactive", "" });
                     }
                 }
             } else if (selectedType.equals("Owners")) {
@@ -351,15 +372,13 @@ public class PersonPanel extends JPanel {
                 for (Owner owner : owners) {
                     if (matchesSearchQuery(owner)) {
                         tableModel.addRow(new Object[] { owner.getOwnerNumber(), getFullName(owner),
-                                owner.getLoginUsername(), "Owner", owner.getPersonGender(), owner.getDateOfBirth(),
-                                owner.getEmail(), owner.getPhone(), owner.getAddress(), owner.getCity(),
-                                owner.getState(), owner.isEnabledFlag() ? "Active" : "Inactive", "" });
+                                owner.getLoginUsername(), "Owner", owner.getEmail(), owner.getPersonGender(),
+                                owner.isEnabledFlag() ? "Active" : "Inactive", "" });
                     }
                 }
             }
 
             updatePaginationInfo();
-            // Ensure the table updates visually after loading data
             personTable.revalidate();
             personTable.repaint();
         } catch (Exception e) {
@@ -367,21 +386,29 @@ public class PersonPanel extends JPanel {
         }
     }
 
+    //load employee
     private List<Employee> loadEmployees(String selectedType) throws Exception {
-        List<Employee> employees;
+        List<Employee> allEmployees = personService.getAllEmployees(1, Integer.MAX_VALUE); // Lấy tất cả nhân viên
+        List<Employee> filteredEmployees;
+
         if (selectedType.equals("All Employees")) {
-            employees = personService.getAllEmployees(currentPage, pageSize);
-            totalRecords = personService.getAllEmployees(1, Integer.MAX_VALUE).size();
+            filteredEmployees = allEmployees;
+            totalRecords = allEmployees.size();
         } else {
             String employeeType = selectedType;
-            employees = personService.getAllEmployees(currentPage, pageSize).stream()
-                    .filter(e -> e.getEmployeeType() != null && e.getEmployeeType().equals(employeeType)).toList();
-            totalRecords = (int) personService.getAllEmployees(1, Integer.MAX_VALUE).stream()
-                    .filter(e -> e.getEmployeeType() != null && e.getEmployeeType().equals(employeeType)).count();
+            filteredEmployees = allEmployees.stream()
+                    .filter(e -> e.getEmployeeType() != null && e.getEmployeeType().equals(employeeType))
+                    .toList();
+            totalRecords = filteredEmployees.size();
         }
-        return employees;
-    }
 
+        // Áp dụng phân trang cho danh sách đã lọc
+        int startIndex = (currentPage - 1) * pageSize;
+        int endIndex = Math.min(startIndex + pageSize, filteredEmployees.size());
+        return filteredEmployees.subList(startIndex, endIndex);
+    }
+    
+    //check search keyword match with search
     private boolean matchesSearchQuery(Person person) {
         if (currentSearchQuery.isEmpty())
             return true;
@@ -390,13 +417,15 @@ public class PersonPanel extends JPanel {
                 || (person instanceof Employee ? ((Employee) person).getLoginUsername().toLowerCase().contains(query)
                         : ((Owner) person).getLoginUsername().toLowerCase().contains(query));
     }
-
+    
+    //get person name
     private String getFullName(Person person) {
         return (person.getPersonFirstName() != null ? person.getPersonFirstName() : "") + " "
                 + (person.getPersonMiddleName() != null ? person.getPersonMiddleName() : "") + " "
                 + (person.getPersonLastName() != null ? person.getPersonLastName() : "");
     }
 
+    //update pagination info
     private void updatePaginationInfo() {
         int start = (currentPage - 1) * pageSize + 1;
         int end = Math.min(currentPage * pageSize, totalRecords);
@@ -416,9 +445,9 @@ public class PersonPanel extends JPanel {
         }
     }
 
+    //add employee
     private void showAddEmployeeDialog() {
         JDialog dialog = createDialog("Add New Employee", 700, 650);
-        // create field
         JTextField firstNameField = new JTextField();
         JTextField middleNameField = new JTextField();
         JTextField lastNameField = new JTextField();
@@ -433,8 +462,8 @@ public class PersonPanel extends JPanel {
         JPasswordField passwordField = new JPasswordField();
         JComboBox<String> typeCombo = new JComboBox<>(new String[] { "Full-time", "Part-time" });
         JComboBox<String> statusCombo = new JComboBox<>(new String[] { "Active", "Inactive" });
+        JTextField descriptionField = new JTextField();
 
-        // Apply consistent styling to all comboboxes
         for (JComboBox<?> combo : new JComboBox<?>[] { genderCombo, typeCombo, statusCombo }) {
             combo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
             combo.setBackground(Color.WHITE);
@@ -443,10 +472,10 @@ public class PersonPanel extends JPanel {
 
         addDialogFields(dialog,
                 new String[] { "First Name:", "Middle Name:", "Last Name:", "Gender:", "Date of Birth:", "Phone:",
-                        "Email:", "Address:", "City:", "State:", "Username:", "Password:", "Type:", "Status:" },
+                        "Email:", "Address:", "City:", "State:", "Username:", "Password:", "Type:", "Status:", "Description:" },
                 new JComponent[] { firstNameField, middleNameField, lastNameField, genderCombo, dobField, phoneField,
                         emailField, addressField, cityField, stateField, usernameField, passwordField, typeCombo,
-                        statusCombo });
+                        statusCombo, descriptionField });
 
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(e -> {
@@ -456,25 +485,48 @@ public class PersonPanel extends JPanel {
                 String password = new String(passwordField.getPassword());
                 String dob = dobField.getText().trim();
 
-                // Validate date of birth format (YYYY-MM-DD)
-                if (!dob.isEmpty() && !Pattern.matches("\\d{4}-\\d{2}-\\d{2}", dob)) {
-                    showError("Date of Birth must be in YYYY-MM-DD format (e.g., 2003-02-22)");
+                // Email validation: must contain @
+                if (!email.isEmpty() && !email.contains("@")) {
+                    showError("Email must contain '@' symbol (e.g., example@domain.com)");
                     return;
                 }
 
-                // Check for duplicate email
+                // Date of Birth validation
+                if (!dob.isEmpty()) {
+                    if (!Pattern.matches("\\d{4}-\\d{2}-\\d{2}", dob)) {
+                        showError("Date of Birth must be in YYYY-MM-DD format (e.g., 2003-02-22)");
+                        return;
+                    }
+                    try {
+                        LocalDate date = LocalDate.parse(dob);
+                        int month = date.getMonthValue();
+                        int day = date.getDayOfMonth();
+                        if (month < 1 || month > 12) {
+                            showError("Month must be between 1 and 12");
+                            return;
+                        }
+                        // Validate days based on the month and leap year
+                        int maxDays = date.getMonth().length(date.isLeapYear());
+                        if (day < 1 || day > maxDays) {
+                            showError("Day must be between 1 and " + maxDays + " for the given month");
+                            return;
+                        }
+                    } catch (DateTimeParseException ex) {
+                        showError("Invalid date format: " + ex.getMessage());
+                        return;
+                    }
+                }
+
                 if (!email.isEmpty() && personService.existsByEmail(email)) {
                     showError("Email '" + email + "' is already in use. Please use a different email.");
                     return;
                 }
 
-                // Check for duplicate username
                 if (!username.isEmpty() && personService.existsByUsername(username)) {
                     showError("Username '" + username + "' is already in use. Please use a different username.");
                     return;
                 }
 
-                // Validate password
                 if (password.isEmpty()) {
                     showError("Password cannot be empty");
                     return;
@@ -499,6 +551,7 @@ public class PersonPanel extends JPanel {
                 emp.setLoginPassword(hashService.hash(password));
                 emp.setEmployeeType((String) typeCombo.getSelectedItem());
                 emp.setEnabledFlag(statusCombo.getSelectedItem().equals("Active"));
+                emp.setDescription(descriptionField.getText());
                 emp.generateEmployeeNumber();
 
                 personService.createEmployee(emp);
@@ -512,9 +565,9 @@ public class PersonPanel extends JPanel {
         addDialogButtons(dialog, saveButton);
     }
 
+    //add owner
     private void showAddOwnerDialog() {
         JDialog dialog = createDialog("Add New Owner", 700, 650);
-        // Create fields
         JTextField firstNameField = new JTextField();
         JTextField middleNameField = new JTextField();
         JTextField lastNameField = new JTextField();
@@ -528,8 +581,8 @@ public class PersonPanel extends JPanel {
         JTextField usernameField = new JTextField();
         JPasswordField passwordField = new JPasswordField();
         JComboBox<String> statusCombo = new JComboBox<>(new String[] { "Active", "Inactive" });
+        JTextField descriptionField = new JTextField();
 
-        // Apply consistent styling to all comboboxes
         for (JComboBox<?> combo : new JComboBox<?>[] { genderCombo, statusCombo }) {
             combo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
             combo.setBackground(Color.WHITE);
@@ -538,9 +591,9 @@ public class PersonPanel extends JPanel {
 
         addDialogFields(dialog,
                 new String[] { "First Name:", "Middle Name:", "Last Name:", "Gender:", "Date of Birth:", "Phone:",
-                        "Email:", "Address:", "City:", "State:", "Username:", "Password:", "Status:" },
+                        "Email:", "Address:", "City:", "State:", "Username:", "Password:", "Status:", "Description:" },
                 new JComponent[] { firstNameField, middleNameField, lastNameField, genderCombo, dobField, phoneField,
-                        emailField, addressField, cityField, stateField, usernameField, passwordField, statusCombo });
+                        emailField, addressField, cityField, stateField, usernameField, passwordField, statusCombo, descriptionField });
 
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(e -> {
@@ -550,25 +603,48 @@ public class PersonPanel extends JPanel {
                 String password = new String(passwordField.getPassword());
                 String dob = dobField.getText().trim();
 
-                // Validate date of birth format (YYYY-MM-DD)
-                if (!dob.isEmpty() && !Pattern.matches("\\d{4}-\\d{2}-\\d{2}", dob)) {
-                    showError("Date of Birth must be in YYYY-MM-DD format (e.g., 2003-02-22)");
+                // Email validation: must contain @
+                if (!email.isEmpty() && !email.contains("@")) {
+                    showError("Email must contain '@' symbol (e.g., example@domain.com)");
                     return;
                 }
 
-                // Check for duplicate email
+                // Date of Birth validation
+                if (!dob.isEmpty()) {
+                    if (!Pattern.matches("\\d{4}-\\d{2}-\\d{2}", dob)) {
+                        showError("Date of Birth must be in YYYY-MM-DD format (e.g., 2003-02-22)");
+                        return;
+                    }
+                    try {
+                        LocalDate date = LocalDate.parse(dob);
+                        int month = date.getMonthValue();
+                        int day = date.getDayOfMonth();
+                        if (month < 1 || month > 12) {
+                            showError("Month must be between 1 and 12");
+                            return;
+                        }
+                        // Validate days based on the month and leap year
+                        int maxDays = date.getMonth().length(date.isLeapYear());
+                        if (day < 1 || day > maxDays) {
+                            showError("Day must be between 1 and " + maxDays + " for the given month");
+                            return;
+                        }
+                    } catch (DateTimeParseException ex) {
+                        showError("Invalid date format: " + ex.getMessage());
+                        return;
+                    }
+                }
+
                 if (!email.isEmpty() && personService.existsByEmail(email)) {
                     showError("Email '" + email + "' is already in use. Please use a different email.");
                     return;
                 }
 
-                // Check for duplicate username
                 if (!username.isEmpty() && personService.existsByUsername(username)) {
                     showError("Username '" + username + "' is already in use. Please use a different username.");
                     return;
                 }
 
-                // Validate password
                 if (password.isEmpty()) {
                     showError("Password cannot be empty");
                     return;
@@ -592,6 +668,7 @@ public class PersonPanel extends JPanel {
                 owner.setLoginUsername(usernameField.getText());
                 owner.setLoginPassword(hashService.hash(password));
                 owner.setEnabledFlag(statusCombo.getSelectedItem().equals("Active"));
+                owner.setDescription(descriptionField.getText());
                 owner.generateOwnerId();
 
                 personService.createOwner(owner);
@@ -605,18 +682,130 @@ public class PersonPanel extends JPanel {
         addDialogButtons(dialog, saveButton);
     }
 
+    //show employeedetail
+    private void showEmployeeDetail(int row, String code) {
+        try {
+            Employee emp = personService.getAllEmployees(1, Integer.MAX_VALUE).stream()
+                    .filter(e -> e.getEmployeeNumber().equals(code)).findFirst()
+                    .orElseThrow(() -> new Exception("Employee not found"));
+
+            JDialog dialog = createDialog("Employee Details", 400, 600);
+            dialog.setLocationRelativeTo(null);
+
+            JTextField firstNameField = new JTextField(emp.getPersonFirstName() != null ? emp.getPersonFirstName() : "");
+            JTextField middleNameField = new JTextField(emp.getPersonMiddleName() != null ? emp.getPersonMiddleName() : "");
+            JTextField lastNameField = new JTextField(emp.getPersonLastName() != null ? emp.getPersonLastName() : "");
+            JTextField genderField = new JTextField(emp.getPersonGender() != null ? emp.getPersonGender() : "");
+            JTextField dobField = new JTextField(emp.getDateOfBirth() != null ? emp.getDateOfBirth() : "");
+            JTextField phoneField = new JTextField(emp.getPhone() != null ? emp.getPhone() : "");
+            JTextField emailField = new JTextField(emp.getEmail() != null ? emp.getEmail() : "");
+            JTextField addressField = new JTextField(emp.getAddress() != null ? emp.getAddress() : "");
+            JTextField cityField = new JTextField(emp.getCity() != null ? emp.getCity() : "");
+            JTextField stateField = new JTextField(emp.getState() != null ? emp.getState() : "");
+            JTextField usernameField = new JTextField(emp.getLoginUsername() != null ? emp.getLoginUsername() : "");
+            JTextField typeField = new JTextField(emp.getEmployeeType() != null ? emp.getEmployeeType() : "");
+            JTextField statusField = new JTextField(emp.isEnabledFlag() ? "Active" : "Inactive");
+            JTextField descriptionField = new JTextField(emp.getDescription() != null ? emp.getDescription() : "");
+
+            JComponent[] fields = { firstNameField, middleNameField, lastNameField, genderField, dobField, phoneField,
+                    emailField, addressField, cityField, stateField, usernameField, typeField, statusField, descriptionField };
+            for (JComponent field : fields) {
+                if (field instanceof JTextField) {
+                    ((JTextField) field).setEditable(false);
+                }
+                field.setBackground(new Color(245, 245, 245));
+                field.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
+            }
+
+            addDialogFields(dialog,
+                    new String[] { "First Name:", "Middle Name:", "Last Name:", "Gender:", "Date of Birth:", "Phone:",
+                            "Email:", "Address:", "City:", "State:", "Username:", "Type:", "Status:", "Description:" },
+                    fields);
+
+            JButton backButton = new JButton("Back");
+            backButton.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+            backButton.setBackground(new Color(220, 220, 220));
+            backButton.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+            backButton.addActionListener(e -> dialog.dispose());
+
+            JPanel buttonPanel = (JPanel) dialog.getContentPane().getComponent(1);
+            buttonPanel.add(backButton);
+
+            dialog.pack();
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+        } catch (Exception e) {
+            showError("Error loading employee details: " + e.getMessage());
+        }
+    }
+
+    //show owner detail
+    private void showOwnerDetail(int row, String code) {
+        try {
+            Owner owner = personService.getAllOwner(1, Integer.MAX_VALUE).stream()
+                    .filter(o -> o.getOwnerNumber().equals(code)).findFirst()
+                    .orElseThrow(() -> new Exception("Owner not found"));
+
+            JDialog dialog = createDialog("Owner Details", 400, 550);
+            dialog.setLocationRelativeTo(null);
+
+            JTextField firstNameField = new JTextField(owner.getPersonFirstName() != null ? owner.getPersonFirstName() : "");
+            JTextField middleNameField = new JTextField(owner.getPersonMiddleName() != null ? owner.getPersonMiddleName() : "");
+            JTextField lastNameField = new JTextField(owner.getPersonLastName() != null ? owner.getPersonLastName() : "");
+            JTextField genderField = new JTextField(owner.getPersonGender() != null ? owner.getPersonGender() : "");
+            JTextField dobField = new JTextField(owner.getDateOfBirth() != null ? owner.getDateOfBirth() : "");
+            JTextField phoneField = new JTextField(owner.getPhone() != null ? owner.getPhone() : "");
+            JTextField emailField = new JTextField(owner.getEmail() != null ? owner.getEmail() : "");
+            JTextField addressField = new JTextField(owner.getAddress() != null ? owner.getAddress() : "");
+            JTextField cityField = new JTextField(owner.getCity() != null ? owner.getCity() : "");
+            JTextField stateField = new JTextField(owner.getState() != null ? owner.getState() : "");
+            JTextField usernameField = new JTextField(owner.getLoginUsername() != null ? owner.getLoginUsername() : "");
+            JTextField statusField = new JTextField(owner.isEnabledFlag() ? "Active" : "Inactive");
+            JTextField descriptionField = new JTextField(owner.getDescription() != null ? owner.getDescription() : "");
+
+            JComponent[] fields = { firstNameField, middleNameField, lastNameField, genderField, dobField, phoneField,
+                    emailField, addressField, cityField, stateField, usernameField, statusField, descriptionField };
+            for (JComponent field : fields) {
+                if (field instanceof JTextField) {
+                    ((JTextField) field).setEditable(false);
+                }
+                field.setBackground(new Color(245, 245, 245));
+                field.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
+            }
+
+            addDialogFields(dialog,
+                    new String[] { "First Name:", "Middle Name:", "Last Name:", "Gender:", "Date of Birth:", "Phone:",
+                            "Email:", "Address:", "City:", "State:", "Username:", "Status:", "Description:" },
+                    fields);
+
+            JButton backButton = new JButton("Back");
+            backButton.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+            backButton.setBackground(new Color(220, 220, 220));
+            backButton.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+            backButton.addActionListener(e -> dialog.dispose());
+
+            JPanel buttonPanel = (JPanel) dialog.getContentPane().getComponent(1);
+            buttonPanel.add(backButton);
+
+            dialog.pack();
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+        } catch (Exception e) {
+            showError("Error loading owner details: " + e.getMessage());
+        }
+    }
+
+    // create dialog
     private JDialog createDialog(String title, int width, int height) {
         JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), title, true);
         dialog.setSize(width, height);
         dialog.setLayout(new BorderLayout());
         dialog.getContentPane().setBackground(Color.WHITE);
 
-        // Main content panel with GridLayout for form fields
         JPanel contentPanel = new JPanel(new GridLayout(0, 2, 10, 10));
         contentPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         contentPanel.setBackground(Color.WHITE);
 
-        // Button panel at bottom
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         buttonPanel.setBackground(Color.WHITE);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 10));
@@ -652,6 +841,7 @@ public class PersonPanel extends JPanel {
         }
     }
 
+    //add dialog button
     private void addDialogButtons(JDialog dialog, JButton saveButton) {
         JPanel buttonPanel = (JPanel) dialog.getContentPane().getComponent(1);
 
@@ -674,18 +864,17 @@ public class PersonPanel extends JPanel {
         dialog.setVisible(true);
     }
 
+    //edit employee
     private void editEmployee(int row, String code) {
         try {
             Employee emp = personService.getAllEmployees(1, Integer.MAX_VALUE).stream()
                     .filter(e -> e.getEmployeeNumber().equals(code)).findFirst()
                     .orElseThrow(() -> new Exception("Employee not found"));
 
-            JDialog dialog = createDialog("Edit Employee", 400, 550); // Reduced height as password field is removed
-            dialog.setLocationRelativeTo(null); // Center the dialog on the screen
-            JTextField firstNameField = new JTextField(
-                    emp.getPersonFirstName() != null ? emp.getPersonFirstName() : "");
-            JTextField middleNameField = new JTextField(
-                    emp.getPersonMiddleName() != null ? emp.getPersonMiddleName() : "");
+            JDialog dialog = createDialog("Edit Employee", 400, 600);
+            dialog.setLocationRelativeTo(null);
+            JTextField firstNameField = new JTextField(emp.getPersonFirstName() != null ? emp.getPersonFirstName() : "");
+            JTextField middleNameField = new JTextField(emp.getPersonMiddleName() != null ? emp.getPersonMiddleName() : "");
             JTextField lastNameField = new JTextField(emp.getPersonLastName() != null ? emp.getPersonLastName() : "");
             JComboBox<String> genderCombo = new JComboBox<>(new String[] { "Male", "Female", "Other" });
             genderCombo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -703,13 +892,14 @@ public class PersonPanel extends JPanel {
             JComboBox<String> statusCombo = new JComboBox<>(new String[] { "Active", "Inactive" });
             statusCombo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
             statusCombo.setSelectedItem(emp.isEnabledFlag() ? "Active" : "Inactive");
+            JTextField descriptionField = new JTextField(emp.getDescription() != null ? emp.getDescription() : "");
 
             addDialogFields(dialog,
                     new String[] { "First Name:", "Middle Name:", "Last Name:", "Gender:", "Date of Birth:", "Phone:",
-                            "Email:", "Address:", "City:", "State:", "Username:", "Type:", "Status:" },
+                            "Email:", "Address:", "City:", "State:", "Username:", "Type:", "Status:", "Description:" },
                     new JComponent[] { firstNameField, middleNameField, lastNameField, genderCombo, dobField,
                             phoneField, emailField, addressField, cityField, stateField, usernameField, typeCombo,
-                            statusCombo });
+                            statusCombo, descriptionField });
 
             JButton saveButton = new JButton("Save");
             saveButton.addActionListener(e -> {
@@ -727,6 +917,7 @@ public class PersonPanel extends JPanel {
                     emp.setLoginUsername(usernameField.getText());
                     emp.setEmployeeType((String) typeCombo.getSelectedItem());
                     emp.setEnabledFlag(statusCombo.getSelectedItem().equals("Active"));
+                    emp.setDescription(descriptionField.getText());
 
                     personService.updateEmployee(emp);
                     loadPersonData();
@@ -742,24 +933,22 @@ public class PersonPanel extends JPanel {
         }
     }
 
+    //edit owner
     private void editOwner(int row, String code) {
         try {
             Owner owner = personService.getAllOwner(1, Integer.MAX_VALUE).stream()
                     .filter(o -> o.getOwnerNumber().equals(code)).findFirst()
                     .orElseThrow(() -> new Exception("Owner not found"));
 
-            JDialog dialog = createDialog("Edit Owner", 400, 550); // Reduced height as password field is removed
-            dialog.setLocationRelativeTo(null); // Center the dialog on the screen
-            JTextField firstNameField = new JTextField(
-                    owner.getPersonFirstName() != null ? owner.getPersonFirstName() : "");
-            JTextField middleNameField = new JTextField(
-                    owner.getPersonMiddleName() != null ? owner.getPersonMiddleName() : "");
-            JTextField lastNameField = new JTextField(
-                    owner.getPersonLastName() != null ? owner.getPersonLastName() : "");
+            JDialog dialog = createDialog("Edit Owner", 400, 600);
+            dialog.setLocationRelativeTo(null);
+            JTextField firstNameField = new JTextField(owner.getPersonFirstName() != null ? owner.getPersonFirstName() : "");
+            JTextField middleNameField = new JTextField(owner.getPersonMiddleName() != null ? owner.getPersonMiddleName() : "");
+            JTextField lastNameField = new JTextField(owner.getPersonLastName() != null ? owner.getPersonLastName() : "");
             JComboBox<String> genderCombo = new JComboBox<>(new String[] { "Male", "Female", "Other" });
             genderCombo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
             genderCombo.setSelectedItem(owner.getPersonGender() != null ? owner.getPersonGender() : "Other");
-            JTextField dobField = new JTextField(owner.getDateOfBirth () != null ? owner.getDateOfBirth() : "");
+            JTextField dobField = new JTextField(owner.getDateOfBirth() != null ? owner.getDateOfBirth() : "");
             JTextField phoneField = new JTextField(owner.getPhone() != null ? owner.getPhone() : "");
             JTextField emailField = new JTextField(owner.getEmail() != null ? owner.getEmail() : "");
             JTextField addressField = new JTextField(owner.getAddress() != null ? owner.getAddress() : "");
@@ -769,12 +958,13 @@ public class PersonPanel extends JPanel {
             JComboBox<String> statusCombo = new JComboBox<>(new String[] { "Active", "Inactive" });
             statusCombo.setFont(new Font("Segoe UI", Font.PLAIN, 14));
             statusCombo.setSelectedItem(owner.isEnabledFlag() ? "Active" : "Inactive");
+            JTextField descriptionField = new JTextField(owner.getDescription() != null ? owner.getDescription() : "");
 
             addDialogFields(dialog,
                     new String[] { "First Name:", "Middle Name:", "Last Name:", "Gender:", "Date of Birth:", "Phone:",
-                            "Email:", "Address:", "City:", "State:", "Username:", "Status:" },
+                            "Email:", "Address:", "City:", "State:", "Username:", "Status:", "Description:" },
                     new JComponent[] { firstNameField, middleNameField, lastNameField, genderCombo, dobField,
-                            phoneField, emailField, addressField, cityField, stateField, usernameField, statusCombo });
+                            phoneField, emailField, addressField, cityField, stateField, usernameField, statusCombo, descriptionField });
 
             JButton saveButton = new JButton("Save");
             saveButton.addActionListener(e -> {
@@ -791,6 +981,7 @@ public class PersonPanel extends JPanel {
                     owner.setState(stateField.getText());
                     owner.setLoginUsername(usernameField.getText());
                     owner.setEnabledFlag(statusCombo.getSelectedItem().equals("Active"));
+                    owner.setDescription(descriptionField.getText());
 
                     personService.updateOwner(owner);
                     loadPersonData();

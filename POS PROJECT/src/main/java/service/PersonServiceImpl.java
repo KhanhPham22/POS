@@ -183,6 +183,13 @@ public class PersonServiceImpl implements PersonService {
 		return customer;
 	}
 	
+	  @Override
+	    public Customer getCustomerByPhone(String phone) throws Exception {
+	        Customer customer = customerDao.findByPhone(phone);
+	        Log.info("Customer with phone " + phone + " retrieved");
+	        return customer;
+	    }
+	
 	@Override
 	public Owner getOwnerByUsername(String username) throws Exception {
 		Owner owner = ownerDao.findByUsername(username);

@@ -180,5 +180,26 @@ public class CustomerDao implements GenericDao<Customer> {
 			session.close();
 		}
 	}
+	
+	public Customer findByPhone(String phone) throws Exception {
+        Session session = sessionFactory.openSession();
+        try {
+            String hql = "FROM Customer WHERE phone = :phone";
+            Customer customer = session.createQuery(hql, Customer.class)
+                    .setParameter("phone", phone)
+                    .uniqueResult();
+            if (customer != null) {
+                Log.info("Customer with phone: " + phone + " retrieved successfully from database");
+            } else {
+                Log.info("No Customer found with phone: " + phone);
+            }
+            return customer;
+        } catch (Exception e) {
+            Log.error("Database error while retrieving Customer with phone: " + phone, e);
+            throw e;
+        } finally {
+            session.close();
+        }
+    }
 
 }
