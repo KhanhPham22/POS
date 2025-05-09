@@ -2,130 +2,300 @@ package ui;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
-import model.Category;
-import model.Product;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import model.Category;
+import model.Product;
 import service.ProductService;
+import service.CategoryService;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.oned.EAN13Writer;
+import ui.Elements.SearchBar;
 
-//public class ProductListPanel extends JPanel {
-//
-//    private final ProductService productService;
-//    private JComboBox<Category> categoryComboBox;
-//    private JTextField searchField;
-//    private JComboBox<String> statusFilterComboBox;
-//    private JTable productTable;
-//    private DefaultTableModel tableModel;
-//    private int currentPage = 1;
-//    private final int pageSize = 10;
-//
-//    public ProductListPanel(ProductService productService, List<Category> categories) {
-//        this.productService = productService;
-//        setLayout(new BorderLayout());
-//
-//        // Top filter bar
-//        JPanel filterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-//        categoryComboBox = new JComboBox<>(categories.toArray(new Category[0]));
-//        filterPanel.add(new JLabel("Danh mục:"));
-//        filterPanel.add(categoryComboBox);
-//
-//        searchField = new JTextField(15);
-//        filterPanel.add(new JLabel("Tìm tên:"));
-//        filterPanel.add(searchField);
-//
-//        statusFilterComboBox = new JComboBox<>(new String[]{"Tất cả", "Còn hàng", "Hết hàng"});
-//        filterPanel.add(new JLabel("Trạng thái:"));
-//        filterPanel.add(statusFilterComboBox);
-//
-//        JButton searchBtn = new JButton("Tìm");
-//        searchBtn.addActionListener(e -> {
-//            currentPage = 1;
-//            loadProducts();
-//        });
-//        filterPanel.add(searchBtn);
-//
-//        add(filterPanel, BorderLayout.NORTH);
-//
-//        // Table
-//        tableModel = new DefaultTableModel(new Object[]{"ID", "Tên", "Giá", "Giảm giá", "Số lượng", "Kích cỡ", "Trạng thái"}, 0);
-//        productTable = new JTable(tableModel);
-//        add(new JScrollPane(productTable), BorderLayout.CENTER);
-//
-//        // Pagination
-//        JPanel paginationPanel = new JPanel();
-//        JButton prevBtn = new JButton("← Trang trước");
-//        JButton nextBtn = new JButton("Trang sau →");
-//
-//        prevBtn.addActionListener(e -> {
-//            if (currentPage > 1) {
-//                currentPage--;
-//                loadProducts();
-//            }
-//        });
-//
-//        nextBtn.addActionListener(e -> {
-//            currentPage++;
-//            loadProducts(); // Có thể thêm kiểm tra tổng số trang nếu cần
-//        });
-//
-//        paginationPanel.add(prevBtn);
-//        paginationPanel.add(nextBtn);
-//        add(paginationPanel, BorderLayout.SOUTH);
-//
-//        // Load ban đầu
-//        loadProducts();
-//    }
-//
-//    private void loadProducts() {
-//        Category selectedCategory = (Category) categoryComboBox.getSelectedItem();
-//        String keyword = searchField.getText().toLowerCase().trim();
-//        String selectedStatus = (String) statusFilterComboBox.getSelectedItem();
-//
-//        try {
-//            List<Product> allProducts = productService.getAllProducts();
-//
-//            // Lọc
-//            List<Product> filtered = allProducts.stream()
-//            		.filter(p -> selectedCategory == null || p.getCategory().getId() == selectedCategory.getId())
-//                .filter(p -> keyword.isEmpty() || p.getName().toLowerCase().contains(keyword))
-//                .filter(p -> {
-//                    if ("Còn hàng".equals(selectedStatus)) return p.getQuantity() > 0;
-//                    if ("Hết hàng".equals(selectedStatus)) return p.getQuantity() <= 0;
-//                    return true; // "Tất cả"
-//                })
-//                .sorted(Comparator.comparing(Product::getName))
-//                .toList();
-//
-//            // Phân trang
-//            int fromIndex = (currentPage - 1) * pageSize;
-//            int toIndex = Math.min(fromIndex + pageSize, filtered.size());
-//            List<Product> paginated = (fromIndex < filtered.size()) ? filtered.subList(fromIndex, toIndex) : List.of();
-//
-//            // Hiển thị
-//            tableModel.setRowCount(0);
-//            for (Product p : paginated) {
-//                tableModel.addRow(new Object[]{
-//                    p.getId(),
-//                    p.getName(),
-//                    p.getPrice(),
-//                    p.getDiscount(),  // Có thể xử lý format giảm giá ở đây
-//                    p.getQuantity(),
-//                    p.getSize(),
-//                    (p.getQuantity() > 0 ? "Còn hàng" : "Hết hàng")
-//                });
-//            }
-//
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(this, "Lỗi khi tải sản phẩm: " + e.getMessage());
-//        }
-//    }
-//}
+public class ProductListPanel extends JPanel {
 
+    private final ProductService productService;
+    private final CategoryService categoryService;
+    private JComboBox<Category> categoryComboBox;
+    private JTable productTable;
+    private DefaultTableModel tableModel;
+    private CategoryPanel categoryPanel;
+    private JTextField nameField;
+    private JTextField priceField;
+    private JTextField quantityField;
+    private JTextField sizeField;
+    private JTextField imagePathField;
+    private SearchBar searchBar;
 
+    public ProductListPanel(CategoryService categoryService, ProductService productService) {
+        this.productService = productService;
+        this.categoryService = categoryService;
+
+        List<Category> categories;
+        try {
+            categories = categoryService.getAllCategories(1, Integer.MAX_VALUE);
+        } catch (Exception e) {
+            categories = List.of();
+            JOptionPane.showMessageDialog(this, "Lỗi khi tải danh mục: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+
+        setLayout(new BorderLayout());
+        setBackground(Color.WHITE);
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        // Top panel with category selection and search
+        JPanel topPanel = new JPanel(new BorderLayout(10, 10));
+        topPanel.setBackground(Color.WHITE);
+        topPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+
+        // Category panel for CRUD operations
+        JPanel categoryWrapper = new JPanel(new BorderLayout());
+        categoryWrapper.setBackground(Color.WHITE);
+        categoryWrapper.setBorder(BorderFactory.createTitledBorder("Danh mục"));
+        categoryPanel = new CategoryPanel(categoryService, category -> {
+            categoryComboBox.setSelectedItem(category);
+            loadProducts();
+        }, true);
+        categoryWrapper.add(categoryPanel, BorderLayout.CENTER);
+        topPanel.add(categoryWrapper, BorderLayout.WEST);
+
+        // Search panel with SearchBar
+        JPanel searchPanel = new JPanel(new BorderLayout());
+        searchPanel.setBackground(Color.WHITE);
+        searchPanel.setBorder(BorderFactory.createTitledBorder("Tìm kiếm sản phẩm"));
+        searchBar = new SearchBar(query -> loadProducts());
+        searchBar.setPlaceholder("Nhập tên sản phẩm...");
+        searchPanel.add(searchBar, BorderLayout.CENTER);
+        topPanel.add(searchPanel, BorderLayout.CENTER);
+
+        add(topPanel, BorderLayout.NORTH);
+
+        // Product table
+        tableModel = new DefaultTableModel(new Object[]{"Tên", "Giá", "Số lượng", "Trạng thái", "Barcode"}, 0);
+        productTable = new JTable(tableModel);
+        productTable.getColumnModel().getColumn(4).setCellRenderer((table, value, isSelected, hasFocus, row, column) -> {
+            if (value != null) {
+                JLabel label = new JLabel();
+                label.setIcon((ImageIcon) value);
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                return label;
+            }
+            return new JLabel();
+        });
+        productTable.setRowHeight(50);
+        productTable.setGridColor(new Color(200, 200, 200));
+        productTable.setShowGrid(true);
+        add(new JScrollPane(productTable), BorderLayout.CENTER);
+
+        // Bottom panel for adding/editing products
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.setBackground(Color.WHITE);
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
+
+        // Add product form
+        JPanel addProductPanel = new JPanel(new GridBagLayout());
+        addProductPanel.setBackground(Color.WHITE);
+        addProductPanel.setBorder(BorderFactory.createTitledBorder("Thêm sản phẩm"));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // Category selection
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        addProductPanel.add(new JLabel("Danh mục đồ uống:"), gbc);
+        gbc.gridx = 1;
+        categoryComboBox = new JComboBox<>(categories.toArray(new Category[0]));
+        categoryComboBox.setPreferredSize(new Dimension(200, 30));
+        addProductPanel.add(categoryComboBox, gbc);
+
+        // Name field
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        addProductPanel.add(new JLabel("Tên sản phẩm:"), gbc);
+        gbc.gridx = 1;
+        nameField = new JTextField(20);
+        nameField.setPreferredSize(new Dimension(200, 30));
+        addProductPanel.add(nameField, gbc);
+
+        // Price field
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        addProductPanel.add(new JLabel("Giá (VND):"), gbc);
+        gbc.gridx = 1;
+        priceField = new JTextField(20);
+        priceField.setPreferredSize(new Dimension(200, 30));
+        addProductPanel.add(priceField, gbc);
+
+        // Quantity field
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        addProductPanel.add(new JLabel("Số lượng:"), gbc);
+        gbc.gridx = 1;
+        quantityField = new JTextField(20);
+        quantityField.setPreferredSize(new Dimension(200, 30));
+        addProductPanel.add(quantityField, gbc);
+
+        // Size field
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        addProductPanel.add(new JLabel("Kích cỡ:"), gbc);
+        gbc.gridx = 1;
+        sizeField = new JTextField(20);
+        sizeField.setPreferredSize(new Dimension(200, 30));
+        addProductPanel.add(sizeField, gbc);
+
+        // Image path field
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        addProductPanel.add(new JLabel("Đường dẫn ảnh:"), gbc);
+        gbc.gridx = 1;
+        imagePathField = new JTextField(20);
+        imagePathField.setPreferredSize(new Dimension(200, 30));
+        addProductPanel.add(imagePathField, gbc);
+
+        // Choose image button
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.EAST;
+        JButton chooseImageBtn = new JButton("Chọn ảnh");
+        chooseImageBtn.setBackground(new Color(70, 130, 180));
+        chooseImageBtn.setForeground(Color.WHITE);
+        chooseImageBtn.setFocusPainted(false);
+        chooseImageBtn.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            int returnValue = fileChooser.showOpenDialog(this);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                imagePathField.setText(selectedFile.getAbsolutePath());
+            }
+        });
+        addProductPanel.add(chooseImageBtn, gbc);
+
+        bottomPanel.add(addProductPanel, BorderLayout.WEST);
+
+        // Buttons for add/save/cancel
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        buttonPanel.setBackground(Color.WHITE);
+
+        JButton addBtn = new JButton("Thêm sản phẩm");
+        addBtn.setBackground(new Color(46, 125, 50));
+        addBtn.setForeground(Color.WHITE);
+        addBtn.setFocusPainted(false);
+        addBtn.addActionListener(this::handleAddProduct);
+        buttonPanel.add(addBtn);
+
+        JButton saveBtn = new JButton("Lưu thay đổi");
+        saveBtn.setBackground(new Color(237, 108, 0));
+        saveBtn.setForeground(Color.WHITE);
+        saveBtn.setFocusPainted(false);
+        saveBtn.addActionListener(e -> loadProducts());
+        buttonPanel.add(saveBtn);
+
+        JButton cancelBtn = new JButton("Hủy");
+        cancelBtn.setBackground(new Color(198, 40, 40));
+        cancelBtn.setForeground(Color.WHITE);
+        cancelBtn.setFocusPainted(false);
+        cancelBtn.addActionListener(e -> clearForm());
+        buttonPanel.add(cancelBtn);
+
+        bottomPanel.add(buttonPanel, BorderLayout.EAST);
+
+        add(bottomPanel, BorderLayout.SOUTH);
+
+        // Initial load
+        loadProducts();
+    }
+
+    private void handleAddProduct(ActionEvent e) {
+        try {
+            Product product = new Product();
+            product.setName(nameField.getText().trim());
+            product.setPrice(new BigDecimal(priceField.getText().trim()));
+            product.setQuantity(Integer.parseInt(quantityField.getText().trim()));
+            product.setSize(sizeField.getText().trim());
+            product.setImagePath(imagePathField.getText().trim());
+            Category selectedCategory = (Category) categoryComboBox.getSelectedItem();
+            product.setCategory(selectedCategory);
+
+            boolean success = productService.createProduct(product);
+            if (success) {
+                JOptionPane.showMessageDialog(this, "Thêm sản phẩm thành công!", "Thành công", JOptionPane.INFORMATION_MESSAGE);
+                loadProducts();
+                clearForm();
+            } else {
+                JOptionPane.showMessageDialog(this, "Thêm sản phẩm thất bại.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập số hợp lệ cho giá và số lượng.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi thêm sản phẩm: " + ex.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void clearForm() {
+        nameField.setText("");
+        priceField.setText("");
+        quantityField.setText("");
+        sizeField.setText("");
+        imagePathField.setText("");
+    }
+
+    private void loadProducts() {
+        String rawKeyword = searchBar.getSearchText().toLowerCase();
+        String keyword = rawKeyword.equals(searchBar.getPlaceholder()) ? "" : rawKeyword;
+        Category selectedCategory = (Category) categoryComboBox.getSelectedItem();
+
+        try {
+            List<Product> allProducts = productService.getAllProducts(1, Integer.MAX_VALUE);
+
+            // Filter products by category and keyword
+            List<Product> filtered = allProducts.stream()
+                    .filter(p -> selectedCategory == null || p.getCategory().getId() == selectedCategory.getId())
+                    .filter(p -> keyword.isEmpty() || p.getName().toLowerCase().contains(keyword))
+                    .sorted(Comparator.comparing(Product::getName))
+                    .collect(Collectors.toList());
+
+            // Display products
+            tableModel.setRowCount(0);
+            for (Product p : filtered) {
+                ImageIcon barcodeIcon = null;
+                try {
+                    barcodeIcon = generateBarcode(p.getName());
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                    barcodeIcon = null;
+                }
+                tableModel.addRow(new Object[]{
+                    p.getName(),
+                    p.getPrice() + "đ",
+                    p.getQuantity(),
+                    (p.getQuantity() > 0 ? "Còn hàng" : "Hết hàng"),
+                    barcodeIcon
+                });
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi khi tải sản phẩm: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private ImageIcon generateBarcode(String data) throws WriterException {
+        EAN13Writer barcodeWriter = new EAN13Writer();
+        String barcodeData = data.length() >= 12 ? data.substring(0, 12) : String.format("%12s", data).replace(' ', '0');
+        BitMatrix bitMatrix = barcodeWriter.encode(barcodeData, BarcodeFormat.EAN_13, 150, 50);
+        return new ImageIcon(MatrixToImageWriter.toBufferedImage(bitMatrix));
+    }
+}

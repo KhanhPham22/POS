@@ -4,21 +4,15 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import service.SupplierService;
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.List;
 
 public class SearchBar extends JPanel {
-	private SupplierService supplierService;
-	private JTextField searchField;
+    private JTextField searchField;
     private SearchListener searchListener;
     private String placeholder;
-    
+
     public interface SearchListener {
         void onSearch(String query);
     }
@@ -34,7 +28,7 @@ public class SearchBar extends JPanel {
         searchField.setPreferredSize(new Dimension(0, 40));
         searchField.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 
-     // Placeholder handling
+        // Placeholder handling
         searchField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
@@ -52,6 +46,7 @@ public class SearchBar extends JPanel {
                 }
             }
         });
+
         // Khi nhấn Enter
         searchField.addActionListener(e -> fireSearchEvent());
 
@@ -76,5 +71,14 @@ public class SearchBar extends JPanel {
         this.placeholder = text;
         searchField.setText(text);
         searchField.setForeground(Color.GRAY);
+    }
+
+    public String getPlaceholder() {
+        return placeholder;
+    }
+
+    // Getter for search field text
+    public String getSearchText() {
+        return searchField.getText().trim();
     }
 }

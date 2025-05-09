@@ -13,11 +13,13 @@ import model.Item;
 import model.Store;
 import model.Supplier;
 import service.AuthenticationService;
+import service.CategoryService;
 import service.HashService;
 import service.ItemService;
 import service.ItemServiceImpl;
 import service.PersonService;
 import service.PersonServiceImpl;
+import service.ProductService;
 import service.StoreServiceImpl;
 import service.SupplierService;
 import service.SupplierServiceImpl;
@@ -28,151 +30,159 @@ import java.awt.*;
 import java.util.List;
 
 public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
-    private JPanel contentPanel;
-    private final String iconPath = "C:\\TTTN\\POS PROJECT\\img\\";
-    private final String[] sidebarIcons = { "home_icon.png", "customers.png", "employee.png", "product.png",
-            "dashboard.png", "supplier.png", "warehouse.png", "store.png", "logout_icon.png" };
-    private final String[] sidebarNames = { "Home", "Customer", "Employee", "Product", "Dashboard", "Supplier",
-            "Warehouse", "Store", "Logout" };
-    private final String username = "admin"; // Replace with actual username
-    private final ImageIcon logoIcon = new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\lck.png");
-    
-    private SupplierService supplierService;
-    private ItemService itemService;
-    private StoreServiceImpl storeService;
-    private PersonService personService;
-    private HashService hashService;
-    private AuthenticationService authService;
-    
-    public StoreFrame(SupplierService supplierService, ItemService itemService, StoreServiceImpl storeService,PersonService personService,
-            HashService hashService,AuthenticationService authService) {
-        this.supplierService = supplierService;
-        this.itemService = itemService;
-        this.storeService = storeService;
-        this.personService = personService;
-        this.hashService = hashService;
-        this.authService = authService;
-        
-        setTitle("Quản lý cửa hàng");
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+	private JPanel contentPanel;
+	private final String iconPath = "C:\\TTTN\\POS PROJECT\\img\\";
+	private final String[] sidebarIcons = { "home_icon.png", "customers.png", "employee.png", "product.png",
+			"dashboard.png", "supplier.png", "warehouse.png", "store.png", "logout_icon.png" };
+	private final String[] sidebarNames = { "Home", "Customer", "Employee", "Product", "Dashboard", "Supplier",
+			"Warehouse", "Store", "Logout" };
+	private final String username = "admin"; // Replace with actual username
+	private final ImageIcon logoIcon = new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\lck.png");
 
-        setLayout(new BorderLayout());
+	private SupplierService supplierService;
+	private ItemService itemService;
+	private StoreServiceImpl storeService;
+	private PersonService personService;
+	private HashService hashService;
+	private AuthenticationService authService;
+	private CategoryService categoryService;
+	private ProductService productService;
 
-        contentPanel = new JPanel(new BorderLayout());
-        contentPanel.setBackground(Color.WHITE);
+	public StoreFrame(SupplierService supplierService, ItemService itemService, StoreServiceImpl storeService,
+			PersonService personService, HashService hashService, AuthenticationService authService,
+			ProductService productService, CategoryService categoryService) {
+		this.supplierService = supplierService;
+		this.itemService = itemService;
+		this.storeService = storeService;
+		this.personService = personService;
+		this.hashService = hashService;
+		this.authService = authService;
+		this.categoryService = categoryService;
+		this.productService = productService;
 
-        SidebarPanel sidebar = new SidebarPanel(sidebarIcons, sidebarNames, iconPath, username, this);
-        add(sidebar, BorderLayout.WEST);
+		setTitle("Quản lý cửa hàng");
+		setSize(800, 600);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 
-        loadStorePanel(); // Default to Store page
-        add(contentPanel, BorderLayout.CENTER);
-    }
+		setLayout(new BorderLayout());
 
-    @Override
-    public void onSidebarItemClick(String pageName) {
-        contentPanel.removeAll();
-        switch (pageName) {
-            case "Home":
-                loadHomePanel();
-                break;
-            case "Customer":
-                openCustomerManager();
-                break;
-            case "Employee":
-            	openEmployeeManager();
-                break;
-            case "Product":
-                loadProductPanel();
-                break;
-            case "Dashboard":
-                loadDashboardPanel();
-                break;
-            case "Supplier":
-                openSupplierFrame();
-                break;
-            case "Warehouse":
-                loadWarehousePanel();
-                break;
-            case "Store":
-                loadStorePanel();
-                break;
-            case "Logout":
-                handleLogout();
-                break;
-            default:
-                contentPanel.add(new JLabel("Unknown page: " + pageName, SwingConstants.CENTER));
-        }
-        contentPanel.revalidate();
-        contentPanel.repaint();
-    }
+		contentPanel = new JPanel(new BorderLayout());
+		contentPanel.setBackground(Color.WHITE);
 
-    private void loadStorePanel() {
-        StorePanel storePanel = new StorePanel(storeService);
-        contentPanel.add(storePanel, BorderLayout.CENTER);
-    }
+		SidebarPanel sidebar = new SidebarPanel(sidebarIcons, sidebarNames, iconPath, username, this);
+		add(sidebar, BorderLayout.WEST);
 
-    private void loadHomePanel() {
-        JPanel homePanel = new JPanel(new BorderLayout());
-        homePanel.setBackground(Color.WHITE);
-        homePanel.add(new JLabel("Home Page (Under Construction)", SwingConstants.CENTER));
-        contentPanel.add(homePanel, BorderLayout.CENTER);
-    }
+		loadStorePanel(); // Default to Store page
+		add(contentPanel, BorderLayout.CENTER);
+	}
 
-    private void openCustomerManager() {
-        new CustomerManager(personService, supplierService, itemService, storeService, hashService, authService).setVisible(true);
-        dispose();
-    }
+	@Override
+	public void onSidebarItemClick(String pageName) {
+		contentPanel.removeAll();
+		switch (pageName) {
+		case "Home":
+			loadHomePanel();
+			break;
+		case "Customer":
+			openCustomerManager();
+			break;
+		case "Employee":
+			openEmployeeManager();
+			break;
+		case "Product":
+			openProductFrame();
+			break;
+		case "Dashboard":
+			loadDashboardPanel();
+			break;
+		case "Supplier":
+			openSupplierFrame();
+			break;
+		case "Warehouse":
+			loadWarehousePanel();
+			break;
+		case "Store":
+			loadStorePanel();
+			break;
+		case "Logout":
+			handleLogout();
+			break;
+		default:
+			contentPanel.add(new JLabel("Unknown page: " + pageName, SwingConstants.CENTER));
+		}
+		contentPanel.revalidate();
+		contentPanel.repaint();
+	}
 
-    private void openEmployeeManager() {
-    	new EmployeeManager(personService,supplierService,itemService,storeService,hashService,authService).setVisible(true);
-        dispose(); 
-    }
+	private void loadStorePanel() {
+		StorePanel storePanel = new StorePanel(storeService);
+		contentPanel.add(storePanel, BorderLayout.CENTER);
+	}
 
-    private void loadProductPanel() {
-        JPanel productPanel = new JPanel(new BorderLayout());
-        productPanel.setBackground(Color.WHITE);
-        productPanel.add(new JLabel("Product Page (Under Construction)", SwingConstants.CENTER));
-        contentPanel.add(productPanel, BorderLayout.CENTER);
-    }
+	private void loadHomePanel() {
+		JPanel homePanel = new JPanel(new BorderLayout());
+		homePanel.setBackground(Color.WHITE);
+		homePanel.add(new JLabel("Home Page (Under Construction)", SwingConstants.CENTER));
+		contentPanel.add(homePanel, BorderLayout.CENTER);
+	}
 
-    private void loadDashboardPanel() {
-        JPanel dashboardPanel = new JPanel(new BorderLayout());
-        dashboardPanel.setBackground(Color.WHITE);
-        dashboardPanel.add(new JLabel("Dashboard Page (Under Construction)", SwingConstants.CENTER));
-        contentPanel.add(dashboardPanel, BorderLayout.CENTER);
-    }
+	private void openCustomerManager() {
+		new CustomerManager(personService, supplierService, itemService, storeService, hashService, authService,
+				productService, categoryService).setVisible(true);
+		dispose();
+	}
 
-    private void openSupplierFrame() {
-        SupplierFrame supplierFrame = new SupplierFrame(supplierService, itemService,storeService,personService,hashService,authService);
-        supplierFrame.setVisible(true);
-        dispose();
-    }
+	private void openEmployeeManager() {
+		new EmployeeManager(personService, supplierService, itemService, storeService, hashService, authService,
+				productService, categoryService).setVisible(true);
+		dispose();
+	}
 
-    private void loadWarehousePanel() {
-        JPanel warehousePanel = new JPanel(new BorderLayout());
-        warehousePanel.setBackground(Color.WHITE);
-        warehousePanel.add(new JLabel("Warehouse Page (Under Construction)", SwingConstants.CENTER));
-        contentPanel.add(warehousePanel, BorderLayout.CENTER);
-    }
+	private void openProductFrame() {
+		ProductFrame productFrame = new ProductFrame(personService, supplierService, itemService, storeService,
+				hashService, authService, productService, categoryService);
+		productFrame.setVisible(true);
+		dispose();
+	}
 
-    private void handleLogout() {
-        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận đăng xuất",
-                JOptionPane.YES_NO_OPTION);
-        if (confirm == JOptionPane.YES_OPTION) {
-            dispose(); // Close the frame (or redirect to login screen)
-        }
-    }
+	private void loadDashboardPanel() {
+		JPanel dashboardPanel = new JPanel(new BorderLayout());
+		dashboardPanel.setBackground(Color.WHITE);
+		dashboardPanel.add(new JLabel("Dashboard Page (Under Construction)", SwingConstants.CENTER));
+		contentPanel.add(dashboardPanel, BorderLayout.CENTER);
+	}
 
-    private void addInfoRow(JPanel panel, GridBagConstraints gbc, int row, String labelText, String valueText) {
-        gbc.gridx = 0;
-        gbc.gridy = row;
-        panel.add(new JLabel(labelText), gbc);
+	private void openSupplierFrame() {
+		SupplierFrame supplierFrame = new SupplierFrame(supplierService, itemService, storeService, personService,
+				hashService, authService, productService, categoryService);
+		supplierFrame.setVisible(true);
+		dispose();
+	}
 
-        gbc.gridx = 1;
-        panel.add(new JLabel(valueText != null ? valueText : ""), gbc);
-    }
+	private void loadWarehousePanel() {
+		JPanel warehousePanel = new JPanel(new BorderLayout());
+		warehousePanel.setBackground(Color.WHITE);
+		warehousePanel.add(new JLabel("Warehouse Page (Under Construction)", SwingConstants.CENTER));
+		contentPanel.add(warehousePanel, BorderLayout.CENTER);
+	}
+
+	private void handleLogout() {
+		int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận đăng xuất",
+				JOptionPane.YES_NO_OPTION);
+		if (confirm == JOptionPane.YES_OPTION) {
+			dispose(); // Close the frame (or redirect to login screen)
+		}
+	}
+
+	private void addInfoRow(JPanel panel, GridBagConstraints gbc, int row, String labelText, String valueText) {
+		gbc.gridx = 0;
+		gbc.gridy = row;
+		panel.add(new JLabel(labelText), gbc);
+
+		gbc.gridx = 1;
+		panel.add(new JLabel(valueText != null ? valueText : ""), gbc);
+	}
 
 //    public static void main(String[] args) {
 //        SwingUtilities.invokeLater(() -> {
@@ -193,6 +203,5 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
 //            frame.setVisible(true);
 //        });
 //    }
-
 
 }

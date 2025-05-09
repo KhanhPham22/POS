@@ -1,23 +1,25 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Category extends BaseEntity {
 
     private String name;
     private String description;
-    private List<Product> products = new ArrayList<>(); // Initialize to avoid null
+    private Set<Product> products = new HashSet<>(); // Changed to Set and initialized with HashSet
 
     // Default Constructor
     public Category() {}
 
     // Constructor with all fields
-    public Category(long id, String name, String description, List<Product> products) {
+    public Category(long id, String name, String description, Set<Product> products) {
         setId(id); // Use BaseEntity's id
         this.name = name;
         this.description = description;
-        this.products = products != null ? products : new ArrayList<>();
+        this.products = products != null ? products : new HashSet<>();
     }
 
     // Getter and Setter Methods
@@ -37,11 +39,11 @@ public class Category extends BaseEntity {
         this.description = description;
     }
 
-    public List<Product> getProducts() {
+    public Set<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products != null ? products : new ArrayList<>();
+    public void setProducts(Set<Product> products) {
+        this.products = products != null ? products : new HashSet<>();
     }
 }
