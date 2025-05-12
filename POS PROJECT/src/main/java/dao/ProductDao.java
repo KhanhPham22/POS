@@ -17,15 +17,19 @@ public class ProductDao implements GenericDao<Product> {
     private static final Logger Log = LogManager.getLogger(ProductDao.class);
 
     private SessionFactory sessionFactory;
-    private Class<Product> productClass; // Thêm biến để lưu class của Product
+    private Class<Product> productClass;
 
     public ProductDao() {
         sessionFactory = HibernateUtil.getSessionFactory();
     }
+    
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
 
     @Override
     public void setClass(Class<Product> productClass) {
-        this.productClass = productClass; // Gán giá trị cho productClass
+        this.productClass = productClass;
     }
 
     @Override
@@ -75,13 +79,14 @@ public class ProductDao implements GenericDao<Product> {
             session = sessionFactory.openSession();
 
             // Tính toán offset dựa trên pageNumber và pageSize
-            int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+            int offset = (pageNumber - 1) * pageSize;
 
-            // Sử dụng HQL để lấy tất cả các Product, và áp dụng phân trang
-            List<Product> products = session.createQuery("from Product", Product.class)
-                                            .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
-                                            .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
-                                            .list();
+            // Sử dụng HQL với JOIN FETCH để lấy Product và Category cùng lúc
+            List<Product> products = session.createQuery(
+                    "from Product p left join fetch p.category", Product.class)
+                    .setFirstResult(offset)
+                    .setMaxResults(pageSize)
+                    .list();
 
             Log.info("All products retrieved successfully with pagination. Total count: " + products.size());
             return products;
@@ -93,7 +98,6 @@ public class ProductDao implements GenericDao<Product> {
                 session.close();
         }
     }
-
 
     @Override
     public boolean update(Product product) throws Exception {
@@ -159,7 +163,7 @@ public class ProductDao implements GenericDao<Product> {
             if (session != null) session.close();
         }
     }
-    
+
     public Product getProductByName(String name) throws Exception {
         Session session = null;
         Transaction transaction = null;
@@ -167,9 +171,11 @@ public class ProductDao implements GenericDao<Product> {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
 
-            Query<Product> query = session.createQuery("from Product where name = :name", Product.class);
+            // Sử dụng HQL với JOIN FETCH để lấy Product và Category cùng lúc
+            Query<Product> query = session.createQuery(
+                    "from Product p left join fetch p.category where p.name = :name", Product.class);
             query.setParameter("name", name);
-            query.setMaxResults(1); // Lấy sản phẩm đầu tiên nếu trùng tên
+            query.setMaxResults(1);
             Product product = query.uniqueResult();
 
             transaction.commit();
@@ -188,15 +194,20 @@ public class ProductDao implements GenericDao<Product> {
             if (session != null) session.close();
         }
     }
-    
+
     public Product findByEAN13(String ean13) throws Exception {
         Session session = null;
+        Transaction transaction = null;
         try {
             session = sessionFactory.openSession();
-            Query<Product> query = session.createQuery("from Product where ean13 = :ean13", Product.class);
-            query.setParameter("ean13", ean13);
+            transaction = session.beginTransaction();
 
-            Product product = query.uniqueResult(); // Mã vạch là duy nhất
+            Query<Product> query = session.createQuery(
+                    "from Product p left join fetch p.category where p.ean13 = :ean13", Product.class);
+            query.setParameter("ean13", ean13);
+            Product product = query.uniqueResult();
+
+            transaction.commit();
 
             if (product != null) {
                 Log.info("Product with EAN13: " + ean13 + " retrieved successfully: " + product.getId());
@@ -206,10 +217,40 @@ public class ProductDao implements GenericDao<Product> {
             return product;
         } catch (Exception e) {
             Log.error("Error while retrieving Product with EAN13: " + ean13, e);
+            if (transaction != null) transaction.rollback();
             throw e;
         } finally {
             if (session != null) session.close();
         }
     }
 
+    public Product findByNameAndSize(String name, String size) throws Exception {
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+
+            Query<Product> query = session.createQuery(
+                    "from Product p left join fetch p.category where p.name = :name and p.size = :size", Product.class);
+            query.setParameter("name", name);
+            query.setParameter("size", size);
+            Product product = query.uniqueResult();
+
+            transaction.commit();
+
+            if (product != null) {
+                Log.info("Product with name: " + name + " and size: " + size + " retrieved successfully: " + product.getId());
+            } else {
+                Log.warn("Product with name: " + name + " and size: " + size + " not found");
+            }
+            return product;
+        } catch (Exception e) {
+            Log.error("Error while retrieving Product with name: " + name + " and size: " + size, e);
+            if (transaction != null) transaction.rollback();
+            throw e;
+        } finally {
+            if (session != null) session.close();
+        }
+    }
 }

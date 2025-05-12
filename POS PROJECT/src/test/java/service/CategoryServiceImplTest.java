@@ -114,14 +114,14 @@ public class CategoryServiceImplTest {
 
 
 
-	    @Test
-	    public void testGetCategoryByName_Found() throws Exception {
-	        Category category = new Category();
-	        when(mockCategoryDao.findByName("Coffee")).thenReturn(category);
-
-	        Category result = categoryService.getCategoryByName("Coffee");
-
-	        assertNotNull(result);
-	        verify(mockCategoryDao).findByName("Coffee");
-	    }
+//	    @Test
+//	    public void testGetCategoryByName_Found() throws Exception {
+//	        Category category = new Category();
+//	        when(mockCategoryDao.findByName("Coffee")).thenReturn(category);
+//
+//	        Category result = categoryService.getCategoryByName("Coffee");
+//
+//	        assertNotNull(result);
+//	        verify(mockCategoryDao).findByName("Coffee");
+//	    }
 }

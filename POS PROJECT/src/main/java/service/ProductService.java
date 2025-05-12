@@ -24,6 +24,13 @@ public interface ProductService {
     public Product findbyEAN13(String ean13) ;
     
     List<Product> getAllProducts(int pageNumber, int pageSize);
+    
+    boolean existsByNameAndSize(String name, String size);
+    
+    void populateEAN13ForExistingProducts();
+    
+    Product getProductByNameAndSize(String name, String size);
+
 }
 
 

@@ -17,17 +17,24 @@ public class CategoryDao implements GenericDao<Category> {
     private static final Logger Log = LogManager.getLogger(CategoryDao.class);
 
     private SessionFactory sessionFactory;
-    private Class<Category> categoryClass; // Biến để lưu lớp Category
+    private Class<Category> categoryClass; // Store the Category class reference
 
+    // Constructor: initialize SessionFactory
     public CategoryDao() {
         sessionFactory = HibernateUtil.getSessionFactory();
     }
 
-    @Override
-    public void setClass(Class<Category> categoryClass) {
-        this.categoryClass = categoryClass; // Gán lớp Category
+    public SessionFactory getSessionFactory() {
+        return sessionFactory;
     }
 
+    // Set the class type (required by GenericDao interface)
+    @Override
+    public void setClass(Class<Category> categoryClass) {
+        this.categoryClass = categoryClass;
+    }
+
+    // Save a new Category to the database
     @Override
     public boolean create(Category category) throws Exception {
         Session session = null;
@@ -48,12 +55,16 @@ public class CategoryDao implements GenericDao<Category> {
         }
     }
 
+    // Find a Category by ID, including its products
     @Override
     public Category findById(long id) throws Exception {
         Session session = null;
         try {
             session = sessionFactory.openSession();
-            Category category = session.get(Category.class, id);
+            Query<Category> query = session.createQuery(
+                    "from Category c left join fetch c.products where c.id = :id", Category.class);
+            query.setParameter("id", id);
+            Category category = query.uniqueResult();
             if (category != null) {
                 Log.info("Category with id: " + id + " retrieved successfully: " + category.getName());
             } else {
@@ -68,33 +79,36 @@ public class CategoryDao implements GenericDao<Category> {
         }
     }
 
+    // Get paginated list of all categories (including products)
     @Override
     public List<Category> findAll(int pageNumber, int pageSize) throws Exception {
         Session session = null;
+        Transaction transaction = null;
         try {
             session = sessionFactory.openSession();
-            
-            // Tính toán offset dựa trên pageNumber và pageSize
-            int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+            transaction = session.beginTransaction();
 
-            // Sử dụng HQL để lấy tất cả các Category, và áp dụng phân trang
-            List<Category> categories = session.createQuery("from Category", Category.class)
-                                               .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
-                                               .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
-                                               .list();
+            int offset = (pageNumber - 1) * pageSize;
 
-            Log.info("All categories retrieved successfully. Total count: " + categories.size());
+            List<Category> categories = session.createQuery(
+                    "from Category c left join fetch c.products", Category.class)
+                    .setFirstResult(offset)
+                    .setMaxResults(pageSize)
+                    .list();
+
+            transaction.commit();
+            Log.info("All categories retrieved successfully with pagination. Total count: " + categories.size());
             return categories;
         } catch (Exception e) {
             Log.error("Error while retrieving all Categories with pagination", e);
+            if (transaction != null) transaction.rollback();
             throw e;
         } finally {
-            if (session != null)
-                session.close();
+            if (session != null) session.close();
         }
     }
 
-
+    // Update an existing Category
     @Override
     public boolean update(Category category) throws Exception {
         Session session = null;
@@ -115,6 +129,7 @@ public class CategoryDao implements GenericDao<Category> {
         }
     }
 
+    // Delete a Category by its ID
     @Override
     public boolean deleteById(long id) throws Exception {
         Session session = null;
@@ -140,6 +155,7 @@ public class CategoryDao implements GenericDao<Category> {
         }
     }
 
+    // Delete a Category directly by object
     @Override
     public boolean delete(Category category) throws Exception {
         Session session = null;
@@ -159,26 +175,32 @@ public class CategoryDao implements GenericDao<Category> {
             if (session != null) session.close();
         }
     }
-    
-    public Category findByName(String name) throws Exception {
+
+    // Find a Category by its name (including products)
+    public Category getCategoryByName(String name) throws Exception {
         Session session = null;
+        Transaction transaction = null;
         try {
             session = sessionFactory.openSession();
-            Query<Category> query = session.createQuery("from Category where name = :name", Category.class);
+            transaction = session.beginTransaction();
+            Query<Category> query = session.createQuery(
+                    "from Category c left join fetch c.products where c.name = :name", Category.class);
             query.setParameter("name", name);
+            query.setMaxResults(1);
             Category category = query.uniqueResult();
+            transaction.commit();
             if (category != null) {
-                Log.info("Category with name: " + name + " retrieved successfully.");
+                Log.info("Category with name: " + name + " retrieved successfully: " + category.getId());
             } else {
-                Log.warn("Category with name: " + name + " not found.");
+                Log.warn("Category with name: " + name + " not found");
             }
             return category;
         } catch (Exception e) {
             Log.error("Error while retrieving Category with name: " + name, e);
+            if (transaction != null) transaction.rollback();
             throw e;
         } finally {
             if (session != null) session.close();
         }
     }
-
 }

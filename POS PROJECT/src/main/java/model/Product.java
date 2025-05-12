@@ -1,8 +1,10 @@
 package model;
 
 import java.util.List;
+import java.util.Set;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Product extends BaseEntity {
 
@@ -14,8 +16,9 @@ public class Product extends BaseEntity {
     private String size;
     private Integer status = 1; // Changed from Boolean to Integer to match NUMBER(1,0)
     private Category category;
-    private List<OrderDetail> orderDetails = new ArrayList<>();
+    private Set<OrderDetail> orderDetails = new HashSet<>(); // Changed to Set
     private GiftVoucher giftVoucher;
+    private String ean13;
     
     // Default Constructor
     public Product() {}
@@ -23,7 +26,7 @@ public class Product extends BaseEntity {
     // Constructor with all fields
     public Product(long id, String name, BigDecimal price, String imagePath, BigDecimal discount, 
                    Integer quantity, String size, Integer status, Category category, 
-                   List<OrderDetail> orderDetails) {
+                   Set<OrderDetail> orderDetails, String ean13) {
         setId(id); // Use BaseEntity's id
         this.name = name;
         this.price = price;
@@ -33,7 +36,8 @@ public class Product extends BaseEntity {
         this.size = size;
         this.status = status != null ? status : 1; // Default to 1 (active)
         this.category = category;
-        this.orderDetails = orderDetails != null ? orderDetails : new ArrayList<>();
+        this.orderDetails = orderDetails != null ? orderDetails : new HashSet<>();
+        this.ean13 = ean13;
     }
 
     // Getter and Setter Methods
@@ -101,12 +105,12 @@ public class Product extends BaseEntity {
         this.category = category;
     }
 
-    public List<OrderDetail> getOrderDetails() {
+    public Set<OrderDetail> getOrderDetails() {
         return orderDetails;
     }
 
-    public void setOrderDetails(List<OrderDetail> orderDetails) {
-        this.orderDetails = orderDetails;
+    public void setOrderDetails(Set<OrderDetail> orderDetails) { // Changed to Set
+        this.orderDetails = orderDetails != null ? orderDetails : new HashSet<>();
     }
     
     public GiftVoucher getGiftVoucher() {
@@ -115,5 +119,13 @@ public class Product extends BaseEntity {
 
     public void setGiftVoucher(GiftVoucher giftVoucher) {
         this.giftVoucher = giftVoucher;
+    }
+    
+    public String getEan13() {
+        return ean13;
+    }
+
+    public void setEan13(String ean13) {
+        this.ean13 = ean13;
     }
 }

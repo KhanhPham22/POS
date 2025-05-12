@@ -1,6 +1,8 @@
 package service;
 
 import model.Category;
+import model.Product;
+
 import java.util.List;
 
 public interface CategoryService {
@@ -17,5 +19,9 @@ public interface CategoryService {
     Category getCategoryByName(String name);
     
     List<Category> getAllCategories(int pageNumber, int pageSize);
+    
+    void addProductToCategory(Category category, Product product) throws Exception;
+    
+    void removeProductFromCategory(Category category, Product product) throws Exception;
 }
 

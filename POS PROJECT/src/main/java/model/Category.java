@@ -46,4 +46,10 @@ public class Category extends BaseEntity {
     public void setProducts(Set<Product> products) {
         this.products = products != null ? products : new HashSet<>();
     }
+    
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }
