@@ -61,7 +61,7 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
 		this.productService = productService;
 
 		setTitle("Quản lý cửa hàng");
-		setSize(800, 600);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 

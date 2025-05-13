@@ -68,7 +68,7 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 		this.productService = productService;
 
 		setTitle("Supplier Management");
-		setSize(1200, 800);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

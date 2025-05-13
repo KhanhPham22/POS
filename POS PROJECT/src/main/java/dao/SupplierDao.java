@@ -11,6 +11,10 @@ import util.HibernateUtil;
 
 import java.util.List;
 
+/**
+ * Data Access Object (DAO) implementation for managing Supplier entities using Hibernate.
+ * Provides basic CRUD operations, pagination, and query methods by name, phone, and tax code.
+ */
 public class SupplierDao implements GenericDao<Supplier> {
 
     private static final Logger Log = LogManager.getLogger(SupplierDao.class);
@@ -18,15 +22,18 @@ public class SupplierDao implements GenericDao<Supplier> {
     private SessionFactory sessionFactory;
     private Class<Supplier> supplierClass;
 
+    // Constructor to initialize Hibernate SessionFactory
     public SupplierDao() {
         sessionFactory = HibernateUtil.getSessionFactory();
     }
 
+    // Set the entity class type
     @Override
     public void setClass(Class<Supplier> supplierClass) {
-        this.supplierClass = supplierClass; // Gán lớp Supplier
+        this.supplierClass = supplierClass;
     }
 
+    // Save a new Supplier to the database
     @Override
     public boolean create(Supplier supplier) throws Exception {
         Session session = null;
@@ -47,6 +54,7 @@ public class SupplierDao implements GenericDao<Supplier> {
         }
     }
 
+    // Find a Supplier by its ID
     @Override
     public Supplier findById(long id) throws Exception {
         Session session = null;
@@ -67,21 +75,22 @@ public class SupplierDao implements GenericDao<Supplier> {
         }
     }
 
+    // Retrieve a paginated list of all Suppliers
     public List<Supplier> findAll(int pageNumber, int pageSize) throws Exception {
         Session session = null;
         try {
             session = sessionFactory.openSession();
-            
-            // Tính toán OFFSET từ pageNumber và pageSize
+
+            // Calculate offset based on current page number
             int offset = (pageNumber - 1) * pageSize;
-            
-            // Sử dụng Hibernate để truy vấn với phân trang
+
+            // Query with pagination
             List<Supplier> suppliers = session.createQuery("from Supplier", Supplier.class)
                 .setFirstResult(offset)
                 .setMaxResults(pageSize)
                 .list();
-            
-            // ✅ Initialize items cho từng supplier ngay khi session còn mở
+
+            // Initialize related items before session closes
             for (Supplier supplier : suppliers) {
                 Hibernate.initialize(supplier.getItems());
             }
@@ -96,8 +105,7 @@ public class SupplierDao implements GenericDao<Supplier> {
         }
     }
 
-
-
+    // Update an existing Supplier
     @Override
     public boolean update(Supplier supplier) throws Exception {
         Session session = null;
@@ -118,6 +126,7 @@ public class SupplierDao implements GenericDao<Supplier> {
         }
     }
 
+    // Delete a Supplier by its ID
     @Override
     public boolean deleteById(long id) throws Exception {
         Session session = null;
@@ -143,6 +152,7 @@ public class SupplierDao implements GenericDao<Supplier> {
         }
     }
 
+    // Delete a given Supplier entity
     @Override
     public boolean delete(Supplier supplier) throws Exception {
         Session session = null;
@@ -162,7 +172,8 @@ public class SupplierDao implements GenericDao<Supplier> {
             if (session != null) session.close();
         }
     }
-    
+
+    // Search suppliers whose name contains the given string (case-insensitive)
     public List<Supplier> findByName(String name) throws Exception {
         Session session = null;
         try {
@@ -186,6 +197,7 @@ public class SupplierDao implements GenericDao<Supplier> {
         }
     }
 
+    // Find a supplier by phone number
     public Supplier findByPhone(String phone) throws Exception {
         Session session = null;
         try {
@@ -202,6 +214,7 @@ public class SupplierDao implements GenericDao<Supplier> {
         }
     }
 
+    // Find a supplier by tax code
     public Supplier findByTaxCode(String taxCode) throws Exception {
         Session session = null;
         try {
@@ -214,7 +227,8 @@ public class SupplierDao implements GenericDao<Supplier> {
             if (session != null) session.close();
         }
     }
-    
+
+    // Find a supplier by exact name (case-insensitive)
     public Supplier findByNameExact(String name) throws Exception {
         Session session = null;
         try {
@@ -230,6 +244,4 @@ public class SupplierDao implements GenericDao<Supplier> {
             if (session != null) session.close();
         }
     }
-
-
 }

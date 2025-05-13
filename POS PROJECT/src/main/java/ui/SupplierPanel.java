@@ -19,17 +19,30 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * A panel for managing suppliers and their associated items in a Point of Sale (POS) system.
+ * Provides functionality to view, add, edit, and delete suppliers and their items.
+ */
 public class SupplierPanel extends JPanel {
+    // Services for data operations
     private final SupplierService supplierService;
     private final ItemService itemService;
+    
+    // UI components for supplier management
     private JTable supplierTable;
     private DefaultTableModel supplierTableModel;
     private List<Supplier> currentSuppliers;
+    
+    // Form fields for supplier details
     private JTextField txtName, txtContactName, txtPhone, txtEmail, txtAddress, txtTaxCode;
     private JButton btnUpdate, btnDelete;
+    
+    // UI components for item management
     private JTable itemTable;
     private DefaultTableModel itemTableModel;
     private JButton btnAddItem, btnDeleteItem;
+    
+    // Current selected supplier
     private Supplier currentSupplier;
     private JTextField searchField;
 
@@ -45,9 +58,15 @@ public class SupplierPanel extends JPanel {
     private JButton btnPrevItem, btnNextItem;
     private JLabel lblItemPageInfo;
 
-    // Logo
+    // Application logo
     private final ImageIcon logoIcon = new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\lck.png");
 
+    /**
+     * Constructs a SupplierPanel with the specified services.
+     * 
+     * @param supplierService the service for supplier operations
+     * @param itemService the service for item operations
+     */
     public SupplierPanel(SupplierService supplierService, ItemService itemService) {
         this.supplierService = supplierService;
         this.itemService = itemService;
@@ -58,15 +77,20 @@ public class SupplierPanel extends JPanel {
         loadSuppliers();
     }
 
+    /**
+     * Initializes the user interface components.
+     */
     private void initUI() {
         // Left Panel: Supplier Table, Search, and Logo
         JPanel leftPanel = new JPanel(new BorderLayout());
         leftPanel.setPreferredSize(new Dimension(700, 0));
         leftPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(66, 133, 244)), "Quản lý Supplier"));
 
-        // Search Panel
+        // Search Panel setup
         JPanel searchPanel = new JPanel(new BorderLayout());
         searchPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        
+        // Search field configuration
         searchField = new JTextField();
         searchField.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(new Color(149, 165, 166)),
@@ -77,6 +101,7 @@ public class SupplierPanel extends JPanel {
             searchSuppliers(searchField.getText());
         });
 
+        // Search button configuration
         JButton searchButton = new JButton("Tìm");
         searchButton.setBackground(new Color(66, 133, 244));
         searchButton.setForeground(Color.WHITE);
@@ -86,6 +111,7 @@ public class SupplierPanel extends JPanel {
             searchSuppliers(searchField.getText());
         });
 
+        // Search input panel layout
         JPanel searchInputPanel = new JPanel(new BorderLayout(5, 0));
         searchInputPanel.add(searchField, BorderLayout.CENTER);
         searchInputPanel.add(searchButton, BorderLayout.EAST);
@@ -94,6 +120,8 @@ public class SupplierPanel extends JPanel {
         // Supplier Pagination Controls
         JPanel supplierPaginationPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         supplierPaginationPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        
+        // Previous button configuration
         btnPrevSupplier = new JButton("Previous");
         btnPrevSupplier.setBackground(new Color(149, 165, 166));
         btnPrevSupplier.setForeground(Color.WHITE);
@@ -103,6 +131,8 @@ public class SupplierPanel extends JPanel {
                 loadSuppliers();
             }
         });
+        
+        // Next button configuration
         btnNextSupplier = new JButton("Next");
         btnNextSupplier.setBackground(new Color(66, 133, 244));
         btnNextSupplier.setForeground(Color.WHITE);
@@ -110,8 +140,12 @@ public class SupplierPanel extends JPanel {
             supplierPageNumber++;
             loadSuppliers();
         });
+        
+        // Page info label
         lblSupplierPageInfo = new JLabel("Page 1");
         lblSupplierPageInfo.setFont(new Font("Arial", Font.PLAIN, 14));
+        
+        // Add components to pagination panel
         supplierPaginationPanel.add(btnPrevSupplier);
         supplierPaginationPanel.add(lblSupplierPageInfo);
         supplierPaginationPanel.add(btnNextSupplier);
@@ -119,14 +153,15 @@ public class SupplierPanel extends JPanel {
 
         leftPanel.add(searchPanel, BorderLayout.NORTH);
 
-        // Supplier Table
+        // Supplier Table setup
         supplierTableModel = new DefaultTableModel(
             new Object[] { "Tên supplier", "Người liên hệ", "Điện thoại", "Email", "Mã số thuế", "Items" }, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false;
+                return false; // Make table non-editable
             }
         };
+        
         supplierTable = new JTable(supplierTableModel);
         supplierTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         supplierTable.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -135,7 +170,7 @@ public class SupplierPanel extends JPanel {
         supplierTable.setRowHeight(30);
         supplierTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
-        // Adjust column widths to fill the table
+        // Column width adjustments
         TableColumnModel columnModel = supplierTable.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(200);
         columnModel.getColumn(1).setPreferredWidth(120);
@@ -144,7 +179,7 @@ public class SupplierPanel extends JPanel {
         columnModel.getColumn(4).setPreferredWidth(120);
         columnModel.getColumn(5).setPreferredWidth(60);
 
-        // Set table height for 10 rows + header
+        // Set table height based on page size
         int rowHeight = 30;
         int headerHeight = supplierTable.getTableHeader().getPreferredSize().height;
         int totalHeight = headerHeight + (rowHeight * supplierPageSize);
@@ -158,6 +193,7 @@ public class SupplierPanel extends JPanel {
             }
         });
 
+        // Scroll pane for supplier table
         JScrollPane supplierScrollPane = new JScrollPane(supplierTable);
         supplierScrollPane.setPreferredSize(new Dimension(supplierScrollPane.getPreferredSize().width, totalHeight + 5));
         supplierScrollPane.setBorder(BorderFactory.createLineBorder(new Color(149, 165, 166)));
@@ -167,7 +203,7 @@ public class SupplierPanel extends JPanel {
 
         // Bottom Panel: Add Supplier Button and Logo
         JPanel bottomPanel = new JPanel(new BorderLayout(0, 5));
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0)); // Reduced top padding
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         
         // Add New Supplier Button
         JButton btnAddSupplier = new JButton("+ Thêm mới");
@@ -176,28 +212,25 @@ public class SupplierPanel extends JPanel {
         btnAddSupplier.setFont(new Font("Arial", Font.BOLD, 14));
         btnAddSupplier.addActionListener(e -> createSupplier());
     
-        // Create a wrapper panel with minimal padding
+        // Button wrapper panel
         JPanel buttonWrapper = new JPanel(new BorderLayout());
-        buttonWrapper.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0)); // Minimal bottom padding
+        buttonWrapper.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
         buttonWrapper.add(btnAddSupplier, BorderLayout.CENTER);
         bottomPanel.add(buttonWrapper, BorderLayout.NORTH);
         
-        // Add Logo
+        // Logo display
         try {
-            // Scale the logo to fit (150x150 pixels to match the UI)
             Image scaledImage = logoIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
             ImageIcon scaledLogoIcon = new ImageIcon(scaledImage);
             JLabel logoLabel = new JLabel(scaledLogoIcon, JLabel.CENTER);
-            logoLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0)); // Add padding
+            logoLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
             bottomPanel.add(logoLabel, BorderLayout.CENTER);
         } catch (Exception e) {
             System.err.println("Error loading logo: " + e.getMessage());
-            // Fallback: Add an empty label if the logo fails to load
             bottomPanel.add(new JLabel(""), BorderLayout.CENTER);
         }
 
         leftPanel.add(bottomPanel, BorderLayout.SOUTH);
-
         add(leftPanel, BorderLayout.WEST);
 
         // Right Panel: Supplier Details and Items
@@ -209,7 +242,7 @@ public class SupplierPanel extends JPanel {
         detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
         detailsPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(66, 133, 244)), "Chi tiết Supplier"));
 
-        // Supplier Info
+        // Supplier Info fields
         JPanel infoPanel = new JPanel(new GridLayout(0, 1, 5, 5));
         infoPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -228,6 +261,7 @@ public class SupplierPanel extends JPanel {
         txtAddress.setFont(fieldFont);
         txtTaxCode.setFont(fieldFont);
 
+        // Add fields with labels
         infoPanel.add(new JLabel("Tên supplier:"));
         infoPanel.add(txtName);
         infoPanel.add(new JLabel("Người liên hệ:"));
@@ -243,7 +277,7 @@ public class SupplierPanel extends JPanel {
 
         detailsPanel.add(infoPanel);
 
-        // Buttons for Supplier
+        // Action buttons for supplier
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         btnUpdate = new JButton("Sửa");
         btnUpdate.setBackground(new Color(52, 152, 219));
@@ -265,7 +299,7 @@ public class SupplierPanel extends JPanel {
         JPanel itemPanel = new JPanel(new BorderLayout());
         itemPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(66, 133, 244)), "Danh sách items"));
 
-        // Item Search
+        // Item Search components
         JPanel itemSearchPanel = new JPanel(new BorderLayout());
         JTextField itemSearchField = new JTextField();
         itemSearchField.setBorder(BorderFactory.createCompoundBorder(
@@ -301,6 +335,7 @@ public class SupplierPanel extends JPanel {
                 loadItemTable(currentSupplier);
             }
         });
+        
         btnNextItem = new JButton("Next");
         btnNextItem.setBackground(new Color(66, 133, 244));
         btnNextItem.setForeground(Color.WHITE);
@@ -313,6 +348,7 @@ public class SupplierPanel extends JPanel {
                 loadItemTable(currentSupplier);
             }
         });
+        
         lblItemPageInfo = new JLabel("Page 1");
         lblItemPageInfo.setFont(new Font("Arial", Font.PLAIN, 14));
         itemPaginationPanel.add(btnPrevItem);
@@ -322,14 +358,15 @@ public class SupplierPanel extends JPanel {
 
         itemPanel.add(itemSearchPanel, BorderLayout.NORTH);
 
-        // Item Table
+        // Item Table setup
         itemTableModel = new DefaultTableModel(
             new Object[] { "Mã item", "Tên sản phẩm", "Đơn vị", "Số lượng", "Thao tác" }, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 4;
+                return column == 4; // Only the action column is editable
             }
         };
+        
         itemTable = new JTable(itemTableModel);
         itemTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         itemTable.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -337,7 +374,7 @@ public class SupplierPanel extends JPanel {
         itemTable.setGridColor(new Color(149, 165, 166));
         itemTable.setRowHeight(30);
 
-        // Đặt chiều cao tổng thể của bảng để vừa đủ 10 hàng + tiêu đề
+        // Set table height based on page size
         int itemRowHeight = 30;
         int itemHeaderHeight = itemTable.getTableHeader().getPreferredSize().height;
         int itemTotalHeight = itemHeaderHeight + (itemRowHeight * itemPageSize);
@@ -347,12 +384,13 @@ public class SupplierPanel extends JPanel {
         itemTableScrollPane.setPreferredSize(new Dimension(itemTableScrollPane.getPreferredSize().width, itemTotalHeight + 5));
         itemTableScrollPane.setBorder(BorderFactory.createLineBorder(new Color(149, 165, 166)));
 
+        // Configure button column
         itemTable.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
         itemTable.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox(), itemService, this));
 
         itemPanel.add(itemTableScrollPane, BorderLayout.CENTER);
 
-        // Item Buttons
+        // Item Action Buttons
         JPanel itemButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         btnAddItem = new JButton("Thêm item");
         btnAddItem.setBackground(new Color(46, 204, 113));
@@ -372,6 +410,9 @@ public class SupplierPanel extends JPanel {
         add(rightPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Custom renderer for the edit button in the item table.
+     */
     private static class ButtonRenderer extends JButton implements TableCellRenderer {
         public ButtonRenderer() {
             setOpaque(true);
@@ -386,7 +427,10 @@ public class SupplierPanel extends JPanel {
         }
     }
 
-    private static class ButtonEditor extends DefaultCellEditor { //edit item
+    /**
+     * Custom editor for the edit button in the item table.
+     */
+    private static class ButtonEditor extends DefaultCellEditor {
         private JButton button;
         private ItemService itemService;
         private SupplierPanel supplierPanel;
@@ -425,6 +469,12 @@ public class SupplierPanel extends JPanel {
         }
     }
 
+    /**
+     * Gets the item at the specified row in the item table.
+     * 
+     * @param row the row index
+     * @return the Item object at the specified row, or null if not found
+     */
     private Item getItemAtRow(int row) { 
         if (currentSupplier == null || row < 0 || row >= itemTableModel.getRowCount()) {
             return null;
@@ -446,7 +496,10 @@ public class SupplierPanel extends JPanel {
         return null;
     }
 
-    private void deleteSelectedItem() { //delete item selected
+    /**
+     * Deletes the currently selected item from the supplier.
+     */
+    private void deleteSelectedItem() {
         if (currentSupplier == null) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn supplier trước!");
             return;
@@ -467,7 +520,12 @@ public class SupplierPanel extends JPanel {
         deleteItem(itemToDelete);
     }
 
-    private void deleteItem(Item item) { //function delete item choice
+    /**
+     * Deletes the specified item from the database and updates the UI.
+     * 
+     * @param item the item to delete
+     */
+    private void deleteItem(Item item) {
         if (item == null) {
             return;
         }
@@ -487,7 +545,10 @@ public class SupplierPanel extends JPanel {
         }
     }
 
-    private void loadSuppliers() { //load supplier from table supplier in db
+    /**
+     * Loads suppliers from the database and updates the table.
+     */
+    private void loadSuppliers() {
         String query = searchField.getText().trim();
         List<Supplier> suppliers;
 
@@ -523,6 +584,11 @@ public class SupplierPanel extends JPanel {
         btnPrevSupplier.setEnabled(supplierPageNumber > 1);
     }
 
+    /**
+     * Searches suppliers by name and updates the table.
+     * 
+     * @param query the search term
+     */
     private void searchSuppliers(String query) {
         List<Supplier> suppliers = supplierService.getSuppliersByName(query);
         supplierTableModel.setRowCount(0);
@@ -559,6 +625,11 @@ public class SupplierPanel extends JPanel {
         btnNextSupplier.setEnabled(endIndex < suppliers.size());
     }
 
+    /**
+     * Searches items by name and updates the table.
+     * 
+     * @param query the search term
+     */
     private void searchItems(String query) {
         if (currentSupplier == null) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn supplier trước!");
@@ -577,6 +648,9 @@ public class SupplierPanel extends JPanel {
         btnNextItem.setEnabled(items.size() == itemPageSize);
     }
 
+    /**
+     * Loads the details of the currently selected supplier.
+     */
     private void loadSelectedSupplier() {
         int selectedRow = supplierTable.getSelectedRow();
         if (selectedRow < 0 || selectedRow >= currentSuppliers.size()) {
@@ -586,6 +660,7 @@ public class SupplierPanel extends JPanel {
 
         currentSupplier = currentSuppliers.get(selectedRow);
 
+        // Update form fields with supplier data
         txtName.setText(currentSupplier.getName());
         txtContactName.setText(currentSupplier.getContactName());
         txtPhone.setText(currentSupplier.getPhone());
@@ -596,6 +671,11 @@ public class SupplierPanel extends JPanel {
         loadItemTable(currentSupplier);
     }
 
+    /**
+     * Loads items for the specified supplier and updates the table.
+     * 
+     * @param supplier the supplier whose items to load
+     */
     private void loadItemTable(Supplier supplier) {
         if (supplier == null)
             return;
@@ -616,7 +696,11 @@ public class SupplierPanel extends JPanel {
         btnNextItem.setEnabled(itemPageNumber < totalPages);
     }
 
+    /**
+     * Shows a dialog to create a new supplier.
+     */
     private void createSupplier() {
+        // Create form fields
         JTextField txtName = new JTextField();
         JTextField txtContactName = new JTextField();
         JTextField txtPhone = new JTextField();
@@ -624,6 +708,7 @@ public class SupplierPanel extends JPanel {
         JTextField txtAddress = new JTextField();
         JTextField txtTaxCode = new JTextField();
 
+        // Create form panel
         JPanel panel = new JPanel(new GridLayout(6, 2, 5, 5));
         panel.add(new JLabel("Tên supplier:"));
         panel.add(txtName);
@@ -638,16 +723,19 @@ public class SupplierPanel extends JPanel {
         panel.add(new JLabel("Mã số thuế:"));
         panel.add(txtTaxCode);
 
+        // Show dialog
         int result = JOptionPane.showConfirmDialog(this, panel, "Thêm Supplier Mới", JOptionPane.OK_CANCEL_OPTION);
         if (result != JOptionPane.OK_OPTION)
             return;
 
+        // Validate input
         String name = txtName.getText().trim();
         if (name.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Tên supplier không được để trống!");
             return;
         }
      
+        // Create new supplier
         Supplier supplier = new Supplier();
         supplier.setName(txtName.getText().trim());
         supplier.setContactName(txtContactName.getText().trim());
@@ -658,6 +746,7 @@ public class SupplierPanel extends JPanel {
         supplier.setItems(new HashSet<>());
         supplier.setWarehouseImports(new HashSet<>());
 
+        // Save to database
         if (supplierService.createSupplier(supplier)) {
             JOptionPane.showMessageDialog(this, "Supplier đã được tạo!");
             supplierPageNumber = 1;
@@ -667,6 +756,9 @@ public class SupplierPanel extends JPanel {
         }
     }
 
+    /**
+     * Updates the currently selected supplier with the form data.
+     */
     private void updateSupplier() {
         if (currentSupplier == null) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn supplier trước!");
@@ -678,6 +770,7 @@ public class SupplierPanel extends JPanel {
             return;
         }
 
+        // Update supplier from form fields
         currentSupplier.setName(txtName.getText());
         currentSupplier.setContactName(txtContactName.getText());
         currentSupplier.setPhone(txtPhone.getText());
@@ -685,6 +778,7 @@ public class SupplierPanel extends JPanel {
         currentSupplier.setAddress(txtAddress.getText());
         currentSupplier.setTaxCode(txtTaxCode.getText());
 
+        // Save changes
         if (supplierService.updateSupplier(currentSupplier)) {
             JOptionPane.showMessageDialog(this, "Supplier đã được cập nhật!");
             loadSuppliers();
@@ -693,6 +787,9 @@ public class SupplierPanel extends JPanel {
         }
     }
 
+    /**
+     * Deletes the currently selected supplier after confirmation.
+     */
     private void deleteSupplier() {
         if (currentSupplier == null) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn supplier trước!");
@@ -707,6 +804,7 @@ public class SupplierPanel extends JPanel {
         if (supplierService.deleteSupplierById(currentSupplier.getId())) {
             JOptionPane.showMessageDialog(this, "Supplier đã được xóa!");
             currentSupplier = null;
+            // Clear form fields
             txtName.setText("");
             txtContactName.setText("");
             txtPhone.setText("");
@@ -721,6 +819,9 @@ public class SupplierPanel extends JPanel {
         }
     }
 
+    /**
+     * Shows a dialog to add a new item to the current supplier.
+     */
     private void addItemToSupplier() {
         if (currentSupplier == null) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn supplier trước!");
@@ -731,6 +832,9 @@ public class SupplierPanel extends JPanel {
         itemPanel.setVisible(true);
     }
 
+    /**
+     * Refreshes the item list for the current supplier.
+     */
     public void refreshItems() {
         if (currentSupplier != null) {
             Supplier refreshedSupplier = supplierService.getSupplierById(currentSupplier.getId());

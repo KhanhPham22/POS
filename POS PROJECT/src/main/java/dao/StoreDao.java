@@ -19,12 +19,12 @@ public class StoreDao implements GenericDao<Store> {
     private Class<Store> Store;
 
     public StoreDao() {
-        sessionFactory = HibernateUtil.getSessionFactory();
+        sessionFactory = HibernateUtil.getSessionFactory(); // Initialize Hibernate SessionFactory
     }
 
     @Override
     public void setClass(Class<Store> Store) {
-        this.Store = Store;
+        this.Store = Store; // Set the entity class for generic DAO operations
     }
 
     @Override
@@ -32,17 +32,17 @@ public class StoreDao implements GenericDao<Store> {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
-            session.save(store);
-            transaction.commit();
+            transaction = session.beginTransaction(); // Start transaction
+            session.save(store); // Save store entity to database
+            transaction.commit(); // Commit transaction
             Log.info("Store persisted in database successfully");
             return true;
         } catch (Exception e) {
             Log.error("Database error while persisting Store", e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) transaction.rollback(); // Rollback in case of error
             throw e;
         } finally {
-            session.close();
+            session.close(); // Always close session
         }
     }
 
@@ -50,7 +50,7 @@ public class StoreDao implements GenericDao<Store> {
     public Store findById(long id) throws Exception {
         Session session = sessionFactory.openSession();
         try {
-            Store store = session.get(Store.class, id);
+            Store store = session.get(Store.class, id); // Retrieve store by primary key
             Log.info("Store with id: " + id + " retrieved successfully from database");
             return store;
         } catch (Exception e) {
@@ -67,13 +67,13 @@ public class StoreDao implements GenericDao<Store> {
         try {
             session = sessionFactory.openSession();
 
-            // Tính toán offset dựa trên pageNumber và pageSize
-            int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+            // Calculate offset based on page number (1-based) and page size
+            int offset = (pageNumber - 1) * pageSize;
 
-            // Sử dụng HQL để lấy tất cả các Store, và áp dụng phân trang
+            // Retrieve paginated list of stores
             List<Store> stores = session.createQuery("from Store", Store.class)
-                                        .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
-                                        .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
+                                        .setFirstResult(offset)
+                                        .setMaxResults(pageSize)
                                         .list();
 
             Log.info("All Stores retrieved successfully with pagination");
@@ -87,20 +87,19 @@ public class StoreDao implements GenericDao<Store> {
         }
     }
 
-
     @Override
     public boolean update(Store store) throws Exception {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
-            session.update(store);
-            transaction.commit();
+            transaction = session.beginTransaction(); // Start transaction
+            session.update(store); // Update store entity
+            transaction.commit(); // Commit changes
             Log.info("Store updated in database successfully");
             return true;
         } catch (Exception e) {
             Log.error("Database error while updating Store", e);
-            if (transaction != null) transaction.rollback();
+            if (transaction != null) transaction.rollback(); // Rollback on error
             throw e;
         } finally {
             session.close();
@@ -113,8 +112,8 @@ public class StoreDao implements GenericDao<Store> {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Store store = session.get(Store.class, id);
-            session.delete(store);
+            Store store = session.get(Store.class, id); // Load store by ID
+            session.delete(store); // Delete store entity
             transaction.commit();
             Log.info("Store deleted from database successfully");
             return true;
@@ -133,7 +132,7 @@ public class StoreDao implements GenericDao<Store> {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            session.delete(store);
+            session.delete(store); // Delete store entity directly
             transaction.commit();
             Log.info("Store deleted from database successfully");
             return true;
@@ -145,7 +144,13 @@ public class StoreDao implements GenericDao<Store> {
             session.close();
         }
     }
-    
+
+    /**
+     * Find stores by exact name.
+     * 
+     * @param name Store name
+     * @return List of stores with the given name
+     */
     public List<Store> findByName(String name) throws Exception {
         Session session = sessionFactory.openSession();
         try {
@@ -162,6 +167,12 @@ public class StoreDao implements GenericDao<Store> {
         }
     }
 
+    /**
+     * Find stores by city.
+     * 
+     * @param city City name
+     * @return List of stores located in the given city
+     */
     public List<Store> findByCity(String city) throws Exception {
         Session session = sessionFactory.openSession();
         try {

@@ -63,7 +63,7 @@ public class CustomerManager extends JFrame implements SidebarPanel.SidebarListe
 		this.productService = productService;
 
 		setTitle("Quản lý Khách hàng");
-		setSize(800, 600);
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 

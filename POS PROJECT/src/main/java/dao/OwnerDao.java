@@ -18,14 +18,17 @@ public class OwnerDao implements GenericDao<Owner> {
     private SessionFactory sessionFactory;
     private Class<Owner> Owner;
 
+    // Constructor initializes the session factory from HibernateUtil
     public OwnerDao() {
         sessionFactory = HibernateUtil.getSessionFactory();
     }
 
+    // Sets the class type of the entity (Owner)
     public void setClass(Class<Owner> Owner) {
         this.Owner = Owner;
     }
 
+    // Persists a new Owner entity to the database
     @Override
     public boolean create(Owner owner) throws Exception {
         Session session = sessionFactory.openSession();
@@ -45,6 +48,7 @@ public class OwnerDao implements GenericDao<Owner> {
         }
     }
 
+    // Retrieves an Owner by its unique ID
     @Override
     public Owner findById(long id) throws Exception {
         Session session = sessionFactory.openSession();
@@ -60,19 +64,20 @@ public class OwnerDao implements GenericDao<Owner> {
         }
     }
 
+    // Retrieves all Owners using pagination
     @Override
     public List<Owner> findAll(int pageNumber, int pageSize) throws Exception {
         Session session = null;
         try {
             session = sessionFactory.openSession();
 
-            // Tính toán offset dựa trên pageNumber và pageSize
-            int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+            // Calculate offset based on page number (starting from 1) and page size
+            int offset = (pageNumber - 1) * pageSize;
 
-            // Sử dụng HQL để lấy tất cả các Owner, và áp dụng phân trang
+            // Use HQL to fetch all Owners with pagination applied
             List<Owner> owners = session.createQuery("from Owner", Owner.class)
-                                        .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
-                                        .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
+                                        .setFirstResult(offset)
+                                        .setMaxResults(pageSize)
                                         .list();
 
             Log.info("All Owners retrieved successfully with pagination");
@@ -86,7 +91,7 @@ public class OwnerDao implements GenericDao<Owner> {
         }
     }
 
-
+    // Updates an existing Owner entity in the database
     @Override
     public boolean update(Owner owner) throws Exception {
         Session session = sessionFactory.openSession();
@@ -106,6 +111,7 @@ public class OwnerDao implements GenericDao<Owner> {
         }
     }
 
+    // Deletes an Owner by its ID
     @Override
     public boolean deleteById(long id) throws Exception {
         Session session = sessionFactory.openSession();
@@ -126,6 +132,7 @@ public class OwnerDao implements GenericDao<Owner> {
         }
     }
 
+    // Deletes an Owner entity from the database
     @Override
     public boolean delete(Owner owner) throws Exception {
         Session session = sessionFactory.openSession();
@@ -144,12 +151,14 @@ public class OwnerDao implements GenericDao<Owner> {
             session.close();
         }
     }
-    
+
+    // Finds an Owner by its login username
     public Owner findByUsername(String username) throws Exception {
         Session session = sessionFactory.openSession();
         try {
             Owner owner = session.createQuery("from Owner where loginUsername = :username", Owner.class)
-                    .setParameter("username", username).uniqueResult();
+                    .setParameter("username", username)
+                    .uniqueResult();
             Log.info("Owner with username: " + username + " retrieved successfully from database");
             return owner;
         } catch (Exception e) {
@@ -160,11 +169,13 @@ public class OwnerDao implements GenericDao<Owner> {
         }
     }
 
+    // Finds an Owner by email
     public Owner findByEmail(String email) throws Exception {
         Session session = sessionFactory.openSession();
         try {
             Owner owner = session.createQuery("from Owner where email = :email", Owner.class)
-                    .setParameter("email", email).uniqueResult();
+                    .setParameter("email", email)
+                    .uniqueResult();
             Log.info("Owner with email: " + email + " retrieved successfully from database");
             return owner;
         } catch (Exception e) {

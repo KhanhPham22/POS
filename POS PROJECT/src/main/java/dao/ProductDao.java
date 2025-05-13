@@ -20,6 +20,7 @@ public class ProductDao implements GenericDao<Product> {
     private Class<Product> productClass;
 
     public ProductDao() {
+        // Initialize Hibernate SessionFactory
         sessionFactory = HibernateUtil.getSessionFactory();
     }
     
@@ -29,11 +30,13 @@ public class ProductDao implements GenericDao<Product> {
 
     @Override
     public void setClass(Class<Product> productClass) {
+        // Set the Product class for generic operations
         this.productClass = productClass;
     }
 
     @Override
     public boolean create(Product product) throws Exception {
+        // Create a new Product entry in the database
         Session session = null;
         Transaction transaction = null;
         try {
@@ -54,6 +57,7 @@ public class ProductDao implements GenericDao<Product> {
 
     @Override
     public Product findById(long id) throws Exception {
+        // Retrieve a Product by its ID
         Session session = null;
         try {
             session = sessionFactory.openSession();
@@ -74,14 +78,15 @@ public class ProductDao implements GenericDao<Product> {
 
     @Override
     public List<Product> findAll(int pageNumber, int pageSize) throws Exception {
+        // Retrieve a paginated list of Products with associated Category
         Session session = null;
         try {
             session = sessionFactory.openSession();
 
-            // Tính toán offset dựa trên pageNumber và pageSize
+            // Calculate pagination offset
             int offset = (pageNumber - 1) * pageSize;
 
-            // Sử dụng HQL với JOIN FETCH để lấy Product và Category cùng lúc
+            // Use HQL to fetch Products and their Categories
             List<Product> products = session.createQuery(
                     "from Product p left join fetch p.category", Product.class)
                     .setFirstResult(offset)
@@ -101,6 +106,7 @@ public class ProductDao implements GenericDao<Product> {
 
     @Override
     public boolean update(Product product) throws Exception {
+        // Update an existing Product in the database
         Session session = null;
         Transaction transaction = null;
         try {
@@ -121,6 +127,7 @@ public class ProductDao implements GenericDao<Product> {
 
     @Override
     public boolean deleteById(long id) throws Exception {
+        // Delete a Product by its ID
         Session session = null;
         Transaction transaction = null;
         try {
@@ -146,6 +153,7 @@ public class ProductDao implements GenericDao<Product> {
 
     @Override
     public boolean delete(Product product) throws Exception {
+        // Delete a Product using the Product object
         Session session = null;
         Transaction transaction = null;
         try {
@@ -165,13 +173,13 @@ public class ProductDao implements GenericDao<Product> {
     }
 
     public Product getProductByName(String name) throws Exception {
+        // Retrieve a Product by its name
         Session session = null;
         Transaction transaction = null;
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
 
-            // Sử dụng HQL với JOIN FETCH để lấy Product và Category cùng lúc
             Query<Product> query = session.createQuery(
                     "from Product p left join fetch p.category where p.name = :name", Product.class);
             query.setParameter("name", name);
@@ -196,6 +204,7 @@ public class ProductDao implements GenericDao<Product> {
     }
 
     public Product findByEAN13(String ean13) throws Exception {
+        // Retrieve a Product by its EAN13 code
         Session session = null;
         Transaction transaction = null;
         try {
@@ -225,6 +234,7 @@ public class ProductDao implements GenericDao<Product> {
     }
 
     public Product findByNameAndSize(String name, String size) throws Exception {
+        // Retrieve a Product by both name and size
         Session session = null;
         Transaction transaction = null;
         try {

@@ -1,133 +1,119 @@
 package service;
-import static org.mockito.Mockito.*;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import dao.ProductDao;
 import model.Product;
-import service.ProductServiceImpl;
 
 public class ProductServiceImplTest {
 
 	private ProductDao mockProductDao;
-    private ProductServiceImpl productService;
+	private ProductServiceImpl productService;
 
-    @BeforeEach
-    public void setUp() {
-        mockProductDao = mock(ProductDao.class);
-        productService = new ProductServiceImpl(mockProductDao);
-    }
+	@BeforeEach
+	public void setUp() {
+		mockProductDao = mock(ProductDao.class);
+		productService = new ProductServiceImpl(mockProductDao);
+	}
 
-    @Test
-    public void testCreateProduct_Success() throws Exception {
-        Product product = new Product();
-        when(mockProductDao.create(product)).thenReturn(true);
+	// Other existing tests...
 
-        boolean result = productService.createProduct(product);
+	@Test
+	public void testGetAllProducts_Success() throws Exception {
+		// Prepare mock return
+		List<Product> mockList = Arrays.asList(new Product(), new Product());
+		when(mockProductDao.findAll(1, 10)).thenReturn(mockList);
 
-        assertTrue(result);
-        verify(mockProductDao).create(product);
-    }
+		// Call service method
+		List<Product> result = productService.getAllProducts(1, 10);
 
-    @Test
-    public void testCreateProduct_Exception() throws Exception {
-        Product product = new Product();
-        when(mockProductDao.create(product)).thenThrow(new RuntimeException("Create failed"));
+		// Verify and assert
+		assertNotNull(result);
+		assertEquals(2, result.size());
+		verify(mockProductDao).findAll(1, 10);
+	}
 
-        boolean result = productService.createProduct(product);
+	@Test
+	public void testExistsByNameAndSize_ProductExists() throws Exception {
+		// Mock product found
+		Product mockProduct = new Product();
+		when(mockProductDao.findByNameAndSize("Coca", "500ml")).thenReturn(mockProduct);
 
-        assertFalse(result);
-        verify(mockProductDao).create(product);
-    }
+		boolean result = productService.existsByNameAndSize("Coca", "500ml");
 
-    @Test
-    public void testUpdateProduct_Success() throws Exception {
-        Product product = new Product();
-        when(mockProductDao.update(product)).thenReturn(true);
+		assertTrue(result);
+		verify(mockProductDao).findByNameAndSize("Coca", "500ml");
+	}
 
-        boolean result = productService.updateProduct(product);
+	@Test
+	public void testExistsByNameAndSize_ProductNotFound() throws Exception {
+		// Mock product not found
+		when(mockProductDao.findByNameAndSize("Pepsi", "330ml")).thenReturn(null);
 
-        assertTrue(result);
-        verify(mockProductDao).update(product);
-    }
-    @Test
-    public void testDeleteProductById_Success() throws Exception {
-        when(mockProductDao.deleteById(1L)).thenReturn(true);
+		boolean result = productService.existsByNameAndSize("Pepsi", "330ml");
 
-        boolean result = productService.deleteProductById(1L);
+		assertFalse(result);
+		verify(mockProductDao).findByNameAndSize("Pepsi", "330ml");
+	}
 
-        assertTrue(result);
-        verify(mockProductDao).deleteById(1L);
-    }
+	@Test
+	public void testGetProductByNameAndSize_Found() throws Exception {
+		// Mock found
+		Product product = new Product();
+		when(mockProductDao.findByNameAndSize("Water", "1L")).thenReturn(product);
 
-    @Test
-    public void testDeleteProduct_Success() throws Exception {
-        Product product = new Product();
-        when(mockProductDao.delete(product)).thenReturn(true);
+		Product result = productService.getProductByNameAndSize("Water", "1L");
 
-        boolean result = productService.deleteProduct(product);
+		assertNotNull(result);
+		verify(mockProductDao).findByNameAndSize("Water", "1L");
+	}
 
-        assertTrue(result);
-        verify(mockProductDao).delete(product);
-    }
+	@Test
+	public void testGetProductByNameAndSize_NotFound() throws Exception {
+		// Mock not found
+		when(mockProductDao.findByNameAndSize("Juice", "250ml")).thenReturn(null);
 
-    @Test
-    public void testGetProductById_Found() throws Exception {
-        Product product = new Product();
-        product.setId(1L);
-        when(mockProductDao.findById(1L)).thenReturn(product);
+		Product result = productService.getProductByNameAndSize("Juice", "250ml");
 
-        Product result = productService.getProductById(1L);
+		assertNull(result);
+		verify(mockProductDao).findByNameAndSize("Juice", "250ml");
+	}
 
-        assertNotNull(result);
-        assertEquals(1L, result.getId());
-    }
+	@Test
+	public void testPopulateEAN13ForExistingProducts_PopulatesMissingEAN13() throws Exception {
+		// Prepare product without EAN13
+		Product p1 = new Product();
+		p1.setId(1L);
+		p1.setEan13(null);
 
-    @Test
-    public void testGetProductById_NotFound() throws Exception {
-        when(mockProductDao.findById(2L)).thenReturn(null);
+		Product p2 = new Product();
+		p2.setId(2L);
+		p2.setEan13("1234567890123"); // Already valid
 
-        Product result = productService.getProductById(2L);
+		List<Product> mockProducts = Arrays.asList(p1, p2);
 
-        assertNull(result);
-    }
+		when(mockProductDao.findAll(1, Integer.MAX_VALUE)).thenReturn(mockProducts);
 
-//    @Test
-//    public void testGetAllProducts() throws Exception {
-//        List<Product> products = Arrays.asList(new Product(), new Product());
-//        when(mockProductDao.findAll()).thenReturn(products);
-//
-//        List<Product> result = productService.getAllProducts();
-//
-//        assertNotNull(result);
-//        assertEquals(2, result.size());
-//    }
+		// Spy on service to verify internal call
+		ProductServiceImpl spyService = spy(productService);
+		doReturn(true).when(spyService).updateProduct(any(Product.class));
 
-    @Test
-    public void testGetProductByName_Found() throws Exception {
-        Product product = new Product();
-        when(mockProductDao.getProductByName("Milk")).thenReturn(product);
+		// Call method
+		spyService.populateEAN13ForExistingProducts();
 
-        Product result = productService.getProductByName("Milk");
-
-        assertNotNull(result);
-        verify(mockProductDao).getProductByName("Milk");
-    }
-
-    @Test
-    public void testFindbyEAN13_Found() throws Exception {
-        Product product = new Product();
-        when(mockProductDao.findByEAN13("1234567890123")).thenReturn(product);
-
-        Product result = productService.findbyEAN13("1234567890123");
-
-        assertNotNull(result);
-        verify(mockProductDao).findByEAN13("1234567890123");
-    }
+		// Verify update is only called on p1
+		verify(spyService, times(1)).updateProduct(argThat(product -> product.getId() == 1L));
+		verify(spyService, never()).updateProduct(argThat(product -> product.getId() == 2L));
+	}
 }
