@@ -10,14 +10,15 @@ public class OrderDetail extends BaseEntity {
     private Double discount = 0.0;
     private String paymentMethod;
     private String status;
-
+    private Double totalAmount;
+    
     // Default Constructor
     public OrderDetail() {}
 
     // Constructor with all fields
     public OrderDetail(long id, Customer customer, Product product, Integer quantity, 
                        Double unitPrice, Double totalPrice, Double discount, 
-                       String paymentMethod, String status) {
+                       String paymentMethod, String status, Double totalAmount) {
         setId(id); // Use BaseEntity's id
         this.customer = customer;
         this.product = product;
@@ -27,6 +28,7 @@ public class OrderDetail extends BaseEntity {
         this.discount = discount;
         this.paymentMethod = paymentMethod;
         this.status = status;
+        this.totalAmount = totalAmount;
     }
 
     // Getter and Setter Methods
@@ -92,5 +94,13 @@ public class OrderDetail extends BaseEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+    
+    public Double getTotalAmount() {
+        return totalAmount;
+    }
+    
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 }

@@ -13,5 +13,8 @@
         <property name="discount" column="discount" type="big_decimal"/>
         <property name="paymentMethod" column="payment_method" type="string" length="50"/>
         <property name="status" column="status" type="string" length="20"/>
+        <property name="totalAmount" type="java.lang.Double">
+    <column name="total_amount" />
+</property>
     </joined-subclass>
 </hibernate-mapping>

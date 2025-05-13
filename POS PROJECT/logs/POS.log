@@ -5337,3 +5337,29 @@ java.lang.RuntimeException: DB error
 [INFO ] 13-05-2025 14:05:26 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
 [INFO ] 13-05-2025 14:05:28 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
 [INFO ] 13-05-2025 14:05:33 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 13-05-2025 17:10:44 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 13-05-2025 17:10:44 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 13-05-2025 17:10:44 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 13-05-2025 17:10:44 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 13-05-2025 17:10:45 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 13-05-2025 17:10:45 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 13-05-2025 17:10:45 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 13-05-2025 17:10:45 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 13-05-2025 17:10:45 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 13-05-2025 17:10:45 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 13-05-2025 17:10:45 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 13-05-2025 17:10:46 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 13-05-2025 17:10:47 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 13-05-2025 17:10:48 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@6f3ac3fd] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 13-05-2025 17:10:48 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@233e2014] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 13-05-2025 17:10:50 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 13-05-2025 17:10:50 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[WARN ] 13-05-2025 17:10:54 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 13-05-2025 17:10:54 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 13-05-2025 17:10:54 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 13-05-2025 17:11:12 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 13-05-2025 17:11:13 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 13-05-2025 17:11:15 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 13-05-2025 17:12:33 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 13-05-2025 17:12:35 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 13-05-2025 17:12:35 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23

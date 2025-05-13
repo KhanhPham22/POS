@@ -11,8 +11,7 @@ import service.HashService;
 
 import java.awt.*;
 import java.awt.event.*;
-import ui.Utils.*;
-import ui.Toaster.Toaster;
+
 
 public class LoginFrame {
 	
@@ -38,7 +37,7 @@ public class LoginFrame {
         frame.setLocationRelativeTo(null);
         frame.getContentPane().setLayout(new BorderLayout());
 
-        Toaster toaster = new Toaster(frame.getRootPane());
+       
 
         // === LOGIN PANEL (WEST) ===
         JPanel loginPanel = new JPanel();
@@ -122,17 +121,17 @@ public class LoginFrame {
         loginPanel.add(keepMeLoggedIn, gbc);
 
         // **Link Forgot Password**
-        HyperlinkText forgotPasswordLink = new HyperlinkText("Forgot password?", 100, 0, () -> {
-            ResetPasswordFrame resetFrame = new ResetPasswordFrame(authService);
-            resetFrame.setVisible(true);
-        });
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 2;
-        gbc.insets = new Insets(5, 20, 20, 20);
-        gbc.anchor = GridBagConstraints.CENTER;
-        loginPanel.add(forgotPasswordLink, gbc);
+//        HyperlinkText forgotPasswordLink = new HyperlinkText("Forgot password?", 100, 0, () -> {
+//            ResetPasswordFrame resetFrame = new ResetPasswordFrame(authService);
+//            resetFrame.setVisible(true);
+//        });
+//        gbc = new GridBagConstraints();
+//        gbc.gridx = 0;
+//        gbc.gridy = 4;
+//        gbc.gridwidth = 2;
+//        gbc.insets = new Insets(5, 20, 20, 20);
+//        gbc.anchor = GridBagConstraints.CENTER;
+//        loginPanel.add(forgotPasswordLink, gbc);
 
         // **Nút Login**
         JButton loginButton = new JButton("Log in");
@@ -172,24 +171,24 @@ public class LoginFrame {
         imagePanel.add(imageLabel);
 
         // Login logic
-        loginButton.addActionListener(e -> handleLogin(emailField, passwordField, toaster));
+        loginButton.addActionListener(e -> handleLogin(emailField, passwordField));
 
         frame.setVisible(true);
     }
 
         
-    private void handleLogin(JTextField emailField, JPasswordField passwordField, Toaster toaster) {
+    private void handleLogin(JTextField emailField, JPasswordField passwordField) {
         String username = emailField.getText().trim();
         String password = new String(passwordField.getPassword());
 
         if (username.isEmpty() || password.isEmpty()) {
-            toaster.error("Username and password cannot be empty!");
+           // toaster.error("Username and password cannot be empty!");
             return;
         }
 
         try {
             UserSession session = authService.login(username, password);
-            toaster.success("Login successful!");
+            //toaster.success("Login successful!");
 
             if (session.getEmployee() != null) {
                 SwingUtilities.invokeLater(() -> {
@@ -202,14 +201,14 @@ public class LoginFrame {
 //                    managerFrame.setVisible(true);
                 });
             } else {
-                toaster.error("Unknown role!");
+                //toaster.error("Unknown role!");
                 return;
             }
 
             frame.dispose(); // đóng login sau khi thành công
 
         } catch (Exception ex) {
-            toaster.error("Login failed: " + ex.getMessage());
+           // toaster.error("Login failed: " + ex.getMessage());
         }
         }
     
