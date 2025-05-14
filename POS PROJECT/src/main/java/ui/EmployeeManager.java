@@ -86,7 +86,7 @@ public class EmployeeManager extends JFrame implements SidebarPanel.SidebarListe
 		contentPanel.removeAll();
 		switch (pageName) {
 		case "Home":
-			loadHomePanel();
+			loadProfilePanel();
 			break;
 		case "Customer":
 			openCustomerManager();
@@ -124,12 +124,22 @@ public class EmployeeManager extends JFrame implements SidebarPanel.SidebarListe
 		contentPanel.add(personPanel, BorderLayout.CENTER);
 	}
 
-	private void loadHomePanel() {
-		JPanel homePanel = new JPanel(new BorderLayout());
-		homePanel.setBackground(Color.WHITE);
-		homePanel.add(new JLabel("Home Page (Under Construction)", SwingConstants.CENTER));
-		contentPanel.add(homePanel, BorderLayout.CENTER);
-	}
+	private void loadProfilePanel() {
+        try {
+			Owner owner = personService.getOwnerByUsername(username);
+            if (owner == null) {
+                JOptionPane.showMessageDialog(this, "Owner not found for username: " + username, "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            ProfilePanel profilePanel = new ProfilePanel(personService);
+            profilePanel.setPerson(owner);
+            contentPanel.add(profilePanel, BorderLayout.CENTER);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error loading profile: " + e.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
 	private void openCustomerManager() {
 		new CustomerManager(personService, supplierService, itemService, storeService, hashService, authService,
@@ -173,11 +183,16 @@ public class EmployeeManager extends JFrame implements SidebarPanel.SidebarListe
 	}
 
 	private void handleLogout() {
-		int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận đăng xuất",
-				JOptionPane.YES_NO_OPTION);
-		if (confirm == JOptionPane.YES_OPTION) {
-			dispose(); // Close the frame (or redirect to login screen)
-		}
+	    int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận đăng xuất",
+	            JOptionPane.YES_NO_OPTION);
+	    if (confirm == JOptionPane.YES_OPTION) {
+	        dispose(); // Đóng ProductFrame hiện tại
+	        SwingUtilities.invokeLater(() -> {
+	        	LoginFrame loginFrame = new LoginFrame();
+	        	loginFrame.showFrame();
+
+	        });
+	    }
 	}
 
 //    public static void main(String[] args) {

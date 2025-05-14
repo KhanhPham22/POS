@@ -19,6 +19,9 @@
         <!-- Description or additional details -->
         <property name="description" column="description" />
 
+		<!-- Employee avatar-->
+		<property name="avatarPath" column="avatar_path" />
+
         <!-- Login username: required and must be unique -->
         <property name="loginUsername" column="login_username" not-null="true" unique="true" />
 

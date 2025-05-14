@@ -3,8 +3,6 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.util.List;
-import java.util.Set;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -15,72 +13,65 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import org.hibernate.SessionFactory;
-
-import dao.ItemDao;
-import dao.StoreDao;
-import dao.SupplierDao;
-import model.Item;
 import model.Owner;
-import model.Supplier;
-import model.Warehouse;
 import service.AuthenticationService;
 import service.CategoryService;
 import service.HashService;
 import service.ItemService;
-import service.ItemServiceImpl;
 import service.PersonService;
 import service.ProductService;
-import service.StoreService;
 import service.StoreServiceImpl;
 import service.SupplierService;
-import service.SupplierServiceImpl;
 import ui.Elements.SidebarPanel;
 
-public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListener {
-	private JPanel contentPanel;
+public class HomeOwnerFrame extends JFrame implements SidebarPanel.SidebarListener{
+
 	private final String iconPath = "C:\\TTTN\\POS PROJECT\\img\\";
 	private final String[] sidebarIcons = { "home_icon.png", "customers.png", "employee.png", "product.png",
 			"dashboard.png", "supplier.png", "warehouse.png", "store.png", "logout_icon.png" };
 	private final String[] sidebarNames = { "Home", "Customer", "Employee", "Product", "Dashboard", "Supplier",
 			"Warehouse", "Store", "Logout" };
-	private final String username ;
+	private JPanel contentPanel;
+	private final String username ; 
 	private final ImageIcon logoIcon = new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\lck.png");
-
-	private final SupplierService supplierService;
-	private final ItemService itemService;
-	private StoreServiceImpl storeService;
 	private PersonService personService;
+	private SupplierService supplierService;
+	private ItemService itemService;
+	private StoreServiceImpl storeService;
 	private HashService hashService;
 	private AuthenticationService authService;
 	private CategoryService categoryService;
 	private ProductService productService;
 
-	public SupplierFrame(SupplierService supplierService, ItemService itemService, StoreServiceImpl storeService,
-			PersonService personService, HashService hashService, AuthenticationService authService,
+
+	public HomeOwnerFrame(PersonService personService, SupplierService supplierService, ItemService itemService,
+			StoreServiceImpl storeService, HashService hashService, AuthenticationService authService,
 			ProductService productService, CategoryService categoryService,String username) {
+		this.personService = personService;
 		this.supplierService = supplierService;
 		this.itemService = itemService;
 		this.storeService = storeService;
-		this.personService = personService;
 		this.hashService = hashService;
 		this.authService = authService;
 		this.categoryService = categoryService;
 		this.productService = productService;
 		this.username = username;
-
-		setTitle("Supplier Management");
+		
+		setTitle("Thông tin");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+
+		setLayout(new BorderLayout());
 
 		contentPanel = new JPanel(new BorderLayout());
-		add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setBackground(Color.WHITE);
 
 		SidebarPanel sidebar = new SidebarPanel(sidebarIcons, sidebarNames, iconPath, username, this);
 		add(sidebar, BorderLayout.WEST);
 
-		loadSupplierPanel();
+		loadProfilePanel(); // Default to Employee page
+		add(contentPanel, BorderLayout.CENTER);
 		setVisible(true);
 	}
 
@@ -104,7 +95,7 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 			loadDashboardPanel();
 			break;
 		case "Supplier":
-			loadSupplierPanel();
+			openSupplierFrame();
 			break;
 		case "Warehouse":
 			loadWarehousePanel();
@@ -121,35 +112,33 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 		contentPanel.revalidate();
 		contentPanel.repaint();
 	}
-
-	private void loadProfilePanel() {
-        try {
-			Owner owner = personService.getOwnerByUsername(username);
-            if (owner == null) {
-                JOptionPane.showMessageDialog(this, "Owner not found for username: " + username, "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            ProfilePanel profilePanel = new ProfilePanel(personService);
-            profilePanel.setPerson(owner);
-            contentPanel.add(profilePanel, BorderLayout.CENTER);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error loading profile: " + e.getMessage(), "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-	private void openCustomerManager() {
-		new CustomerManager(personService, supplierService, itemService, storeService, hashService, authService,
-				productService, categoryService,username).setVisible(true);
-		dispose();
-	}
-
+	
+	 private void loadProfilePanel() {
+	        try {
+				Owner owner = personService.getOwnerByUsername(username);
+	            if (owner == null) {
+	                JOptionPane.showMessageDialog(this, "Owner not found for username: " + username, "Error",
+	                        JOptionPane.ERROR_MESSAGE);
+	                return;
+	            }
+	            ProfilePanel profilePanel = new ProfilePanel(personService);
+	            profilePanel.setPerson(owner);
+	            contentPanel.add(profilePanel, BorderLayout.CENTER);
+	        } catch (Exception e) {
+	            JOptionPane.showMessageDialog(this, "Error loading profile: " + e.getMessage(), "Error",
+	                    JOptionPane.ERROR_MESSAGE);
+	        }
+	    }
 	private void openEmployeeManager() {
 		new EmployeeManager(personService, supplierService, itemService, storeService, hashService, authService,
 				productService, categoryService,username).setVisible(true);
 		dispose();
 
+	}
+	private void openCustomerManager() {
+		new CustomerManager(personService, supplierService, itemService, storeService, hashService, authService,
+				productService, categoryService,username).setVisible(true);
+		dispose();
 	}
 
 	private void openProductFrame() {
@@ -166,11 +155,6 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 		contentPanel.add(dashboardPanel, BorderLayout.CENTER);
 	}
 
-	private void loadSupplierPanel() {
-		SupplierPanel supplierPanel = new SupplierPanel(supplierService, itemService);
-		contentPanel.add(supplierPanel, BorderLayout.CENTER);
-	}
-
 	private void loadWarehousePanel() {
 		JPanel warehousePanel = new JPanel(new BorderLayout());
 		warehousePanel.setBackground(Color.WHITE);
@@ -179,10 +163,16 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 	}
 
 	private void openStoreFrame() {
-		StoreServiceImpl storeService = new StoreServiceImpl(new StoreDao()); // Use StoreServiceImpl directly
 		StoreFrame storeFrame = new StoreFrame(supplierService, itemService, storeService, personService, hashService,
 				authService, productService, categoryService,username);
 		storeFrame.setVisible(true);
+		dispose();
+	}
+
+	private void openSupplierFrame() {
+		SupplierFrame supplierFrame = new SupplierFrame(supplierService, itemService, storeService, personService,
+				hashService, authService, productService, categoryService,username);
+		supplierFrame.setVisible(true);
 		dispose();
 	}
 
@@ -198,20 +188,4 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 	        });
 	    }
 	}
-
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> {
-//            try {
-//                SupplierService supplierService = new SupplierServiceImpl(new SupplierDao());
-//                ItemService itemService = new ItemServiceImpl(new ItemDao());
-//                SupplierFrame frame = new SupplierFrame(supplierService, itemService);
-//                frame.setVisible(true);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                JOptionPane.showMessageDialog(null,
-//                    "Lỗi khi khởi chạy ứng dụng: " + e.getMessage(),
-//                    "Lỗi", JOptionPane.ERROR_MESSAGE);
-//            }
-//        });
-//    }
 }

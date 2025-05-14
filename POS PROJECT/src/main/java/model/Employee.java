@@ -12,10 +12,12 @@ public class Employee extends Person {
     private String description;
     private String loginUsername;
     private String loginPassword;
+    private String avatarPath; // New field for avatar path
     private Set<Invoice> invoices = new HashSet<>();
     private Set<Payroll> payrolls = new HashSet<>();
     
     public Employee() {
+    	super();
     }
 
     //random UID employee
@@ -78,6 +80,14 @@ public class Employee extends Person {
     
     public void setPayrolls(Set<Payroll>payrolls) {
     	this.payrolls = payrolls;
+    }
+    
+    public String getAvatarPath() {
+        return avatarPath;
+    }
+
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
     }
 }
 

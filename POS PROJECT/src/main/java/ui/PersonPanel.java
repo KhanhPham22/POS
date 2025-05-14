@@ -133,7 +133,7 @@ public class PersonPanel extends JPanel {
         personTable.getColumnModel().getColumn(4).setPreferredWidth(200); // Email
         personTable.getColumnModel().getColumn(5).setPreferredWidth(150); // Gender
         personTable.getColumnModel().getColumn(6).setPreferredWidth(180); // Status
-        personTable.getColumnModel().getColumn(7).setPreferredWidth(250); // Actions (increased for three buttons)
+        personTable.getColumnModel().getColumn(7).setPreferredWidth(230); // Actions (increased for three buttons)
 
         JScrollPane scrollPane = new JScrollPane(personTable);
         add(scrollPane, BorderLayout.CENTER);

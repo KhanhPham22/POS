@@ -15,6 +15,9 @@
 
         <!-- Description or additional notes -->
         <property name="description" column="description"/>
+        
+        <!-- Owner avatar-->
+		<property name="avatarPath" column="avatar_path" />
 
         <!-- Login username: must be unique -->
         <property name="loginUsername" column="login_username" unique="true"/>

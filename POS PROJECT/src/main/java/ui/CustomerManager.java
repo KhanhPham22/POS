@@ -174,11 +174,16 @@ public class CustomerManager extends JFrame implements SidebarPanel.SidebarListe
 	}
 
 	private void handleLogout() {
-		int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận đăng xuất",
-				JOptionPane.YES_NO_OPTION);
-		if (confirm == JOptionPane.YES_OPTION) {
-			dispose(); // Close the frame (or redirect to login screen)
-		}
+	    int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận đăng xuất",
+	            JOptionPane.YES_NO_OPTION);
+	    if (confirm == JOptionPane.YES_OPTION) {
+	        dispose(); // Đóng ProductFrame hiện tại
+	        SwingUtilities.invokeLater(() -> {
+	        	LoginFrame loginFrame = new LoginFrame();
+	        	loginFrame.showFrame();
+
+	        });
+	    }
 	}
 
 //	public static void main(String[] args) {

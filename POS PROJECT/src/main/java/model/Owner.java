@@ -11,10 +11,12 @@ public class Owner extends Person {
     private String description;
     private String loginUsername;
     private String loginPassword;
+    private String avatarPath;
     private Set<Dashboard> dashboards = new HashSet<>();
     private Set<Warehouse> warehouseImports = new HashSet<>();
     
     public Owner() {
+    	super();
     }
 
     public void generateOwnerId() {
@@ -72,5 +74,13 @@ public class Owner extends Person {
     
     public void setWarehouseImports(Set<Warehouse> warehouseImports) {
         this.warehouseImports = warehouseImports;
+    }
+    
+    public String getAvatarPath() {
+        return avatarPath;
+    }
+
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
     }
 }

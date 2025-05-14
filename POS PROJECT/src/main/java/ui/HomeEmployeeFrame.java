@@ -2,15 +2,13 @@ package ui;
 
 import javax.swing.*;
 import java.awt.*;
-import ui.Elements.*;
-
+import ui.Elements.SidebarPanel;
 import dao.CategoryDao;
 import dao.CustomerDao;
 import dao.EmployeeDao;
 import dao.ItemDao;
 import dao.OwnerDao;
 import dao.PaymentDao;
-import dao.PersonDao;
 import dao.ProductDao;
 import dao.StoreDao;
 import dao.SupplierDao;
@@ -33,27 +31,42 @@ import service.StoreServiceImpl;
 import service.SupplierService;
 import service.SupplierServiceImpl;
 
-public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
+public class HomeEmployeeFrame extends JFrame implements SidebarPanel.SidebarListener {
 
     private final String iconPath = "C:\\TTTN\\POS PROJECT\\img\\";
     private final String[] sidebarIcons = { "home_icon.png", "menue_icon.png", "order_icon.png", "promos_icon.png",
             "logout_icon.png" };
-    private final String[] sidebarNames = { "Home", "Menue", "OrderHistory", "Promotion", "Logout" };
+    private final String[] sidebarNames = { "Home", "Menu", "OrderHistory", "Promotion", "Logout" };
     private JPanel contentPanel;
-    private final String username ; // Replace with actual username
+    private final String username;
     private final ImageIcon logoIcon = new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\lck.png");
 
-    // Services required for MenuPanel
+    // Services required for panels
     private PersonService personService;
     private CategoryService categoryService;
     private ProductService productService;
     private PaymentService paymentService;
-    
-    public PosUI(String username) {
-    	this.username = username;
-        initializeServices();
+    private SupplierService supplierService;
+    private ItemService itemService;
+    private StoreServiceImpl storeService;
+    private HashService hashService;
+    private AuthenticationService authService;
 
-        setTitle("Cà phê lck");
+    public HomeEmployeeFrame(PersonService personService, SupplierService supplierService, ItemService itemService,
+			StoreServiceImpl storeService, HashService hashService, AuthenticationService authService,
+			ProductService productService, CategoryService categoryService,String username,PaymentService paymentService) {
+    	this.personService = personService;
+		this.supplierService = supplierService;
+		this.itemService = itemService;
+		this.storeService = storeService;
+		this.hashService = hashService;
+		this.authService = authService;
+		this.categoryService = categoryService;
+		this.productService = productService;
+    	this.username = username;
+        
+
+        setTitle("Thông tin");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -66,43 +79,13 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
         SidebarPanel sidebar = new SidebarPanel(sidebarIcons, sidebarNames, iconPath, username, this);
         add(sidebar, BorderLayout.WEST);
 
-        // Load default panel (e.g., Home)
-        loadMenuePanel();
+        // Load ProfilePanel by default
+        loadProfilePanel();
         add(contentPanel, BorderLayout.CENTER);
         setVisible(true);
     }
 
-    private void initializeServices() {
-        try {
-            // Initialize DAOs
-            EmployeeDao employeeDao = new EmployeeDao();
-            OwnerDao ownerDao = new OwnerDao();
-            CustomerDao customerDao = new CustomerDao();
-            SupplierDao supplierDao = new SupplierDao();
-            ItemDao itemDao = new ItemDao();
-            StoreDao storeDao = new StoreDao();
-            UserSessionDao userSessionDao = new UserSessionDao();
-            CategoryDao categoryDao = new CategoryDao();
-            ProductDao productDao = new ProductDao();
-            PaymentDao paymentDao = new PaymentDao();
-
-            // Initialize services
-            personService = new PersonServiceImpl(employeeDao, customerDao, ownerDao);
-            SupplierService supplierService = new SupplierServiceImpl(supplierDao);
-            ItemService itemService = new ItemServiceImpl(itemDao);
-            StoreServiceImpl storeService = new StoreServiceImpl(storeDao);
-            HashService hashService = new HashService();
-            AuthenticationService authService = new AuthenticationService(employeeDao, ownerDao, userSessionDao,
-                    hashService);
-            categoryService = new CategoryServiceImpl(categoryDao);
-            productService = new ProductServiceImpl(productDao);
-            paymentService = new PaymentServiceImpl(paymentDao);
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Lỗi khi khởi tạo dịch vụ: " + e.getMessage(), "Lỗi",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
+  
 
     @Override
     public void onSidebarItemClick(String pageName) {
@@ -111,8 +94,8 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
         case "Home":
             loadProfilePanel();
             break;
-        case "Menue":
-            loadMenuePanel();
+        case "Menu":
+            loadMenuPanel();
             break;
         case "OrderHistory":
             loadOrderPanel();
@@ -146,7 +129,10 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
-    private void loadMenuePanel() {
+
+    
+
+    private void loadMenuPanel() {
         MenuPanel menuPanel = new MenuPanel(categoryService, productService, personService, paymentService);
         contentPanel.add(menuPanel, BorderLayout.CENTER);
     }
@@ -177,16 +163,4 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
 	        });
 	    }
 	}
-
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> {
-//            try {
-//                new PosUI();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                JOptionPane.showMessageDialog(null, "Lỗi khi khởi chạy ứng dụng: " + e.getMessage(), "Lỗi",
-//                        JOptionPane.ERROR_MESSAGE);
-//            }
-//        });
-//    }
 }

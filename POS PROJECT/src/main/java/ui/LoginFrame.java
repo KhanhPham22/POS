@@ -11,7 +11,7 @@ import model.UserSession;
 import service.*;
 
 // LoginFrame class creates the login UI for the Coffee LCK application
-public class LoginFrame {
+public class LoginFrame extends JFrame {
 	// Authentication service for handling login logic
 	private final AuthenticationService authService;
 	// Main frame for the login window
@@ -54,6 +54,31 @@ public class LoginFrame {
 		mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Add padding
 		frame.getContentPane().add(mainPanel);
 
+		// Add close button at top-right corner
+		JPanel titleBarPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		titleBarPanel.setBackground(new Color(240, 245, 255));
+		titleBarPanel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 5));
+		JButton closeButton = new JButton("X");
+		closeButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+		closeButton.setForeground(Color.WHITE);
+		closeButton.setBackground(new Color(255, 0, 0)); // Red background
+		closeButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+		closeButton.setFocusPainted(false);
+		closeButton.addActionListener(e -> System.exit(0)); // Close application
+		closeButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				closeButton.setBackground(new Color(200, 0, 0)); // Darker red on hover
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				closeButton.setBackground(new Color(255, 0, 0));
+			}
+		});
+		titleBarPanel.add(closeButton);
+		mainPanel.add(titleBarPanel, BorderLayout.NORTH);
+
 		// === LOGIN PANEL (LEFT) ===
 		// Create login panel for input fields and buttons
 		JPanel loginPanel = new JPanel(new GridBagLayout());
@@ -86,8 +111,8 @@ public class LoginFrame {
 		gbc.anchor = GridBagConstraints.CENTER;
 		loginPanel.add(lblLogin, gbc);
 
-		// **Username**
-		// Create panel for username input with icon
+		// **Username/Email**
+		// Create panel for username/email input with icon
 		JPanel emailPanel = new JPanel(new BorderLayout(10, 0));
 		emailPanel.setBackground(Color.WHITE);
 		emailPanel
@@ -96,17 +121,18 @@ public class LoginFrame {
 						BorderFactory.createEmptyBorder(5, 10, 5, 10) // Inner padding
 				));
 
-		// Add username icon
+		// Add username/email icon
 		ImageIcon emailIcon = new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\login.png");
 		Image emailImg = emailIcon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
 		JLabel emailIconLabel = new JLabel(new ImageIcon(emailImg));
 		emailPanel.add(emailIconLabel, BorderLayout.WEST);
 
-		// Add username text field
+		// Add username/email text field
 		JTextField emailField = new JTextField(20);
 		emailField.setFont(fieldFont);
 		emailField.setBorder(null);
 		emailField.setForeground(new Color(50, 50, 50)); // Dark gray text
+		emailField.setToolTipText("Enter username or email"); // Add tooltip
 		emailPanel.add(emailField, BorderLayout.CENTER);
 
 		gbc = new GridBagConstraints();
@@ -243,20 +269,20 @@ public class LoginFrame {
 
 	// Handles login logic
 	private void handleLogin(JTextField emailField, JPasswordField passwordField) {
-		// Get username and password from fields
-		String username = emailField.getText().trim();
+		// Get username or email and password from fields
+		String identifier = emailField.getText().trim();
 		String password = new String(passwordField.getPassword());
 
 		// Validate input
-		if (username.isEmpty() || password.isEmpty()) {
-			JOptionPane.showMessageDialog(frame, "Username and password cannot be empty!", "Error",
+		if (identifier.isEmpty() || password.isEmpty()) {
+			JOptionPane.showMessageDialog(frame, "Username/Email and password cannot be empty!", "Error",
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
 		try {
 			// Attempt login
-			UserSession session = authService.login(username, password);
+			UserSession session = authService.login(identifier, password);
 			JOptionPane.showMessageDialog(frame, "Login successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
 
 			// Redirect based on user role
@@ -291,6 +317,10 @@ public class LoginFrame {
 			JOptionPane.showMessageDialog(frame, "Login failed: " + ex.getMessage(), "Error",
 					JOptionPane.ERROR_MESSAGE);
 		}
+	}
+
+	public void showFrame() {
+		frame.setVisible(true);
 	}
 
 	// Custom Rounded Button class

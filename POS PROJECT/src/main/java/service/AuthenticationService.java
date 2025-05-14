@@ -35,57 +35,61 @@ public class AuthenticationService {
 		this.ownerDao.setClass(Owner.class); // Setting the Owner class type
 	}
 
-	// Method for login with username and password
-	public UserSession login(String username, String password) throws Exception {
-		Log.info("Login attempt for username: " + username);
+	// Method for login with username or email and password
+	public UserSession login(String identifier, String password) throws Exception {
+		Log.info("Login attempt for identifier: " + identifier);
 
-		// Try to find Employee by username
-		Employee employee = employeeDao.findByUsername(username);
+		// Try to find Employee by username or email
+		Employee employee = employeeDao.findByUsername(identifier);
+		if (employee == null) {
+			employee = employeeDao.findByEmail(identifier);
+		}
 		if (employee != null) {
+			// Check if employee is inactive
+			if (!employee.isEnabledFlag()) {
+				Log.warn("Login attempt for inactive employee: " + identifier);
+				throw new Exception("Tài khoản đang bị vô hiệu hóa");
+			}
 			// Verify password for the employee
 			if (!hashService.verify(password, employee.getLoginPassword())) {
-				Log.warn("Incorrect password for employee username: " + username);
+				Log.warn("Incorrect password for employee identifier: " + identifier);
 				throw new Exception("Sai mật khẩu");
 			}
 
 			// Create a session and save it to the database
 			UserSession session = new UserSession(employee, null);
 			userSessionDao.create(session);
-			Log.info("Employee login successful for username: " + username);
+			Log.info("Employee login successful for identifier: " + identifier);
 			return session;
 		}
 
-		// If no Employee found, try to find Owner by username
-		Owner owner = ownerDao.findByUsername(username);
+		// If no Employee found, try to find Owner by username or email
+		Owner owner = ownerDao.findByUsername(identifier);
+		if (owner == null) {
+			owner = ownerDao.findByEmail(identifier);
+		}
 		if (owner != null) {
+			// Check if owner is inactive
+			if (!owner.isEnabledFlag()) {
+				Log.warn("Login attempt for inactive owner: " + identifier);
+				throw new Exception("Tài khoản đang bị vô hiệu hóa");
+			}
 			// Verify password for the owner
 			if (!hashService.verify(password, owner.getLoginPassword())) {
-				Log.warn("Incorrect password for owner username: " + username);
+				Log.warn("Incorrect password for owner identifier: " + identifier);
 				throw new Exception("Sai mật khẩu");
 			}
 
 			// Create a session and save it to the database
 			UserSession session = new UserSession(null, owner);
 			userSessionDao.create(session);
-			Log.info("Owner login successful for username: " + username);
+			Log.info("Owner login successful for identifier: " + identifier);
 			return session;
 		}
 
 		// If neither Employee nor Owner is found
-		Log.warn("No account found with username: " + username);
+		Log.warn("No account found with identifier: " + identifier);
 		throw new Exception("Tài khoản không tồn tại");
-	}
-
-	// Method to check if the token is valid
-	public boolean isTokenValid(String token, int pageNumber, int pageSize) throws Exception {
-		List<UserSession> allSessions = userSessionDao.findAll(pageNumber, pageSize);
-		// Iterate through all sessions and check if token is valid and not expired
-		for (UserSession session : allSessions) {
-			if (session.getSessionToken().equals(token) && !session.isExpired()) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	// Method for logging out by invalidating the session based on the token

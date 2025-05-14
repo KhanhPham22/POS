@@ -10,6 +10,7 @@ import dao.PersonDao;
 import dao.StoreDao;
 import dao.SupplierDao;
 import model.Item;
+import model.Owner;
 import model.Store;
 import model.Supplier;
 import service.AuthenticationService;
@@ -83,7 +84,7 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
 		contentPanel.removeAll();
 		switch (pageName) {
 		case "Home":
-			loadHomePanel();
+			loadProfilePanel();
 			break;
 		case "Customer":
 			openCustomerManager();
@@ -121,12 +122,22 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
 		contentPanel.add(storePanel, BorderLayout.CENTER);
 	}
 
-	private void loadHomePanel() {
-		JPanel homePanel = new JPanel(new BorderLayout());
-		homePanel.setBackground(Color.WHITE);
-		homePanel.add(new JLabel("Home Page (Under Construction)", SwingConstants.CENTER));
-		contentPanel.add(homePanel, BorderLayout.CENTER);
-	}
+	private void loadProfilePanel() {
+        try {
+			Owner owner = personService.getOwnerByUsername(username);
+            if (owner == null) {
+                JOptionPane.showMessageDialog(this, "Owner not found for username: " + username, "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            ProfilePanel profilePanel = new ProfilePanel(personService);
+            profilePanel.setPerson(owner);
+            contentPanel.add(profilePanel, BorderLayout.CENTER);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error loading profile: " + e.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
 	private void openCustomerManager() {
 		new CustomerManager(personService, supplierService, itemService, storeService, hashService, authService,
@@ -169,11 +180,16 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
 	}
 
 	private void handleLogout() {
-		int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận đăng xuất",
-				JOptionPane.YES_NO_OPTION);
-		if (confirm == JOptionPane.YES_OPTION) {
-			dispose(); // Close the frame (or redirect to login screen)
-		}
+	    int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận đăng xuất",
+	            JOptionPane.YES_NO_OPTION);
+	    if (confirm == JOptionPane.YES_OPTION) {
+	        dispose(); // Đóng ProductFrame hiện tại
+	        SwingUtilities.invokeLater(() -> {
+	        	LoginFrame loginFrame = new LoginFrame();
+	        	loginFrame.showFrame();
+
+	        });
+	    }
 	}
 
 	private void addInfoRow(JPanel panel, GridBagConstraints gbc, int row, String labelText, String valueText) {
