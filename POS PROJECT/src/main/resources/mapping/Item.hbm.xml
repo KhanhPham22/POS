@@ -3,15 +3,33 @@
     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
+
+    <!-- Define a subclass mapping for the Item entity that extends BaseEntity -->
     <joined-subclass name="model.Item" table="item" extends="model.BaseEntity">
+
+        <!-- Primary key column that joins with BaseEntity -->
         <key column="item_id" />
 
+        <!-- Item name: required field -->
         <property name="name" column="name" not-null="true" />
+
+        <!-- Type of the item (e.g., raw material, finished product) -->
         <property name="type" column="type" />
+
+        <!-- Unit of measurement for the item (e.g., kg, liter, piece) -->
         <property name="unit" column="unit" />
+
+        <!-- Description of the item, stored as a large text block -->
         <property name="description" column="description" type="text" />
+
+        <!-- Quantity available: required field of integer type -->
         <property name="quantity" column="quantity" type="integer" not-null="true"/>
+
+        <!-- Many-to-one relationship to the Supplier entity.
+             Each item is linked to one supplier (foreign key: supplier_id).
+        -->
         <many-to-one name="supplier" class="model.Supplier" column="supplier_id" not-null="true" />
 
     </joined-subclass>
+
 </hibernate-mapping>

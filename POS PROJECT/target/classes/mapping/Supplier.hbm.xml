@@ -3,25 +3,43 @@
     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
+    
+    <!-- Define a subclass mapping for the Supplier entity that extends BaseEntity -->
     <joined-subclass name="model.Supplier" extends="model.BaseEntity" table="supplier">
+
+        <!-- Primary key column for Supplier -->
         <key column="supplier_id" />
 
+        <!-- Supplier name: required field, max length 100, must be unique -->
         <property name="name" column="name" not-null="true" length="100" unique="true" />
+
+        <!-- Contact person for the supplier -->
         <property name="contactName" column="contact_name" length="100" />
+
+        <!-- Supplier phone number: required, must be unique, max length 20 -->
         <property name="phone" column="phone" not-null="true" unique="true" length="20" />
+
+        <!-- Supplier email address: must be unique, max length 100 -->
         <property name="email" column="email" unique="true" length="100" />
+
+        <!-- Supplier address -->
         <property name="address" column="address" length="255" />
+
+        <!-- Supplier's tax code: must be unique, max length 50 -->
         <property name="taxCode" column="tax_code" unique="true" length="50" />
-        
+
+        <!-- One-to-many relationship with WarehouseImport: each supplier can supply multiple warehouses -->
         <set name="warehouseImports" cascade="all" lazy="true" inverse="true">
             <key column="supplier_id" />
             <one-to-many class="model.Warehouse" />
         </set>
-        
+
+        <!-- One-to-many relationship with Item: each supplier can provide multiple items -->
         <set name="items" cascade="all" lazy="true" inverse="true">
-    <key column="supplier_id"/>
-    <one-to-many class="model.Item"/>
-</set>
+            <key column="supplier_id"/>
+            <one-to-many class="model.Item"/>
+        </set>
 
     </joined-subclass>
+
 </hibernate-mapping>

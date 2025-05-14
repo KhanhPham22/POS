@@ -38,7 +38,7 @@ public class EmployeeManager extends JFrame implements SidebarPanel.SidebarListe
 	private final String[] sidebarNames = { "Home", "Customer", "Employee", "Product", "Dashboard", "Supplier",
 			"Warehouse", "Store", "Logout" };
 	private JPanel contentPanel;
-	private final String username = "admin"; // Replace with actual username
+	private final String username ; 
 	private final ImageIcon logoIcon = new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\lck.png");
 
 	private PersonService personService;
@@ -52,7 +52,7 @@ public class EmployeeManager extends JFrame implements SidebarPanel.SidebarListe
 
 	public EmployeeManager(PersonService personService, SupplierService supplierService, ItemService itemService,
 			StoreServiceImpl storeService, HashService hashService, AuthenticationService authService,
-			ProductService productService, CategoryService categoryService) {
+			ProductService productService, CategoryService categoryService,String username) {
 		this.personService = personService;
 		this.supplierService = supplierService;
 		this.itemService = itemService;
@@ -61,6 +61,7 @@ public class EmployeeManager extends JFrame implements SidebarPanel.SidebarListe
 		this.authService = authService;
 		this.categoryService = categoryService;
 		this.productService = productService;
+		this.username = username;
 
 		setTitle("Quản lý nhân viên");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -132,13 +133,13 @@ public class EmployeeManager extends JFrame implements SidebarPanel.SidebarListe
 
 	private void openCustomerManager() {
 		new CustomerManager(personService, supplierService, itemService, storeService, hashService, authService,
-				productService, categoryService).setVisible(true);
+				productService, categoryService,username).setVisible(true);
 		dispose();
 	}
 
 	private void openProductFrame() {
 		ProductFrame productFrame = new ProductFrame(personService, supplierService, itemService, storeService,
-				hashService, authService, productService, categoryService);
+				hashService, authService, productService, categoryService,username);
 		productFrame.setVisible(true);
 		dispose();
 	}
@@ -159,14 +160,14 @@ public class EmployeeManager extends JFrame implements SidebarPanel.SidebarListe
 
 	private void openStoreFrame() {
 		StoreFrame storeFrame = new StoreFrame(supplierService, itemService, storeService, personService, hashService,
-				authService, productService, categoryService);
+				authService, productService, categoryService,username);
 		storeFrame.setVisible(true);
 		dispose();
 	}
 
 	private void openSupplierFrame() {
 		SupplierFrame supplierFrame = new SupplierFrame(supplierService, itemService, storeService, personService,
-				hashService, authService, productService, categoryService);
+				hashService, authService, productService, categoryService,username);
 		supplierFrame.setVisible(true);
 		dispose();
 	}

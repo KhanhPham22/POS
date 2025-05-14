@@ -37,16 +37,15 @@ public class Main {
 	public static void main(String[] args) {
 
 		// Chạy mock data trước khi hiển thị giao diện
-        Main.mockData();
-		
+		Main.mockData();
+
 		// Chạy UI ở luồng giao diện
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					// Hiển thị màn hình đăng nhập
-					LoginFrame window = new LoginFrame();
-					window.frame.setVisible(true);
-					
+					new LoginFrame();
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -68,10 +67,10 @@ public class Main {
 //
 //			SupplierDao supplierDao = new SupplierDao();
 //			supplierDao.setClass(Supplier.class);
-			
+
 			StoreDao storeDao = new StoreDao();
 			storeDao.setClass(Store.class);
-			
+
 			// Bỏ qua customer
 //			PersonServiceImpl personService = new PersonServiceImpl(employeeDao, null, ownerDao);
 //
@@ -80,7 +79,7 @@ public class Main {
 //			SupplierServiceImpl supplierService = new SupplierServiceImpl(supplierDao);
 //			ItemServiceImpl itemService = new ItemServiceImpl(itemDao);
 			StoreService storeService = new StoreServiceImpl(storeDao);
-			//Supplier
+			// Supplier
 //			Supplier supplier = new Supplier();
 //			supplier.setName("Phan cung vn");
 //			supplier.setContactName("nhap phan cung");
@@ -91,8 +90,8 @@ public class Main {
 //			
 //			supplierService.createSupplier(supplier);
 //			System.out.println("Tao supplier thanh cong");
-			
-			//Item
+
+			// Item
 //			Item item = new Item();
 //			item.setName("May xay sinh to");
 //			item.setType("phan cung");
@@ -103,9 +102,7 @@ public class Main {
 //			
 //			itemService.createItem(item);
 //			System.out.println("tao item thanh cong");
-			
-			
-			
+
 			// ===== Tạo và test EMPLOYEE =====
 //			Employee employee = new Employee();
 //			employee.setPersonFirstName("Tran");
@@ -164,34 +161,33 @@ public class Main {
 //			} else {
 //				System.out.println("❌ Không tìm thấy owner theo username");
 //			}
-			
-			// Tạo và test Store 
-						Store store = new Store();
-						store.setName("Cà phê LCK quận 12");
-						store.setShortName("CF LCK Q12");
-						store.setDescription("CF SỐ 1 QUẬN 12");
-						store.setAddress("Đường số 3 công viên phần mềm quang trung");
-						store.setCity("Ho Chi Minh");
-						store.setState("Quan 12");
-						store.setZip("7777");
-						store.setEmail("lckcoffeeq12@example.com");
-						store.setPhone("0987654321");
-						store.setWebsite("www.lckcoffee.com");
-						store.setFax("2222");
-						
-						storeService.createStore(store);
-						System.out.println("Tạo store thành công");
-						
-						// Test hàm tìm kiếm store
-						List<Store> foundStores = storeService.getStoresByName("Cà phê LCK quận 12");
-						if (foundStores != null && !foundStores.isEmpty()) {
-						    Store firstStore = foundStores.get(0);
-						    System.out.println("Thông tin chi tiết store: " + firstStore.getDescription() + 
-						                      " | SĐT: " + firstStore.getPhone());
-						} else {
-						    System.out.println("Không tìm thấy cửa hàng");
-						}
-			
+
+			// Tạo và test Store
+			Store store = new Store();
+			store.setName("Cà phê LCK quận 12");
+			store.setShortName("CF LCK Q12");
+			store.setDescription("CF SỐ 1 QUẬN 12");
+			store.setAddress("Đường số 3 công viên phần mềm quang trung");
+			store.setCity("Ho Chi Minh");
+			store.setState("Quan 12");
+			store.setZip("7777");
+			store.setEmail("lckcoffeeq12@example.com");
+			store.setPhone("0987654321");
+			store.setWebsite("www.lckcoffee.com");
+			store.setFax("2222");
+
+			storeService.createStore(store);
+			System.out.println("Tạo store thành công");
+
+			// Test hàm tìm kiếm store
+			List<Store> foundStores = storeService.getStoresByName("Cà phê LCK quận 12");
+			if (foundStores != null && !foundStores.isEmpty()) {
+				Store firstStore = foundStores.get(0);
+				System.out.println("Thông tin chi tiết store: " + firstStore.getDescription() + " | SĐT: "
+						+ firstStore.getPhone());
+			} else {
+				System.out.println("Không tìm thấy cửa hàng");
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

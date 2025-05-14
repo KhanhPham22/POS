@@ -3,27 +3,53 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
+
+    <!-- Define an abstract base class mapping for Person -->
     <class name="model.Person" table="person" abstract="true">
 
-        
+        <!-- Primary key: person_id generated using a database sequence -->
         <id name="personId" column="person_id">
             <generator class="sequence">
                 <param name="sequence">person_sequence</param>
             </generator>
         </id>
 
+        <!-- First name of the person -->
         <property name="personFirstName" column="person_first_name"/>
+
+        <!-- Middle name of the person -->
         <property name="personMiddleName" column="person_middle_name"/>
+
+        <!-- Last name of the person -->
         <property name="personLastName" column="person_last_name"/>
+
+        <!-- Gender of the person -->
         <property name="personGender" column="person_gender"/>
+
+        <!-- Date of birth -->
         <property name="dateOfBirth" column="date_of_birth"/>
+
+        <!-- Phone number -->
         <property name="phone"/>
+
+        <!-- Email address (must be unique) -->
         <property name="email" unique="true"/>
+
+        <!-- Full address -->
         <property name="address"/>
+
+        <!-- City -->
         <property name="city"/>
+
+        <!-- State or province -->
         <property name="state"/>
+
+        <!-- Country -->
         <property name="country"/>
+
+        <!-- Boolean flag indicating whether the person is enabled or active -->
         <property name="enabledFlag" column="enabled_flag"/>
-        
-    </class>	
+
+    </class>
+
 </hibernate-mapping>

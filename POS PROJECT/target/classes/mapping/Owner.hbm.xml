@@ -4,24 +4,41 @@
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="model">
 
+    <!-- Define a subclass mapping for the Owner entity that extends Person -->
     <joined-subclass name="Owner" extends="model.Person" table="owner">
+
+        <!-- Primary key column that joins with Person table -->
         <key column="person_id"/>
 
+        <!-- Owner-specific number or code -->
         <property name="ownerNumber" column="owner_number"/>
+
+        <!-- Description or additional notes -->
         <property name="description" column="description"/>
+
+        <!-- Login username: must be unique -->
         <property name="loginUsername" column="login_username" unique="true"/>
+
+        <!-- Login password -->
         <property name="loginPassword" column="login_password"/>
-        
-        <!-- Quan hệ One-to-Many với Dashboard -->
+
+        <!-- One-to-many relationship with Dashboard
+             - Cascade all operations from Owner to Dashboards
+             - Inverse: Dashboard owns the relationship (mappedBy)
+        -->
         <set name="dashboards" cascade="all" inverse="true">
             <key column="person_id"/>
             <one-to-many class="model.Dashboard"/>
         </set>
-         <!-- Quan hệ One-to-Many với Warehouse -->
-         <set name="warehouseImports" cascade="all" inverse="true">
+
+        <!-- One-to-many relationship with Warehouse
+             - Each owner can have multiple warehouse import records
+        -->
+        <set name="warehouseImports" cascade="all" inverse="true">
             <key column="person_id"/>
             <one-to-many class="model.Warehouse"/>
         </set>
+
     </joined-subclass>
 
 </hibernate-mapping>

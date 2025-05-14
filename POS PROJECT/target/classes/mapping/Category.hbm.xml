@@ -3,14 +3,28 @@
     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <joined-subclass name="model.Category" table="category" extends="model.BaseEntity">
-       <key column="category_id" />
 
+    <!-- Define a subclass mapping for the Category entity that extends BaseEntity -->
+    <joined-subclass name="model.Category" table="category" extends="model.BaseEntity">
+
+        <!-- Primary key column that joins with BaseEntity -->
+        <key column="category_id" />
+
+        <!-- Category name: required field with a maximum length of 100 characters -->
         <property name="name" column="name" type="string" length="100" not-null="true"/>
+
+        <!-- Optional description of the category with a maximum length of 255 characters -->
         <property name="description" column="description" type="string" length="255"/>
-        <set name="products" cascade="all" inverse="true" >
+
+        <!-- One-to-many relationship with Product entities.
+             Cascade all operations from Category to Products.
+             Inverse=true means the Product side manages the relationship.
+        -->
+        <set name="products" cascade="all" inverse="true">
             <key column="category_id"/>
             <one-to-many class="model.Product"/>
         </set>
+
     </joined-subclass>
+
 </hibernate-mapping>

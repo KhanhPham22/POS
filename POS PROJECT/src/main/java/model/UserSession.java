@@ -20,7 +20,7 @@ public class UserSession extends BaseEntity {
     // Default Constructor (required by Hibernate)
     public UserSession() {}
 
-    // Constructor with Employee,Owner
+    // Constructor with Employee, Owner
     public UserSession(Employee employee, Owner owner) {
         if (employee != null) {
             this.employee = employee;
@@ -36,13 +36,11 @@ public class UserSession extends BaseEntity {
         this.sessionToken = generateSessionToken();
         this.expiryTime = calculateExpiryDate();
         this.active = true;
-
     }
-
 
     // Constructor with all fields
     public UserSession(long id, String sessionToken, Timestamp timestamp, Timestamp expiryTime,
-                       String employeeNumber, Employee employee,String ownerNumber, Owner owner ,String sessionData) {
+                       String employeeNumber, Employee employee, String ownerNumber, Owner owner, String sessionData) {
         setId(id); // Use BaseEntity's id
         this.sessionToken = sessionToken;
         this.timestamp = timestamp;
@@ -53,7 +51,6 @@ public class UserSession extends BaseEntity {
         this.owner = owner;
         this.sessionData = sessionData;
         this.active = true;
-
     }
 
     // Generate unique session token
@@ -71,6 +68,16 @@ public class UserSession extends BaseEntity {
     // Check if session is expired
     public boolean isExpired() {
         return Instant.now().isAfter(expiryTime.toInstant());
+    }
+
+    // Get username based on employee or owner
+    public String getUsername() {
+        if (employee != null) {
+            return employee.getLoginUsername();
+        } else if (owner != null) {
+            return owner.getLoginUsername();
+        }
+        throw new IllegalStateException("No user associated with session");
     }
 
     // Getter and Setter methods
@@ -107,11 +114,11 @@ public class UserSession extends BaseEntity {
     }
     
     public String getOwnerNumber() {
-    	return ownerNumber;
+        return ownerNumber;
     }
     
     public void setOwnerNumber(String ownerNumber) {
-    	this.ownerNumber = ownerNumber;
+        this.ownerNumber = ownerNumber;
     }
 
     public Employee getEmployee() {
@@ -123,11 +130,11 @@ public class UserSession extends BaseEntity {
     }
     
     public Owner getOwner() {
-    	return owner;
+        return owner;
     }
     
     public void setOwner(Owner owner) {
-    	this.owner = owner;
+        this.owner = owner;
     }
 
     public String getSessionData() {
@@ -142,13 +149,12 @@ public class UserSession extends BaseEntity {
         this.timestamp = Timestamp.from(Instant.now());
         this.expiryTime = calculateExpiryDate();
     }
- // Thêm phương thức invalidate
+
     public void invalidate() {
         this.active = false;
         this.expiryTime = Timestamp.from(Instant.now());
     }
 
-    // Kiểm tra session còn hợp lệ (không chỉ dựa trên thời gian)
     public boolean isValid() {
         return active && !isExpired();
     }
@@ -168,6 +174,4 @@ public class UserSession extends BaseEntity {
     public boolean isOwnerSession() {
         return owner != null;
     }
-
-
 }

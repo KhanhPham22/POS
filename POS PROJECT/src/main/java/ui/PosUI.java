@@ -40,7 +40,7 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
             "logout_icon.png" };
     private final String[] sidebarNames = { "Home", "Menue", "OrderHistory", "Promotion", "Logout" };
     private JPanel contentPanel;
-    private final String username = "admin"; // Replace with actual username
+    private final String username ; // Replace with actual username
     private final ImageIcon logoIcon = new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\lck.png");
 
     // Services required for MenuPanel
@@ -49,8 +49,8 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
     private ProductService productService;
     private PaymentService paymentService;
 
-    public PosUI() {
-        // Initialize services
+    public PosUI(String username) {
+    	this.username = username;
         initializeServices();
 
         setTitle("Cà phê lck");
@@ -67,7 +67,7 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
         add(sidebar, BorderLayout.WEST);
 
         // Load default panel (e.g., Home)
-        loadHomePanel();
+        loadMenuePanel();
         add(contentPanel, BorderLayout.CENTER);
         setVisible(true);
     }
@@ -164,15 +164,15 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            try {
-                new PosUI();
-            } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Lỗi khi khởi chạy ứng dụng: " + e.getMessage(), "Lỗi",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        });
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(() -> {
+//            try {
+//                new PosUI();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                JOptionPane.showMessageDialog(null, "Lỗi khi khởi chạy ứng dụng: " + e.getMessage(), "Lỗi",
+//                        JOptionPane.ERROR_MESSAGE);
+//            }
+//        });
+//    }
 }

@@ -2,28 +2,58 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
+    <!-- Define a subclass mapping for the Store entity that extends BaseEntity -->
     <joined-subclass name="model.Store" table="store" extends="model.BaseEntity">
+
+        <!-- Primary key column, joined with BaseEntity's ID -->
         <key column="store_id" />
 
+        <!-- Store name (e.g. full legal name), optional, max length 100 -->
         <property name="name" column="name" length="100" />
+
+        <!-- Short name or abbreviation, optional, max length 50 -->
         <property name="shortName" column="short_name" length="50" />
+
+        <!-- Description of the store, optional, max length 255 -->
         <property name="description" column="description" length="255" />
+
+        <!-- City where the store is located, optional, max length 100 -->
         <property name="city" column="city" length="100" />
+
+        <!-- State or province, optional, max length 100 -->
         <property name="state" column="state" length="100" />
+
+        <!-- ZIP or postal code, optional, max length 20 -->
         <property name="zip" column="zip" length="20" />
+
+        <!-- Street address, optional, max length 255 -->
         <property name="address" column="address" length="255" />
+
+        <!-- Contact phone number, optional, max length 20 -->
         <property name="phone" column="phone" length="20" />
+
+        <!-- Email address, optional, max length 100 -->
         <property name="email" column="email" length="100" />
+
+        <!-- Website URL, optional, max length 100 -->
         <property name="website" column="website" length="100" />
+
+        <!-- Fax number, optional, max length 20 -->
         <property name="fax" column="fax" length="20" />
 
-        <!-- Quan hệ One-to-Many với Dashboard -->
+        <!-- One-to-many relationship with Dashboard
+             - Each store can have multiple dashboards
+             - Cascade all operations
+             - Inverse: Dashboard owns the relationship
+        -->
         <set name="dashboards" cascade="all" inverse="true">
             <key column="store_id" />
             <one-to-many class="model.Dashboard" />
         </set>
 
-        <!-- Quan hệ One-to-Many với WarehouseImport -->
+        <!-- One-to-many relationship with Warehouse (WarehouseImport)
+             - Each store can have multiple warehouse import records
+        -->
         <set name="warehouseImports" cascade="all" inverse="true">
             <key column="store_id" />
             <one-to-many class="model.Warehouse" />

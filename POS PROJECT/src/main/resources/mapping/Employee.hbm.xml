@@ -3,23 +3,39 @@
     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="model">
+    
+    <!-- Define a subclass mapping for the Employee entity that extends the Person entity -->
     <joined-subclass name="Employee" extends="model.Person" table="employee">
+        
+        <!-- Primary key column linking to the Person table -->
         <key column="person_id" />
 
+        <!-- Employee number: required field -->
         <property name="employeeNumber" column="employee_number" not-null="true" />
+
+        <!-- Type of employee (e.g., full-time, part-time) -->
         <property name="employeeType" column="employee_type" />
+
+        <!-- Description or additional details -->
         <property name="description" column="description" />
+
+        <!-- Login username: required and must be unique -->
         <property name="loginUsername" column="login_username" not-null="true" unique="true" />
+
+        <!-- Login password with a large length limit -->
         <property name="loginPassword" column="login_password" length="1000" />
 
+        <!-- One-to-many relationship with Invoice, mapped by person_id -->
         <set name="invoices" inverse="true" cascade="all-delete-orphan" lazy="true">
             <key column="person_id" />
             <one-to-many class="Invoice" />
         </set>
 
+        <!-- One-to-many relationship with Payroll, mapped by person_id -->
         <set name="payrolls" inverse="true" cascade="all-delete-orphan" lazy="true">
             <key column="person_id" />
             <one-to-many class="Payroll" />
         </set>
+        
     </joined-subclass>
 </hibernate-mapping>

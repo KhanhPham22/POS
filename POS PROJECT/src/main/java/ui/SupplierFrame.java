@@ -43,7 +43,7 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 			"dashboard.png", "supplier.png", "warehouse.png", "store.png", "logout_icon.png" };
 	private final String[] sidebarNames = { "Home", "Customer", "Employee", "Product", "Dashboard", "Supplier",
 			"Warehouse", "Store", "Logout" };
-	private final String username = "admin";
+	private final String username ;
 	private final ImageIcon logoIcon = new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\lck.png");
 
 	private final SupplierService supplierService;
@@ -57,7 +57,7 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 
 	public SupplierFrame(SupplierService supplierService, ItemService itemService, StoreServiceImpl storeService,
 			PersonService personService, HashService hashService, AuthenticationService authService,
-			ProductService productService, CategoryService categoryService) {
+			ProductService productService, CategoryService categoryService,String username) {
 		this.supplierService = supplierService;
 		this.itemService = itemService;
 		this.storeService = storeService;
@@ -66,6 +66,7 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 		this.authService = authService;
 		this.categoryService = categoryService;
 		this.productService = productService;
+		this.username = username;
 
 		setTitle("Supplier Management");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -129,20 +130,20 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 
 	private void openCustomerManager() {
 		new CustomerManager(personService, supplierService, itemService, storeService, hashService, authService,
-				productService, categoryService).setVisible(true);
+				productService, categoryService,username).setVisible(true);
 		dispose();
 	}
 
 	private void openEmployeeManager() {
 		new EmployeeManager(personService, supplierService, itemService, storeService, hashService, authService,
-				productService, categoryService).setVisible(true);
+				productService, categoryService,username).setVisible(true);
 		dispose();
 
 	}
 
 	private void openProductFrame() {
 		ProductFrame productFrame = new ProductFrame(personService, supplierService, itemService, storeService,
-				hashService, authService, productService, categoryService);
+				hashService, authService, productService, categoryService,username);
 		productFrame.setVisible(true);
 		dispose();
 	}
@@ -169,7 +170,7 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 	private void openStoreFrame() {
 		StoreServiceImpl storeService = new StoreServiceImpl(new StoreDao()); // Use StoreServiceImpl directly
 		StoreFrame storeFrame = new StoreFrame(supplierService, itemService, storeService, personService, hashService,
-				authService, productService, categoryService);
+				authService, productService, categoryService,username);
 		storeFrame.setVisible(true);
 		dispose();
 	}

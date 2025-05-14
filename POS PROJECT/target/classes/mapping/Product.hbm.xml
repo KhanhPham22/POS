@@ -3,21 +3,52 @@
     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
+
+    <!-- Define a subclass mapping for the Product entity that extends BaseEntity -->
     <joined-subclass name="model.Product" table="product" extends="model.BaseEntity">
+
+        <!-- Primary key column that links to BaseEntity -->
         <key column="id"/>
+
+        <!-- Product name: required field, max length 100 -->
         <property name="name" column="name" type="string" length="100" not-null="true"/>
+
+        <!-- Product price: required field, using BigDecimal for precision -->
         <property name="price" column="price" type="big_decimal" not-null="true"/>
+
+        <!-- Path or URL to product image: optional, max length 255 -->
         <property name="imagePath" column="image_path" type="string" length="255"/>
+
+        <!-- Discount on product (if any), stored as BigDecimal -->
         <property name="discount" column="discount" type="big_decimal"/>
+
+        <!-- Quantity available: required integer field -->
         <property name="quantity" column="quantity" type="integer" not-null="true"/>
+
+        <!-- Size of the product: optional, max length 20 -->
         <property name="size" column="product_size" type="string" length="20"/>
+
+        <!-- Status (e.g. 0 = inactive, 1 = active): required integer -->
         <property name="status" column="status" type="integer" not-null="true"/>
+
+        <!-- EAN-13 barcode (optional): max length 13 -->
         <property name="ean13" column="ean13" type="string" length="13"/>
+
+        <!-- Many-to-one relationship to Category: required foreign key -->
         <many-to-one name="category" class="model.Category" column="category_id" not-null="true"/>
+
+        <!-- Many-to-one relationship to GiftVoucher (optional) -->
         <many-to-one name="giftVoucher" class="model.GiftVoucher" column="gift_voucher_id"/>
+
+        <!-- One-to-many relationship with OrderDetail.
+             - Cascade all operations
+             - Inverse means OrderDetail manages the relationship.
+        -->
         <set name="orderDetails" cascade="all" inverse="true">
             <key column="product_id"/>
             <one-to-many class="model.OrderDetail"/>
         </set>
+
     </joined-subclass>
+
 </hibernate-mapping>
