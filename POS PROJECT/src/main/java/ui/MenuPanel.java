@@ -1,8 +1,6 @@
 package ui;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.math.BigDecimal;
@@ -10,7 +8,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import model.Category;
 import model.Product;
 import model.Customer;
@@ -20,11 +17,10 @@ import service.CategoryService;
 import service.ProductService;
 import service.PersonService;
 import service.PaymentService;
+import java.io.File;
+import ui.Elements.SearchBar;
 
 public class MenuPanel extends JPanel {
-
-   
-
     private final CategoryService categoryService;
     private final ProductService productService;
     private final PersonService personService;
@@ -39,9 +35,12 @@ public class MenuPanel extends JPanel {
     private JComboBox<String> sizeComboBox;
     private JTextField quantityField;
     private JLabel totalPriceLabel;
+    private SearchBar searchBar;
+    private static final DecimalFormat PRICE_FORMAT = new DecimalFormat("#,###.000 VND");
+    private static final String PRODUCT_IMG_DIR = "C:\\TTTN\\POS PROJECT\\img\\Product\\";
 
     public MenuPanel(CategoryService categoryService, ProductService productService, 
-                     PersonService personService, PaymentService paymentService) {
+                     PersonService personService, PaymentService paymentService, boolean isEmployee) {
         this.categoryService = categoryService;
         this.productService = productService;
         this.personService = personService;
@@ -51,52 +50,60 @@ public class MenuPanel extends JPanel {
 
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
-        initializeUI();
+        initializeUI(isEmployee);
         
         cartPanel = new CartPanel(cartItems);
     }
 
-    private void initializeUI() {
-        // Top panel with Add Customer button and Cart button
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton addCustomerButton = new JButton("Add Customer");
-        addCustomerButton.setBackground(new Color(50, 205, 50));
-        addCustomerButton.setForeground(Color.WHITE);
-        addCustomerButton.addActionListener(e -> {
-			try {
-				showAddCustomerDialog();
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
+    private void initializeUI(boolean isEmployee) {
+        // Top panel with Search bar and Cart button
+        JPanel topPanel = new JPanel(new BorderLayout(10, 0));
+        topPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        JButton cartButton = new JButton("View Cart");
+        // Search bar
+        searchBar = new SearchBar(query -> filterProductsBySearch(query));
+        searchBar.setPlaceholder("Search...");
+        topPanel.add(searchBar, BorderLayout.CENTER);
+
+        // Cart button with scaled image
+        JButton cartButton = new JButton("Cart");
         cartButton.setBackground(new Color(70, 130, 180));
         cartButton.setForeground(Color.WHITE);
+        try {
+            ImageIcon cartIcon = new ImageIcon(new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\cart_icon.png")
+                .getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH));
+            cartButton.setIcon(cartIcon);
+            cartButton.setHorizontalTextPosition(SwingConstants.RIGHT);
+            cartButton.setIconTextGap(5);
+        } catch (Exception e) {
+            System.err.println("Failed to load cart icon: " + e.getMessage());
+        }
         cartButton.addActionListener(e -> showCart());
-
-        topPanel.add(addCustomerButton);
-        topPanel.add(cartButton);
+        topPanel.add(cartButton, BorderLayout.EAST);
         add(topPanel, BorderLayout.NORTH);
 
-        // Category panel for filtering
+        // Center panel to hold category and product display
+        JPanel centerPanel = new JPanel(new BorderLayout());
+
+        // Category panel above product display
         categoryPanel = new CategoryPanel(categoryService, 
             category -> filterProductsByCategory(category), false);
-        add(categoryPanel, BorderLayout.WEST);
+        centerPanel.add(categoryPanel, BorderLayout.NORTH);
 
-        // Product display panel
-        productDisplayPanel = new JPanel(new GridLayout(0, 3, 10, 10));
+        // Product display panel (4 products per row)
+        productDisplayPanel = new JPanel(new GridLayout(0, 4, 10, 10));
         productDisplayPanel.setBackground(Color.WHITE);
-        JScrollPane productScrollPane = new JScrollPane(productDisplayPanel);
-        add(productScrollPane, BorderLayout.CENTER);
+        productDisplayPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        centerPanel.add(new JScrollPane(productDisplayPanel), BorderLayout.CENTER);
+
+        add(centerPanel, BorderLayout.CENTER);
 
         // Initialize product detail panel (hidden initially)
         productDetailPanel = new JPanel(new BorderLayout());
         productDetailPanel.setVisible(false);
         add(productDetailPanel, BorderLayout.EAST);
 
-        // Load all products initially
+        // Load products initially
         loadProducts(null);
     }
 
@@ -104,54 +111,107 @@ public class MenuPanel extends JPanel {
         loadProducts(category);
     }
 
+    private void filterProductsBySearch(String query) {
+        List<Product> products = productService.getAllProducts(1, Integer.MAX_VALUE);
+        if (query != null && !query.isEmpty()) {
+            products = products.stream()
+                .filter(p -> p.getName() != null && p.getName().toLowerCase().contains(query.toLowerCase()))
+                .collect(Collectors.toList());
+        }
+        loadProductsWithList(products);
+    }
+
     private void loadProducts(Category category) {
-        productDisplayPanel.removeAll();
         List<Product> products = productService.getAllProducts(1, Integer.MAX_VALUE);
         if (category != null) {
             products = products.stream()
                 .filter(p -> p.getCategory() != null && p.getCategory().getId() == category.getId())
                 .collect(Collectors.toList());
         }
+        // Deduplicate by name to show only one representative product
+        products = products.stream()
+            .collect(Collectors.toMap(
+                Product::getName,
+                p -> p,
+                (existing, replacement) -> existing
+            ))
+            .values()
+            .stream()
+            .collect(Collectors.toList());
+        loadProductsWithList(products);
+    }
 
-        for (Product product : products) {
-            JPanel productCard = createProductCard(product);
-            productDisplayPanel.add(productCard);
+    private void loadProductsWithList(List<Product> products) {
+        productDisplayPanel.removeAll();
+        if (products.isEmpty()) {
+            productDisplayPanel.add(new JLabel("No products available"));
+        } else {
+            for (Product product : products) {
+                JPanel productPanel = createProductPanel(product);
+                productDisplayPanel.add(productPanel);
+            }
         }
-
         productDisplayPanel.revalidate();
         productDisplayPanel.repaint();
     }
 
-    private JPanel createProductCard(Product product) {
-        JPanel card = new JPanel(new BorderLayout(5, 5));
-        card.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-        card.setBackground(Color.WHITE);
-        card.setPreferredSize(new Dimension(200, 250));
+    private JPanel createProductPanel(Product product) {
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(Color.WHITE);
+        panel.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
 
         // Product image
         JLabel imageLabel = new JLabel();
-        if (product.getImagePath() != null && !product.getImagePath().isEmpty()) {
-            ImageIcon icon = new ImageIcon(new ImageIcon(product.getImagePath())
-                .getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH));
-            imageLabel.setIcon(icon);
-        }
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        card.add(imageLabel, BorderLayout.CENTER);
+        loadProductImage(product, imageLabel, 150, 150);
+        panel.add(imageLabel, BorderLayout.CENTER);
 
-        // Product name and detail button
-        JPanel infoPanel = new JPanel(new GridLayout(2, 1));
-        JLabel nameLabel = new JLabel(product.getName());
-        nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        JButton detailButton = new JButton("View Details");
-        detailButton.setBackground(new Color(70, 130, 180));
-        detailButton.setForeground(Color.WHITE);
-        detailButton.addActionListener(e -> showProductDetails(product));
+        // Product name
+        JLabel nameLabel = new JLabel(product.getName(), SwingConstants.CENTER);
+        nameLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        panel.add(nameLabel, BorderLayout.SOUTH);
 
-        infoPanel.add(nameLabel);
-        infoPanel.add(detailButton);
-        card.add(infoPanel, BorderLayout.SOUTH);
+        // Click to show details
+        panel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                showProductDetails(product);
+            }
+        });
 
-        return card;
+        return panel;
+    }
+
+    private void loadProductImage(Product product, JLabel label, int width, int height) {
+        ImageIcon icon = null;
+        if (product.getImagePath() != null && !product.getImagePath().isEmpty()) {
+            File imageFile = new File(product.getImagePath());
+            if (imageFile.exists()) {
+                icon = new ImageIcon(product.getImagePath());
+            } else {
+                String fallbackPath = PRODUCT_IMG_DIR + product.getName() + "_" + (product.getSize() != null ? product.getSize() : "Default") + ".jpg";
+                File fallbackFile = new File(fallbackPath);
+                if (fallbackFile.exists()) {
+                    icon = new ImageIcon(fallbackPath);
+                }
+            }
+        } else {
+            String fallbackPath = PRODUCT_IMG_DIR + product.getName() + "_" + (product.getSize() != null ? product.getSize() : "Default") + ".jpg";
+            File fallbackFile = new File(fallbackPath);
+            if (fallbackFile.exists()) {
+                icon = new ImageIcon(fallbackPath);
+            } else {
+                File defaultFile = new File(PRODUCT_IMG_DIR + "default.png");
+                String defaultPath = defaultFile.exists() ? PRODUCT_IMG_DIR + "default.png" : "C:\\TTTN\\POS PROJECT\\img\\default.png";
+                icon = new ImageIcon(defaultPath);
+            }
+        }
+        if (icon != null) {
+            Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+            label.setIcon(new ImageIcon(scaledImage));
+        } else {
+            label.setIcon(new ImageIcon());
+        }
     }
 
     private void showProductDetails(Product product) {
@@ -164,11 +224,7 @@ public class MenuPanel extends JPanel {
 
         // Product image
         JLabel imageLabel = new JLabel();
-        if (product.getImagePath() != null && !product.getImagePath().isEmpty()) {
-            ImageIcon icon = new ImageIcon(new ImageIcon(product.getImagePath())
-                .getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
-            imageLabel.setIcon(icon);
-        }
+        loadProductImage(product, imageLabel, 150, 150);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         detailContent.add(imageLabel);
 
@@ -181,8 +237,19 @@ public class MenuPanel extends JPanel {
 
         // Size selection
         JLabel sizeLabel = new JLabel("Size:");
-        sizeComboBox = new JComboBox<>(new String[]{"S", "M", "L", "Default"});
-        sizeComboBox.setSelectedItem(product.getSize() != null ? product.getSize() : "Default");
+        boolean isDesserts = product.getCategory() != null && product.getCategory().getName().equalsIgnoreCase("Desserts");
+        String[] sizeOptions = isDesserts ? new String[]{"Default"} : new String[]{"S", "M", "L"};
+        sizeComboBox = new JComboBox<>(sizeOptions);
+        sizeComboBox.setEnabled(!isDesserts); // Disable size selection for desserts
+        List<Product> sizeVariants = productService.getAllProducts(1, Integer.MAX_VALUE).stream()
+            .filter(p -> p.getName() != null && p.getName().equals(product.getName()))
+            .collect(Collectors.toList());
+        String defaultSize = sizeVariants.stream()
+            .filter(p -> p.getSize() != null)
+            .findFirst()
+            .map(p -> p.getSize())
+            .orElse(isDesserts ? "Default" : "S");
+        sizeComboBox.setSelectedItem(defaultSize);
         JPanel sizePanel = new JPanel(new FlowLayout());
         sizePanel.add(sizeLabel);
         sizePanel.add(sizeComboBox);
@@ -218,12 +285,12 @@ public class MenuPanel extends JPanel {
         productDetailPanel.revalidate();
         productDetailPanel.repaint();
 
-        // Update total price when size or quantity changes
-        sizeComboBox.addActionListener(e -> updateTotalPrice(product));
+        // Update price when size changes
+        sizeComboBox.addActionListener(e -> updateProductDetails(product));
         quantityField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
-                updateTotalPrice(product);
+                updateProductDetails(product);
             }
         });
     }
@@ -240,15 +307,35 @@ public class MenuPanel extends JPanel {
         }
     }
 
-    private void updateTotalPrice(Product product) {
+    private void updateProductDetails(Product product) {
         try {
+            String selectedSize = (String) sizeComboBox.getSelectedItem();
+            Product updatedProduct = productService.getProductByNameAndSize(product.getName(), selectedSize);
+            if (updatedProduct == null) {
+                updatedProduct = product; // Fallback to original product if size variant not found
+            }
             int quantity = Integer.parseInt(quantityField.getText());
-            if (quantity >= 1 && quantity <= product.getQuantity()) {
-                BigDecimal total = product.getPrice().multiply(new BigDecimal(quantity));
+            if (quantity >= 1 && quantity <= updatedProduct.getQuantity()) {
+                BigDecimal total = updatedProduct.getPrice().multiply(new BigDecimal(quantity));
                 totalPriceLabel.setText("Total: " + formatPrice(total));
+                // Update displayed price and stock
+                for (Component comp : productDetailPanel.getComponents()) {
+                    if (comp instanceof JPanel) {
+                        for (Component subComp : ((JPanel) comp).getComponents()) {
+                            if (subComp instanceof JLabel) {
+                                JLabel label = (JLabel) subComp;
+                                if (label.getText().startsWith("Price:")) {
+                                    label.setText("Price: " + formatPrice(updatedProduct.getPrice()));
+                                } else if (label.getText().startsWith("Quantity in Stock:")) {
+                                    label.setText("Quantity in Stock: " + updatedProduct.getQuantity());
+                                }
+                            }
+                        }
+                    }
+                }
             } else {
                 quantityField.setText("1");
-                totalPriceLabel.setText("Total: " + formatPrice(product.getPrice()));
+                totalPriceLabel.setText("Total: " + formatPrice(updatedProduct.getPrice()));
             }
         } catch (NumberFormatException ex) {
             quantityField.setText("1");
@@ -257,67 +344,38 @@ public class MenuPanel extends JPanel {
     }
 
     private String formatPrice(BigDecimal price) {
-        DecimalFormat df = new DecimalFormat("#,###.000 VND");
-        return df.format(price);
+        return PRICE_FORMAT.format(price);
     }
 
     private void addToCart(Product product) {
         try {
             int quantity = Integer.parseInt(quantityField.getText());
             String selectedSize = (String) sizeComboBox.getSelectedItem();
-            if (quantity < 1 || quantity > product.getQuantity()) {
+            Product cartProduct = productService.getProductByNameAndSize(product.getName(), selectedSize);
+            if (cartProduct == null) {
+                cartProduct = product; // Fallback to original product
+            }
+            if (quantity < 1 || quantity > cartProduct.getQuantity()) {
                 JOptionPane.showMessageDialog(this, "Invalid quantity!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            // Create a new product instance for the cart to avoid modifying the original
-            Product cartProduct = new Product();
-            cartProduct.setId(product.getId());
-            cartProduct.setName(product.getName());
-            cartProduct.setPrice(product.getPrice());
-            cartProduct.setSize(selectedSize);
-            cartProduct.setQuantity(quantity);
-            cartProduct.setCategory(product.getCategory());
-            cartProduct.setImagePath(product.getImagePath());
-            cartProduct.setEan13(product.getEan13());
+            // Create a new product instance for the cart
+            Product newCartProduct = new Product();
+            newCartProduct.setId(cartProduct.getId());
+            newCartProduct.setName(cartProduct.getName());
+            newCartProduct.setPrice(cartProduct.getPrice());
+            newCartProduct.setSize(selectedSize);
+            newCartProduct.setQuantity(quantity);
+            newCartProduct.setCategory(cartProduct.getCategory());
+            newCartProduct.setImagePath(cartProduct.getImagePath());
+            newCartProduct.setEan13(cartProduct.getEan13());
 
-            cartItems.add(cartProduct);
-            JOptionPane.showMessageDialog(this, "Added " + product.getName() + " to cart!");
+            cartItems.add(newCartProduct);
+            JOptionPane.showMessageDialog(this, "Added " + cartProduct.getName() + " to cart!");
+            cartPanel.updateCartDisplay();
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Invalid quantity!", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private String getCustomerFullName(Customer customer) {
-        StringBuilder fullName = new StringBuilder();
-        if (customer.getPersonFirstName() != null) {
-            fullName.append(customer.getPersonFirstName());
-        }
-        if (customer.getPersonMiddleName() != null) {
-            if (fullName.length() > 0) fullName.append(" ");
-            fullName.append(customer.getPersonMiddleName());
-        }
-        if (customer.getPersonLastName() != null) {
-            if (fullName.length() > 0) fullName.append(" ");
-            fullName.append(customer.getPersonLastName());
-        }
-        return fullName.length() > 0 ? fullName.toString() : "Unknown";
-    }
-    
-    private void showAddCustomerDialog() throws Exception {
-        JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), 
-            "Add New Customer", true);
-        dialog.setSize(400, 450);
-        CustomerPanel customerPanel = new CustomerPanel(personService);
-        dialog.add(customerPanel);
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
-
-        List<Customer> customers = personService.getAllCustomers(1, Integer.MAX_VALUE);
-        if (!customers.isEmpty()) {
-            selectedCustomer = customers.get(customers.size() - 1);
-            JOptionPane.showMessageDialog(this, "Customer added: " + 
-                getCustomerFullName(selectedCustomer)); // Use new method
         }
     }
 
@@ -326,69 +384,163 @@ public class MenuPanel extends JPanel {
         cartFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         cartFrame.setSize(600, 400);
 
-        cartPanel.updateCartDisplay(); // Refresh cart display
+        cartPanel.updateCartDisplay();
         cartFrame.add(cartPanel);
-        
-        // Add Proceed to Payment button
+
+        // Add Confirm Purchase button
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton checkoutButton = new JButton("Proceed to Payment");
-        checkoutButton.setBackground(new Color(50, 205, 50));
-        checkoutButton.setForeground(Color.WHITE);
-        checkoutButton.addActionListener(e -> proceedToPayment(cartPanel.getCartTotal()));
-        buttonPanel.add(checkoutButton);
+        JButton confirmButton = new JButton("Confirm Purchase");
+        confirmButton.setBackground(new Color(50, 205, 50));
+        confirmButton.setForeground(Color.WHITE);
+        confirmButton.addActionListener(e -> showCustomerSelection(cartPanel.getCartTotal()));
+        buttonPanel.add(confirmButton);
         cartFrame.add(buttonPanel, BorderLayout.SOUTH);
 
         cartFrame.setLocationRelativeTo(null);
         cartFrame.setVisible(true);
     }
 
-    private void updateCartPanel() {
-        cartPanel.removeAll();
-        cartPanel.setLayout(new BorderLayout());
+    private void showCustomerSelection(BigDecimal totalAmount) {
+        JDialog customerDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), 
+            "Customer Information", true);
+        customerDialog.setSize(400, 500);
+        customerDialog.setLayout(new BorderLayout());
 
-        // Cart items table
-        String[] columns = {"Name", "Size", "Quantity", "Price", "Total"};
-        DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
-        JTable cartTable = new JTable(tableModel);
-        cartTable.setRowHeight(30);
+        JPanel selectionPanel = new JPanel(new GridLayout(0, 1, 5, 5));
+        selectionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Calculate cart total
-        final BigDecimal cartTotal = calculateCartTotal(tableModel);
+        // Option to add new customer or select existing
+        JRadioButton newCustomerRadio = new JRadioButton("Add New Customer");
+        JRadioButton existingCustomerRadio = new JRadioButton("Select Existing Customer");
+        ButtonGroup customerGroup = new ButtonGroup();
+        customerGroup.add(newCustomerRadio);
+        customerGroup.add(existingCustomerRadio);
+        newCustomerRadio.setSelected(true);
 
-        JScrollPane scrollPane = new JScrollPane(cartTable);
-        cartPanel.add(scrollPane, BorderLayout.CENTER);
+        // New customer form with Middle Name field
+        JPanel newCustomerPanel = new JPanel(new GridLayout(0, 2, 5, 5));
+        JTextField firstNameField = new JTextField();
+        JTextField middleNameField = new JTextField();
+        JTextField lastNameField = new JTextField();
+        JTextField phoneField = new JTextField();
+        JTextField dobField = new JTextField();
+        newCustomerPanel.add(new JLabel("First Name:"));
+        newCustomerPanel.add(firstNameField);
+        newCustomerPanel.add(new JLabel("Middle Name:"));
+        newCustomerPanel.add(middleNameField);
+        newCustomerPanel.add(new JLabel("Last Name:"));
+        newCustomerPanel.add(lastNameField);
+        newCustomerPanel.add(new JLabel("Phone:"));
+        newCustomerPanel.add(phoneField);
+        newCustomerPanel.add(new JLabel("Date of Birth (YYYY-MM-DD):"));
+        newCustomerPanel.add(dobField);
 
-        // Bottom panel with total and payment button
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        JLabel totalLabel = new JLabel("Total: " + formatPrice(cartTotal));
-        totalLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        JButton checkoutButton = new JButton("Proceed to Payment");
-        checkoutButton.setBackground(new Color(50, 205, 50));
-        checkoutButton.setForeground(Color.WHITE);
-        checkoutButton.addActionListener(e -> proceedToPayment(cartTotal));
+        // Existing customer search
+        JPanel existingCustomerPanel = new JPanel(new BorderLayout());
+        JList<String> customerList = new JList<>();
+        DefaultListModel<String> customerListModel = new DefaultListModel<>();
+        customerList.setModel(customerListModel);
+        customerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        try {
+            List<Customer> customers = personService.getAllCustomers(1, Integer.MAX_VALUE);
+            for (Customer c : customers) {
+                customerListModel.addElement(getCustomerFullName(c));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error loading customers: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        // Pass the SearchListener directly to the SearchBar constructor
+        SearchBar customerSearchBar = new SearchBar(query -> {
+            customerListModel.clear();
+            try {
+                List<Customer> customers = personService.getAllCustomers(1, Integer.MAX_VALUE);
+                for (Customer c : customers) {
+                    String fullName = getCustomerFullName(c);
+                    if (fullName.toLowerCase().contains(query.toLowerCase())) {
+                        customerListModel.addElement(fullName);
+                    }
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error searching customers: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        customerSearchBar.setPlaceholder("Search by name...");
+        existingCustomerPanel.add(customerSearchBar, BorderLayout.NORTH);
+        existingCustomerPanel.add(new JScrollPane(customerList), BorderLayout.CENTER);
 
-        bottomPanel.add(totalLabel, BorderLayout.WEST);
-        bottomPanel.add(checkoutButton, BorderLayout.EAST);
-        cartPanel.add(bottomPanel, BorderLayout.SOUTH);
+        // Enable/disable panels based on selection
+        newCustomerPanel.setEnabled(true);
+        existingCustomerPanel.setEnabled(false);
+        newCustomerRadio.addActionListener(e -> {
+            newCustomerPanel.setEnabled(true);
+            existingCustomerPanel.setEnabled(false);
+        });
+        existingCustomerRadio.addActionListener(e -> {
+            newCustomerPanel.setEnabled(false);
+            existingCustomerPanel.setEnabled(true);
+        });
 
-        cartPanel.revalidate();
-        cartPanel.repaint();
+        selectionPanel.add(newCustomerRadio);
+        selectionPanel.add(newCustomerPanel);
+        selectionPanel.add(existingCustomerRadio);
+        selectionPanel.add(existingCustomerPanel);
+
+        // Proceed to payment button
+        JButton proceedButton = new JButton("Proceed to Payment");
+        proceedButton.setBackground(new Color(70, 130, 180));
+        proceedButton.setForeground(Color.WHITE);
+        proceedButton.addActionListener(e -> {
+            if (newCustomerRadio.isSelected()) {
+                try {
+                    Customer customer = new Customer();
+                    customer.setPersonFirstName(firstNameField.getText().trim());
+                    customer.setPersonMiddleName(middleNameField.getText().trim());
+                    customer.setPersonLastName(lastNameField.getText().trim());
+                    customer.setPhone(phoneField.getText().trim());
+                    customer.setDateOfBirth(dobField.getText().trim());
+                    customer.generateCustomerNumber();
+                    personService.createCustomer(customer);
+                    selectedCustomer = customer;
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Error creating customer: " + ex.getMessage(), 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            } else {
+                try {
+                    String selectedName = customerList.getSelectedValue();
+                    if (selectedName == null) {
+                        JOptionPane.showMessageDialog(this, "Please select a customer!", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    List<Customer> customers = personService.getAllCustomers(1, Integer.MAX_VALUE);
+                    selectedCustomer = customers.stream()
+                        .filter(c -> getCustomerFullName(c).equals(selectedName))
+                        .findFirst()
+                        .orElse(null);
+                    if (selectedCustomer == null) {
+                        JOptionPane.showMessageDialog(this, "Customer not found!", "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Error selecting customer: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+            customerDialog.dispose();
+            proceedToPayment(totalAmount);
+        });
+
+        customerDialog.add(selectionPanel, BorderLayout.CENTER);
+        customerDialog.add(proceedButton, BorderLayout.SOUTH);
+        customerDialog.setLocationRelativeTo(null);
+        customerDialog.setVisible(true);
     }
 
-    private BigDecimal calculateCartTotal(DefaultTableModel tableModel) {
-        BigDecimal cartTotal = BigDecimal.ZERO;
-        for (Product item : cartItems) {
-            BigDecimal total = item.getPrice().multiply(new BigDecimal(item.getQuantity()));
-            tableModel.addRow(new Object[]{
-                item.getName(),
-                item.getSize(),
-                item.getQuantity(),
-                formatPrice(item.getPrice()),
-                formatPrice(total)
-            });
-            cartTotal = cartTotal.add(total);
-        }
-        return cartTotal;
+    private String getCustomerFullName(Customer customer) {
+        return (customer.getPersonFirstName() != null ? customer.getPersonFirstName() : "") + " " +
+               (customer.getPersonMiddleName() != null ? customer.getPersonMiddleName() + " " : "") +
+               (customer.getPersonLastName() != null ? customer.getPersonLastName() : "");
     }
 
     private void proceedToPayment(BigDecimal totalAmount) {
@@ -400,74 +552,31 @@ public class MenuPanel extends JPanel {
         // Create OrderDetail
         OrderDetail order = new OrderDetail();
         order.setTotalAmount(totalAmount.doubleValue());
-        // Note: OrderDetail should be saved to the database via a service, 
-        // but for simplicity, we assume it's created here
 
+        // Show PaymentPanel
         JDialog paymentDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), 
             "Payment Options", true);
         paymentDialog.setSize(300, 200);
-        paymentDialog.setLayout(new FlowLayout());
-
-        JButton cashButton = new JButton("Pay with Cash");
-        cashButton.setBackground(new Color(70, 130, 180));
-        cashButton.setForeground(Color.WHITE);
-        JButton qrButton = new JButton("Pay with QR");
-        qrButton.setBackground(new Color(70, 130, 180));
-        qrButton.setForeground(Color.WHITE);
-
-        cashButton.addActionListener(e -> processCashPayment(order));
-        qrButton.addActionListener(e -> showQRPayment(order));
-
-        paymentDialog.add(cashButton);
-        paymentDialog.add(qrButton);
+        PaymentPanel paymentPanel = new PaymentPanel(order, selectedCustomer);
+        paymentDialog.add(paymentPanel);
         paymentDialog.setLocationRelativeTo(null);
         paymentDialog.setVisible(true);
-    }
 
-    private void processCashPayment(OrderDetail order) {
-        Payment payment = new Payment();
-        payment.setPaymentMethod("Cash");
-        payment.setAmount(order.getTotalAmount());
-        payment.setStatus("COMPLETED");
-        payment.setOrder(order);
-        payment.setCustomer(selectedCustomer);
-
-        if (paymentService.createPayment(payment)) {
-            JOptionPane.showMessageDialog(this, "Payment completed successfully!");
-            resetAfterPayment();
-        } else {
-            JOptionPane.showMessageDialog(this, "Payment failed!", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private void showQRPayment(OrderDetail order) {
-        JFrame qrFrame = new JFrame("QR Payment");
-        qrFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        qrFrame.setSize(400, 500);
-        QRPanel qrPanel = new QRPanel();
-        qrPanel.setPaymentDetails(order.getTotalAmount(), order, selectedCustomer, paymentService);
-        qrFrame.add(qrPanel);
-        qrFrame.setLocationRelativeTo(null);
-        qrFrame.setVisible(true);
-
-        // Listen for QR frame disposal to reset if payment is successful
-        qrFrame.addWindowListener(new WindowAdapter() {
+        // Reset after payment
+        paymentDialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                // Check payment status via paymentService if needed
                 resetAfterPayment();
             }
         });
     }
-    
-    
 
     private void resetAfterPayment() {
         cartItems.clear();
         selectedCustomer = null;
         loadProducts(null);
         productDetailPanel.setVisible(false);
-        updateCartPanel();
+        cartPanel.updateCartDisplay();
         JOptionPane.showMessageDialog(this, "Returned to Menu");
     }
 }

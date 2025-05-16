@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * A panel for managing store information in a Point of Sale (POS) system.
- * This panel allows users to view, add, and edit store details.
+ * This panel allows users to view, add, edit, and delete store details.
  */
 public class StorePanel extends JPanel {
     private final StoreServiceImpl storeService; // Service for store-related operations
@@ -81,9 +81,16 @@ public class StorePanel extends JPanel {
         editButton.setForeground(Color.WHITE);
         editButton.addActionListener(e -> showEditDialog());
 
+        // Delete button
+        JButton deleteButton = new JButton("Xóa");
+        deleteButton.setBackground(new Color(220, 20, 60)); // Crimson
+        deleteButton.setForeground(Color.WHITE);
+        deleteButton.addActionListener(e -> deleteStore());
+
         selectionPanel.add(viewButton);
         selectionPanel.add(addButton);
         selectionPanel.add(editButton);
+        selectionPanel.add(deleteButton);
 
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setBackground(Color.WHITE);
@@ -249,6 +256,33 @@ public class StorePanel extends JPanel {
     }
 
     /**
+     * Deletes the currently selected store.
+     */
+    private void deleteStore() {
+        int selectedIndex = storeComboBox.getSelectedIndex();
+        if (selectedIndex < 0 || selectedIndex >= stores.size()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một cửa hàng để xóa.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        Store selectedStore = stores.get(selectedIndex);
+        int confirm = JOptionPane.showConfirmDialog(this, 
+            "Bạn có chắc chắn muốn xóa cửa hàng " + selectedStore.getName() + "?", 
+            "Xác nhận xóa", 
+            JOptionPane.YES_NO_OPTION);
+        
+        if (confirm == JOptionPane.YES_OPTION) {
+            if (storeService.deleteStore(selectedStore)) {
+                JOptionPane.showMessageDialog(this, "Xóa cửa hàng thành công!", "Thành công",
+                        JOptionPane.INFORMATION_MESSAGE);
+                loadStoreData(); // Refresh data
+            } else {
+                JOptionPane.showMessageDialog(this, "Không thể xóa cửa hàng.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    /**
      * Shows a dialog for creating a new store.
      */
     private void showCreateDialog() {
@@ -281,7 +315,65 @@ public class StorePanel extends JPanel {
         gbc.gridx = 1;
         dialog.add(nameField, gbc);
 
-        // ... (other field additions omitted for brevity)
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        dialog.add(new JLabel("Tên viết tắt:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(shortNameField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        dialog.add(new JLabel("Mô tả:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(descriptionField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        dialog.add(new JLabel("Địa chỉ:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(addressField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        dialog.add(new JLabel("Thành phố:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(cityField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        dialog.add(new JLabel("Quận:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(stateField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        dialog.add(new JLabel("Zip:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(zipField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        dialog.add(new JLabel("Số điện thoại:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(phoneField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 8;
+        dialog.add(new JLabel("Email:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(emailField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 9;
+        dialog.add(new JLabel("Website:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(websiteField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 10;
+        dialog.add(new JLabel("Số fax:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(faxField, gbc);
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
         JButton saveButton = new JButton("Lưu");
@@ -291,7 +383,16 @@ public class StorePanel extends JPanel {
             // Create new store from input fields
             Store newStore = new Store();
             newStore.setName(nameField.getText());
-            // ... (set other fields)
+            newStore.setShortName(shortNameField.getText());
+            newStore.setDescription(descriptionField.getText());
+            newStore.setAddress(addressField.getText());
+            newStore.setCity(cityField.getText());
+            newStore.setState(stateField.getText());
+            newStore.setZip(zipField.getText());
+            newStore.setPhone(phoneField.getText());
+            newStore.setEmail(emailField.getText());
+            newStore.setWebsite(websiteField.getText());
+            newStore.setFax(faxField.getText());
 
             if (storeService.createStore(newStore)) {
                 JOptionPane.showMessageDialog(dialog, "Tạo cửa hàng thành công!", "Thành công",
@@ -322,6 +423,9 @@ public class StorePanel extends JPanel {
     /**
      * Shows a dialog for editing an existing store.
      */
+    /**
+     * Shows a dialog for editing an existing store.
+     */
     private void showEditDialog() {
         int selectedIndex = storeComboBox.getSelectedIndex();
         if (selectedIndex < 0 || selectedIndex >= stores.size()) {
@@ -340,8 +444,17 @@ public class StorePanel extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
         // Create input fields pre-populated with store data
-        JTextField nameField = new JTextField(selectedStore.getName(), 20);
-        // ... (other field creations omitted for brevity)
+        JTextField nameField = new JTextField(selectedStore.getName() != null ? selectedStore.getName() : "", 20);
+        JTextField shortNameField = new JTextField(selectedStore.getShortName() != null ? selectedStore.getShortName() : "", 20);
+        JTextField descriptionField = new JTextField(selectedStore.getDescription() != null ? selectedStore.getDescription() : "", 20);
+        JTextField addressField = new JTextField(selectedStore.getAddress() != null ? selectedStore.getAddress() : "", 20);
+        JTextField cityField = new JTextField(selectedStore.getCity() != null ? selectedStore.getCity() : "", 20);
+        JTextField stateField = new JTextField(selectedStore.getState() != null ? selectedStore.getState() : "", 20);
+        JTextField zipField = new JTextField(selectedStore.getZip() != null ? selectedStore.getZip() : "", 20);
+        JTextField phoneField = new JTextField(selectedStore.getPhone() != null ? selectedStore.getPhone() : "", 20);
+        JTextField emailField = new JTextField(selectedStore.getEmail() != null ? selectedStore.getEmail() : "", 20);
+        JTextField websiteField = new JTextField(selectedStore.getWebsite() != null ? selectedStore.getWebsite() : "", 20);
+        JTextField faxField = new JTextField(selectedStore.getFax() != null ? selectedStore.getFax() : "", 20);
 
         // Add fields to dialog with labels
         gbc.gridx = 0;
@@ -350,7 +463,65 @@ public class StorePanel extends JPanel {
         gbc.gridx = 1;
         dialog.add(nameField, gbc);
 
-        // ... (other field additions omitted for brevity)
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        dialog.add(new JLabel("Tên viết tắt:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(shortNameField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        dialog.add(new JLabel("Mô tả:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(descriptionField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        dialog.add(new JLabel("Địa chỉ:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(addressField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        dialog.add(new JLabel("Thành phố:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(cityField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        dialog.add(new JLabel("Quận:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(stateField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        dialog.add(new JLabel("Zip:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(zipField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        dialog.add(new JLabel("Số điện thoại:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(phoneField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 8;
+        dialog.add(new JLabel("Email:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(emailField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 9;
+        dialog.add(new JLabel("Website:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(websiteField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 10;
+        dialog.add(new JLabel("Số fax:"), gbc);
+        gbc.gridx = 1;
+        dialog.add(faxField, gbc);
 
         JPanel buttonPanel = new JPanel(new FlowLayout());
         JButton saveButton = new JButton("Lưu");
@@ -359,7 +530,16 @@ public class StorePanel extends JPanel {
         saveButton.addActionListener(e -> {
             // Update store from input fields
             selectedStore.setName(nameField.getText());
-            // ... (update other fields)
+            selectedStore.setShortName(shortNameField.getText());
+            selectedStore.setDescription(descriptionField.getText());
+            selectedStore.setAddress(addressField.getText());
+            selectedStore.setCity(cityField.getText());
+            selectedStore.setState(stateField.getText());
+            selectedStore.setZip(zipField.getText());
+            selectedStore.setPhone(phoneField.getText());
+            selectedStore.setEmail(emailField.getText());
+            selectedStore.setWebsite(websiteField.getText());
+            selectedStore.setFax(faxField.getText());
 
             if (storeService.updateStore(selectedStore)) {
                 JOptionPane.showMessageDialog(dialog, "Cập nhật cửa hàng thành công!", "Thành công",

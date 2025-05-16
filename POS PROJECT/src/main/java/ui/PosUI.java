@@ -147,7 +147,7 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
         }
     }
     private void loadMenuePanel() {
-        MenuPanel menuPanel = new MenuPanel(categoryService, productService, personService, paymentService);
+        MenuPanel menuPanel = new MenuPanel(categoryService, productService, personService, paymentService,false);
         contentPanel.add(menuPanel, BorderLayout.CENTER);
     }
 

@@ -7,20 +7,21 @@ import java.util.UUID;
 
 public class UserSession extends BaseEntity {
 
-    private String sessionToken;
-    private Timestamp timestamp;
-    private Timestamp expiryTime;
-    private String employeeNumber;
-    private String ownerNumber;
-    private Employee employee;
-    private Owner owner;
-    private String sessionData;
-    private boolean active;
+    // Fields to store session information
+    private String sessionToken;           // Unique session token (UUID)
+    private Timestamp timestamp;           // Session creation time
+    private Timestamp expiryTime;          // Session expiration time
+    private String employeeNumber;         // Employee ID (if session belongs to employee)
+    private String ownerNumber;            // Owner ID (if session belongs to owner)
+    private Employee employee;             // Reference to employee (nullable)
+    private Owner owner;                   // Reference to owner (nullable)
+    private String sessionData;            // Optional session data (e.g., JSON)
+    private boolean active;                // Indicates if the session is currently active
 
-    // Default Constructor (required by Hibernate)
+    // Default constructor (needed for Hibernate and other frameworks)
     public UserSession() {}
 
-    // Constructor with Employee, Owner
+    // Constructor that accepts an Employee and/or Owner object
     public UserSession(Employee employee, Owner owner) {
         if (employee != null) {
             this.employee = employee;
@@ -32,16 +33,16 @@ public class UserSession extends BaseEntity {
             this.ownerNumber = owner.getOwnerNumber();
         }
 
-        this.timestamp = Timestamp.from(Instant.now());
-        this.sessionToken = generateSessionToken();
-        this.expiryTime = calculateExpiryDate();
-        this.active = true;
+        this.timestamp = Timestamp.from(Instant.now()); // Set current time
+        this.sessionToken = generateSessionToken();     // Generate unique token
+        this.expiryTime = calculateExpiryDate();        // Set expiration time
+        this.active = true;                             // Mark session as active
     }
 
-    // Constructor with all fields
+    // Constructor that initializes all fields
     public UserSession(long id, String sessionToken, Timestamp timestamp, Timestamp expiryTime,
                        String employeeNumber, Employee employee, String ownerNumber, Owner owner, String sessionData) {
-        setId(id); // Use BaseEntity's id
+        setId(id); // Set inherited ID from BaseEntity
         this.sessionToken = sessionToken;
         this.timestamp = timestamp;
         this.expiryTime = expiryTime;
@@ -53,24 +54,24 @@ public class UserSession extends BaseEntity {
         this.active = true;
     }
 
-    // Generate unique session token
+    // Generate a new UUID-based session token
     private String generateSessionToken() {
         return UUID.randomUUID().toString();
     }
 
-    // Calculate expiry time (8 hours from now)
+    // Calculate session expiration time (8 hours from now)
     private Timestamp calculateExpiryDate() {
         Instant now = Instant.now();
         Instant expiryInstant = now.plus(8, ChronoUnit.HOURS);
         return Timestamp.from(expiryInstant);
     }
 
-    // Check if session is expired
+    // Check if the session is expired
     public boolean isExpired() {
         return Instant.now().isAfter(expiryTime.toInstant());
     }
 
-    // Get username based on employee or owner
+    // Get username depending on whether session belongs to an employee or owner
     public String getUsername() {
         if (employee != null) {
             return employee.getLoginUsername();
@@ -80,7 +81,8 @@ public class UserSession extends BaseEntity {
         throw new IllegalStateException("No user associated with session");
     }
 
-    // Getter and Setter methods
+    // ----- Getters and Setters -----
+
     public String getSessionToken() {
         return sessionToken;
     }
@@ -112,11 +114,11 @@ public class UserSession extends BaseEntity {
     public void setEmployeeNumber(String employeeNumber) {
         this.employeeNumber = employeeNumber;
     }
-    
+
     public String getOwnerNumber() {
         return ownerNumber;
     }
-    
+
     public void setOwnerNumber(String ownerNumber) {
         this.ownerNumber = ownerNumber;
     }
@@ -128,11 +130,11 @@ public class UserSession extends BaseEntity {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
-    
+
     public Owner getOwner() {
         return owner;
     }
-    
+
     public void setOwner(Owner owner) {
         this.owner = owner;
     }
@@ -144,21 +146,25 @@ public class UserSession extends BaseEntity {
     public void setSessionData(String sessionData) {
         this.sessionData = sessionData;
     }
-    
+
+    // Refresh session timestamp and extend expiration time (e.g., for active use)
     public void refreshSession() {
         this.timestamp = Timestamp.from(Instant.now());
         this.expiryTime = calculateExpiryDate();
     }
 
+    // Invalidate the session immediately
     public void invalidate() {
         this.active = false;
-        this.expiryTime = Timestamp.from(Instant.now());
+        this.expiryTime = Timestamp.from(Instant.now()); // Expire it immediately
     }
 
+    // Check if the session is both active and not expired
     public boolean isValid() {
         return active && !isExpired();
     }
-    
+
+    // Get/set the active status
     public boolean isActive() {
         return active;
     }
@@ -166,11 +172,13 @@ public class UserSession extends BaseEntity {
     public void setActive(boolean active) {
         this.active = active;
     }
-    
+
+    // Determine if session belongs to an employee
     public boolean isEmployeeSession() {
         return employee != null;
     }
 
+    // Determine if session belongs to an owner
     public boolean isOwnerSession() {
         return owner != null;
     }

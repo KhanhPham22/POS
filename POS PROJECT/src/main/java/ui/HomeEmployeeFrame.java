@@ -133,7 +133,7 @@ public class HomeEmployeeFrame extends JFrame implements SidebarPanel.SidebarLis
     
 
     private void loadMenuPanel() {
-        MenuPanel menuPanel = new MenuPanel(categoryService, productService, personService, paymentService);
+        MenuPanel menuPanel = new MenuPanel(categoryService, productService, personService, paymentService,false);
         contentPanel.add(menuPanel, BorderLayout.CENTER);
     }
 
