@@ -8,6 +8,7 @@ import dao.CategoryDao;
 import dao.CustomerDao;
 import dao.EmployeeDao;
 import dao.ItemDao;
+import dao.OrderDetailDao;
 import dao.OwnerDao;
 import dao.PaymentDao;
 import dao.PersonDao;
@@ -23,6 +24,8 @@ import service.CategoryServiceImpl;
 import service.HashService;
 import service.ItemService;
 import service.ItemServiceImpl;
+import service.OrderService;
+import service.OrderServiceImpl;
 import service.PaymentService;
 import service.PaymentServiceImpl;
 import service.PersonService;
@@ -48,6 +51,7 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
     private CategoryService categoryService;
     private ProductService productService;
     private PaymentService paymentService;
+    private OrderService orderService;
     
     public PosUI(String username) {
     	this.username = username;
@@ -85,6 +89,7 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
             CategoryDao categoryDao = new CategoryDao();
             ProductDao productDao = new ProductDao();
             PaymentDao paymentDao = new PaymentDao();
+            OrderDetailDao orderDao = new OrderDetailDao();
 
             // Initialize services
             personService = new PersonServiceImpl(employeeDao, customerDao, ownerDao);
@@ -97,6 +102,7 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
             categoryService = new CategoryServiceImpl(categoryDao);
             productService = new ProductServiceImpl(productDao);
             paymentService = new PaymentServiceImpl(paymentDao);
+            orderService = new OrderServiceImpl(orderDao);
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Lỗi khi khởi tạo dịch vụ: " + e.getMessage(), "Lỗi",
@@ -147,7 +153,7 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
         }
     }
     private void loadMenuePanel() {
-        MenuPanel menuPanel = new MenuPanel(categoryService, productService, personService, paymentService,false);
+        MenuPanel menuPanel = new MenuPanel(categoryService, productService, personService, paymentService,orderService, false);
         contentPanel.add(menuPanel, BorderLayout.CENTER);
     }
 

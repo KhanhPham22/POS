@@ -116,16 +116,16 @@ public class OrderPanel extends JPanel {
                     customerName = fullName.length() > 0 ? fullName.toString() : customer.getCustomerNumber() != null ? customer.getCustomerNumber() : "Unknown";
                 }
 
-                Object[] rowData = {
-                    order.getId(),
-                    customerName,
-                    order.getProduct() != null ? order.getProduct().getName() : "N/A",
-                    order.getQuantity(),
-                    order.getTotalAmount(),
-                    order.getPaymentMethod(),
-                    order.getStatus()
-                };
-                tableModel.addRow(rowData);
+//                Object[] rowData = {
+//                    order.getId(),
+//                    customerName,
+//                    order.getProduct() != null ? order.getProduct().getName() : "N/A",
+//                    order.getQuantity(),
+//                    order.getTotalAmount(),
+//                    order.getPaymentMethod(),
+//                    order.getStatus()
+//                };
+//                tableModel.addRow(rowData);
             }
         } else {
             // Disable "Next" button if no data is returned

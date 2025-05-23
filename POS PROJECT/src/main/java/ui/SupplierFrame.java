@@ -199,19 +199,5 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 	    }
 	}
 
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> {
-//            try {
-//                SupplierService supplierService = new SupplierServiceImpl(new SupplierDao());
-//                ItemService itemService = new ItemServiceImpl(new ItemDao());
-//                SupplierFrame frame = new SupplierFrame(supplierService, itemService);
-//                frame.setVisible(true);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//                JOptionPane.showMessageDialog(null,
-//                    "Lỗi khi khởi chạy ứng dụng: " + e.getMessage(),
-//                    "Lỗi", JOptionPane.ERROR_MESSAGE);
-//            }
-//        });
-//    }
+
 }

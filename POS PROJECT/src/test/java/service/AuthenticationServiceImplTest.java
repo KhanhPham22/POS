@@ -81,7 +81,7 @@ public class AuthenticationServiceImplTest {
 		// Mock DAO and hash service behavior
 		when(employeeDao.findByUsername("user")).thenReturn(null);
 		when(ownerDao.findByUsername("user")).thenReturn(owner);
-		when(hashService.verify("plainPass", "hashedPass")).thenReturn(true);
+		when(hashService.verify("plainPass", "hashedPass")).thenReturn(true); //plaintextpassword
 		when(userSessionDao.create(any(UserSession.class))).thenReturn(true);
 
 		UserSession result = authService.login("user", "plainPass");

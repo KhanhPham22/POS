@@ -11,6 +11,10 @@ import org.hibernate.Transaction;
 
 import util.HibernateUtil;
 
+/**
+ * PaymentDao is a DAO class used to manage Payment entities via Hibernate.
+ * It provides CRUD operations and query methods such as finding by customer name.
+ */
 public class PaymentDao implements GenericDao<Payment> {
 
     private static final Logger Log = LogManager.getLogger(PaymentDao.class);
@@ -22,10 +26,16 @@ public class PaymentDao implements GenericDao<Payment> {
         sessionFactory = HibernateUtil.getSessionFactory();
     }
 
+    /**
+     * Sets the class type for generic operations (e.g., used in HQL).
+     */
     public void setClass(Class<Payment> Payment) {
         this.Payment = Payment;
     }
 
+    /**
+     * Persists a new Payment entity to the database.
+     */
     @Override
     public boolean create(Payment payment) throws Exception {
         Session session = sessionFactory.openSession();
@@ -45,6 +55,9 @@ public class PaymentDao implements GenericDao<Payment> {
         }
     }
 
+    /**
+     * Retrieves a Payment by its ID.
+     */
     @Override
     public Payment findById(long id) throws Exception {
         Session session = sessionFactory.openSession();
@@ -60,19 +73,23 @@ public class PaymentDao implements GenericDao<Payment> {
         }
     }
 
+    /**
+     * Retrieves a paginated list of all Payments.
+     *
+     * @param pageNumber page index starting from 1
+     * @param pageSize   number of items per page
+     */
     @Override
     public List<Payment> findAll(int pageNumber, int pageSize) throws Exception {
         Session session = null;
         try {
             session = sessionFactory.openSession();
 
-            // Tính toán offset dựa trên pageNumber và pageSize
-            int offset = (pageNumber - 1) * pageSize; // Lưu ý pageNumber bắt đầu từ 1
+            int offset = (pageNumber - 1) * pageSize;
 
-            // Sử dụng HQL để lấy tất cả các Payment, và áp dụng phân trang
             List<Payment> payments = session.createQuery("from Payment", Payment.class)
-                                            .setFirstResult(offset)  // Thiết lập vị trí bắt đầu
-                                            .setMaxResults(pageSize) // Thiết lập số lượng bản ghi mỗi trang
+                                            .setFirstResult(offset)
+                                            .setMaxResults(pageSize)
                                             .list();
 
             Log.info("All Payments retrieved successfully with pagination");
@@ -86,7 +103,9 @@ public class PaymentDao implements GenericDao<Payment> {
         }
     }
 
-
+    /**
+     * Updates an existing Payment entity in the database.
+     */
     @Override
     public boolean update(Payment payment) throws Exception {
         Session session = sessionFactory.openSession();
@@ -106,6 +125,9 @@ public class PaymentDao implements GenericDao<Payment> {
         }
     }
 
+    /**
+     * Deletes a Payment by its ID.
+     */
     @Override
     public boolean deleteById(long id) throws Exception {
         Session session = sessionFactory.openSession();
@@ -126,6 +148,9 @@ public class PaymentDao implements GenericDao<Payment> {
         }
     }
 
+    /**
+     * Deletes a given Payment entity.
+     */
     @Override
     public boolean delete(Payment payment) throws Exception {
         Session session = sessionFactory.openSession();
@@ -144,7 +169,12 @@ public class PaymentDao implements GenericDao<Payment> {
             session.close();
         }
     }
-    
+
+    /**
+     * Retrieves a list of Payments by customer name.
+     *
+     * @param customerName the name of the customer associated with the payments
+     */
     public List<Payment> findByCustomerName(String customerName) throws Exception {
         Session session = sessionFactory.openSession();
         try {
@@ -161,5 +191,4 @@ public class PaymentDao implements GenericDao<Payment> {
             session.close();
         }
     }
-    
 }

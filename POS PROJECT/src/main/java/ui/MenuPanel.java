@@ -6,17 +6,20 @@ import java.awt.event.*;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import model.Category;
 import model.Product;
 import model.Customer;
 import model.OrderDetail;
-import model.Payment;
+import model.OrderItem;
 import service.CategoryService;
 import service.ProductService;
 import service.PersonService;
 import service.PaymentService;
+import service.OrderService;
 import java.io.File;
 import ui.Elements.SearchBar;
 
@@ -25,6 +28,7 @@ public class MenuPanel extends JPanel {
     private final ProductService productService;
     private final PersonService personService;
     private final PaymentService paymentService;
+    private final OrderService orderService;
     private final List<Product> cartItems;
     private Customer selectedCustomer;
 
@@ -38,13 +42,17 @@ public class MenuPanel extends JPanel {
     private SearchBar searchBar;
     private static final DecimalFormat PRICE_FORMAT = new DecimalFormat("#,###.000 VND");
     private static final String PRODUCT_IMG_DIR = "C:\\TTTN\\POS PROJECT\\img\\Product\\";
+    private JPanel mainContentPanel;
+    private JPanel centerPanel;
 
     public MenuPanel(CategoryService categoryService, ProductService productService, 
-                     PersonService personService, PaymentService paymentService, boolean isEmployee) {
+                     PersonService personService, PaymentService paymentService, 
+                     OrderService orderService, boolean isEmployee) {
         this.categoryService = categoryService;
         this.productService = productService;
         this.personService = personService;
         this.paymentService = paymentService;
+        this.orderService = orderService;
         this.cartItems = new ArrayList<>();
         this.selectedCustomer = null;
 
@@ -65,7 +73,7 @@ public class MenuPanel extends JPanel {
         searchBar.setPlaceholder("Search...");
         topPanel.add(searchBar, BorderLayout.CENTER);
 
-        // Cart button with scaled image
+        // Cart button
         JButton cartButton = new JButton("Cart");
         cartButton.setBackground(new Color(70, 130, 180));
         cartButton.setForeground(Color.WHITE);
@@ -82,23 +90,27 @@ public class MenuPanel extends JPanel {
         topPanel.add(cartButton, BorderLayout.EAST);
         add(topPanel, BorderLayout.NORTH);
 
-        // Center panel to hold category and product display
-        JPanel centerPanel = new JPanel(new BorderLayout());
+        // Main content panel
+        mainContentPanel = new JPanel(new BorderLayout());
+        add(mainContentPanel, BorderLayout.CENTER);
 
-        // Category panel above product display
+        // Center panel for product display
+        centerPanel = new JPanel(new BorderLayout());
+
+        // Category panel
         categoryPanel = new CategoryPanel(categoryService, 
             category -> filterProductsByCategory(category), false);
         centerPanel.add(categoryPanel, BorderLayout.NORTH);
 
-        // Product display panel (4 products per row)
+        // Product display panel
         productDisplayPanel = new JPanel(new GridLayout(0, 4, 10, 10));
         productDisplayPanel.setBackground(Color.WHITE);
         productDisplayPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         centerPanel.add(new JScrollPane(productDisplayPanel), BorderLayout.CENTER);
 
-        add(centerPanel, BorderLayout.CENTER);
+        mainContentPanel.add(centerPanel, BorderLayout.CENTER);
 
-        // Initialize product detail panel (hidden initially)
+        // Product detail panel
         productDetailPanel = new JPanel(new BorderLayout());
         productDetailPanel.setVisible(false);
         add(productDetailPanel, BorderLayout.EAST);
@@ -128,7 +140,6 @@ public class MenuPanel extends JPanel {
                 .filter(p -> p.getCategory() != null && p.getCategory().getId() == category.getId())
                 .collect(Collectors.toList());
         }
-        // Deduplicate by name to show only one representative product
         products = products.stream()
             .collect(Collectors.toMap(
                 Product::getName,
@@ -160,18 +171,15 @@ public class MenuPanel extends JPanel {
         panel.setBackground(Color.WHITE);
         panel.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
 
-        // Product image
         JLabel imageLabel = new JLabel();
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         loadProductImage(product, imageLabel, 150, 150);
         panel.add(imageLabel, BorderLayout.CENTER);
 
-        // Product name
         JLabel nameLabel = new JLabel(product.getName(), SwingConstants.CENTER);
         nameLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
         panel.add(nameLabel, BorderLayout.SOUTH);
 
-        // Click to show details
         panel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -222,25 +230,22 @@ public class MenuPanel extends JPanel {
         detailContent.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         detailContent.setBackground(Color.WHITE);
 
-        // Product image
         JLabel imageLabel = new JLabel();
         loadProductImage(product, imageLabel, 150, 150);
         imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
         detailContent.add(imageLabel);
 
-        // Product info
         detailContent.add(new JLabel("Name: " + product.getName()));
         detailContent.add(new JLabel("Price: " + formatPrice(product.getPrice())));
         detailContent.add(new JLabel("Category: " + 
             (product.getCategory() != null ? product.getCategory().getName() : "N/A")));
         detailContent.add(new JLabel("Quantity in Stock: " + product.getQuantity()));
 
-        // Size selection
         JLabel sizeLabel = new JLabel("Size:");
         boolean isDesserts = product.getCategory() != null && product.getCategory().getName().equalsIgnoreCase("Desserts");
         String[] sizeOptions = isDesserts ? new String[]{"Default"} : new String[]{"S", "M", "L"};
         sizeComboBox = new JComboBox<>(sizeOptions);
-        sizeComboBox.setEnabled(!isDesserts); // Disable size selection for desserts
+        sizeComboBox.setEnabled(!isDesserts);
         List<Product> sizeVariants = productService.getAllProducts(1, Integer.MAX_VALUE).stream()
             .filter(p -> p.getName() != null && p.getName().equals(product.getName()))
             .collect(Collectors.toList());
@@ -255,7 +260,6 @@ public class MenuPanel extends JPanel {
         sizePanel.add(sizeComboBox);
         detailContent.add(sizePanel);
 
-        // Quantity selection
         JLabel quantityLabel = new JLabel("Quantity:");
         quantityField = new JTextField("1", 5);
         JButton minusButton = new JButton("-");
@@ -269,12 +273,10 @@ public class MenuPanel extends JPanel {
         quantityPanel.add(plusButton);
         detailContent.add(quantityPanel);
 
-        // Total price
         totalPriceLabel = new JLabel("Total: " + 
             formatPrice(product.getPrice().multiply(new BigDecimal(quantityField.getText()))));
         detailContent.add(totalPriceLabel);
 
-        // Add to Cart button
         JButton addToCartButton = new JButton("Add to Cart");
         addToCartButton.setBackground(new Color(50, 205, 50));
         addToCartButton.setForeground(Color.WHITE);
@@ -285,7 +287,6 @@ public class MenuPanel extends JPanel {
         productDetailPanel.revalidate();
         productDetailPanel.repaint();
 
-        // Update price when size changes
         sizeComboBox.addActionListener(e -> updateProductDetails(product));
         quantityField.addKeyListener(new KeyAdapter() {
             @Override
@@ -312,13 +313,12 @@ public class MenuPanel extends JPanel {
             String selectedSize = (String) sizeComboBox.getSelectedItem();
             Product updatedProduct = productService.getProductByNameAndSize(product.getName(), selectedSize);
             if (updatedProduct == null) {
-                updatedProduct = product; // Fallback to original product if size variant not found
+                updatedProduct = product;
             }
             int quantity = Integer.parseInt(quantityField.getText());
             if (quantity >= 1 && quantity <= updatedProduct.getQuantity()) {
                 BigDecimal total = updatedProduct.getPrice().multiply(new BigDecimal(quantity));
                 totalPriceLabel.setText("Total: " + formatPrice(total));
-                // Update displayed price and stock
                 for (Component comp : productDetailPanel.getComponents()) {
                     if (comp instanceof JPanel) {
                         for (Component subComp : ((JPanel) comp).getComponents()) {
@@ -351,27 +351,27 @@ public class MenuPanel extends JPanel {
         try {
             int quantity = Integer.parseInt(quantityField.getText());
             String selectedSize = (String) sizeComboBox.getSelectedItem();
+            // Always get the product from the database to ensure it's persisted
             Product cartProduct = productService.getProductByNameAndSize(product.getName(), selectedSize);
+            
             if (cartProduct == null) {
-                cartProduct = product; // Fallback to original product
+                JOptionPane.showMessageDialog(this, "Product not found for selected size!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
+            
+            if (cartProduct.getId() <= 0) {
+                JOptionPane.showMessageDialog(this, "Invalid product ID!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
             if (quantity < 1 || quantity > cartProduct.getQuantity()) {
                 JOptionPane.showMessageDialog(this, "Invalid quantity!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            // Create a new product instance for the cart
-            Product newCartProduct = new Product();
-            newCartProduct.setId(cartProduct.getId());
-            newCartProduct.setName(cartProduct.getName());
-            newCartProduct.setPrice(cartProduct.getPrice());
-            newCartProduct.setSize(selectedSize);
-            newCartProduct.setQuantity(quantity);
-            newCartProduct.setCategory(cartProduct.getCategory());
-            newCartProduct.setImagePath(cartProduct.getImagePath());
-            newCartProduct.setEan13(cartProduct.getEan13());
-
-            cartItems.add(newCartProduct);
+            // Update quantity for the cart product instead of creating a new one
+            cartProduct.setQuantity(quantity); // Temporarily set quantity for cart
+            cartItems.add(cartProduct); // Add the database-retrieved product directly
             JOptionPane.showMessageDialog(this, "Added " + cartProduct.getName() + " to cart!");
             cartPanel.updateCartDisplay();
         } catch (NumberFormatException ex) {
@@ -387,7 +387,6 @@ public class MenuPanel extends JPanel {
         cartPanel.updateCartDisplay();
         cartFrame.add(cartPanel);
 
-        // Add Confirm Purchase button
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton confirmButton = new JButton("Confirm Purchase");
         confirmButton.setBackground(new Color(50, 205, 50));
@@ -409,7 +408,6 @@ public class MenuPanel extends JPanel {
         JPanel selectionPanel = new JPanel(new GridLayout(0, 1, 5, 5));
         selectionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Option to add new customer or select existing
         JRadioButton newCustomerRadio = new JRadioButton("Add New Customer");
         JRadioButton existingCustomerRadio = new JRadioButton("Select Existing Customer");
         ButtonGroup customerGroup = new ButtonGroup();
@@ -417,7 +415,6 @@ public class MenuPanel extends JPanel {
         customerGroup.add(existingCustomerRadio);
         newCustomerRadio.setSelected(true);
 
-        // New customer form with Middle Name field
         JPanel newCustomerPanel = new JPanel(new GridLayout(0, 2, 5, 5));
         JTextField firstNameField = new JTextField();
         JTextField middleNameField = new JTextField();
@@ -435,7 +432,6 @@ public class MenuPanel extends JPanel {
         newCustomerPanel.add(new JLabel("Date of Birth (YYYY-MM-DD):"));
         newCustomerPanel.add(dobField);
 
-        // Existing customer search
         JPanel existingCustomerPanel = new JPanel(new BorderLayout());
         JList<String> customerList = new JList<>();
         DefaultListModel<String> customerListModel = new DefaultListModel<>();
@@ -449,7 +445,6 @@ public class MenuPanel extends JPanel {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error loading customers: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-        // Pass the SearchListener directly to the SearchBar constructor
         SearchBar customerSearchBar = new SearchBar(query -> {
             customerListModel.clear();
             try {
@@ -470,14 +465,21 @@ public class MenuPanel extends JPanel {
 
         // Enable/disable panels based on selection
         newCustomerPanel.setEnabled(true);
+        setEnabledRecursive(newCustomerPanel, true);
         existingCustomerPanel.setEnabled(false);
+        setEnabledRecursive(existingCustomerPanel, false);
+
         newCustomerRadio.addActionListener(e -> {
             newCustomerPanel.setEnabled(true);
+            setEnabledRecursive(newCustomerPanel, true);
             existingCustomerPanel.setEnabled(false);
+            setEnabledRecursive(existingCustomerPanel, false);
         });
         existingCustomerRadio.addActionListener(e -> {
             newCustomerPanel.setEnabled(false);
+            setEnabledRecursive(newCustomerPanel, false);
             existingCustomerPanel.setEnabled(true);
+            setEnabledRecursive(existingCustomerPanel, true);
         });
 
         selectionPanel.add(newCustomerRadio);
@@ -485,25 +487,30 @@ public class MenuPanel extends JPanel {
         selectionPanel.add(existingCustomerRadio);
         selectionPanel.add(existingCustomerPanel);
 
-        // Proceed to payment button
         JButton proceedButton = new JButton("Proceed to Payment");
         proceedButton.setBackground(new Color(70, 130, 180));
         proceedButton.setForeground(Color.WHITE);
         proceedButton.addActionListener(e -> {
             if (newCustomerRadio.isSelected()) {
+                String firstName = firstNameField.getText().trim();
+                String middleName = middleNameField.getText().trim();
+                String lastName = lastNameField.getText().trim();
+                if (firstName.isEmpty() && middleName.isEmpty() && lastName.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "At least one name field (First, Middle, or Last) must be filled!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 try {
                     Customer customer = new Customer();
-                    customer.setPersonFirstName(firstNameField.getText().trim());
-                    customer.setPersonMiddleName(middleNameField.getText().trim());
-                    customer.setPersonLastName(lastNameField.getText().trim());
+                    customer.setPersonFirstName(firstName);
+                    customer.setPersonMiddleName(middleName);
+                    customer.setPersonLastName(lastName);
                     customer.setPhone(phoneField.getText().trim());
                     customer.setDateOfBirth(dobField.getText().trim());
                     customer.generateCustomerNumber();
                     personService.createCustomer(customer);
                     selectedCustomer = customer;
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "Error creating customer: " + ex.getMessage(), 
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Error creating customer: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             } else {
@@ -549,34 +556,81 @@ public class MenuPanel extends JPanel {
             return;
         }
 
-        // Create OrderDetail
-        OrderDetail order = new OrderDetail();
-        order.setTotalAmount(totalAmount.doubleValue());
+        boolean allOrdersSuccessful = true;
+        StringBuilder errorMessages = new StringBuilder();
 
-        // Show PaymentPanel
-        JDialog paymentDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), 
-            "Payment Options", true);
-        paymentDialog.setSize(300, 200);
-        PaymentPanel paymentPanel = new PaymentPanel(order, selectedCustomer);
-        paymentDialog.add(paymentPanel);
-        paymentDialog.setLocationRelativeTo(null);
-        paymentDialog.setVisible(true);
+        for (Product product : cartItems) {
+            try {
+                // Get the full product from database to ensure all associations are correct
+                Product fullProduct = productService.getProductById(product.getId());
+                if (fullProduct == null) {
+                    errorMessages.append("Product not found: ").append(product.getName()).append("\n");
+                    allOrdersSuccessful = false;
+                    continue;
+                }
+                if (fullProduct.getId() <= 0) {
+                    errorMessages.append("Invalid product ID for: ").append(product.getName()).append("\n");
+                    allOrdersSuccessful = false;
+                    continue;
+                }
 
-        // Reset after payment
-        paymentDialog.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                resetAfterPayment();
+                OrderDetail order = new OrderDetail();
+                order.setTotalAmount(product.getPrice().multiply(new BigDecimal(product.getQuantity())).doubleValue());
+                order.setCustomer(selectedCustomer);
+                order.setOrderDate(new java.util.Date());
+                
+                OrderItem orderItem = new OrderItem();
+                orderItem.setProduct(fullProduct); // Use the full product from DB
+                orderItem.setQuantity(product.getQuantity());
+                orderItem.setUnitPrice(product.getPrice());
+                orderItem.setTotalPrice(product.getPrice().multiply(new BigDecimal(product.getQuantity())));
+                orderItem.setDiscount(BigDecimal.ZERO);
+                
+                Set<OrderItem> orderItems = new HashSet<>();
+                orderItems.add(orderItem);
+                order.setItems(orderItems);
+
+                boolean success = orderService.createOrder(order);
+                if (!success) {
+                    errorMessages.append("Failed to create order for: ").append(product.getName()).append("\n");
+                    allOrdersSuccessful = false;
+                }
+            } catch (Exception ex) {
+                errorMessages.append("Error with ").append(product.getName()).append(": ").append(ex.getMessage()).append("\n");
+                allOrdersSuccessful = false;
             }
-        });
+        }
+
+        if (!allOrdersSuccessful) {
+            JOptionPane.showMessageDialog(this, 
+                "Some orders failed:\n" + errorMessages.toString(), 
+                "Partial Success", JOptionPane.WARNING_MESSAGE);
+        }
+
+        if (allOrdersSuccessful || !cartItems.isEmpty()) {
+            resetAfterPayment();
+        }
+    }
+    
+    private void setEnabledRecursive(Container container, boolean enabled) {
+        for (Component component : container.getComponents()) {
+            component.setEnabled(enabled);
+            if (component instanceof Container) {
+                setEnabledRecursive((Container) component, enabled);
+            }
+        }
     }
 
     private void resetAfterPayment() {
         cartItems.clear();
         selectedCustomer = null;
+        mainContentPanel.removeAll();
+        mainContentPanel.add(centerPanel, BorderLayout.CENTER);
         loadProducts(null);
         productDetailPanel.setVisible(false);
         cartPanel.updateCartDisplay();
+        mainContentPanel.revalidate();
+        mainContentPanel.repaint();
         JOptionPane.showMessageDialog(this, "Returned to Menu");
     }
 }

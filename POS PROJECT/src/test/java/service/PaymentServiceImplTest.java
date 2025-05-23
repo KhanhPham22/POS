@@ -12,150 +12,170 @@ import model.Payment;
 import dao.PaymentDao;
 import service.PaymentServiceImpl;
 
+//Unit test for PaymentServiceImpl using Mockito
 public class PaymentServiceImplTest {
-	private PaymentDao mockPaymentDao;
-    private PaymentServiceImpl paymentService;
 
-    @BeforeEach
-    public void setUp() {
-        mockPaymentDao = mock(PaymentDao.class);
-        paymentService = new PaymentServiceImpl(mockPaymentDao);
-    }
-    @Test
-    public void testCreatePayment() throws Exception {
-        Payment payment = new Payment();
-        when(mockPaymentDao.create(payment)).thenReturn(true);
+ private PaymentDao mockPaymentDao;
+ private PaymentServiceImpl paymentService;
 
-        boolean result = paymentService.createPayment(payment);
+ // Initialize mock DAO and service before each test
+ @BeforeEach
+ public void setUp() {
+     mockPaymentDao = mock(PaymentDao.class);
+     paymentService = new PaymentServiceImpl(mockPaymentDao);
+ }
 
-        assertTrue(result);
-        verify(mockPaymentDao).create(payment);
-    }
+ // Test successful creation of a payment
+ @Test
+ public void testCreatePayment() throws Exception {
+     Payment payment = new Payment();
+     when(mockPaymentDao.create(payment)).thenReturn(true);
 
-    @Test
-    public void testDeletePayment() throws Exception {
-        long id = 1L;
-        when(mockPaymentDao.deleteById(id)).thenReturn(true);
+     boolean result = paymentService.createPayment(payment);
 
-        boolean result = paymentService.deletePayment(id);
+     assertTrue(result);
+     verify(mockPaymentDao).create(payment);
+ }
 
-        assertTrue(result);
-        verify(mockPaymentDao).deleteById(id);
-    }
+ // Test successful deletion of a payment
+ @Test
+ public void testDeletePayment() throws Exception {
+     long id = 1L;
+     when(mockPaymentDao.deleteById(id)).thenReturn(true);
 
-    @Test
-    public void testUpdatePayment() throws Exception {
-        Payment payment = new Payment();
-        when(mockPaymentDao.update(payment)).thenReturn(true);
+     boolean result = paymentService.deletePayment(id);
 
-        boolean result = paymentService.updatePayment(payment);
+     assertTrue(result);
+     verify(mockPaymentDao).deleteById(id);
+ }
 
-        assertTrue(result);
-        verify(mockPaymentDao).update(payment);
-    }
+ // Test successful update of a payment
+ @Test
+ public void testUpdatePayment() throws Exception {
+     Payment payment = new Payment();
+     when(mockPaymentDao.update(payment)).thenReturn(true);
 
-    @Test
-    public void testGetPayment() throws Exception {
-        long id = 1L;
-        Payment payment = new Payment();
-        when(mockPaymentDao.findById(id)).thenReturn(payment);
+     boolean result = paymentService.updatePayment(payment);
 
-        Payment result = paymentService.getPayment(id);
+     assertTrue(result);
+     verify(mockPaymentDao).update(payment);
+ }
 
-        assertNotNull(result);
-        assertEquals(payment, result);
-        verify(mockPaymentDao).findById(id);
-    }
+ // Test successful retrieval of a payment by ID
+ @Test
+ public void testGetPayment() throws Exception {
+     long id = 1L;
+     Payment payment = new Payment();
+     when(mockPaymentDao.findById(id)).thenReturn(payment);
 
-//    @Test
-//    public void testGetAllPayments() throws Exception {
-//        List<Payment> payments = Arrays.asList(new Payment(), new Payment());
-//        when(mockPaymentDao.findAll()).thenReturn(payments);
-//
-//        List<Payment> result = paymentService.getAllPayments();
-//
-//        assertNotNull(result);
-//        assertEquals(2, result.size());
-//        verify(mockPaymentDao).findAll();
-//    }
+     Payment result = paymentService.getPayment(id);
 
-    @Test
-    public void testGetPaymentByCustomerName() throws Exception {
-        String customerName = "John Doe";
-        List<Payment> payments = Arrays.asList(new Payment());
-        when(mockPaymentDao.findByCustomerName(customerName)).thenReturn(payments);
+     assertNotNull(result);
+     assertEquals(payment, result);
+     verify(mockPaymentDao).findById(id);
+ }
 
-        List<Payment> result = paymentService.getPaymentByCustomerName(customerName);
+ //  Test retrieval of all payments with pagination
+ @Test
+ public void testGetAllPayments() throws Exception {
+     int pageNumber = 1;
+     int pageSize = 10;
+     List<Payment> payments = Arrays.asList(new Payment(), new Payment());
+     when(mockPaymentDao.findAll(pageNumber, pageSize)).thenReturn(payments);
 
-        assertNotNull(result);
-        assertEquals(1, result.size());
-        verify(mockPaymentDao).findByCustomerName(customerName);
-    }
+     List<Payment> result = paymentService.getAllPayments(pageNumber, pageSize);
 
-    // --- Exception Tests ---
+     assertNotNull(result);
+     assertEquals(2, result.size());
+     verify(mockPaymentDao).findAll(pageNumber, pageSize);
+ }
 
-    @Test
-    public void testCreatePaymentException() throws Exception {
-        Payment payment = new Payment();
-        when(mockPaymentDao.create(payment)).thenThrow(new RuntimeException("DB error"));
+ // Test successful retrieval of payments by customer name
+ @Test
+ public void testGetPaymentByCustomerName() throws Exception {
+     String customerName = "John Doe";
+     List<Payment> payments = Arrays.asList(new Payment());
+     when(mockPaymentDao.findByCustomerName(customerName)).thenReturn(payments);
 
-        boolean result = paymentService.createPayment(payment);
+     List<Payment> result = paymentService.getPaymentByCustomerName(customerName);
 
-        assertFalse(result);
-        verify(mockPaymentDao).create(payment);
-    }
+     assertNotNull(result);
+     assertEquals(1, result.size());
+     verify(mockPaymentDao).findByCustomerName(customerName);
+ }
 
-    @Test
-    public void testDeletePaymentException() throws Exception {
-        long id = 1L;
-        when(mockPaymentDao.deleteById(id)).thenThrow(new RuntimeException("DB error"));
+ // --- Exception Test Cases ---
 
-        boolean result = paymentService.deletePayment(id);
+ // Test exception during payment creation
+ @Test
+ public void testCreatePaymentException() throws Exception {
+     Payment payment = new Payment();
+     when(mockPaymentDao.create(payment)).thenThrow(new RuntimeException("DB error"));
 
-        assertFalse(result);
-        verify(mockPaymentDao).deleteById(id);
-    }
+     boolean result = paymentService.createPayment(payment);
 
-    @Test
-    public void testUpdatePaymentException() throws Exception {
-        Payment payment = new Payment();
-        when(mockPaymentDao.update(payment)).thenThrow(new RuntimeException("DB error"));
+     assertFalse(result);
+     verify(mockPaymentDao).create(payment);
+ }
 
-        boolean result = paymentService.updatePayment(payment);
+ // Test exception during payment deletion
+ @Test
+ public void testDeletePaymentException() throws Exception {
+     long id = 1L;
+     when(mockPaymentDao.deleteById(id)).thenThrow(new RuntimeException("DB error"));
 
-        assertFalse(result);
-        verify(mockPaymentDao).update(payment);
-    }
+     boolean result = paymentService.deletePayment(id);
 
-    @Test
-    public void testGetPaymentException() throws Exception {
-        long id = 1L;
-        when(mockPaymentDao.findById(id)).thenThrow(new RuntimeException("DB error"));
+     assertFalse(result);
+     verify(mockPaymentDao).deleteById(id);
+ }
 
-        Payment result = paymentService.getPayment(id);
+ // Test exception during payment update
+ @Test
+ public void testUpdatePaymentException() throws Exception {
+     Payment payment = new Payment();
+     when(mockPaymentDao.update(payment)).thenThrow(new RuntimeException("DB error"));
 
-        assertNull(result);
-        verify(mockPaymentDao).findById(id);
-    }
+     boolean result = paymentService.updatePayment(payment);
 
-//    @Test
-//    public void testGetAllPaymentsException() throws Exception {
-//        when(mockPaymentDao.findAll()).thenThrow(new RuntimeException("DB error"));
-//
-//        List<Payment> result = paymentService.getAllPayments();
-//
-//        assertNull(result);
-//        verify(mockPaymentDao).findAll();
-//    }
+     assertFalse(result);
+     verify(mockPaymentDao).update(payment);
+ }
 
-    @Test
-    public void testGetPaymentByCustomerNameException() throws Exception {
-        String customerName = "Jane Smith";
-        when(mockPaymentDao.findByCustomerName(customerName)).thenThrow(new RuntimeException("DB error"));
+ // Test exception during retrieval by ID
+ @Test
+ public void testGetPaymentException() throws Exception {
+     long id = 1L;
+     when(mockPaymentDao.findById(id)).thenThrow(new RuntimeException("DB error"));
 
-        List<Payment> result = paymentService.getPaymentByCustomerName(customerName);
+     Payment result = paymentService.getPayment(id);
 
-        assertNull(result);
-        verify(mockPaymentDao).findByCustomerName(customerName);
-    }
+     assertNull(result);
+     verify(mockPaymentDao).findById(id);
+ }
+
+ //   Test exception during retrieval of all payments (with pagination)
+ @Test
+ public void testGetAllPaymentsException() throws Exception {
+     int pageNumber = 1;
+     int pageSize = 10;
+     when(mockPaymentDao.findAll(pageNumber, pageSize)).thenThrow(new RuntimeException("DB error"));
+
+     List<Payment> result = paymentService.getAllPayments(pageNumber, pageSize);
+
+     assertNull(result);
+     verify(mockPaymentDao).findAll(pageNumber, pageSize);
+ }
+
+ // Test exception during retrieval by customer name
+ @Test
+ public void testGetPaymentByCustomerNameException() throws Exception {
+     String customerName = "Jane Smith";
+     when(mockPaymentDao.findByCustomerName(customerName)).thenThrow(new RuntimeException("DB error"));
+
+     List<Payment> result = paymentService.getPaymentByCustomerName(customerName);
+
+     assertNull(result);
+     verify(mockPaymentDao).findByCustomerName(customerName);
+ }
 }

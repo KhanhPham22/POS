@@ -201,24 +201,6 @@ public class StoreFrame extends JFrame implements SidebarPanel.SidebarListener {
 		panel.add(new JLabel(valueText != null ? valueText : ""), gbc);
 	}
 
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> {
-//            SupplierDao supplierDao = new SupplierDao();
-//            supplierDao.setClass(Supplier.class);
-//
-//            ItemDao itemDao = new ItemDao();
-//            itemDao.setClass(Item.class);
-//
-//            StoreDao storeDao = new StoreDao();
-//            storeDao.setClass(Store.class);
-//
-//            SupplierService supplierService = new SupplierServiceImpl(supplierDao);
-//            ItemService itemService = new ItemServiceImpl(itemDao);
-//            StoreServiceImpl storeService = new StoreServiceImpl(storeDao);
-//
-//            StoreFrame frame = new StoreFrame(supplierService, itemService, storeService);
-//            frame.setVisible(true);
-//        });
-//    }
+
 
 }

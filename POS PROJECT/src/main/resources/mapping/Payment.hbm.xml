@@ -9,6 +9,7 @@
         <property name="paymentMethod" column="payment_method" length="50" />
         <property name="amount" column="amount" not-null="true" />
         <property name="status" column="status" length="20" />
+         <property name="paymentDate" type="java.util.Date" column="payment_date"/>
         <many-to-one name="order" class="model.OrderDetail" column="order_id" not-null="true" />
         <many-to-one name="customer" class="model.Customer" column="person_id" not-null="true" />
     </joined-subclass>

@@ -1,0 +1,338 @@
+[INFO ] 16-05-2025 09:43:53 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 16-05-2025 09:43:53 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 16-05-2025 09:43:54 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 16-05-2025 09:43:54 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 16-05-2025 09:43:55 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 09:43:55 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 09:43:55 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 09:43:55 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 16-05-2025 09:43:55 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 16-05-2025 09:43:55 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 16-05-2025 09:43:55 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 16-05-2025 09:43:55 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 16-05-2025 09:43:57 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 16-05-2025 09:43:59 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@2e3b5790] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 16-05-2025 09:43:59 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@6c899a2f] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 16-05-2025 09:44:07 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 16-05-2025 09:44:07 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 16-05-2025 09:44:29 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: khanhadmin
+[INFO ] 16-05-2025 09:44:29 [AWT-EventQueue-0] EmployeeDao - Employee with username: khanhadmin retrieved successfully from database
+[INFO ] 16-05-2025 09:44:29 [AWT-EventQueue-0] EmployeeDao - Employee with email: khanhadmin retrieved successfully from database
+[INFO ] 16-05-2025 09:44:29 [AWT-EventQueue-0] OwnerDao - Owner with username: khanhadmin retrieved successfully from database
+[INFO ] 16-05-2025 09:44:29 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 16-05-2025 09:44:29 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 16-05-2025 09:44:29 [AWT-EventQueue-0] AuthenticationService - Owner login successful for identifier: khanhadmin
+[INFO ] 16-05-2025 09:44:31 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 16-05-2025 09:44:31 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 16-05-2025 09:44:31 [AWT-EventQueue-0] EmployeeDao - All Employees retrieved successfully from database. Total count: 13
+[INFO ] 16-05-2025 09:44:31 [AWT-EventQueue-0] PersonServiceImpl - All Employees retrieved
+[INFO ] 16-05-2025 09:44:33 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully with pagination
+[INFO ] 16-05-2025 09:44:40 [AWT-EventQueue-0] StoreDao - Store deleted from database successfully
+[INFO ] 16-05-2025 09:44:41 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully with pagination
+[INFO ] 16-05-2025 09:44:46 [AWT-EventQueue-0] StoreDao - Store deleted from database successfully
+[INFO ] 16-05-2025 09:44:47 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully with pagination
+[INFO ] 16-05-2025 09:44:52 [AWT-EventQueue-0] StoreDao - Store deleted from database successfully
+[INFO ] 16-05-2025 09:44:53 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully with pagination
+[INFO ] 16-05-2025 09:45:04 [AWT-EventQueue-0] StoreDao - Store deleted from database successfully
+[INFO ] 16-05-2025 09:45:05 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully with pagination
+[INFO ] 16-05-2025 09:45:10 [AWT-EventQueue-0] StoreDao - Store deleted from database successfully
+[INFO ] 16-05-2025 09:45:11 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully with pagination
+[INFO ] 16-05-2025 09:45:17 [AWT-EventQueue-0] StoreDao - Store deleted from database successfully
+[INFO ] 16-05-2025 09:45:18 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully with pagination
+[INFO ] 16-05-2025 09:46:15 [AWT-EventQueue-0] StoreDao - Store updated in database successfully
+[INFO ] 16-05-2025 09:46:16 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully with pagination
+[INFO ] 16-05-2025 09:46:21 [AWT-EventQueue-0] StoreDao - Store deleted from database successfully
+[INFO ] 16-05-2025 09:46:22 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully with pagination
+[INFO ] 16-05-2025 09:46:27 [AWT-EventQueue-0] StoreDao - Store deleted from database successfully
+[INFO ] 16-05-2025 09:46:28 [AWT-EventQueue-0] StoreDao - All Stores retrieved successfully with pagination
+[INFO ] 16-05-2025 09:46:36 [AWT-EventQueue-0] EmployeeDao - All Employees retrieved successfully from database. Total count: 13
+[INFO ] 16-05-2025 09:46:36 [AWT-EventQueue-0] PersonServiceImpl - All Employees retrieved
+[WARN ] 16-05-2025 10:41:08 [main] AuthenticationService - Logout failed: Token not found
+[WARN ] 16-05-2025 10:41:08 [main] AuthenticationService - Token không hợp lệ hoặc đã hết hạn: token123
+[INFO ] 16-05-2025 10:41:08 [main] AuthenticationService - Login attempt for identifier: user
+[INFO ] 16-05-2025 10:41:08 [main] AuthenticationService - Employee login successful for identifier: user
+[INFO ] 16-05-2025 10:41:08 [main] AuthenticationService - Login attempt for identifier: user
+[INFO ] 16-05-2025 10:41:08 [main] AuthenticationService - Owner login successful for identifier: user
+[INFO ] 16-05-2025 10:41:08 [main] AuthenticationService - Login attempt for identifier: user
+[WARN ] 16-05-2025 10:41:08 [main] AuthenticationService - Incorrect password for employee identifier: user
+[INFO ] 16-05-2025 10:41:08 [main] AuthenticationService - Login attempt for identifier: unknown
+[WARN ] 16-05-2025 10:41:08 [main] AuthenticationService - No account found with identifier: unknown
+[INFO ] 16-05-2025 11:06:33 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 16-05-2025 11:06:33 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 16-05-2025 11:06:33 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 16-05-2025 11:06:33 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 16-05-2025 11:06:34 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 11:06:34 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 11:06:34 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 11:06:34 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 16-05-2025 11:06:34 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 16-05-2025 11:06:34 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 16-05-2025 11:06:34 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 16-05-2025 11:06:34 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 16-05-2025 11:06:36 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 16-05-2025 11:06:37 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@4cad0798] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 16-05-2025 11:06:37 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@2303f97d] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 16-05-2025 11:06:39 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 16-05-2025 11:06:39 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 16-05-2025 11:07:05 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: Xuantay
+[INFO ] 16-05-2025 11:07:05 [AWT-EventQueue-0] EmployeeDao - Employee with username: Xuantay retrieved successfully from database
+[WARN ] 16-05-2025 11:07:05 [AWT-EventQueue-0] AuthenticationService - Login attempt for inactive employee: Xuantay
+[INFO ] 16-05-2025 11:08:27 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: tamgay
+[INFO ] 16-05-2025 11:08:27 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 16-05-2025 11:08:27 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 16-05-2025 11:08:27 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 16-05-2025 11:08:27 [AWT-EventQueue-0] AuthenticationService - Employee login successful for identifier: tamgay
+[INFO ] 16-05-2025 11:08:29 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[WARN ] 16-05-2025 11:08:29 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 16-05-2025 11:08:29 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 16-05-2025 11:08:29 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[WARN ] 16-05-2025 11:08:31 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 16-05-2025 11:08:31 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 16-05-2025 11:08:31 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 11:08:33 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 11:08:34 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 11:08:34 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 11:08:35 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[WARN ] 16-05-2025 11:08:41 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 16-05-2025 11:08:41 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 16-05-2025 11:08:41 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 11:08:42 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 11:08:42 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 11:10:08 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 16-05-2025 11:10:08 [AWT-EventQueue-0] PersonServiceImpl - Employee with username tamgay retrieved
+[WARN ] 16-05-2025 11:10:09 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 16-05-2025 11:10:09 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 16-05-2025 11:10:09 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:01:55 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 16-05-2025 13:01:55 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 16-05-2025 13:01:55 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 16-05-2025 13:01:55 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 16-05-2025 13:01:56 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 13:01:56 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 13:01:56 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 13:01:56 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 16-05-2025 13:01:56 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 16-05-2025 13:01:56 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 16-05-2025 13:01:56 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 16-05-2025 13:01:57 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 16-05-2025 13:01:58 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 16-05-2025 13:02:00 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@14a0baef] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 16-05-2025 13:02:00 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@19c0b18f] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 16-05-2025 13:02:06 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 16-05-2025 13:02:06 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 16-05-2025 13:02:24 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: tamgay
+[INFO ] 16-05-2025 13:02:25 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 16-05-2025 13:02:25 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 16-05-2025 13:02:25 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 16-05-2025 13:02:25 [AWT-EventQueue-0] AuthenticationService - Employee login successful for identifier: tamgay
+[INFO ] 16-05-2025 13:02:26 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[WARN ] 16-05-2025 13:02:27 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 16-05-2025 13:02:27 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 16-05-2025 13:02:27 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:02:28 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:02:31 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:02:33 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:02:34 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:02:35 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:02:35 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:02:36 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:02:37 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:17:47 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 16-05-2025 13:17:48 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 16-05-2025 13:17:48 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 16-05-2025 13:17:48 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 16-05-2025 13:17:48 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 13:17:49 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 13:17:49 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 13:17:49 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 16-05-2025 13:17:49 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 16-05-2025 13:17:49 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 16-05-2025 13:17:49 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 16-05-2025 13:17:49 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 16-05-2025 13:17:50 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 16-05-2025 13:17:51 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@4cad0798] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 16-05-2025 13:17:51 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@2303f97d] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 16-05-2025 13:17:53 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 16-05-2025 13:17:53 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 16-05-2025 13:18:05 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: tamgay
+[INFO ] 16-05-2025 13:18:05 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 16-05-2025 13:18:05 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 16-05-2025 13:18:05 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 16-05-2025 13:18:05 [AWT-EventQueue-0] AuthenticationService - Employee login successful for identifier: tamgay
+[INFO ] 16-05-2025 13:18:07 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[WARN ] 16-05-2025 13:18:07 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 16-05-2025 13:18:07 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 16-05-2025 13:18:07 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:18:16 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép chanh and size: S retrieved successfully: 313
+[INFO ] 16-05-2025 13:18:18 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép chanh and size: M retrieved successfully: 329
+[INFO ] 16-05-2025 13:18:20 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép chanh and size: L retrieved successfully: 330
+[INFO ] 16-05-2025 13:46:23 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 16-05-2025 13:46:24 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 16-05-2025 13:46:24 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 16-05-2025 13:46:24 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 16-05-2025 13:46:24 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 13:46:24 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 13:46:24 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 13:46:25 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 16-05-2025 13:46:25 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 16-05-2025 13:46:25 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 16-05-2025 13:46:25 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 16-05-2025 13:46:25 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 16-05-2025 13:46:26 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 16-05-2025 13:46:27 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@14a0baef] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 16-05-2025 13:46:27 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@19c0b18f] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 16-05-2025 13:46:28 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 16-05-2025 13:46:28 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 16-05-2025 13:46:39 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: tamgay
+[INFO ] 16-05-2025 13:46:39 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 16-05-2025 13:46:39 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 16-05-2025 13:46:39 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 16-05-2025 13:46:39 [AWT-EventQueue-0] AuthenticationService - Employee login successful for identifier: tamgay
+[INFO ] 16-05-2025 13:46:41 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[WARN ] 16-05-2025 13:46:41 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 16-05-2025 13:46:41 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 16-05-2025 13:46:41 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:46:58 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:46:58 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:47:05 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:47:23 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:47:25 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép cam and size: S retrieved successfully: 283
+[INFO ] 16-05-2025 13:47:30 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 3
+[INFO ] 16-05-2025 13:47:30 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 16-05-2025 13:53:43 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 16-05-2025 13:53:44 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 16-05-2025 13:53:44 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 16-05-2025 13:53:44 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 16-05-2025 13:53:44 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 13:53:45 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 13:53:45 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 13:53:45 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 16-05-2025 13:53:45 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 16-05-2025 13:53:45 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 16-05-2025 13:53:45 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 16-05-2025 13:53:45 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 16-05-2025 13:53:46 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 16-05-2025 13:53:47 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@4cad0798] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 16-05-2025 13:53:47 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@2303f97d] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 16-05-2025 13:53:48 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 16-05-2025 13:53:48 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 16-05-2025 13:54:01 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: tamgay
+[INFO ] 16-05-2025 13:54:01 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 16-05-2025 13:54:01 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 16-05-2025 13:54:01 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 16-05-2025 13:54:01 [AWT-EventQueue-0] AuthenticationService - Employee login successful for identifier: tamgay
+[INFO ] 16-05-2025 13:54:03 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[WARN ] 16-05-2025 13:54:03 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 16-05-2025 13:54:03 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 16-05-2025 13:54:03 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:54:45 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:54:47 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 13:55:21 [AWT-EventQueue-0] ProductDao - Product with name: Cà Phê Sữa and size: M retrieved successfully: 285
+[INFO ] 16-05-2025 14:05:56 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 16-05-2025 14:05:56 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 16-05-2025 14:05:56 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 16-05-2025 14:05:56 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 16-05-2025 14:05:57 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 14:05:57 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 14:05:57 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 14:05:57 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 16-05-2025 14:05:57 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 16-05-2025 14:05:57 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 16-05-2025 14:05:57 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 16-05-2025 14:05:57 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 16-05-2025 14:05:58 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 16-05-2025 14:05:59 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@14a0baef] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 16-05-2025 14:05:59 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@19c0b18f] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 16-05-2025 14:06:00 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 16-05-2025 14:06:00 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 16-05-2025 14:06:12 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: tamgay
+[INFO ] 16-05-2025 14:06:12 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 16-05-2025 14:06:12 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 16-05-2025 14:06:12 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 16-05-2025 14:06:12 [AWT-EventQueue-0] AuthenticationService - Employee login successful for identifier: tamgay
+[INFO ] 16-05-2025 14:06:14 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[WARN ] 16-05-2025 14:06:14 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 16-05-2025 14:06:14 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 16-05-2025 14:06:14 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 14:06:20 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 14:06:24 [AWT-EventQueue-0] ProductDao - Product with name: Cà phê đen and size: M retrieved successfully: 301
+[INFO ] 16-05-2025 14:06:26 [AWT-EventQueue-0] ProductDao - Product with name: Cà phê đen and size: L retrieved successfully: 290
+[INFO ] 16-05-2025 14:06:28 [AWT-EventQueue-0] ProductDao - Product with name: Cà phê đen and size: S retrieved successfully: 289
+[INFO ] 16-05-2025 14:06:29 [AWT-EventQueue-0] ProductDao - Product with name: Cà phê đen and size: M retrieved successfully: 301
+[INFO ] 16-05-2025 14:06:32 [AWT-EventQueue-0] ProductDao - Product with name: Cà phê đen and size: L retrieved successfully: 290
+[INFO ] 16-05-2025 14:06:37 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 14:06:43 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 14:06:51 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 14:06:53 [AWT-EventQueue-0] ProductDao - Product with name: Trà chanh and size: M retrieved successfully: 327
+[INFO ] 16-05-2025 14:06:59 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 3
+[INFO ] 16-05-2025 14:06:59 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 16-05-2025 14:08:54 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 14:19:56 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 16-05-2025 14:19:56 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 16-05-2025 14:19:57 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 16-05-2025 14:19:57 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 16-05-2025 14:19:57 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 14:19:57 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 14:19:57 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 16-05-2025 14:19:57 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 16-05-2025 14:19:58 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 16-05-2025 14:19:58 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 16-05-2025 14:19:58 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 16-05-2025 14:19:58 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 16-05-2025 14:19:59 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 16-05-2025 14:20:00 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@4cad0798] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 16-05-2025 14:20:00 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@2303f97d] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 16-05-2025 14:20:01 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 16-05-2025 14:20:01 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 16-05-2025 14:20:12 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: khanhadmin
+[INFO ] 16-05-2025 14:20:12 [AWT-EventQueue-0] EmployeeDao - Employee with username: khanhadmin retrieved successfully from database
+[INFO ] 16-05-2025 14:20:12 [AWT-EventQueue-0] EmployeeDao - Employee with email: khanhadmin retrieved successfully from database
+[INFO ] 16-05-2025 14:20:13 [AWT-EventQueue-0] OwnerDao - Owner with username: khanhadmin retrieved successfully from database
+[INFO ] 16-05-2025 14:20:13 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 16-05-2025 14:20:13 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 16-05-2025 14:20:13 [AWT-EventQueue-0] AuthenticationService - Owner login successful for identifier: khanhadmin
+[INFO ] 16-05-2025 14:20:14 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 16-05-2025 14:20:14 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 16-05-2025 14:20:14 [AWT-EventQueue-0] EmployeeDao - All Employees retrieved successfully from database. Total count: 13
+[INFO ] 16-05-2025 14:20:14 [AWT-EventQueue-0] PersonServiceImpl - All Employees retrieved
+[WARN ] 16-05-2025 14:20:17 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 16-05-2025 14:20:17 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 16-05-2025 14:20:17 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 14:20:24 [AWT-EventQueue-0] ProductDao - Product with name: Hồng Trà and size: M retrieved successfully: 325
+[WARN ] 16-05-2025 14:20:24 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 16-05-2025 14:20:24 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 16-05-2025 14:20:29 [AWT-EventQueue-0] ProductDao - Product updated successfully: Hồng trà
+[INFO ] 16-05-2025 14:20:29 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 14:20:32 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 14:20:34 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 14:20:41 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 16-05-2025 14:20:53 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: tamgay
+[INFO ] 16-05-2025 14:20:53 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 16-05-2025 14:20:53 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 16-05-2025 14:20:53 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 16-05-2025 14:20:53 [AWT-EventQueue-0] AuthenticationService - Employee login successful for identifier: tamgay
+[INFO ] 16-05-2025 14:20:55 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[WARN ] 16-05-2025 14:20:55 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 16-05-2025 14:20:55 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 16-05-2025 14:20:55 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 14:21:00 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 14:21:01 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 14:21:03 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 14:21:42 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 14:21:44 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 23
+[INFO ] 16-05-2025 14:21:47 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép chanh and size: S retrieved successfully: 313
+[INFO ] 16-05-2025 14:21:48 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép chanh and size: L retrieved successfully: 330
+[INFO ] 16-05-2025 14:21:50 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép chanh and size: S retrieved successfully: 313
+[INFO ] 16-05-2025 14:21:51 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép chanh and size: M retrieved successfully: 329
+[INFO ] 16-05-2025 14:21:55 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép chanh and size: S retrieved successfully: 313
+[INFO ] 16-05-2025 14:21:56 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép chanh and size: M retrieved successfully: 329
+[INFO ] 16-05-2025 14:22:00 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép chanh and size: L retrieved successfully: 330
+[INFO ] 16-05-2025 14:22:01 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép chanh and size: S retrieved successfully: 313
+[INFO ] 16-05-2025 14:22:02 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép chanh and size: M retrieved successfully: 329
+[INFO ] 16-05-2025 14:22:06 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép chanh and size: M retrieved successfully: 329
+[INFO ] 16-05-2025 14:22:10 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép chanh and size: S retrieved successfully: 313
+[INFO ] 16-05-2025 14:22:11 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép chanh and size: S retrieved successfully: 313
+[INFO ] 16-05-2025 14:22:17 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 3
+[INFO ] 16-05-2025 14:22:17 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 16-05-2025 14:22:31 [AWT-EventQueue-0] CustomerDao - Customer persisted in database successfully
+[INFO ] 16-05-2025 14:22:31 [AWT-EventQueue-0] PersonServiceImpl - Customer created

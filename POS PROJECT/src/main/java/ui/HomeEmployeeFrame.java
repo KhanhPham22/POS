@@ -21,6 +21,7 @@ import service.CategoryServiceImpl;
 import service.HashService;
 import service.ItemService;
 import service.ItemServiceImpl;
+import service.OrderService;
 import service.PaymentService;
 import service.PaymentServiceImpl;
 import service.PersonService;
@@ -51,10 +52,11 @@ public class HomeEmployeeFrame extends JFrame implements SidebarPanel.SidebarLis
     private StoreServiceImpl storeService;
     private HashService hashService;
     private AuthenticationService authService;
+    private OrderService orderService;
 
     public HomeEmployeeFrame(PersonService personService, SupplierService supplierService, ItemService itemService,
 			StoreServiceImpl storeService, HashService hashService, AuthenticationService authService,
-			ProductService productService, CategoryService categoryService,String username,PaymentService paymentService) {
+			ProductService productService, CategoryService categoryService,String username,PaymentService paymentService,OrderService orderService) {
     	this.personService = personService;
 		this.supplierService = supplierService;
 		this.itemService = itemService;
@@ -64,6 +66,7 @@ public class HomeEmployeeFrame extends JFrame implements SidebarPanel.SidebarLis
 		this.categoryService = categoryService;
 		this.productService = productService;
     	this.username = username;
+    	this.orderService = orderService;
         
 
         setTitle("Thông tin");
@@ -133,7 +136,7 @@ public class HomeEmployeeFrame extends JFrame implements SidebarPanel.SidebarLis
     
 
     private void loadMenuPanel() {
-        MenuPanel menuPanel = new MenuPanel(categoryService, productService, personService, paymentService,false);
+        MenuPanel menuPanel = new MenuPanel(categoryService, productService, personService, paymentService,orderService,false);
         contentPanel.add(menuPanel, BorderLayout.CENTER);
     }
 

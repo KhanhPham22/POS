@@ -83,17 +83,6 @@ public class PayrollServiceImplTest {
         verify(mockPayrollDao).findById(id);
     }
 
-//    @Test
-//    public void testGetAllPayrolls() throws Exception {
-//        List<Payroll> payrolls = Arrays.asList(new Payroll(), new Payroll());
-//        when(mockPayrollDao.findAll()).thenReturn(payrolls);
-//
-//        List<Payroll> result = payrollService.getAllPayrolls();
-//
-//        assertNotNull(result);
-//        assertEquals(2, result.size());
-//        verify(mockPayrollDao).findAll();
-//    }
 
     @Test
     public void testGetPayrollsByMonthAndYear() throws Exception {
@@ -166,15 +155,7 @@ public class PayrollServiceImplTest {
         verify(mockPayrollDao).findById(id);
     }
 
-//    @Test
-//    public void testGetAllPayrollsException() throws Exception {
-//        when(mockPayrollDao.findAll()).thenThrow(new RuntimeException("DB error"));
-//
-//        List<Payroll> result = payrollService.getAllPayrolls();
-//
-//        assertNull(result);
-//        verify(mockPayrollDao).findAll();
-//    }
+
 
     @Test
     public void testGetPayrollsByMonthAndYearException() throws Exception {

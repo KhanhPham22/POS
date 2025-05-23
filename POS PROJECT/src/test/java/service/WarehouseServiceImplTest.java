@@ -71,17 +71,7 @@ public class WarehouseServiceImplTest {
         verify(mockWarehouseDao).findById(warehouseId);
     }
     
-//    @Test
-//    public void testGetAllWarehouses() throws Exception {
-//        List<Warehouse> warehouses = Arrays.asList(new Warehouse(), new Warehouse());
-//        when(mockWarehouseDao.findAll()).thenReturn(warehouses);
-//
-//        List<Warehouse> result = warehouseService.getAllWarehouses();
-//
-//        assertNotNull(result);
-//        assertEquals(2, result.size());
-//        verify(mockWarehouseDao).findAll();
-//    }
+
 
     @Test
     public void testGetWarehouseByName() throws Exception {
@@ -153,15 +143,7 @@ public class WarehouseServiceImplTest {
         verify(mockWarehouseDao).findById(warehouseId);
     }
 
-//    @Test
-//    public void testGetAllWarehousesException() throws Exception {
-//        when(mockWarehouseDao.findAll()).thenThrow(new RuntimeException("Database error"));
-//
-//        List<Warehouse> result = warehouseService.getAllWarehouses();
-//
-//        assertNull(result);
-//        verify(mockWarehouseDao).findAll();
-//    }
+
 
     @Test
     public void testGetWarehouseByNameException() throws Exception {

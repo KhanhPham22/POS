@@ -1,37 +1,18 @@
 package model;
 
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class OrderDetail extends BaseEntity {
-
     private Customer customer;
-    private Product product;
-    private Integer quantity;
-    private Double unitPrice;
-    private Double totalPrice;
-    private Double discount = 0.0;
-    private String paymentMethod;
-    private String status;
-    private Double totalAmount;
-    
-    // Default Constructor
-    public OrderDetail() {}
+    private double totalAmount;
+    private Date orderDate;
+    private Set<OrderItem> items = new HashSet<>();
 
-    // Constructor with all fields
-    public OrderDetail(long id, Customer customer, Product product, Integer quantity, 
-                       Double unitPrice, Double totalPrice, Double discount, 
-                       String paymentMethod, String status, Double totalAmount) {
-        setId(id); // Use BaseEntity's id
-        this.customer = customer;
-        this.product = product;
-        this.quantity = quantity;
-        this.unitPrice = unitPrice;
-        this.totalPrice = totalPrice;
-        this.discount = discount;
-        this.paymentMethod = paymentMethod;
-        this.status = status;
-        this.totalAmount = totalAmount;
-    }
 
-    // Getter and Setter Methods
+    // Getters and Setters
     public Customer getCustomer() {
         return customer;
     }
@@ -40,67 +21,28 @@ public class OrderDetail extends BaseEntity {
         this.customer = customer;
     }
 
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public Double getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(Double unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public Double getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(Double discount) {
-        this.discount = discount;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-    
-    public Double getTotalAmount() {
+    public double getTotalAmount() {
         return totalAmount;
     }
-    
-    public void setTotalAmount(Double totalAmount) {
+
+    public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
     }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public Set<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(Set<OrderItem> items) {
+        this.items = items;
+    }
+
 }

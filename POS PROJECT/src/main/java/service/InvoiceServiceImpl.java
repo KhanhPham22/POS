@@ -8,16 +8,28 @@ import org.apache.logging.log4j.Logger;
 import dao.InvoiceDao;
 import model.Invoice;
 
+/**
+ * Implementation of the InvoiceService interface.
+ * Handles business logic related to invoice management by interacting with InvoiceDao.
+ */
 public class InvoiceServiceImpl implements InvoiceService {
 
+    // Logger for logging errors and information
     private static final Logger Log = LogManager.getLogger(InvoiceServiceImpl.class);
+    
+    // Data Access Object for Invoice
     private final InvoiceDao invoiceDao;
 
+    // Constructor that injects the InvoiceDao dependency
     public InvoiceServiceImpl(InvoiceDao invoiceDao) {
-        this.invoiceDao =  invoiceDao;
-        
+        this.invoiceDao = invoiceDao;
     }
 
+    /**
+     * Creates a new invoice.
+     * @param invoice The invoice object to be created
+     * @return true if creation is successful, false otherwise
+     */
     @Override
     public boolean createInvoice(Invoice invoice) {
         try {
@@ -28,6 +40,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
+    /**
+     * Updates an existing invoice.
+     * @param invoice The invoice object to be updated
+     * @return true if update is successful, false otherwise
+     */
     @Override
     public boolean updateInvoice(Invoice invoice) {
         try {
@@ -38,6 +55,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
+    /**
+     * Deletes an invoice by its ID.
+     * @param invoiceId The ID of the invoice to be deleted
+     * @return true if deletion is successful, false otherwise
+     */
     @Override
     public boolean deleteInvoiceById(long invoiceId) {
         try {
@@ -48,6 +70,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
+    /**
+     * Deletes an invoice using the invoice object.
+     * @param invoice The invoice to be deleted
+     * @return true if deletion is successful, false otherwise
+     */
     @Override
     public boolean deleteInvoice(Invoice invoice) {
         try {
@@ -58,6 +85,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
+    /**
+     * Retrieves an invoice by its ID.
+     * @param invoiceId The ID of the invoice to retrieve
+     * @return The invoice object if found, otherwise null
+     */
     @Override
     public Invoice getInvoiceById(long invoiceId) {
         try {
@@ -68,6 +100,12 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
+    /**
+     * Retrieves all invoices with pagination.
+     * @param pageNumber The page number
+     * @param pageSize The number of records per page
+     * @return A list of invoices or null if retrieval fails
+     */
     @Override
     public List<Invoice> getAllInvoices(int pageNumber, int pageSize) {
         try {
@@ -78,6 +116,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
+    /**
+     * Retrieves invoices by payment method.
+     * @param paymentMethod The payment method to filter by
+     * @return A list of invoices or null if retrieval fails
+     */
     @Override
     public List<Invoice> getInvoicesByPaymentMethod(String paymentMethod) {
         try {
@@ -88,6 +131,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
+    /**
+     * Retrieves invoices by status.
+     * @param status The invoice status to filter by
+     * @return A list of invoices or null if retrieval fails
+     */
     @Override
     public List<Invoice> getInvoicesByStatus(String status) {
         try {
@@ -98,6 +146,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
+    /**
+     * Retrieves invoices by invoice date.
+     * @param date The date to filter by
+     * @return A list of invoices or null if retrieval fails
+     */
     @Override
     public List<Invoice> getInvoicesByDate(Date date) {
         try {
@@ -107,7 +160,12 @@ public class InvoiceServiceImpl implements InvoiceService {
             return null;
         }
     }
-    
+
+    /**
+     * Retrieves invoices by employee name.
+     * @param employeeName The employee name to filter by
+     * @return A list of invoices or null if retrieval fails
+     */
     @Override
     public List<Invoice> getInvoicesByEmployeeName(String employeeName) {
         try {
@@ -118,6 +176,11 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
+    /**
+     * Retrieves invoices by customer name.
+     * @param customerName The customer name to filter by
+     * @return A list of invoices or null if retrieval fails
+     */
     @Override
     public List<Invoice> getInvoicesByCustomerName(String customerName) {
         try {
@@ -127,6 +190,5 @@ public class InvoiceServiceImpl implements InvoiceService {
             return null;
         }
     }
-
 }
 

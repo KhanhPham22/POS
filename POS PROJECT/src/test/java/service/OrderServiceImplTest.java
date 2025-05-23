@@ -13,15 +13,23 @@ import dao.OrderDetailDao;
 import service.OrderServiceImpl;
 
 public class OrderServiceImplTest {
-	private OrderDetailDao mockOrderDao;
+
+    // Mock of OrderDetailDao for testing without real database
+    private OrderDetailDao mockOrderDao;
+
+    // Service to be tested
     private OrderServiceImpl orderService;
 
+    // Initialize the mock DAO and the service before each test
     @BeforeEach
     public void setUp() {
         mockOrderDao = mock(OrderDetailDao.class);
         orderService = new OrderServiceImpl(mockOrderDao);
     }
-    
+
+    // --- Success test cases ---
+
+    // Test creating an order successfully
     @Test
     public void testCreateOrder() throws Exception {
         OrderDetail order = new OrderDetail();
@@ -33,6 +41,7 @@ public class OrderServiceImplTest {
         verify(mockOrderDao).create(order);
     }
 
+    // Test updating an order successfully
     @Test
     public void testUpdateOrder() throws Exception {
         OrderDetail order = new OrderDetail();
@@ -44,6 +53,7 @@ public class OrderServiceImplTest {
         verify(mockOrderDao).update(order);
     }
 
+    // Test deleting an order by ID successfully
     @Test
     public void testDeleteOrderById() throws Exception {
         long orderId = 1L;
@@ -55,6 +65,7 @@ public class OrderServiceImplTest {
         verify(mockOrderDao).deleteById(orderId);
     }
 
+    // Test deleting an order object successfully
     @Test
     public void testDeleteOrder() throws Exception {
         OrderDetail order = new OrderDetail();
@@ -66,6 +77,7 @@ public class OrderServiceImplTest {
         verify(mockOrderDao).delete(order);
     }
 
+    // Test retrieving an order by ID successfully
     @Test
     public void testGetOrderById() throws Exception {
         long orderId = 1L;
@@ -79,18 +91,20 @@ public class OrderServiceImplTest {
         verify(mockOrderDao).findById(orderId);
     }
 
-//    @Test
-//    public void testGetAllOrders() throws Exception {
-//        List<OrderDetail> orders = Arrays.asList(new OrderDetail(), new OrderDetail());
-//        when(mockOrderDao.findAll()).thenReturn(orders);
-//
-//        List<OrderDetail> result = orderService.getAllOrders();
-//
-//        assertNotNull(result);
-//        assertEquals(2, result.size());
-//        verify(mockOrderDao).findAll();
-//    }
+    // Test retrieving a paginated list of orders successfully
+    @Test
+    public void testGetAllOrders() throws Exception {
+        List<OrderDetail> orders = Arrays.asList(new OrderDetail(), new OrderDetail());
+        when(mockOrderDao.findAll(1, 10)).thenReturn(orders);
 
+        List<OrderDetail> result = orderService.getAllOrders(1, 10);
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        verify(mockOrderDao).findAll(1, 10);
+    }
+
+    // Test retrieving orders by customer name successfully
     @Test
     public void testGetOrderByCustomerName() throws Exception {
         String customerName = "John Doe";
@@ -104,8 +118,9 @@ public class OrderServiceImplTest {
         verify(mockOrderDao).findByCustomerName(customerName);
     }
 
-    // --- Exception cases ---
+    // --- Exception test cases ---
 
+    // Test createOrder() throws an exception and returns false
     @Test
     public void testCreateOrderException() throws Exception {
         OrderDetail order = new OrderDetail();
@@ -117,6 +132,7 @@ public class OrderServiceImplTest {
         verify(mockOrderDao).create(order);
     }
 
+    // Test updateOrder() throws an exception and returns false
     @Test
     public void testUpdateOrderException() throws Exception {
         OrderDetail order = new OrderDetail();
@@ -128,6 +144,7 @@ public class OrderServiceImplTest {
         verify(mockOrderDao).update(order);
     }
 
+    // Test deleteOrderById() throws an exception and returns false
     @Test
     public void testDeleteOrderByIdException() throws Exception {
         long orderId = 1L;
@@ -139,6 +156,7 @@ public class OrderServiceImplTest {
         verify(mockOrderDao).deleteById(orderId);
     }
 
+    // Test deleteOrder() throws an exception and returns false
     @Test
     public void testDeleteOrderException() throws Exception {
         OrderDetail order = new OrderDetail();
@@ -150,6 +168,7 @@ public class OrderServiceImplTest {
         verify(mockOrderDao).delete(order);
     }
 
+    // Test getOrderById() throws an exception and returns null
     @Test
     public void testGetOrderByIdException() throws Exception {
         long orderId = 1L;
@@ -161,16 +180,18 @@ public class OrderServiceImplTest {
         verify(mockOrderDao).findById(orderId);
     }
 
-//    @Test
-//    public void testGetAllOrdersException() throws Exception {
-//        when(mockOrderDao.findAll()).thenThrow(new RuntimeException("DB error"));
-//
-//        List<OrderDetail> result = orderService.getAllOrders();
-//
-//        assertNull(result);
-//        verify(mockOrderDao).findAll();
-//    }
+    // Test getAllOrders() throws an exception and returns null
+    @Test
+    public void testGetAllOrdersException() throws Exception {
+        when(mockOrderDao.findAll(1, 10)).thenThrow(new RuntimeException("DB error"));
 
+        List<OrderDetail> result = orderService.getAllOrders(1, 10);
+
+        assertNull(result);
+        verify(mockOrderDao).findAll(1, 10);
+    }
+
+    // Test getOrderByCustomerName() throws an exception and returns null
     @Test
     public void testGetOrderByCustomerNameException() throws Exception {
         String customerName = "Jane Smith";

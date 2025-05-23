@@ -16,8 +16,6 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
-		
-
         
         <!-- Load file XML mapping -->
         <mapping resource="mapping/BaseEntity.hbm.xml"/>
