@@ -14,23 +14,17 @@ import dao.StoreDao;
 import dao.SupplierDao;
 import dao.UserSessionDao;
 import model.Employee;
-import model.Owner;
 import service.AuthenticationService;
 import service.CategoryService;
-import service.CategoryServiceImpl;
 import service.HashService;
+import service.InvoiceService;
 import service.ItemService;
-import service.ItemServiceImpl;
 import service.OrderService;
 import service.PaymentService;
-import service.PaymentServiceImpl;
 import service.PersonService;
-import service.PersonServiceImpl;
 import service.ProductService;
-import service.ProductServiceImpl;
 import service.StoreServiceImpl;
 import service.SupplierService;
-import service.SupplierServiceImpl;
 
 public class HomeEmployeeFrame extends JFrame implements SidebarPanel.SidebarListener {
 
@@ -53,21 +47,24 @@ public class HomeEmployeeFrame extends JFrame implements SidebarPanel.SidebarLis
     private HashService hashService;
     private AuthenticationService authService;
     private OrderService orderService;
+    private InvoiceService invoiceService;
 
     public HomeEmployeeFrame(PersonService personService, SupplierService supplierService, ItemService itemService,
-			StoreServiceImpl storeService, HashService hashService, AuthenticationService authService,
-			ProductService productService, CategoryService categoryService,String username,PaymentService paymentService,OrderService orderService) {
-    	this.personService = personService;
-		this.supplierService = supplierService;
-		this.itemService = itemService;
-		this.storeService = storeService;
-		this.hashService = hashService;
-		this.authService = authService;
-		this.categoryService = categoryService;
-		this.productService = productService;
-    	this.username = username;
-    	this.orderService = orderService;
-        
+            StoreServiceImpl storeService, HashService hashService, AuthenticationService authService,
+            ProductService productService, CategoryService categoryService, String username,
+            PaymentService paymentService, OrderService orderService, InvoiceService invoiceService) {
+        this.personService = personService;
+        this.supplierService = supplierService;
+        this.itemService = itemService;
+        this.storeService = storeService;
+        this.hashService = hashService;
+        this.authService = authService;
+        this.categoryService = categoryService;
+        this.productService = productService;
+        this.username = username;
+        this.paymentService = paymentService;
+        this.orderService = orderService;
+        this.invoiceService = invoiceService;
 
         setTitle("Thông tin");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -87,8 +84,6 @@ public class HomeEmployeeFrame extends JFrame implements SidebarPanel.SidebarLis
         add(contentPanel, BorderLayout.CENTER);
         setVisible(true);
     }
-
-  
 
     @Override
     public void onSidebarItemClick(String pageName) {
@@ -118,9 +113,9 @@ public class HomeEmployeeFrame extends JFrame implements SidebarPanel.SidebarLis
 
     private void loadProfilePanel() {
         try {
-			Employee employee = personService.getEmployeeByUsername(username);
+            Employee employee = personService.getEmployeeByUsername(username);
             if (employee == null) {
-                JOptionPane.showMessageDialog(this, "Owner not found for username: " + username, "Error",
+                JOptionPane.showMessageDialog(this, "Employee not found for username: " + username, "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -133,11 +128,9 @@ public class HomeEmployeeFrame extends JFrame implements SidebarPanel.SidebarLis
         }
     }
 
-    
-
     private void loadMenuPanel() {
-        MenuPanel menuPanel = new MenuPanel(categoryService, productService, personService, paymentService,orderService,false);
-        contentPanel.add(menuPanel, BorderLayout.CENTER);
+        dispose(); // Close HomeEmployeeFrame
+        SwingUtilities.invokeLater(() -> new PosUI(username));
     }
 
     private void loadOrderPanel() {
@@ -155,15 +148,14 @@ public class HomeEmployeeFrame extends JFrame implements SidebarPanel.SidebarLis
     }
 
     private void handleLogout() {
-	    int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận đăng xuất",
-	            JOptionPane.YES_NO_OPTION);
-	    if (confirm == JOptionPane.YES_OPTION) {
-	        dispose(); // Đóng ProductFrame hiện tại
-	        SwingUtilities.invokeLater(() -> {
-	        	LoginFrame loginFrame = new LoginFrame();
-	        	loginFrame.showFrame();
-
-	        });
-	    }
-	}
+        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận đăng xuất",
+                JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            dispose(); // Close HomeEmployeeFrame
+            SwingUtilities.invokeLater(() -> {
+                LoginFrame loginFrame = new LoginFrame();
+                loginFrame.showFrame();
+            });
+        }
+    }
 }

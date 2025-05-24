@@ -6,9 +6,7 @@ import java.awt.event.*;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import model.Category;
 import model.Product;
@@ -20,15 +18,21 @@ import service.ProductService;
 import service.PersonService;
 import service.PaymentService;
 import service.OrderService;
+import service.InvoiceService;
 import java.io.File;
 import ui.Elements.SearchBar;
 
+/**
+ * MenuPanel displays the product menu, allowing users to browse products,
+ * add items to a cart, and proceed to payment.
+ */
 public class MenuPanel extends JPanel {
     private final CategoryService categoryService;
     private final ProductService productService;
     private final PersonService personService;
     private final PaymentService paymentService;
     private final OrderService orderService;
+    private final InvoiceService invoiceService;
     private final List<Product> cartItems;
     private Customer selectedCustomer;
 
@@ -45,14 +49,18 @@ public class MenuPanel extends JPanel {
     private JPanel mainContentPanel;
     private JPanel centerPanel;
 
+    /**
+     * Constructor initializes the panel with required services and UI.
+     */
     public MenuPanel(CategoryService categoryService, ProductService productService, 
                      PersonService personService, PaymentService paymentService, 
-                     OrderService orderService, boolean isEmployee) {
+                     OrderService orderService, InvoiceService invoiceService, boolean isEmployee) {
         this.categoryService = categoryService;
         this.productService = productService;
         this.personService = personService;
         this.paymentService = paymentService;
         this.orderService = orderService;
+        this.invoiceService = invoiceService;
         this.cartItems = new ArrayList<>();
         this.selectedCustomer = null;
 
@@ -63,17 +71,17 @@ public class MenuPanel extends JPanel {
         cartPanel = new CartPanel(cartItems);
     }
 
+    /**
+     * Initializes the UI components.
+     */
     private void initializeUI(boolean isEmployee) {
-        // Top panel with Search bar and Cart button
         JPanel topPanel = new JPanel(new BorderLayout(10, 0));
         topPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        // Search bar
         searchBar = new SearchBar(query -> filterProductsBySearch(query));
         searchBar.setPlaceholder("Search...");
         topPanel.add(searchBar, BorderLayout.CENTER);
 
-        // Cart button
         JButton cartButton = new JButton("Cart");
         cartButton.setBackground(new Color(70, 130, 180));
         cartButton.setForeground(Color.WHITE);
@@ -90,19 +98,14 @@ public class MenuPanel extends JPanel {
         topPanel.add(cartButton, BorderLayout.EAST);
         add(topPanel, BorderLayout.NORTH);
 
-        // Main content panel
         mainContentPanel = new JPanel(new BorderLayout());
         add(mainContentPanel, BorderLayout.CENTER);
 
-        // Center panel for product display
         centerPanel = new JPanel(new BorderLayout());
-
-        // Category panel
         categoryPanel = new CategoryPanel(categoryService, 
             category -> filterProductsByCategory(category), false);
         centerPanel.add(categoryPanel, BorderLayout.NORTH);
 
-        // Product display panel
         productDisplayPanel = new JPanel(new GridLayout(0, 4, 10, 10));
         productDisplayPanel.setBackground(Color.WHITE);
         productDisplayPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -110,19 +113,23 @@ public class MenuPanel extends JPanel {
 
         mainContentPanel.add(centerPanel, BorderLayout.CENTER);
 
-        // Product detail panel
         productDetailPanel = new JPanel(new BorderLayout());
         productDetailPanel.setVisible(false);
         add(productDetailPanel, BorderLayout.EAST);
 
-        // Load products initially
         loadProducts(null);
     }
 
+    /**
+     * Filters products by category.
+     */
     private void filterProductsByCategory(Category category) {
         loadProducts(category);
     }
 
+    /**
+     * Filters products by search query.
+     */
     private void filterProductsBySearch(String query) {
         List<Product> products = productService.getAllProducts(1, Integer.MAX_VALUE);
         if (query != null && !query.isEmpty()) {
@@ -133,6 +140,9 @@ public class MenuPanel extends JPanel {
         loadProductsWithList(products);
     }
 
+    /**
+     * Loads products, optionally filtered by category.
+     */
     private void loadProducts(Category category) {
         List<Product> products = productService.getAllProducts(1, Integer.MAX_VALUE);
         if (category != null) {
@@ -152,6 +162,9 @@ public class MenuPanel extends JPanel {
         loadProductsWithList(products);
     }
 
+    /**
+     * Displays a list of products.
+     */
     private void loadProductsWithList(List<Product> products) {
         productDisplayPanel.removeAll();
         if (products.isEmpty()) {
@@ -166,6 +179,9 @@ public class MenuPanel extends JPanel {
         productDisplayPanel.repaint();
     }
 
+    /**
+     * Creates a panel for a product.
+     */
     private JPanel createProductPanel(Product product) {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Color.WHITE);
@@ -190,6 +206,9 @@ public class MenuPanel extends JPanel {
         return panel;
     }
 
+    /**
+     * Loads a product image with fallbacks.
+     */
     private void loadProductImage(Product product, JLabel label, int width, int height) {
         ImageIcon icon = null;
         if (product.getImagePath() != null && !product.getImagePath().isEmpty()) {
@@ -222,6 +241,9 @@ public class MenuPanel extends JPanel {
         }
     }
 
+    /**
+     * Shows product details.
+     */
     private void showProductDetails(Product product) {
         productDetailPanel.removeAll();
         productDetailPanel.setVisible(true);
@@ -296,6 +318,9 @@ public class MenuPanel extends JPanel {
         });
     }
 
+    /**
+     * Adjusts the quantity field.
+     */
     private void adjustQuantity(int change, int maxQuantity) {
         try {
             int current = Integer.parseInt(quantityField.getText());
@@ -308,6 +333,9 @@ public class MenuPanel extends JPanel {
         }
     }
 
+    /**
+     * Updates product details based on size and quantity.
+     */
     private void updateProductDetails(Product product) {
         try {
             String selectedSize = (String) sizeComboBox.getSelectedItem();
@@ -343,10 +371,16 @@ public class MenuPanel extends JPanel {
         }
     }
 
+    /**
+     * Formats a price for display.
+     */
     private String formatPrice(BigDecimal price) {
         return PRICE_FORMAT.format(price);
     }
 
+    /**
+     * Adds a product to the cart.
+     */
     private void addToCart(Product product) {
         try {
             int quantity = Integer.parseInt(quantityField.getText());
@@ -363,8 +397,6 @@ public class MenuPanel extends JPanel {
                 return;
             }
             
-            System.out.println("Adding to cart: Product ID=" + cartProduct.getId() + ", Name=" + cartProduct.getName() + ", Size=" + selectedSize);
-            
             if (quantity < 1 || quantity > cartProduct.getQuantity()) {
                 JOptionPane.showMessageDialog(this, "Invalid quantity!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -379,6 +411,9 @@ public class MenuPanel extends JPanel {
         }
     }
 
+    /**
+     * Shows the cart in a new frame.
+     */
     private void showCart() {
         JFrame cartFrame = new JFrame("Cart");
         cartFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -399,10 +434,13 @@ public class MenuPanel extends JPanel {
         cartFrame.setVisible(true);
     }
 
+    /**
+     * Shows a dialog for selecting or adding a customer with address and description fields.
+     */
     private void showCustomerSelection(BigDecimal totalAmount) {
-        JDialog customerDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), 
+        JDialog customerDialog = new JDialog((Frame)SwingUtilities.getWindowAncestor(this), 
             "Customer Information", true);
-        customerDialog.setSize(400, 500);
+        customerDialog.setSize(400, 600);
         customerDialog.setLayout(new BorderLayout());
 
         JPanel selectionPanel = new JPanel();
@@ -422,6 +460,8 @@ public class MenuPanel extends JPanel {
         JTextField lastNameField = new JTextField();
         JTextField phoneField = new JTextField();
         JTextField dobField = new JTextField();
+        JTextField addressField = new JTextField();
+        JTextField descriptionField = new JTextField();
         newCustomerPanel.add(new JLabel("First Name:"));
         newCustomerPanel.add(firstNameField);
         newCustomerPanel.add(new JLabel("Middle Name:"));
@@ -432,6 +472,10 @@ public class MenuPanel extends JPanel {
         newCustomerPanel.add(phoneField);
         newCustomerPanel.add(new JLabel("Date of Birth (YYYY-MM-DD):"));
         newCustomerPanel.add(dobField);
+        newCustomerPanel.add(new JLabel("Address:"));
+        newCustomerPanel.add(addressField);
+        newCustomerPanel.add(new JLabel("Description:"));
+        newCustomerPanel.add(descriptionField);
 
         JPanel existingCustomerPanel = new JPanel(new BorderLayout(5, 5));
         JList<String> customerList = new JList<>();
@@ -464,7 +508,6 @@ public class MenuPanel extends JPanel {
         existingCustomerPanel.add(customerSearchBar, BorderLayout.NORTH);
         existingCustomerPanel.add(new JScrollPane(customerList), BorderLayout.CENTER);
 
-        // Enable/disable panels based on selection
         newCustomerPanel.setEnabled(true);
         setEnabledRecursive(newCustomerPanel, true);
         existingCustomerPanel.setEnabled(false);
@@ -483,13 +526,12 @@ public class MenuPanel extends JPanel {
             setEnabledRecursive(existingCustomerPanel, true);
         });
 
-        // Add components with minimal spacing
         selectionPanel.add(newCustomerRadio);
-        selectionPanel.add(Box.createVerticalStrut(5)); // Small gap
+        selectionPanel.add(Box.createVerticalStrut(5));
         selectionPanel.add(newCustomerPanel);
-        selectionPanel.add(Box.createVerticalStrut(10)); // Slightly larger gap
+        selectionPanel.add(Box.createVerticalStrut(10));
         selectionPanel.add(existingCustomerRadio);
-        selectionPanel.add(Box.createVerticalStrut(5)); // Small gap
+        selectionPanel.add(Box.createVerticalStrut(5));
         selectionPanel.add(existingCustomerPanel);
 
         JButton proceedButton = new JButton("Proceed to Payment");
@@ -500,29 +542,63 @@ public class MenuPanel extends JPanel {
                 String firstName = firstNameField.getText().trim();
                 String middleName = middleNameField.getText().trim();
                 String lastName = lastNameField.getText().trim();
+                String phone = phoneField.getText().trim();
+                String dob = dobField.getText().trim();
+                String address = addressField.getText().trim();
+                String description = descriptionField.getText().trim();
+                // Validate inputs
                 if (firstName.isEmpty() && middleName.isEmpty() && lastName.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "At least one name field (First, Middle, or Last) must be filled!", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "At least one name field must be filled!", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if (phone.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Phone number is required!", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if (!address.isEmpty() && address.length() > 255) {
+                    JOptionPane.showMessageDialog(this, "Address must be 255 characters or less!", 
+                        "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 try {
+                    // Check for duplicate phone number
+                    List<Customer> customers = personService.getAllCustomers(1, Integer.MAX_VALUE);
+                    boolean phoneExists = customers.stream()
+                        .anyMatch(c -> c.getPhone() != null && c.getPhone().equals(phone));
+                    if (phoneExists) {
+                        JOptionPane.showMessageDialog(this, "Phone number already exists! Please enter a different number.", 
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
                     Customer customer = new Customer();
                     customer.setPersonFirstName(firstName);
                     customer.setPersonMiddleName(middleName);
                     customer.setPersonLastName(lastName);
-                    customer.setPhone(phoneField.getText().trim());
-                    customer.setDateOfBirth(dobField.getText().trim());
+                    customer.setPhone(phone);
+                    customer.setDateOfBirth(dob);
+                    // Safely set address and description if supported
+                    try {
+                        customer.setAddress(address);
+                        customer.setDescription(description);
+                    } catch (NoSuchMethodError ex) {
+                        System.err.println("Address/Description not supported in Customer class: " + ex.getMessage());
+                    }
                     customer.generateCustomerNumber();
                     personService.createCustomer(customer);
                     selectedCustomer = customer;
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "Error creating customer: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Error creating customer: " + ex.getMessage(), 
+                        "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             } else {
                 try {
                     String selectedName = customerList.getSelectedValue();
                     if (selectedName == null) {
-                        JOptionPane.showMessageDialog(this, "Please select a customer!", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Please select a customer!", 
+                            "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                     List<Customer> customers = personService.getAllCustomers(1, Integer.MAX_VALUE);
@@ -531,11 +607,13 @@ public class MenuPanel extends JPanel {
                         .findFirst()
                         .orElse(null);
                     if (selectedCustomer == null) {
-                        JOptionPane.showMessageDialog(this, "Customer not found!", "Error", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Customer not found!", 
+                            "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(this, "Error selecting customer: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Error selecting customer: " + ex.getMessage(), 
+                        "Error", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
             }
@@ -549,12 +627,18 @@ public class MenuPanel extends JPanel {
         customerDialog.setVisible(true);
     }
 
+    /**
+     * Gets the customer's full name.
+     */
     private String getCustomerFullName(Customer customer) {
         return (customer.getPersonFirstName() != null ? customer.getPersonFirstName() : "") + " " +
                (customer.getPersonMiddleName() != null ? customer.getPersonMiddleName() + " " : "") +
                (customer.getPersonLastName() != null ? customer.getPersonLastName() : "");
     }
 
+    /**
+     * Processes the payment.
+     */
     private void proceedToPayment(BigDecimal totalAmount) {
         if (cartItems.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Cart is empty!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -569,25 +653,16 @@ public class MenuPanel extends JPanel {
         order.setCustomer(selectedCustomer);
         order.setOrderDate(new java.util.Date());
 
-        System.out.println("Creating order for customer: " + (selectedCustomer != null ? selectedCustomer.getPersonFirstName() : "null") +
-                          ", Total Amount: " + totalAmount);
-
         for (Product product : cartItems) {
             try {
-                System.out.println("Processing cart item: Name=" + product.getName() + ", ID=" + product.getId() +
-                                  ", Quantity=" + product.getQuantity() + ", Size=" + product.getSize());
                 Product fullProduct = productService.getProductById(product.getId());
                 if (fullProduct == null || product.getId() <= 0) {
-                    errorMessages.append("Invalid product: ").append(product.getName())
-                        .append(" (ID: ").append(product.getId()).append(")\n");
-                    System.err.println("Invalid product in cart: Name=" + product.getName() + ", ID=" + product.getId());
+                    errorMessages.append("Invalid product: ").append(product.getName()).append("\n");
                     allOrdersSuccessful = false;
                     continue;
                 }
                 if (product.getQuantity() == null || product.getQuantity() <= 0) {
-                    errorMessages.append("Invalid quantity for product: ").append(product.getName())
-                        .append(" (Quantity: ").append(product.getQuantity()).append(")\n");
-                    System.err.println("Invalid quantity for product: Name=" + product.getName() + ", Quantity=" + product.getQuantity());
+                    errorMessages.append("Invalid quantity for product: ").append(product.getName()).append("\n");
                     allOrdersSuccessful = false;
                     continue;
                 }
@@ -599,36 +674,28 @@ public class MenuPanel extends JPanel {
                 orderItem.setDiscount(BigDecimal.ZERO);
                 orderItem.setOrder(order);
                 order.getItems().add(orderItem);
-                System.out.println("Added OrderItem: Product ID=" + fullProduct.getId() + ", Quantity=" + product.getQuantity());
             } catch (Exception ex) {
                 errorMessages.append("Error with ").append(product.getName()).append(": ").append(ex.getMessage()).append("\n");
-                System.err.println("Exception processing product: Name=" + product.getName() + ", ID=" + product.getId() +
-                                  ", Error=" + ex.getMessage());
                 allOrdersSuccessful = false;
             }
         }
 
         if (order.getItems().isEmpty()) {
             JOptionPane.showMessageDialog(this, "No valid items to process in order!", "Error", JOptionPane.ERROR_MESSAGE);
-            System.err.println("No valid items in order, aborting.");
             return;
         }
 
-        System.out.println("Attempting to save order with " + order.getItems().size() + " items.");
         boolean success = orderService.createOrder(order);
         if (!success) {
             errorMessages.append("Failed to create order\n");
-            System.err.println("Failed to create order: " + errorMessages.toString());
             allOrdersSuccessful = false;
         } else {
-            System.out.println("Order created successfully.");
-            // Show PaymentPanel
-            JDialog paymentDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Payment", true);
+            JDialog paymentDialog = new JDialog((Frame)SwingUtilities.getWindowAncestor(this), "Payment", true);
             paymentDialog.setSize(600, 500);
             paymentDialog.setLayout(new BorderLayout());
             paymentDialog.setLocationRelativeTo(null);
 
-            PaymentPanel paymentPanel = new PaymentPanel(order, selectedCustomer, paymentService, personService, cartItems);
+            PaymentPanel paymentPanel = new PaymentPanel(order, selectedCustomer, paymentService, personService, invoiceService, cartItems);
             paymentPanel.setOnPaymentCompleteListener(() -> {
                 resetAfterPayment();
                 paymentDialog.dispose();
@@ -644,6 +711,9 @@ public class MenuPanel extends JPanel {
         }
     }
     
+    /**
+     * Enables or disables container components recursively.
+     */
     private void setEnabledRecursive(Container container, boolean enabled) {
         for (Component component : container.getComponents()) {
             component.setEnabled(enabled);
@@ -653,6 +723,9 @@ public class MenuPanel extends JPanel {
         }
     }
 
+    /**
+     * Resets the panel after payment.
+     */
     private void resetAfterPayment() {
         cartItems.clear();
         selectedCustomer = null;
