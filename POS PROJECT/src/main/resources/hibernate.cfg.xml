@@ -33,6 +33,7 @@
 		<mapping resource="mapping/Person.hbm.xml"/>
 		<mapping resource="mapping/Product.hbm.xml"/>
 		<mapping resource="mapping/OrderDetail.hbm.xml"/>
+		<mapping resource="mapping/OrderItem.hbm.xml"/>
 		<mapping resource="mapping/Store.hbm.xml"/>
 		<mapping resource="mapping/Supplier.hbm.xml"/>
 		<mapping resource="mapping/UserSession.hbm.xml"/>

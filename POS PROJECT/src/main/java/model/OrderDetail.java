@@ -44,5 +44,10 @@ public class OrderDetail extends BaseEntity {
     public void setItems(Set<OrderItem> items) {
         this.items = items;
     }
+    
+    public void addItem(OrderItem item) {
+        items.add(item);
+        item.setOrder(this);
+    }
 
 }

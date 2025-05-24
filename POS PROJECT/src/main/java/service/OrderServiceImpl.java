@@ -28,17 +28,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public boolean createOrder(OrderDetail order) {
         try {
-            // Delegate to OrderDetailDao for persistence
-            boolean success = orderDao.create(order);
-            if (success) {
-                Log.info("Order created successfully: Order ID {}", order.getId());
-                return true;
-            } else {
-                Log.error("Failed to create order: Order ID {}", order.getId());
-                return false;
+            // Ensure all order items have their order reference set
+            for (OrderItem item : order.getItems()) {
+                if (item.getOrder() == null) {
+                    item.setOrder(order);
+                }
             }
+            return orderDao.create(order);
         } catch (Exception e) {
-            Log.error("Failed to create order: {}", e.getMessage(), e);
+            Log.error("Failed to create order", e);
             return false;
         }
     }

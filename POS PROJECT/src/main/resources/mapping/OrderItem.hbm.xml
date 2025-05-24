@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="model">
+    <class name="model.OrderItem" table="order_item">
+        <id name="id" column="order_item_id">
+            <generator class="native"/>
+        </id>
+        
+        <many-to-one name="order" class="model.OrderDetail" column="order_id" not-null="true"/>
+        <many-to-one name="product" class="model.Product" column="PRODUCT_ID" not-null="true"/>
+        
+        <property name="quantity" column="quantity" type="integer" not-null="true"/>
+        <property name="unitPrice" column="unit_price" type="big_decimal" not-null="true"/>
+        <property name="totalPrice" column="total_price" type="big_decimal" not-null="true"/>
+        <property name="discount" column="discount" type="big_decimal"/>
+    </class>
+</hibernate-mapping>

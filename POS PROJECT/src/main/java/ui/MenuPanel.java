@@ -351,7 +351,6 @@ public class MenuPanel extends JPanel {
         try {
             int quantity = Integer.parseInt(quantityField.getText());
             String selectedSize = (String) sizeComboBox.getSelectedItem();
-            // Always get the product from the database to ensure it's persisted
             Product cartProduct = productService.getProductByNameAndSize(product.getName(), selectedSize);
             
             if (cartProduct == null) {
@@ -360,18 +359,19 @@ public class MenuPanel extends JPanel {
             }
             
             if (cartProduct.getId() <= 0) {
-                JOptionPane.showMessageDialog(this, "Invalid product ID!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Invalid product ID for " + cartProduct.getName() + "!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            
+            System.out.println("Adding to cart: Product ID=" + cartProduct.getId() + ", Name=" + cartProduct.getName() + ", Size=" + selectedSize);
             
             if (quantity < 1 || quantity > cartProduct.getQuantity()) {
                 JOptionPane.showMessageDialog(this, "Invalid quantity!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            // Update quantity for the cart product instead of creating a new one
-            cartProduct.setQuantity(quantity); // Temporarily set quantity for cart
-            cartItems.add(cartProduct); // Add the database-retrieved product directly
+            cartProduct.setQuantity(quantity);
+            cartItems.add(cartProduct);
             JOptionPane.showMessageDialog(this, "Added " + cartProduct.getName() + " to cart!");
             cartPanel.updateCartDisplay();
         } catch (NumberFormatException ex) {
@@ -405,7 +405,8 @@ public class MenuPanel extends JPanel {
         customerDialog.setSize(400, 500);
         customerDialog.setLayout(new BorderLayout());
 
-        JPanel selectionPanel = new JPanel(new GridLayout(0, 1, 5, 5));
+        JPanel selectionPanel = new JPanel();
+        selectionPanel.setLayout(new BoxLayout(selectionPanel, BoxLayout.Y_AXIS));
         selectionPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JRadioButton newCustomerRadio = new JRadioButton("Add New Customer");
@@ -432,7 +433,7 @@ public class MenuPanel extends JPanel {
         newCustomerPanel.add(new JLabel("Date of Birth (YYYY-MM-DD):"));
         newCustomerPanel.add(dobField);
 
-        JPanel existingCustomerPanel = new JPanel(new BorderLayout());
+        JPanel existingCustomerPanel = new JPanel(new BorderLayout(5, 5));
         JList<String> customerList = new JList<>();
         DefaultListModel<String> customerListModel = new DefaultListModel<>();
         customerList.setModel(customerListModel);
@@ -482,9 +483,13 @@ public class MenuPanel extends JPanel {
             setEnabledRecursive(existingCustomerPanel, true);
         });
 
+        // Add components with minimal spacing
         selectionPanel.add(newCustomerRadio);
+        selectionPanel.add(Box.createVerticalStrut(5)); // Small gap
         selectionPanel.add(newCustomerPanel);
+        selectionPanel.add(Box.createVerticalStrut(10)); // Slightly larger gap
         selectionPanel.add(existingCustomerRadio);
+        selectionPanel.add(Box.createVerticalStrut(5)); // Small gap
         selectionPanel.add(existingCustomerPanel);
 
         JButton proceedButton = new JButton("Proceed to Payment");
@@ -559,56 +564,83 @@ public class MenuPanel extends JPanel {
         boolean allOrdersSuccessful = true;
         StringBuilder errorMessages = new StringBuilder();
 
+        OrderDetail order = new OrderDetail();
+        order.setTotalAmount(totalAmount.doubleValue());
+        order.setCustomer(selectedCustomer);
+        order.setOrderDate(new java.util.Date());
+
+        System.out.println("Creating order for customer: " + (selectedCustomer != null ? selectedCustomer.getPersonFirstName() : "null") +
+                          ", Total Amount: " + totalAmount);
+
         for (Product product : cartItems) {
             try {
-                // Get the full product from database to ensure all associations are correct
+                System.out.println("Processing cart item: Name=" + product.getName() + ", ID=" + product.getId() +
+                                  ", Quantity=" + product.getQuantity() + ", Size=" + product.getSize());
                 Product fullProduct = productService.getProductById(product.getId());
-                if (fullProduct == null) {
-                    errorMessages.append("Product not found: ").append(product.getName()).append("\n");
+                if (fullProduct == null || product.getId() <= 0) {
+                    errorMessages.append("Invalid product: ").append(product.getName())
+                        .append(" (ID: ").append(product.getId()).append(")\n");
+                    System.err.println("Invalid product in cart: Name=" + product.getName() + ", ID=" + product.getId());
                     allOrdersSuccessful = false;
                     continue;
                 }
-                if (fullProduct.getId() <= 0) {
-                    errorMessages.append("Invalid product ID for: ").append(product.getName()).append("\n");
+                if (product.getQuantity() == null || product.getQuantity() <= 0) {
+                    errorMessages.append("Invalid quantity for product: ").append(product.getName())
+                        .append(" (Quantity: ").append(product.getQuantity()).append(")\n");
+                    System.err.println("Invalid quantity for product: Name=" + product.getName() + ", Quantity=" + product.getQuantity());
                     allOrdersSuccessful = false;
                     continue;
                 }
-
-                OrderDetail order = new OrderDetail();
-                order.setTotalAmount(product.getPrice().multiply(new BigDecimal(product.getQuantity())).doubleValue());
-                order.setCustomer(selectedCustomer);
-                order.setOrderDate(new java.util.Date());
-                
                 OrderItem orderItem = new OrderItem();
-                orderItem.setProduct(fullProduct); // Use the full product from DB
+                orderItem.setProduct(fullProduct);
                 orderItem.setQuantity(product.getQuantity());
-                orderItem.setUnitPrice(product.getPrice());
-                orderItem.setTotalPrice(product.getPrice().multiply(new BigDecimal(product.getQuantity())));
+                orderItem.setUnitPrice(fullProduct.getPrice());
+                orderItem.setTotalPrice(fullProduct.getPrice().multiply(new BigDecimal(product.getQuantity())));
                 orderItem.setDiscount(BigDecimal.ZERO);
-                
-                Set<OrderItem> orderItems = new HashSet<>();
-                orderItems.add(orderItem);
-                order.setItems(orderItems);
-
-                boolean success = orderService.createOrder(order);
-                if (!success) {
-                    errorMessages.append("Failed to create order for: ").append(product.getName()).append("\n");
-                    allOrdersSuccessful = false;
-                }
+                orderItem.setOrder(order);
+                order.getItems().add(orderItem);
+                System.out.println("Added OrderItem: Product ID=" + fullProduct.getId() + ", Quantity=" + product.getQuantity());
             } catch (Exception ex) {
                 errorMessages.append("Error with ").append(product.getName()).append(": ").append(ex.getMessage()).append("\n");
+                System.err.println("Exception processing product: Name=" + product.getName() + ", ID=" + product.getId() +
+                                  ", Error=" + ex.getMessage());
                 allOrdersSuccessful = false;
             }
+        }
+
+        if (order.getItems().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "No valid items to process in order!", "Error", JOptionPane.ERROR_MESSAGE);
+            System.err.println("No valid items in order, aborting.");
+            return;
+        }
+
+        System.out.println("Attempting to save order with " + order.getItems().size() + " items.");
+        boolean success = orderService.createOrder(order);
+        if (!success) {
+            errorMessages.append("Failed to create order\n");
+            System.err.println("Failed to create order: " + errorMessages.toString());
+            allOrdersSuccessful = false;
+        } else {
+            System.out.println("Order created successfully.");
+            // Show PaymentPanel
+            JDialog paymentDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), "Payment", true);
+            paymentDialog.setSize(600, 500);
+            paymentDialog.setLayout(new BorderLayout());
+            paymentDialog.setLocationRelativeTo(null);
+
+            PaymentPanel paymentPanel = new PaymentPanel(order, selectedCustomer, paymentService, personService, cartItems);
+            paymentPanel.setOnPaymentCompleteListener(() -> {
+                resetAfterPayment();
+                paymentDialog.dispose();
+            });
+            paymentDialog.add(paymentPanel, BorderLayout.CENTER);
+            paymentDialog.setVisible(true);
         }
 
         if (!allOrdersSuccessful) {
             JOptionPane.showMessageDialog(this, 
                 "Some orders failed:\n" + errorMessages.toString(), 
                 "Partial Success", JOptionPane.WARNING_MESSAGE);
-        }
-
-        if (allOrdersSuccessful || !cartItems.isEmpty()) {
-            resetAfterPayment();
         }
     }
     

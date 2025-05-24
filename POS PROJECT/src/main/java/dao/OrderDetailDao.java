@@ -10,6 +10,7 @@ import org.hibernate.Transaction;
 
 import model.OrderDetail;
 import model.OrderItem;
+import model.Product;
 import util.HibernateUtil;
 
 /**
@@ -50,6 +51,9 @@ public class OrderDetailDao implements GenericDao<OrderDetail> {
                     Log.error("Invalid product in OrderItem: " + (item.getProduct() == null ? "null" : item.getProduct().getId()));
                     throw new IllegalStateException("OrderItem contains invalid product");
                 }
+                // Merge the product to ensure it's managed
+                item.setProduct((Product) session.merge(item.getProduct()));
+                Log.info("Merged Product for OrderItem: ID=" + item.getProduct().getId() + ", Name=" + item.getProduct().getName());
             }
             session.save(orderDetail);
             transaction.commit();

@@ -3,25 +3,16 @@
     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="model">
-
-    <joined-subclass name="OrderDetail" table="order_detail" extends="model.BaseEntity">
+    <joined-subclass name="model.OrderDetail" table="order_detail" extends="model.BaseEntity">
         <key column="id" />
 
         <many-to-one name="customer" class="model.Customer" column="person_id" not-null="true" />
         <property name="totalAmount" column="total_amount" type="double" not-null="true" />
         <property name="orderDate" column="order_date" type="timestamp" />
 
-        <set name="items" table="order_items" cascade="all" fetch="select">
-            <key column="order_id" />
-            <composite-element class="model.OrderItem">
-                <many-to-one name="product" class="model.Product" column="product_id" not-null="true" />
-                <property name="quantity" column="quantity" type="integer" not-null="true" />
-                <property name="unitPrice" column="unit_price" type="big_decimal" not-null="true" />
-                <property name="totalPrice" column="total_price" type="big_decimal" not-null="true" />
-                <property name="discount" column="discount" type="big_decimal" />
-            </composite-element>
+        <set name="items" table="order_item" inverse="true" cascade="all-delete-orphan">
+            <key column="order_id"/>
+            <one-to-many class="model.OrderItem"/>
         </set>
-
     </joined-subclass>
-
 </hibernate-mapping>
