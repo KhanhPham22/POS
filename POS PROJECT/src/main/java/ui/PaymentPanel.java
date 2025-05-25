@@ -8,6 +8,7 @@ import java.util.List;
 import model.Payment;
 import model.OrderDetail;
 import model.Customer;
+import model.Employee;
 import model.Product;
 import model.Invoice;
 import service.PaymentService;
@@ -26,6 +27,7 @@ public class PaymentPanel extends JPanel {
     private PaymentService paymentService;
     private PersonService personService;
     private InvoiceService invoiceService;
+    private final Employee loggedInEmployee;
     private QRPanel qrPanel;
     private OrderDetail order;
     private Customer customer;
@@ -36,12 +38,13 @@ public class PaymentPanel extends JPanel {
      * Constructor initializes the payment panel.
      */
     public PaymentPanel(OrderDetail order, Customer customer, PaymentService paymentService, 
-                       PersonService personService, InvoiceService invoiceService, List<Product> cartItems) {
+                       PersonService personService, InvoiceService invoiceService, List<Product> cartItems,Employee loggedInEmployee) {
         this.order = order;
         this.customer = customer;
         this.paymentService = paymentService;
         this.personService = personService;
         this.invoiceService = invoiceService;
+        this.loggedInEmployee = loggedInEmployee;
         this.cartItems = cartItems;
         this.qrPanel = new QRPanel();
 
@@ -198,6 +201,7 @@ public class PaymentPanel extends JPanel {
         Invoice invoice = new Invoice();
         invoice.setOrder(order);
         invoice.setCustomer(customer);
+        invoice.setEmployee(loggedInEmployee);
         invoice.setPaymentMethod(payment.getPaymentMethod());
         invoice.setTotalPrice(order.getTotalAmount());
         invoice.setDiscount(0.0);

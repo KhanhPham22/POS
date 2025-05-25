@@ -376,12 +376,16 @@ public class ProductListPanel extends JPanel {
 
  // Loads product data into the table based on filters and pagination
  private void loadProductData() {
+     if (tableModel == null) {
+         System.err.println("TableModel is null, cannot load data");
+         return;
+     }
      try {
          tableModel.setRowCount(0); // Clear existing rows
          Object selectedItem = categoryComboBox.getSelectedItem();
          Category selectedCategory = selectedItem instanceof Category ? (Category) selectedItem : null;
 
-         // Fetch all products
+         // Fetch all products to determine total records
          List<Product> allProducts = productService.getAllProducts(1, Integer.MAX_VALUE);
 
          // Filter products by category and search query
@@ -402,6 +406,18 @@ public class ProductListPanel extends JPanel {
          // Apply pagination
          int startIndex = (currentPage - 1) * pageSize;
          int endIndex = Math.min(startIndex + pageSize, filteredProducts.size());
+
+         // Adjust currentPage if no products are available for the current page
+         if (startIndex >= totalRecords && totalRecords > 0) {
+             currentPage = (int) Math.ceil((double) totalRecords / pageSize);
+             startIndex = (currentPage - 1) * pageSize;
+             endIndex = Math.min(startIndex + pageSize, filteredProducts.size());
+         } else if (totalRecords == 0) {
+             currentPage = 1;
+             startIndex = 0;
+             endIndex = 0;
+         }
+
          List<Product> products = filteredProducts.subList(startIndex, endIndex);
 
          // Add rows to table

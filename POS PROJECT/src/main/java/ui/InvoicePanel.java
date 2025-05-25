@@ -2,10 +2,12 @@ package ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.util.List;
 import model.Invoice;
 import model.Product;
+import model.Employee;
 
 /**
  * InvoicePanel displays invoice details.
@@ -39,6 +41,7 @@ public class InvoicePanel extends JPanel {
 
         detailsPanel.add(createLabel("Invoice ID: " + invoice.getId(), Font.PLAIN, 16));
         detailsPanel.add(createLabel("Customer: " + getCustomerFullName(invoice.getCustomer()), Font.PLAIN, 16));
+        detailsPanel.add(createLabel("Employee: " + getEmployeeFullName(invoice.getEmployee()), Font.PLAIN, 16));
         detailsPanel.add(createLabel("Payment Method: " + invoice.getPaymentMethod(), Font.PLAIN, 16));
         detailsPanel.add(createLabel("Total Price: " + PRICE_FORMAT.format(invoice.getTotalPrice()), Font.PLAIN, 16));
         detailsPanel.add(createLabel("Discount: " + PRICE_FORMAT.format(invoice.getDiscount()), Font.PLAIN, 16));
@@ -52,6 +55,18 @@ public class InvoicePanel extends JPanel {
         }
 
         add(detailsPanel, BorderLayout.CENTER);
+
+        // Add window listener to show "Back to Menu" message when closing with 'X'
+        JDialog dialog = (JDialog) SwingUtilities.getWindowAncestor(this);
+        if (dialog != null) {
+            dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+            dialog.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) { // Change from windowClosing to windowClosed
+                    JOptionPane.showMessageDialog(null, "Returned to Menu");
+                }
+            });
+        }
     }
 
     /**
@@ -71,5 +86,17 @@ public class InvoicePanel extends JPanel {
         return (customer.getPersonFirstName() != null ? customer.getPersonFirstName() : "") + " " +
                (customer.getPersonMiddleName() != null ? customer.getPersonMiddleName() + " " : "") +
                (customer.getPersonLastName() != null ? customer.getPersonLastName() : "");
+    }
+
+    /**
+     * Gets the employee's full name.
+     */
+    private String getEmployeeFullName(model.Employee employee) {
+        if (employee == null) {
+            return "N/A";
+        }
+        return (employee.getPersonFirstName() != null ? employee.getPersonFirstName() : "") + " " +
+               (employee.getPersonMiddleName() != null ? employee.getPersonMiddleName() + " " : "") +
+               (employee.getPersonLastName() != null ? employee.getPersonLastName() : "");
     }
 }

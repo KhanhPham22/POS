@@ -21,7 +21,6 @@ public class QRPanel extends JPanel {
     private static final long serialVersionUID = 1L;
 
     private JLabel qrLabel;
-    private JButton confirmPaymentButton;
     private JLabel countdownLabel;
     private Timer countdownTimer;
     private Runnable onPaymentComplete;
@@ -46,12 +45,6 @@ public class QRPanel extends JPanel {
 
         qrLabel = new JLabel();
         qrLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        confirmPaymentButton = new JButton("Confirm Payment");
-        confirmPaymentButton.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        confirmPaymentButton.setBackground(new Color(70, 130, 180));
-        confirmPaymentButton.setForeground(Color.WHITE);
-        confirmPaymentButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
-        confirmPaymentButton.addActionListener(e -> processPayment());
 
         countdownLabel = new JLabel("Time remaining: 30s");
         countdownLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
@@ -62,7 +55,6 @@ public class QRPanel extends JPanel {
         JPanel southPanel = new JPanel(new BorderLayout());
         southPanel.setBackground(Color.WHITE);
         southPanel.add(countdownLabel, BorderLayout.NORTH);
-        southPanel.add(confirmPaymentButton, BorderLayout.CENTER);
         add(southPanel, BorderLayout.SOUTH);
     }
 
@@ -155,46 +147,6 @@ public class QRPanel extends JPanel {
                 onPaymentComplete.run();
             }
             SwingUtilities.getWindowAncestor(this).dispose();
-        } else {
-            JOptionPane.showMessageDialog(this, "Failed to process payment.", 
-                "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
-     * Processes manual QR payment.
-     */
-    private void processPayment() {
-        if (order == null) {
-            JOptionPane.showMessageDialog(this, "Order details not set.", 
-                "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        Payment payment = new Payment();
-        payment.setPaymentMethod("QR - Momo");
-        payment.setAmount(amount);
-        payment.setStatus("PENDING");
-        payment.setOrder(order);
-        payment.setCustomer(customer);
-
-        boolean success = paymentService.createPayment(payment);
-        if (success) {
-            int confirm = JOptionPane.showConfirmDialog(this, 
-                "Please scan the QR code with Momo app and confirm payment.", 
-                "Confirm Payment", JOptionPane.OK_CANCEL_OPTION);
-            if (confirm == JOptionPane.OK_OPTION) {
-                payment.setStatus("COMPLETED");
-                paymentService.updatePayment(payment);
-                if (onPaymentComplete != null) {
-                    onPaymentComplete.run();
-                }
-                JOptionPane.showMessageDialog(this, "Payment completed successfully!");
-                SwingUtilities.getWindowAncestor(this).dispose();
-            } else {
-                payment.setStatus("CANCELLED");
-                paymentService.updatePayment(payment);
-                JOptionPane.showMessageDialog(this, "Payment cancelled.");
-            }
         } else {
             JOptionPane.showMessageDialog(this, "Failed to process payment.", 
                 "Error", JOptionPane.ERROR_MESSAGE);

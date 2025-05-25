@@ -93,7 +93,7 @@ public class HomeEmployeeFrame extends JFrame implements SidebarPanel.SidebarLis
             loadProfilePanel();
             break;
         case "Menu":
-            loadMenuPanel();
+            loadMenuePanel();
             break;
         case "OrderHistory":
             loadOrderPanel();
@@ -128,7 +128,7 @@ public class HomeEmployeeFrame extends JFrame implements SidebarPanel.SidebarLis
         }
     }
 
-    private void loadMenuPanel() {
+    private void loadMenuePanel() {
         dispose(); // Close HomeEmployeeFrame
         SwingUtilities.invokeLater(() -> new PosUI(username));
     }

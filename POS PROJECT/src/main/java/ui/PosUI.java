@@ -160,10 +160,21 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
 	}
 
 	private void loadMenuePanel() {
-		MenuPanel menuPanel = new MenuPanel(categoryService, productService, personService, paymentService,
-				orderService, invoiceService, false);
-		contentPanel.add(menuPanel, BorderLayout.CENTER);
-	}
+        try {
+            Employee employee = personService.getEmployeeByUsername(username);
+            if (employee == null) {
+                JOptionPane.showMessageDialog(this, "Employee not found for username: " + username, 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            MenuePanel menuPanel = new MenuePanel(categoryService, productService, personService, 
+                paymentService, orderService, invoiceService, employee);
+            contentPanel.add(menuPanel, BorderLayout.CENTER);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error loading menu panel: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
 	private void loadOrderPanel() {
 		JPanel orderPanel = new JPanel(new BorderLayout());
