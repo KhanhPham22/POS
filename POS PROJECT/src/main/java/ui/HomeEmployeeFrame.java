@@ -134,10 +134,11 @@ public class HomeEmployeeFrame extends JFrame implements SidebarPanel.SidebarLis
     }
 
     private void loadOrderPanel() {
-        JPanel orderPanel = new JPanel(new BorderLayout());
-        orderPanel.setBackground(Color.WHITE);
-        orderPanel.add(new JLabel("Order History Page (Under Construction)", SwingConstants.CENTER));
-        contentPanel.add(orderPanel, BorderLayout.CENTER);
+        dispose(); // Close HomeEmployeeFrame
+        SwingUtilities.invokeLater(() -> new OrderHistoryFrame(
+            personService, supplierService, itemService, storeService, hashService, authService,
+            productService, categoryService, username, paymentService, orderService, invoiceService
+        ).setVisible(true));
     }
 
     private void loadPromotionPanel() {

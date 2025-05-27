@@ -153,22 +153,30 @@ public class CustomerPanel extends JPanel {
         }
         try {
             tableModel.setRowCount(0);
-            List<Customer> customers = personService.getAllCustomers(currentPage, pageSize);
-            totalRecords = personService.getAllCustomers(1, Integer.MAX_VALUE).size();
+            // Load all customers for counting total records and filtering
+            List<Customer> allCustomers = personService.getAllCustomers(1, Integer.MAX_VALUE);
+            // Apply search query filter
+            List<Customer> filteredCustomers = allCustomers.stream()
+                    .filter(this::matchesSearchQuery)
+                    .toList();
+            totalRecords = filteredCustomers.size();
 
-            for (Customer customer : customers) {
-                if (matchesSearchQuery(customer)) {
-                    tableModel.addRow(new Object[] {
-                        customer.getCustomerNumber(),
-                        getFullName(customer),
-                        customer.getPhone(),
-                        customer.getDateOfBirth(),
-                        customer.getPersonGender(),
-                        customer.getAddress(),
-                        customer.getPoints(),
-                        ""
-                    });
-                }
+            // Apply pagination
+            int startIndex = (currentPage - 1) * pageSize;
+            int endIndex = Math.min(startIndex + pageSize, filteredCustomers.size());
+            List<Customer> paginatedCustomers = filteredCustomers.subList(startIndex, endIndex);
+
+            for (Customer customer : paginatedCustomers) {
+                tableModel.addRow(new Object[] {
+                    customer.getCustomerNumber(),
+                    getFullName(customer),
+                    customer.getPhone(),
+                    customer.getDateOfBirth(),
+                    customer.getPersonGender(),
+                    customer.getAddress(),
+                    customer.getPoints(),
+                    ""
+                });
             }
 
             updatePaginationInfo();

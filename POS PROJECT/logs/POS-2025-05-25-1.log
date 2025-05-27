@@ -1,0 +1,184 @@
+[INFO ] 25-05-2025 10:40:01 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 25-05-2025 10:40:01 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 25-05-2025 10:40:01 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 25-05-2025 10:40:01 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 25-05-2025 10:40:02 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 25-05-2025 10:40:02 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 25-05-2025 10:40:02 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 25-05-2025 10:40:02 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 25-05-2025 10:40:02 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 25-05-2025 10:40:02 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 25-05-2025 10:40:02 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 25-05-2025 10:40:03 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 25-05-2025 10:40:04 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 25-05-2025 10:40:06 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@cf1b85d] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 25-05-2025 10:40:06 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@3847b3c2] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 25-05-2025 10:40:19 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 25-05-2025 10:40:19 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 25-05-2025 10:40:52 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: khanhadmin
+[INFO ] 25-05-2025 10:40:52 [AWT-EventQueue-0] EmployeeDao - Employee with username: khanhadmin retrieved successfully from database
+[INFO ] 25-05-2025 10:40:52 [AWT-EventQueue-0] EmployeeDao - Employee with email: khanhadmin retrieved successfully from database
+[INFO ] 25-05-2025 10:40:52 [AWT-EventQueue-0] OwnerDao - Owner with username: khanhadmin retrieved successfully from database
+[INFO ] 25-05-2025 10:40:52 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 25-05-2025 10:40:53 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 25-05-2025 10:40:53 [AWT-EventQueue-0] AuthenticationService - Owner login successful for identifier: khanhadmin
+[INFO ] 25-05-2025 10:40:54 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 25-05-2025 10:40:54 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 25-05-2025 10:40:54 [AWT-EventQueue-0] EmployeeDao - All Employees retrieved successfully from database. Total count: 13
+[INFO ] 25-05-2025 10:40:54 [AWT-EventQueue-0] PersonServiceImpl - All Employees retrieved
+[INFO ] 25-05-2025 10:40:57 [AWT-EventQueue-0] EmployeeDao - All Employees retrieved successfully from database. Total count: 13
+[INFO ] 25-05-2025 10:40:57 [AWT-EventQueue-0] PersonServiceImpl - All Employees retrieved
+[INFO ] 25-05-2025 10:41:01 [AWT-EventQueue-0] EmployeeDao - All Employees retrieved successfully from database. Total count: 13
+[INFO ] 25-05-2025 10:41:01 [AWT-EventQueue-0] PersonServiceImpl - All Employees retrieved
+[INFO ] 25-05-2025 10:41:04 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 5
+[INFO ] 25-05-2025 10:41:04 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 25-05-2025 10:41:04 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 5
+[INFO ] 25-05-2025 10:41:04 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[WARN ] 25-05-2025 10:41:15 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 25-05-2025 10:41:15 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 25-05-2025 10:41:15 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 33
+[INFO ] 25-05-2025 10:41:19 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 33
+[WARN ] 25-05-2025 10:41:24 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 25-05-2025 10:41:24 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[WARN ] 25-05-2025 10:41:59 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép táo and size: S not found
+[INFO ] 25-05-2025 10:41:59 [AWT-EventQueue-0] ProductDao - Product persisted successfully: Nước ép táo
+[INFO ] 25-05-2025 10:41:59 [AWT-EventQueue-0] ProductDao - Product updated successfully: Nước ép táo
+[INFO ] 25-05-2025 10:41:59 [AWT-EventQueue-0] CategoryDao - Category updated successfully: Juice
+[INFO ] 25-05-2025 10:41:59 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 34
+[WARN ] 25-05-2025 10:42:14 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 25-05-2025 10:42:14 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[WARN ] 25-05-2025 10:42:39 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép táo and size: M not found
+[INFO ] 25-05-2025 10:42:39 [AWT-EventQueue-0] ProductDao - Product persisted successfully: Nước ép táo
+[INFO ] 25-05-2025 10:42:39 [AWT-EventQueue-0] ProductDao - Product updated successfully: Nước ép táo
+[INFO ] 25-05-2025 10:42:39 [AWT-EventQueue-0] CategoryDao - Category updated successfully: Juice
+[INFO ] 25-05-2025 10:42:39 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 35
+[WARN ] 25-05-2025 10:42:47 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 25-05-2025 10:42:47 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[WARN ] 25-05-2025 10:43:13 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép táo and size: L not found
+[INFO ] 25-05-2025 10:43:13 [AWT-EventQueue-0] ProductDao - Product persisted successfully: Nước ép táo
+[INFO ] 25-05-2025 10:43:13 [AWT-EventQueue-0] ProductDao - Product updated successfully: Nước ép táo
+[INFO ] 25-05-2025 10:43:13 [AWT-EventQueue-0] CategoryDao - Category updated successfully: Juice
+[INFO ] 25-05-2025 10:43:13 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 36
+[WARN ] 25-05-2025 10:43:17 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 25-05-2025 10:43:18 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[WARN ] 25-05-2025 10:43:40 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép nho and size: S not found
+[INFO ] 25-05-2025 10:43:40 [AWT-EventQueue-0] ProductDao - Product persisted successfully: Nước ép nho
+[INFO ] 25-05-2025 10:43:40 [AWT-EventQueue-0] ProductDao - Product updated successfully: Nước ép nho
+[INFO ] 25-05-2025 10:43:40 [AWT-EventQueue-0] CategoryDao - Category updated successfully: Juice
+[INFO ] 25-05-2025 10:43:40 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 37
+[WARN ] 25-05-2025 10:43:49 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 25-05-2025 10:43:49 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[WARN ] 25-05-2025 10:44:08 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép nho and size: M not found
+[INFO ] 25-05-2025 10:44:08 [AWT-EventQueue-0] ProductDao - Product persisted successfully: Nước ép nho
+[INFO ] 25-05-2025 10:44:08 [AWT-EventQueue-0] ProductDao - Product updated successfully: Nước ép nho
+[INFO ] 25-05-2025 10:44:08 [AWT-EventQueue-0] CategoryDao - Category updated successfully: Juice
+[INFO ] 25-05-2025 10:44:08 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 38
+[WARN ] 25-05-2025 10:44:17 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 25-05-2025 10:44:17 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[WARN ] 25-05-2025 10:44:40 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép nho and size: L not found
+[INFO ] 25-05-2025 10:44:40 [AWT-EventQueue-0] ProductDao - Product persisted successfully: Nước ép nho
+[INFO ] 25-05-2025 10:44:40 [AWT-EventQueue-0] ProductDao - Product updated successfully: Nước ép nho
+[INFO ] 25-05-2025 10:44:40 [AWT-EventQueue-0] CategoryDao - Category updated successfully: Juice
+[INFO ] 25-05-2025 10:44:40 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 10:44:42 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 10:44:43 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 10:44:45 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 10:44:54 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 10:44:55 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 10:44:57 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 10:45:03 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 10:45:04 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 5
+[INFO ] 25-05-2025 10:45:04 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 25-05-2025 10:45:04 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 5
+[INFO ] 25-05-2025 10:45:04 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 25-05-2025 10:45:11 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 5
+[INFO ] 25-05-2025 10:45:11 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 25-05-2025 10:45:15 [AWT-EventQueue-0] CustomerDao - Customer with phone: 333333333 retrieved successfully from database
+[INFO ] 25-05-2025 10:45:15 [AWT-EventQueue-0] PersonServiceImpl - Customer with phone 333333333 retrieved
+[INFO ] 25-05-2025 10:45:15 [AWT-EventQueue-0] CustomerDao - Customer with id: 558 updated in database successfully
+[INFO ] 25-05-2025 10:45:15 [AWT-EventQueue-0] PersonServiceImpl - Customer with id 558 updated
+[INFO ] 25-05-2025 10:45:15 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 5
+[INFO ] 25-05-2025 10:45:15 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 25-05-2025 10:45:15 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 5
+[INFO ] 25-05-2025 10:45:15 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 25-05-2025 10:45:19 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 25-05-2025 10:45:47 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: tamgay
+[INFO ] 25-05-2025 10:45:47 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 25-05-2025 10:45:47 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 25-05-2025 10:45:47 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 25-05-2025 10:45:47 [AWT-EventQueue-0] AuthenticationService - Employee login successful for identifier: tamgay
+[INFO ] 25-05-2025 10:45:49 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[WARN ] 25-05-2025 10:45:49 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 25-05-2025 10:45:49 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 25-05-2025 10:45:49 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 10:45:58 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 10:46:00 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 10:46:01 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 10:46:04 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 10:46:07 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 10:46:08 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép cam and size: S retrieved successfully: 283
+[INFO ] 25-05-2025 10:46:10 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 10:46:11 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép nho and size: S retrieved successfully: 585
+[INFO ] 25-05-2025 10:46:16 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 5
+[INFO ] 25-05-2025 10:46:16 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 25-05-2025 10:47:17 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 5
+[INFO ] 25-05-2025 10:47:17 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 25-05-2025 10:47:17 [AWT-EventQueue-0] CustomerDao - Customer persisted in database successfully
+[INFO ] 25-05-2025 10:47:17 [AWT-EventQueue-0] PersonServiceImpl - Customer created
+[INFO ] 25-05-2025 10:47:17 [AWT-EventQueue-0] ProductDao - Product with id: 283 retrieved successfully: Nước ép cam
+[INFO ] 25-05-2025 10:47:17 [AWT-EventQueue-0] ProductDao - Product with id: 585 retrieved successfully: Nước ép nho
+[INFO ] 25-05-2025 10:47:17 [AWT-EventQueue-0] OrderDetailDao - Merged Product for OrderItem: ID=585, Name=Nước ép nho
+[INFO ] 25-05-2025 10:47:17 [AWT-EventQueue-0] OrderDetailDao - Merged Product for OrderItem: ID=283, Name=Nước ép cam
+[INFO ] 25-05-2025 10:47:17 [AWT-EventQueue-0] OrderDetailDao - OrderDetail persisted in database successfully
+[INFO ] 25-05-2025 10:47:50 [AWT-EventQueue-0] PaymentDao - Payment persisted successfully
+[INFO ] 25-05-2025 10:47:53 [AWT-EventQueue-0] PaymentDao - Payment persisted successfully
+[INFO ] 25-05-2025 10:47:53 [AWT-EventQueue-0] CustomerDao - Customer with id: 589 updated in database successfully
+[INFO ] 25-05-2025 10:47:53 [AWT-EventQueue-0] PersonServiceImpl - Customer with id 589 updated
+[INFO ] 25-05-2025 10:47:53 [AWT-EventQueue-0] InvoiceDao - Invoice saved successfully
+[INFO ] 25-05-2025 10:47:55 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 11:12:46 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 25-05-2025 11:12:46 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 25-05-2025 11:12:46 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 25-05-2025 11:12:46 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 25-05-2025 11:12:47 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 25-05-2025 11:12:47 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 25-05-2025 11:12:47 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 25-05-2025 11:12:47 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 25-05-2025 11:12:47 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 25-05-2025 11:12:47 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 25-05-2025 11:12:47 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 25-05-2025 11:12:48 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 25-05-2025 11:12:49 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 25-05-2025 11:12:50 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@600b56cc] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 25-05-2025 11:12:50 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@2aee1fc4] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 25-05-2025 11:12:52 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 25-05-2025 11:12:52 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 25-05-2025 11:13:03 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: tamgay
+[INFO ] 25-05-2025 11:13:03 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 25-05-2025 11:13:03 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 25-05-2025 11:13:03 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 25-05-2025 11:13:03 [AWT-EventQueue-0] AuthenticationService - Employee login successful for identifier: tamgay
+[INFO ] 25-05-2025 11:13:04 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 25-05-2025 11:13:04 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 25-05-2025 11:13:04 [AWT-EventQueue-0] PersonServiceImpl - Employee with username tamgay retrieved
+[WARN ] 25-05-2025 11:13:04 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 25-05-2025 11:13:04 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 25-05-2025 11:13:04 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 11:13:06 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 11:13:07 [AWT-EventQueue-0] ProductDao - Product with name: Nước ép táo and size: S retrieved successfully: 582
+[INFO ] 25-05-2025 11:13:09 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 25-05-2025 11:13:10 [AWT-EventQueue-0] ProductDao - Product with name: Espresso and size: S retrieved successfully: 445
+[INFO ] 25-05-2025 11:13:13 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 6
+[INFO ] 25-05-2025 11:13:13 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 25-05-2025 11:13:18 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 6
+[INFO ] 25-05-2025 11:13:18 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 25-05-2025 11:13:18 [AWT-EventQueue-0] ProductDao - Product with id: 582 retrieved successfully: Nước ép táo
+[INFO ] 25-05-2025 11:13:18 [AWT-EventQueue-0] ProductDao - Product with id: 445 retrieved successfully: Espresso
+[INFO ] 25-05-2025 11:13:18 [AWT-EventQueue-0] OrderDetailDao - Merged Product for OrderItem: ID=582, Name=Nước ép táo
+[INFO ] 25-05-2025 11:13:18 [AWT-EventQueue-0] OrderDetailDao - Merged Product for OrderItem: ID=445, Name=Espresso
+[INFO ] 25-05-2025 11:13:18 [AWT-EventQueue-0] OrderDetailDao - OrderDetail persisted in database successfully
+[INFO ] 25-05-2025 11:13:21 [AWT-EventQueue-0] PaymentDao - Payment persisted successfully
+[INFO ] 25-05-2025 11:13:21 [AWT-EventQueue-0] CustomerDao - Customer with id: 204 updated in database successfully
+[INFO ] 25-05-2025 11:13:21 [AWT-EventQueue-0] PersonServiceImpl - Customer with id 204 updated
+[INFO ] 25-05-2025 11:13:21 [AWT-EventQueue-0] InvoiceDao - Invoice saved successfully
+[INFO ] 25-05-2025 11:13:25 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39

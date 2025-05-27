@@ -104,15 +104,23 @@ public class InvoiceDao {
  // Lấy danh sách tất cả hóa đơn với phân trang
     public List<Invoice> findAll(int pageNumber, int pageSize) throws Exception {
         try (Session session = sessionFactory.openSession()) {
-            int offset = pageNumber * pageSize; // Tính toán offset dựa trên pageNumber và pageSize
-            List<Invoice> invoices = session.createQuery("FROM Invoice", Invoice.class)
-                    .setFirstResult(offset)
-                    .setMaxResults(pageSize) // Áp dụng phân trang
-                    .list();
-            Log.info("All invoices retrieved successfully with pagination");
+            // If pageSize is Integer.MAX_VALUE, fetch all records without pagination
+            List<Invoice> invoices;
+            if (pageSize == Integer.MAX_VALUE) {
+                invoices = session.createQuery("FROM Invoice", Invoice.class).list();
+            } else {
+                int offset = (pageNumber - 1) * pageSize; // Tính toán offset
+                invoices = session.createQuery("FROM Invoice", Invoice.class)
+                        .setFirstResult(offset)
+                        .setMaxResults(pageSize) // Áp dụng phân trang
+                        .list();
+            }
+            Log.info("Retrieved {} invoices with pagination (pageNumber: {}, pageSize: {})", 
+                invoices.size(), pageNumber, pageSize);
             return invoices;
         } catch (Exception e) {
-            Log.error("Error retrieving invoices with pagination", e);
+            Log.error("Error retrieving invoices with pagination (pageNumber: {}, pageSize: {})", 
+                pageNumber, pageSize, e);
             throw e;
         }
     }
