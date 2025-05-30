@@ -7,49 +7,50 @@ import java.util.Set;
 
 public class Category extends BaseEntity {
 
-    private String name;
-    private String description;
-    private Set<Product> products = new HashSet<>(); // Changed to Set and initialized with HashSet
+	private String name;
+	private String description;
+	private Set<Product> products = new HashSet<>(); // Changed to Set and initialized with HashSet
 
-    // Default Constructor
-    public Category() {}
+	// Default Constructor
+	public Category() {
+	}
 
-    // Constructor with all fields
-    public Category(long id, String name, String description, Set<Product> products) {
-        setId(id); // Use BaseEntity's id
-        this.name = name;
-        this.description = description;
-        this.products = products != null ? products : new HashSet<>();
-    }
+	// Constructor with all fields
+	public Category(long id, String name, String description, Set<Product> products) {
+		setId(id); // Use BaseEntity's id
+		this.name = name;
+		this.description = description;
+		this.products = products != null ? products : new HashSet<>();
+	}
 
-    // Getter and Setter Methods
-    public String getName() {
-        return name;
-    }
+	// Getter and Setter Methods
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public Set<Product> getProducts() {
-        return products;
-    }
+	public Set<Product> getProducts() {
+		return products;
+	}
 
-    public void setProducts(Set<Product> products) {
-        this.products = products != null ? products : new HashSet<>();
-    }
-    
-    @Override
-    public String toString() {
-        return name;
-    }
+	public void setProducts(Set<Product> products) {
+		this.products = products != null ? products : new HashSet<>();
+	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 
 }

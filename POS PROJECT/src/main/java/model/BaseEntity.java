@@ -4,63 +4,66 @@ import java.io.Serializable;
 import java.util.Date;
 
 public abstract class BaseEntity implements Serializable {
-	 // serialVersionUID: A unique identifier used during the serialization and deserialization process.
-    // It ensures that a deserialized object matches the version of the class definition.
-    // If the class structure changes (e.g., new fields are added), updating this value can prevent
-    // issues (like InvalidClassException) when reading old serialized objects.
-    private static final long serialVersionUID = 1L;
+	// serialVersionUID: A unique identifier used during the serialization and
+	// deserialization process.
+	// It ensures that a deserialized object matches the version of the class
+	// definition.
+	// If the class structure changes (e.g., new fields are added), updating this
+	// value can prevent
+	// issues (like InvalidClassException) when reading old serialized objects.
+	private static final long serialVersionUID = 1L;
 
-    private long id;
-    
-    private long createdBy = 0;
-    private Date createdDate;
-  
-    private Date lastUpdatedDate;
-    private Boolean isDeleted = false;
+	private long id;
 
-    // Constructor mặc định (Hibernate cần)
-    public BaseEntity() {}
+	private long createdBy = 0;
+	private Date createdDate;
 
-    // Getter và Setter cho id
-    public long getId() {
-        return id;
-    }
+	private Date lastUpdatedDate;
+	private Boolean isDeleted = false;
 
-    public void setId(long id) {
-        this.id = id;
-    }
-    // Getter và Setter
-    public long getCreatedBy() {
-        return createdBy;
-    }
+	// Constructor mặc định (Hibernate cần)
+	public BaseEntity() {
+	}
 
-    public void setCreatedBy(long createdBy) {
-        this.createdBy = createdBy;
-    }
+	// Getter và Setter cho id
+	public long getId() {
+		return id;
+	}
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
+	// Getter và Setter
+	public long getCreatedBy() {
+		return createdBy;
+	}
 
-   
+	public void setCreatedBy(long createdBy) {
+		this.createdBy = createdBy;
+	}
 
-    public Date getLastUpdatedDate() {
-        return lastUpdatedDate;
-    }
+	public Date getCreatedDate() {
+		return createdDate;
+	}
 
-    public void setLastUpdatedDate(Date lastUpdatedDate) {
-        this.lastUpdatedDate = lastUpdatedDate;
-    }
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
 
-    public Boolean getIsDeleted() {
-        return isDeleted;
-    }
+	public Date getLastUpdatedDate() {
+		return lastUpdatedDate;
+	}
 
-    public void setIsDeleted(Boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
+	public void setLastUpdatedDate(Date lastUpdatedDate) {
+		this.lastUpdatedDate = lastUpdatedDate;
+	}
+
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 }

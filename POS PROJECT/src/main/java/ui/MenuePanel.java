@@ -72,6 +72,7 @@ public class MenuePanel extends JPanel {
 		initializeUI();
 
 		cartPanel = new CartPanel(cartItems);
+		
 	}
 
 	/**

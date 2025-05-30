@@ -7,36 +7,40 @@ import dao.*;
 import model.Employee;
 import service.*;
 
-public class OrderHistoryFrame extends JFrame implements SidebarPanel.SidebarListener {
-    private static final long serialVersionUID = 1L;
+public class PromotionFrame extends JFrame implements SidebarPanel.SidebarListener {
+
     private final String iconPath = "C:\\TTTN\\POS PROJECT\\img\\";
     private final String[] sidebarIcons = { "home_icon.png", "menue_icon.png", "order_icon.png", "promos_icon.png",
             "logout_icon.png" };
-    private final String[] sidebarNames = { "Home", "Menu", "OrderHistory", "Promotion", "Logout" };
+    private final String[] sidebarNames = { "Home", "Menue", "OrderHistory", "Promotion", "Logout" };
     private JPanel contentPanel;
     private final String username;
     private final ImageIcon logoIcon = new ImageIcon("C:\\TTTN\\POS PROJECT\\img\\lck.png");
 
-    // Services required for panels
+    // Services required for navigation
     private PersonService personService;
     private CategoryService categoryService;
     private ProductService productService;
     private PaymentService paymentService;
+    private OrderService orderService;
+    private InvoiceService invoiceService;
     private SupplierService supplierService;
     private ItemService itemService;
     private StoreServiceImpl storeService;
     private HashService hashService;
     private AuthenticationService authService;
-    private OrderService orderService;
-    private InvoiceService invoiceService;
 
-    public OrderHistoryFrame(String username) {
+    // Reference to MenuePanel for PromotionPanel
+    private final MenuePanel menuePanel;
+
+    public PromotionFrame(String username, MenuePanel menuePanel) {
         this.username = username;
+        this.menuePanel = menuePanel;
         initializeServices();
 
-        setTitle("Order History - Cà phê lck");
+        setTitle("Promotions - Cà phê lck");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         setLayout(new BorderLayout());
@@ -47,8 +51,8 @@ public class OrderHistoryFrame extends JFrame implements SidebarPanel.SidebarLis
         SidebarPanel sidebar = new SidebarPanel(sidebarIcons, sidebarNames, iconPath, username, this);
         add(sidebar, BorderLayout.WEST);
 
-        // Load OrderPanel by default
-        loadOrderPanel();
+        // Load the PromotionPanel by default
+        loadPromotionPanel();
         add(contentPanel, BorderLayout.CENTER);
         setVisible(true);
     }
@@ -93,10 +97,10 @@ public class OrderHistoryFrame extends JFrame implements SidebarPanel.SidebarLis
         contentPanel.removeAll();
         switch (pageName) {
             case "Home":
-                loadHomePanel();
+                loadProfilePanel();
                 break;
-            case "Menu":
-                loadMenuPanel();
+            case "Menue":
+                loadMenuePanel();
                 break;
             case "OrderHistory":
                 loadOrderPanel();
@@ -114,36 +118,31 @@ public class OrderHistoryFrame extends JFrame implements SidebarPanel.SidebarLis
         contentPanel.repaint();
     }
 
-    private void loadHomePanel() {
-        dispose(); // Close OrderHistoryFrame
+    private void loadProfilePanel() {
+        dispose(); // Close PromotionFrame
         SwingUtilities.invokeLater(() -> new HomeEmployeeFrame(username));
     }
 
-    private void loadMenuPanel() {
-        dispose(); // Close OrderHistoryFrame
+    private void loadMenuePanel() {
+        dispose(); // Close PromotionFrame
         SwingUtilities.invokeLater(() -> new PosUI(username));
     }
 
     private void loadOrderPanel() {
-        try {
-            OrderPanel orderPanel = new OrderPanel();
-            contentPanel.add(orderPanel, BorderLayout.CENTER);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error loading order panel: " + e.getMessage(), "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
+        dispose(); // Close PromotionFrame
+        SwingUtilities.invokeLater(() -> new OrderHistoryFrame(username));
     }
 
     private void loadPromotionPanel() {
-        dispose(); // Close OrderHistoryFrame
-        SwingUtilities.invokeLater(() -> new PromotionFrame(username, null));
+        PromotionPanel promotionPanel = new PromotionPanel(productService, menuePanel);
+        contentPanel.add(promotionPanel, BorderLayout.CENTER);
     }
 
     private void handleLogout() {
         int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận đăng xuất",
                 JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
-            dispose(); // Close OrderHistoryFrame
+            dispose(); // Close PromotionFrame
             SwingUtilities.invokeLater(() -> {
                 LoginFrame loginFrame = new LoginFrame();
                 loginFrame.showFrame();

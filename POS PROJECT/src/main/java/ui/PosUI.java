@@ -4,39 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import ui.Elements.*;
 
-import dao.CategoryDao;
-import dao.CustomerDao;
-import dao.EmployeeDao;
-import dao.InvoiceDao;
-import dao.ItemDao;
-import dao.OrderDetailDao;
-import dao.OwnerDao;
-import dao.PaymentDao;
-import dao.PersonDao;
-import dao.ProductDao;
-import dao.StoreDao;
-import dao.SupplierDao;
-import dao.UserSessionDao;
+import dao.*;
 import model.Employee;
-import service.AuthenticationService;
-import service.CategoryService;
-import service.CategoryServiceImpl;
-import service.HashService;
-import service.InvoiceService;
-import service.InvoiceServiceImpl;
-import service.ItemService;
-import service.ItemServiceImpl;
-import service.OrderService;
-import service.OrderServiceImpl;
-import service.PaymentService;
-import service.PaymentServiceImpl;
-import service.PersonService;
-import service.PersonServiceImpl;
-import service.ProductService;
-import service.ProductServiceImpl;
-import service.StoreServiceImpl;
-import service.SupplierService;
-import service.SupplierServiceImpl;
+import service.*;
 
 public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
 
@@ -60,6 +30,9 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
     private StoreServiceImpl storeService;
     private HashService hashService;
     private AuthenticationService authService;
+
+    // Store MenuePanel to pass to PromotionFrame
+    private MenuePanel menuePanel;
 
     public PosUI(String username) {
         this.username = username;
@@ -123,23 +96,23 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
     public void onSidebarItemClick(String pageName) {
         contentPanel.removeAll();
         switch (pageName) {
-        case "Home":
-            loadProfilePanel();
-            break;
-        case "Menue":
-            loadMenuePanel();
-            break;
-        case "OrderHistory":
-            loadOrderPanel();
-            break;
-        case "Promotion":
-            loadPromotionPanel();
-            break;
-        case "Logout":
-            handleLogout();
-            break;
-        default:
-            contentPanel.add(new JLabel("Unknown page: " + pageName, SwingConstants.CENTER));
+            case "Home":
+                loadProfilePanel();
+                break;
+            case "Menue":
+                loadMenuePanel();
+                break;
+            case "OrderHistory":
+                loadOrderPanel();
+                break;
+            case "Promotion":
+                loadPromotionPanel();
+                break;
+            case "Logout":
+                handleLogout();
+                break;
+            default:
+                contentPanel.add(new JLabel("Unknown page: " + pageName, SwingConstants.CENTER));
         }
         contentPanel.revalidate();
         contentPanel.repaint();
@@ -147,10 +120,7 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
 
     private void loadProfilePanel() {
         dispose(); // Close PosUI
-        SwingUtilities.invokeLater(() -> new HomeEmployeeFrame(
-            personService, supplierService, itemService, storeService, hashService, authService,
-            productService, categoryService, username, paymentService, orderService, invoiceService
-        ).setVisible(true));
+        SwingUtilities.invokeLater(() -> new HomeEmployeeFrame(username));
     }
 
     private void loadMenuePanel() {
@@ -161,9 +131,9 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
                     "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            MenuePanel menuPanel = new MenuePanel(categoryService, productService, personService,
+            menuePanel = new MenuePanel(categoryService, productService, personService,
                 paymentService, orderService, invoiceService, employee);
-            contentPanel.add(menuPanel, BorderLayout.CENTER);
+            contentPanel.add(menuePanel, BorderLayout.CENTER);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error loading menu panel: " + e.getMessage(),
                 "Error", JOptionPane.ERROR_MESSAGE);
@@ -172,17 +142,18 @@ public class PosUI extends JFrame implements SidebarPanel.SidebarListener {
 
     private void loadOrderPanel() {
         dispose(); // Close PosUI
-        SwingUtilities.invokeLater(() -> new OrderHistoryFrame(
-            personService, supplierService, itemService, storeService, hashService, authService,
-            productService, categoryService, username, paymentService, orderService, invoiceService
-        ).setVisible(true));
+        SwingUtilities.invokeLater(() -> new OrderHistoryFrame(username));
     }
 
     private void loadPromotionPanel() {
-        JPanel promotionPanel = new JPanel(new BorderLayout());
-        promotionPanel.setBackground(Color.WHITE);
-        promotionPanel.add(new JLabel("Promotion Page (Under Construction)", SwingConstants.CENTER));
-        contentPanel.add(promotionPanel, BorderLayout.CENTER);
+        if (menuePanel == null) {
+            JOptionPane.showMessageDialog(this, "Menu panel not loaded. Please load the menu first.",
+                "Error", JOptionPane.ERROR_MESSAGE);
+            loadMenuePanel();
+            return;
+        }
+        dispose(); // Close PosUI
+        SwingUtilities.invokeLater(() -> new PromotionFrame(username, menuePanel));
     }
 
     private void handleLogout() {

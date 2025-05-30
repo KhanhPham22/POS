@@ -8,6 +8,7 @@ import java.time.*;
 import java.util.List;
 import java.util.stream.Collectors;
 import model.Invoice;
+import model.OrderDetail;
 import model.Product;
 import model.Customer;
 import service.InvoiceService;
@@ -18,12 +19,17 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Hibernate;
+import org.hibernate.LazyInitializationException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 public class OrderPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     private static final DecimalFormat PRICE_FORMAT = new DecimalFormat("#,###.000 VND");
     private static final Logger logger = LogManager.getLogger(OrderPanel.class);
-
+    private SessionFactory sessionFactory;
+    
     private JTable invoiceTable;
     private DefaultTableModel tableModel;
     private JButton prevButton;
@@ -37,6 +43,11 @@ public class OrderPanel extends JPanel {
     private final int pageSize = 6;
     private int totalRecords = 0;
 
+ // Constructor or method to set SessionFactory
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+    
     public OrderPanel() {
         try {
             invoiceService = new InvoiceServiceImpl(new InvoiceDao());
@@ -235,24 +246,77 @@ public class OrderPanel extends JPanel {
                 String customerName = "N/A";
                 try {
                     if (invoice.getCustomer() != null) {
+                        // Try to initialize the customer proxy
+                        Hibernate.initialize(invoice.getCustomer());
                         Customer customer = invoice.getCustomer();
                         StringBuilder fullName = new StringBuilder();
                         String firstName = customer.getPersonFirstName();
                         String middleName = customer.getPersonMiddleName();
                         String lastName = customer.getPersonLastName();
-                        if (firstName != null && !firstName.isEmpty()) {
+                        if (firstName != null && !firstName.trim().isEmpty()) {
                             fullName.append(firstName);
                         }
-                        if (middleName != null && !middleName.isEmpty()) {
+                        if (middleName != null && !middleName.trim().isEmpty()) {
                             if (fullName.length() > 0) fullName.append(" ");
                             fullName.append(middleName);
                         }
-                        if (lastName != null && !lastName.isEmpty()) {
+                        if (lastName != null && !lastName.trim().isEmpty()) {
                             if (fullName.length() > 0) fullName.append(" ");
                             fullName.append(lastName);
                         }
-                        customerName = fullName.length() > 0 ? fullName.toString() :
-                            customer.getCustomerNumber() != null ? customer.getCustomerNumber() : "Unknown";
+                        if (fullName.length() > 0) {
+                            customerName = fullName.toString();
+                        } else if (customer.getCustomerNumber() != null && !customer.getCustomerNumber().trim().isEmpty()) {
+                            customerName = customer.getCustomerNumber();
+                        } else {
+                            customerName = "Unknown Customer (ID: " + customer.getPersonId() + ")";
+                        }
+                        logger.debug("Customer name for invoice ID {}: {}", invoice.getId(), customerName);
+                    } else {
+                        logger.warn("No customer associated with invoice ID {}", invoice.getId());
+                    }
+                } catch (LazyInitializationException e) {
+                    logger.warn("Lazy initialization failed for customer of invoice ID {}: {}. Attempting to reload.", invoice.getId(), e.getMessage());
+                    try (Session session = sessionFactory.openSession()) {
+                        session.beginTransaction();
+                        Long customerId = (Long) session.createQuery("SELECT c.personId FROM Invoice i JOIN i.customer c WHERE i.id = :invoiceId")
+                            .setParameter("invoiceId", invoice.getId())
+                            .uniqueResult();
+                        if (customerId != null) {
+                            Customer customer = session.get(Customer.class, customerId);
+                            if (customer != null) {
+                                StringBuilder fullName = new StringBuilder();
+                                String firstName = customer.getPersonFirstName();
+                                String middleName = customer.getPersonMiddleName();
+                                String lastName = customer.getPersonLastName();
+                                if (firstName != null && !firstName.trim().isEmpty()) {
+                                    fullName.append(firstName);
+                                }
+                                if (middleName != null && !middleName.trim().isEmpty()) {
+                                    if (fullName.length() > 0) fullName.append(" ");
+                                    fullName.append(middleName);
+                                }
+                                if (lastName != null && !lastName.trim().isEmpty()) {
+                                    if (fullName.length() > 0) fullName.append(" ");
+                                    fullName.append(lastName);
+                                }
+                                if (fullName.length() > 0) {
+                                    customerName = fullName.toString();
+                                } else if (customer.getCustomerNumber() != null && !customer.getCustomerNumber().trim().isEmpty()) {
+                                    customerName = customer.getCustomerNumber();
+                                } else {
+                                    customerName = "Unknown Customer (ID: " + customer.getPersonId() + ")";
+                                }
+                                logger.debug("Reloaded customer name for invoice ID {}: {}", invoice.getId(), customerName);
+                            } else {
+                                logger.warn("No customer found for invoice ID {} with ID {}", invoice.getId(), customerId);
+                            }
+                        } else {
+                            logger.warn("No customer ID found for invoice ID {}", invoice.getId());
+                        }
+                        session.getTransaction().commit();
+                    } catch (Exception ex) {
+                        logger.error("Failed to reload customer for invoice ID {}: {}", invoice.getId(), ex.getMessage());
                     }
                 } catch (Exception e) {
                     logger.warn("Failed to load customer for invoice ID {}: {}", invoice.getId(), e.getMessage());
@@ -261,6 +325,7 @@ public class OrderPanel extends JPanel {
                 int itemCount = 0;
                 try {
                     if (invoice.getOrder() != null) {
+                        Hibernate.initialize(invoice.getOrder());
                         itemCount = invoice.getOrder().getItems().size();
                     }
                 } catch (Exception e) {

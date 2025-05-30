@@ -2,29 +2,10 @@ package ui;
 
 import javax.swing.*;
 import java.awt.*;
-import ui.Elements.SidebarPanel;
-import dao.CategoryDao;
-import dao.CustomerDao;
-import dao.EmployeeDao;
-import dao.ItemDao;
-import dao.OwnerDao;
-import dao.PaymentDao;
-import dao.ProductDao;
-import dao.StoreDao;
-import dao.SupplierDao;
-import dao.UserSessionDao;
+import ui.Elements.*;
+import dao.*;
 import model.Employee;
-import service.AuthenticationService;
-import service.CategoryService;
-import service.HashService;
-import service.InvoiceService;
-import service.ItemService;
-import service.OrderService;
-import service.PaymentService;
-import service.PersonService;
-import service.ProductService;
-import service.StoreServiceImpl;
-import service.SupplierService;
+import service.*;
 
 public class HomeEmployeeFrame extends JFrame implements SidebarPanel.SidebarListener {
 
@@ -49,22 +30,9 @@ public class HomeEmployeeFrame extends JFrame implements SidebarPanel.SidebarLis
     private OrderService orderService;
     private InvoiceService invoiceService;
 
-    public HomeEmployeeFrame(PersonService personService, SupplierService supplierService, ItemService itemService,
-            StoreServiceImpl storeService, HashService hashService, AuthenticationService authService,
-            ProductService productService, CategoryService categoryService, String username,
-            PaymentService paymentService, OrderService orderService, InvoiceService invoiceService) {
-        this.personService = personService;
-        this.supplierService = supplierService;
-        this.itemService = itemService;
-        this.storeService = storeService;
-        this.hashService = hashService;
-        this.authService = authService;
-        this.categoryService = categoryService;
-        this.productService = productService;
+    public HomeEmployeeFrame(String username) {
         this.username = username;
-        this.paymentService = paymentService;
-        this.orderService = orderService;
-        this.invoiceService = invoiceService;
+        initializeServices();
 
         setTitle("Thông tin");
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -85,27 +53,62 @@ public class HomeEmployeeFrame extends JFrame implements SidebarPanel.SidebarLis
         setVisible(true);
     }
 
+    private void initializeServices() {
+        try {
+            // Initialize DAOs
+            EmployeeDao employeeDao = new EmployeeDao();
+            OwnerDao ownerDao = new OwnerDao();
+            CustomerDao customerDao = new CustomerDao();
+            SupplierDao supplierDao = new SupplierDao();
+            ItemDao itemDao = new ItemDao();
+            StoreDao storeDao = new StoreDao();
+            UserSessionDao userSessionDao = new UserSessionDao();
+            CategoryDao categoryDao = new CategoryDao();
+            ProductDao productDao = new ProductDao();
+            PaymentDao paymentDao = new PaymentDao();
+            InvoiceDao invoiceDao = new InvoiceDao();
+            OrderDetailDao orderDao = new OrderDetailDao();
+
+            // Initialize services
+            personService = new PersonServiceImpl(employeeDao, customerDao, ownerDao);
+            supplierService = new SupplierServiceImpl(supplierDao);
+            itemService = new ItemServiceImpl(itemDao);
+            storeService = new StoreServiceImpl(storeDao);
+            hashService = new HashService();
+            authService = new AuthenticationService(employeeDao, ownerDao, userSessionDao, hashService);
+            categoryService = new CategoryServiceImpl(categoryDao);
+            productService = new ProductServiceImpl(productDao);
+            paymentService = new PaymentServiceImpl(paymentDao);
+            orderService = new OrderServiceImpl(orderDao);
+            invoiceService = new InvoiceServiceImpl(invoiceDao);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Lỗi khi khởi tạo dịch vụ: " + e.getMessage(), "Lỗi",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     @Override
     public void onSidebarItemClick(String pageName) {
         contentPanel.removeAll();
         switch (pageName) {
-        case "Home":
-            loadProfilePanel();
-            break;
-        case "Menu":
-            loadMenuePanel();
-            break;
-        case "OrderHistory":
-            loadOrderPanel();
-            break;
-        case "Promotion":
-            loadPromotionPanel();
-            break;
-        case "Logout":
-            handleLogout();
-            break;
-        default:
-            contentPanel.add(new JLabel("Unknown page: " + pageName, SwingConstants.CENTER));
+            case "Home":
+                loadProfilePanel();
+                break;
+            case "Menu":
+                loadMenuePanel();
+                break;
+            case "OrderHistory":
+                loadOrderPanel();
+                break;
+            case "Promotion":
+                loadPromotionPanel();
+                break;
+            case "Logout":
+                handleLogout();
+                break;
+            default:
+                contentPanel.add(new JLabel("Unknown page: " + pageName, SwingConstants.CENTER));
         }
         contentPanel.revalidate();
         contentPanel.repaint();
@@ -135,17 +138,12 @@ public class HomeEmployeeFrame extends JFrame implements SidebarPanel.SidebarLis
 
     private void loadOrderPanel() {
         dispose(); // Close HomeEmployeeFrame
-        SwingUtilities.invokeLater(() -> new OrderHistoryFrame(
-            personService, supplierService, itemService, storeService, hashService, authService,
-            productService, categoryService, username, paymentService, orderService, invoiceService
-        ).setVisible(true));
+        SwingUtilities.invokeLater(() -> new OrderHistoryFrame(username));
     }
 
     private void loadPromotionPanel() {
-        JPanel promotionPanel = new JPanel(new BorderLayout());
-        promotionPanel.setBackground(Color.WHITE);
-        promotionPanel.add(new JLabel("Promotion Page (Under Construction)", SwingConstants.CENTER));
-        contentPanel.add(promotionPanel, BorderLayout.CENTER);
+        dispose(); // Close HomeEmployeeFrame
+        SwingUtilities.invokeLater(() -> new PromotionFrame(username, null));
     }
 
     private void handleLogout() {
