@@ -6,7 +6,7 @@
     <joined-subclass name="model.GiftVoucher" table="gift_voucher" extends="model.BaseEntity">
         <key column="gift_voucher_id" />
 
-        <many-to-one name="customer" class="model.Customer" column="person_id" not-null="true" />
+        <many-to-one name="customer" class="model.Customer" column="person_id" not-null="false" />
         <property name="voucherName" column="voucher_name" length="100" not-null="true" />
         <property name="discountStatus" column="discount_status" not-null="true" />
         <property name="startDate" column="start_date" not-null="true" />

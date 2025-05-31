@@ -15,6 +15,7 @@ import model.Employee;
 import model.OrderDetail;
 import model.OrderItem;
 import service.CategoryService;
+import service.GiftVoucherService;
 import service.ProductService;
 import service.PersonService;
 import service.PaymentService;
@@ -33,6 +34,7 @@ public class MenuePanel extends JPanel {
 	private final PersonService personService;
 	private final PaymentService paymentService;
 	private final OrderService orderService;
+	private final GiftVoucherService giftVoucherService;
 	private final InvoiceService invoiceService;
 	private final Employee loggedInEmployee; // New field
 	private final List<Product> cartItems;
@@ -55,7 +57,7 @@ public class MenuePanel extends JPanel {
 	 * Constructor initializes the panel with required services and UI.
 	 */
 	public MenuePanel(CategoryService categoryService, ProductService productService, PersonService personService,
-			PaymentService paymentService, OrderService orderService, InvoiceService invoiceService,
+			PaymentService paymentService, OrderService orderService, InvoiceService invoiceService,GiftVoucherService giftVoucherService,
 			Employee loggedInEmployee) {
 		this.categoryService = categoryService;
 		this.productService = productService;
@@ -63,6 +65,7 @@ public class MenuePanel extends JPanel {
 		this.paymentService = paymentService;
 		this.orderService = orderService;
 		this.invoiceService = invoiceService;
+		this.giftVoucherService = giftVoucherService;
 		this.cartItems = new ArrayList<>();
 		this.selectedCustomer = null;
 		this.loggedInEmployee = loggedInEmployee; // Properly initialized
@@ -711,7 +714,7 @@ public class MenuePanel extends JPanel {
 			paymentDialog.setLocationRelativeTo(null);
 
 			PaymentPanel paymentPanel = new PaymentPanel(order, selectedCustomer, paymentService, personService,
-					invoiceService, cartItems, loggedInEmployee);
+					invoiceService,giftVoucherService, cartItems, loggedInEmployee);
 			paymentPanel.setOnPaymentCompleteListener(() -> {
 				resetAfterPayment();
 				paymentDialog.dispose();
@@ -751,6 +754,6 @@ public class MenuePanel extends JPanel {
 		cartPanel.updateCartDisplay();
 		mainContentPanel.revalidate();
 		mainContentPanel.repaint();
-		JOptionPane.showMessageDialog(this, "Returned to Menu");
+		
 	}
 }

@@ -2,7 +2,9 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class GiftVoucher extends BaseEntity {
 
@@ -12,7 +14,7 @@ public class GiftVoucher extends BaseEntity {
     private Date startDate;
     private Date endDate;
     private String discountType;
-    private List<Product> products = new ArrayList<>();
+    private Set<Product> products = new HashSet<>();
     
     // Default constructor (Hibernate needs it)
     public GiftVoucher() {}
@@ -76,11 +78,11 @@ public class GiftVoucher extends BaseEntity {
         this.discountType = discountType;
     }
     
-    public List<Product> getProducts() {
-        return products;
-    }
+    public Set<Product> getProducts() {
+		return products;
+	}
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
+	public void setProducts(Set<Product> products) {
+		this.products = products != null ? products : new HashSet<>();
+	}
 }

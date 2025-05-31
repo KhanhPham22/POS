@@ -14,6 +14,7 @@ import model.Invoice;
 import service.PaymentService;
 import service.PersonService;
 import service.InvoiceService;
+import service.GiftVoucherService;
 
 /**
  * PaymentPanel handles payment processing (QR or Cash).
@@ -27,6 +28,7 @@ public class PaymentPanel extends JPanel {
     private PaymentService paymentService;
     private PersonService personService;
     private InvoiceService invoiceService;
+    private GiftVoucherService giftVoucherService;
     private final Employee loggedInEmployee;
     private QRPanel qrPanel;
     private OrderDetail order;
@@ -38,12 +40,15 @@ public class PaymentPanel extends JPanel {
      * Constructor initializes the payment panel.
      */
     public PaymentPanel(OrderDetail order, Customer customer, PaymentService paymentService, 
-                       PersonService personService, InvoiceService invoiceService, List<Product> cartItems,Employee loggedInEmployee) {
+                       PersonService personService, InvoiceService invoiceService, 
+                       GiftVoucherService giftVoucherService, List<Product> cartItems, 
+                       Employee loggedInEmployee) {
         this.order = order;
         this.customer = customer;
         this.paymentService = paymentService;
         this.personService = personService;
         this.invoiceService = invoiceService;
+        this.giftVoucherService = giftVoucherService;
         this.loggedInEmployee = loggedInEmployee;
         this.cartItems = cartItems;
         this.qrPanel = new QRPanel();
@@ -148,7 +153,17 @@ public class PaymentPanel extends JPanel {
     private void processCashPayment() {
         Payment payment = new Payment();
         payment.setPaymentMethod("Cash");
-        payment.setAmount(order.getTotalAmount());
+        double originalAmount = order.getTotalAmount();
+        double discountedAmount = originalAmount;
+        double discount = 0.0;
+        if (giftVoucherService != null) {
+            discountedAmount = new GiftVoucherPanel(giftVoucherService).applyDiscount(originalAmount);
+            discount = originalAmount - discountedAmount;
+        } else {
+            JOptionPane.showMessageDialog(this, "Gift voucher service unavailable; proceeding without discount.",
+                "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+        payment.setAmount(discountedAmount);
         payment.setStatus("COMPLETED");
         payment.setOrder(order);
         payment.setCustomer(customer);
@@ -157,8 +172,8 @@ public class PaymentPanel extends JPanel {
         boolean paymentSuccess = paymentService.createPayment(payment);
         if (paymentSuccess) {
             updateCustomerPoints();
-            Invoice invoice = createInvoice(payment, order.getTotalAmount());
-            showPaymentConfirmation(order.getTotalAmount(), invoice);
+            Invoice invoice = createInvoice(payment, originalAmount, discount, discountedAmount);
+            showPaymentConfirmation(discountedAmount, invoice);
             if (onPaymentComplete != null) {
                 onPaymentComplete.run();
             }
@@ -174,7 +189,17 @@ public class PaymentPanel extends JPanel {
     private void processQRPayment() {
         Payment payment = new Payment();
         payment.setPaymentMethod("QR - " + (qrPanel.getSelectedBank() != null ? qrPanel.getSelectedBank() : "Unknown"));
-        payment.setAmount(order.getTotalAmount());
+        double originalAmount = order.getTotalAmount();
+        double discountedAmount = originalAmount;
+        double discount = 0.0;
+        if (giftVoucherService != null) {
+            discountedAmount = new GiftVoucherPanel(giftVoucherService).applyDiscount(originalAmount);
+            discount = originalAmount - discountedAmount;
+        } else {
+            JOptionPane.showMessageDialog(this, "Gift voucher service unavailable; proceeding without discount.",
+                "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+        payment.setAmount(discountedAmount);
         payment.setStatus("COMPLETED");
         payment.setOrder(order);
         payment.setCustomer(customer);
@@ -183,8 +208,8 @@ public class PaymentPanel extends JPanel {
         boolean paymentSuccess = paymentService.createPayment(payment);
         if (paymentSuccess) {
             updateCustomerPoints();
-            Invoice invoice = createInvoice(payment, order.getTotalAmount());
-            showPaymentConfirmation(order.getTotalAmount(), invoice);
+            Invoice invoice = createInvoice(payment, originalAmount, discount, discountedAmount);
+            showPaymentConfirmation(discountedAmount, invoice);
             if (onPaymentComplete != null) {
                 onPaymentComplete.run();
             }
@@ -197,15 +222,15 @@ public class PaymentPanel extends JPanel {
     /**
      * Creates an invoice.
      */
-    private Invoice createInvoice(Payment payment, double amountPaid) {
+    private Invoice createInvoice(Payment payment, double originalAmount, double discount, double finalAmount) {
         Invoice invoice = new Invoice();
         invoice.setOrder(order);
         invoice.setCustomer(customer);
         invoice.setEmployee(loggedInEmployee);
         invoice.setPaymentMethod(payment.getPaymentMethod());
-        invoice.setTotalPrice(order.getTotalAmount());
-        invoice.setDiscount(0.0);
-        invoice.setFinalPrice(order.getTotalAmount());
+        invoice.setTotalPrice(originalAmount);
+        invoice.setDiscount(discount);
+        invoice.setFinalPrice(finalAmount);
         invoice.setInvoiceDay(new java.util.Date());
         invoice.setStatus("COMPLETED");
         boolean success = invoiceService.createInvoice(invoice);

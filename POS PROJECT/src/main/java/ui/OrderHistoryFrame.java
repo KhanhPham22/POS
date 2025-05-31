@@ -126,7 +126,7 @@ public class OrderHistoryFrame extends JFrame implements SidebarPanel.SidebarLis
 
     private void loadOrderPanel() {
         try {
-            OrderPanel orderPanel = new OrderPanel();
+            OrderPanel orderPanel = new OrderPanel(orderService);
             contentPanel.add(orderPanel, BorderLayout.CENTER);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error loading order panel: " + e.getMessage(), "Error",

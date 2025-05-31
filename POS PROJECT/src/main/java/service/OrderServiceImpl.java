@@ -106,6 +106,17 @@ public class OrderServiceImpl implements OrderService {
             return null;
         }
     }
+    
+    @Override
+    public int getItemCountForOrder(long orderId) {
+        try {
+            return orderDao.getItemCountForOrder(orderId);
+        } catch (Exception e) {
+        	Log.error("Error getting item count for order {}", orderId, e);
+
+            return 0;
+        }
+    }
 
 }
 

@@ -6,6 +6,7 @@ import java.awt.*;
 import java.text.DecimalFormat;
 import java.time.*;
 import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import model.Invoice;
 import model.OrderDetail;
@@ -13,87 +14,111 @@ import model.Product;
 import model.Customer;
 import service.InvoiceService;
 import service.InvoiceServiceImpl;
+import service.OrderService;
 import dao.InvoiceDao;
 import com.toedter.calendar.JCalendar;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.Hibernate;
-import org.hibernate.LazyInitializationException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import ui.Elements.SearchBar;
 
 public class OrderPanel extends JPanel {
     private static final long serialVersionUID = 1L;
     private static final DecimalFormat PRICE_FORMAT = new DecimalFormat("#,###.000 VND");
     private static final Logger logger = LogManager.getLogger(OrderPanel.class);
-    private SessionFactory sessionFactory;
-    
-    private JTable invoiceTable;
+
+    private JTable orderTable;
     private DefaultTableModel tableModel;
     private JButton prevButton;
     private JButton nextButton;
     private JLabel pageLabel;
     private InvoiceService invoiceService;
+    private OrderService orderService;
     private JCalendar calendar;
+    private SearchBar searchBar;
     private Year selectedYear;
     private Month selectedMonth;
+    private String currentSearchQuery = "";
     private int currentPage = 1;
-    private final int pageSize = 6;
+    private final int pageSize = 10;
     private int totalRecords = 0;
 
- // Constructor or method to set SessionFactory
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-    
-    public OrderPanel() {
+    public OrderPanel(OrderService orderService) {
+        this.orderService = orderService;
         try {
             invoiceService = new InvoiceServiceImpl(new InvoiceDao());
         } catch (Exception e) {
             logger.error("Failed to initialize InvoiceService", e);
-            JOptionPane.showMessageDialog(null, "Failed to initialize invoice service: " + e.getMessage(), 
+            JOptionPane.showMessageDialog(null, "Failed to initialize invoice service: " + e.getMessage(),
                 "Initialization Error", JOptionPane.ERROR_MESSAGE);
         }
         setLayout(new BorderLayout(10, 10));
-        setBackground(new Color(240, 242, 245)); // Softer light gray background
+        setBackground(new Color(240, 242, 245));
         initializeUI();
-        loadInvoices(null, null); // Load all invoices by default
+        loadOrders(null, null, "");
     }
 
     private void initializeUI() {
-        // Top panel for filtering
-        JPanel topPanel = new JPanel(new BorderLayout(10, 10));
+        JPanel topPanel = new JPanel(new BorderLayout(10, 0));
+        topPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         topPanel.setBackground(new Color(240, 242, 245));
-        topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Calendar for date selection
+        JPanel calendarPanel = new JPanel(new BorderLayout());
+        calendarPanel.setBackground(new Color(240, 242, 245));
+
         calendar = new JCalendar();
         calendar.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         calendar.setBackground(Color.WHITE);
         calendar.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(180, 180, 180), 1, true), // Rounded border
+            BorderFactory.createLineBorder(new Color(180, 180, 180), 1, true),
             BorderFactory.createEmptyBorder(8, 8, 8, 8)
         ));
-        calendar.setPreferredSize(new Dimension(240, 180)); // Slightly larger for clarity
+        calendar.setPreferredSize(new Dimension(240, 180));
         calendar.setDecorationBackgroundColor(new Color(240, 242, 245));
-        calendar.setWeekdayForeground(new Color(33, 37, 41)); // Darker text for weekdays
-        calendar.setSundayForeground(new Color(220, 53, 69)); // Vibrant red for Sundays
-        calendar.setTodayButtonVisible(true); // Show today button
-        calendar.setDecorationBordersVisible(false); // Cleaner look
-        calendar.getDayChooser().setBackground(new Color(248, 249, 250)); // Subtle background for days
+        calendar.setWeekdayForeground(new Color(33, 37, 41));
+        calendar.setSundayForeground(new Color(220, 53, 69));
+        calendar.setTodayButtonVisible(true);
+        calendar.setDecorationBordersVisible(false);
+        calendar.getDayChooser().setBackground(new Color(248, 249, 250));
 
-        // Add shadow effect to calendar panel
         JPanel calendarWrapper = new JPanel(new BorderLayout());
         calendarWrapper.setBackground(new Color(240, 242, 245));
         calendarWrapper.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createMatteBorder(0, 0, 2, 2, new Color(0, 0, 0, 50)), // Subtle shadow
+            BorderFactory.createMatteBorder(0, 0, 2, 2, new Color(0, 0, 0, 50)),
             BorderFactory.createEmptyBorder(5, 5, 5, 5)
         ));
         calendarWrapper.add(calendar, BorderLayout.CENTER);
 
-        // Add property change listener for date selection
+        JLabel calendarLabel = new JLabel("Select Year and Month:");
+        calendarLabel.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        calendarLabel.setForeground(new Color(33, 37, 41));
+        calendarLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 8, 0));
+
+        calendarPanel.add(calendarLabel, BorderLayout.NORTH);
+        calendarPanel.add(calendarWrapper, BorderLayout.CENTER);
+
+        // Handle today button click
+        calendar.addPropertyChangeListener("calendar", new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if ("calendar".equals(evt.getPropertyName())) {
+                    Date selectedDate = calendar.getDate();
+                    Date today = new Date();
+                    
+                    // Check if today button was clicked (selected date is today)
+                    if (selectedDate.equals(today)) {
+                        LocalDate localDate = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                        selectedYear = Year.of(localDate.getYear());
+                        selectedMonth = Month.of(localDate.getMonthValue());
+                        currentPage = 1;
+                        loadOrders(selectedYear, selectedMonth, currentSearchQuery);
+                    }
+                }
+            }
+        });
+
+        // Handle day selection
         calendar.getDayChooser().addPropertyChangeListener("day", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
@@ -102,281 +127,282 @@ public class OrderPanel extends JPanel {
                     selectedYear = Year.of(selectedDate.getYear());
                     selectedMonth = Month.of(selectedDate.getMonthValue());
                     currentPage = 1;
-                    loadInvoices(selectedYear, selectedMonth);
+                    loadOrders(selectedYear, selectedMonth, currentSearchQuery);
                 }
             }
         });
 
-        // Label for calendar
-        JLabel calendarLabel = new JLabel("Select Year and Month:");
-        calendarLabel.setFont(new Font("Segoe UI", Font.BOLD, 13));
-        calendarLabel.setForeground(new Color(33, 37, 41));
-        calendarLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 8, 0));
-
-        JPanel calendarPanel = new JPanel(new BorderLayout());
-        calendarPanel.setBackground(new Color(240, 242, 245));
-        calendarPanel.add(calendarLabel, BorderLayout.NORTH);
-        calendarPanel.add(calendarWrapper, BorderLayout.CENTER);
+        // Modified search bar with reset on empty
+        searchBar = new SearchBar(query -> {
+            currentSearchQuery = query;
+            currentPage = 1;
+            if (query.isEmpty()) {
+                // Reset filters when search is cleared
+                selectedYear = null;
+                selectedMonth = null;
+                calendar.setDate(new Date()); // Reset calendar to today
+            }
+            loadOrders(selectedYear, selectedMonth, currentSearchQuery);
+        });
+        searchBar.setPlaceholder("Search by customer name or order ID");
+        searchBar.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        searchBar.setBorder(
+                BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(100, 100, 100), 2),
+                        BorderFactory.createEmptyBorder(8, 12, 8, 12)));
+        searchBar.setBackground(new Color(245, 245, 245));
+        searchBar.setPreferredSize(new Dimension(400, 40));
 
         topPanel.add(calendarPanel, BorderLayout.WEST);
+        topPanel.add(searchBar, BorderLayout.CENTER);
         add(topPanel, BorderLayout.NORTH);
 
-        // Table setup
-        String[] columnNames = {"Invoice ID", "Customer", "Total Amount", "Items", "Date", "Payment Method"};
+        String[] columnNames = {"Order ID", "Customer", "Total Amount", "Items", "Date", "Payment Method"};
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
-        invoiceTable = new JTable(tableModel);
-        invoiceTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        invoiceTable.setRowHeight(30);
-        invoiceTable.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        invoiceTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 13));
-        invoiceTable.getTableHeader().setBackground(new Color(52, 86, 139)); // Deeper blue for header
-        invoiceTable.getTableHeader().setForeground(Color.WHITE);
-        invoiceTable.setGridColor(new Color(220, 222, 224));
-        invoiceTable.setShowGrid(true);
-        invoiceTable.getColumnModel().getColumn(0).setPreferredWidth(80);
-        invoiceTable.getColumnModel().getColumn(1).setPreferredWidth(200);
-        invoiceTable.getColumnModel().getColumn(2).setPreferredWidth(120);
-        invoiceTable.getColumnModel().getColumn(3).setPreferredWidth(80);
-        invoiceTable.getColumnModel().getColumn(4).setPreferredWidth(120);
-        invoiceTable.getColumnModel().getColumn(5).setPreferredWidth(140);
+        orderTable = new JTable(tableModel);
+        orderTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        orderTable.setRowHeight(45);
+        orderTable.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        orderTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 13));
+        orderTable.getTableHeader().setBackground(new Color(52, 86, 139));
+        orderTable.getTableHeader().setForeground(Color.WHITE);
+        orderTable.setGridColor(new Color(220, 222, 224));
+        orderTable.setShowGrid(true);
+        orderTable.getColumnModel().getColumn(0).setPreferredWidth(80);
+        orderTable.getColumnModel().getColumn(1).setPreferredWidth(200);
+        orderTable.getColumnModel().getColumn(2).setPreferredWidth(120);
+        orderTable.getColumnModel().getColumn(3).setPreferredWidth(80);
+        orderTable.getColumnModel().getColumn(4).setPreferredWidth(120);
+        orderTable.getColumnModel().getColumn(5).setPreferredWidth(140);
 
-        // Add double-click listener to show invoice details
-        invoiceTable.addMouseListener(new java.awt.event.MouseAdapter() {
+        orderTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 if (evt.getClickCount() == 2) {
-                    int row = invoiceTable.getSelectedRow();
+                    int row = orderTable.getSelectedRow();
                     if (row >= 0) {
-                        long invoiceId = Long.parseLong(invoiceTable.getValueAt(row, 0).toString());
-                        showInvoiceDetails(invoiceId);
+                        long orderId = Long.parseLong(orderTable.getValueAt(row, 0).toString());
+                        showOrderDetails(orderId);
                     }
                 }
             }
         });
 
-        JScrollPane scrollPane = new JScrollPane(invoiceTable);
+        JScrollPane scrollPane = new JScrollPane(orderTable);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.setBackground(new Color(240, 242, 245));
         add(scrollPane, BorderLayout.CENTER);
 
-        // Pagination controls
         JPanel paginationPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         paginationPanel.setBackground(new Color(240, 242, 245));
         prevButton = new JButton("Previous");
-        prevButton.setBackground(new Color(52, 86, 139));
+        prevButton.setBackground(new Color(70, 130, 180));
         prevButton.setForeground(Color.WHITE);
-        prevButton.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        prevButton.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));
+        prevButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         prevButton.addActionListener(e -> {
             if (currentPage > 1) {
                 currentPage--;
-                loadInvoices(selectedYear, selectedMonth);
+                loadOrders(selectedYear, selectedMonth, currentSearchQuery);
             }
         });
 
         nextButton = new JButton("Next");
-        nextButton.setBackground(new Color(52, 86, 139));
+        nextButton.setBackground(new Color(70, 130, 180));
         nextButton.setForeground(Color.WHITE);
-        nextButton.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        nextButton.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));
+        nextButton.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         nextButton.addActionListener(e -> {
             if (currentPage * pageSize < totalRecords) {
                 currentPage++;
-                loadInvoices(selectedYear, selectedMonth);
+                loadOrders(selectedYear, selectedMonth, currentSearchQuery);
             }
         });
 
-        pageLabel = new JLabel("Page: 1");
+        pageLabel = new JLabel("Page: 1 of 1 (0 orders)");
         pageLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         pageLabel.setForeground(new Color(33, 37, 41));
 
         paginationPanel.add(prevButton);
         paginationPanel.add(Box.createHorizontalStrut(15));
+        pageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        pageLabel.setPreferredSize(new Dimension(200, 30));
         paginationPanel.add(pageLabel);
         paginationPanel.add(Box.createHorizontalStrut(15));
         paginationPanel.add(nextButton);
         add(paginationPanel, BorderLayout.SOUTH);
     }
 
-    private void loadInvoices(Year year, Month month) {
+    private void loadOrders(Year year, Month month, String searchQuery) {
         tableModel.setRowCount(0);
         try {
-            List<Invoice> allInvoices = invoiceService.getAllInvoices(1, Integer.MAX_VALUE);
-            if (allInvoices == null || allInvoices.isEmpty()) {
-                logger.warn("No invoices found in the database");
-                JOptionPane.showMessageDialog(this, 
-                    "No invoices found in the database.\n- Check if the 'invoice' table has data.\n- Try creating a new invoice via the Menu page.", 
+            List<OrderDetail> allOrders = orderService.getAllOrders(1, Integer.MAX_VALUE);
+            if (allOrders == null || allOrders.isEmpty()) {
+                logger.warn("No orders found in the database");
+                JOptionPane.showMessageDialog(this,
+                    "No orders found in the database.\n- Check if the 'order_detail' table has data.\n- Try creating a new order via the Menu page.",
                     "No Data", JOptionPane.WARNING_MESSAGE);
                 totalRecords = 0;
                 updatePaginationControls();
                 return;
             }
 
-            List<Invoice> filteredInvoices = allInvoices;
-            if (year != null && month != null) {
-                filteredInvoices = allInvoices.stream()
-                        .filter(invoice -> {
-                            try {
-                                if (invoice.getInvoiceDay() == null) {
-                                    logger.warn("Invoice ID {} has null invoice date", invoice.getId());
-                                    return false;
-                                }
-                                LocalDate invoiceDate = invoice.getInvoiceDay().toInstant()
-                                    .atZone(ZoneId.systemDefault()).toLocalDate();
-                                return invoiceDate.getYear() == year.getValue() && invoiceDate.getMonth() == month;
-                            } catch (Exception e) {
-                                logger.error("Error processing invoice ID {}: {}", invoice.getId(), e.getMessage());
+            List<OrderDetail> filteredOrders = allOrders.stream()
+                    .filter(order -> {
+                        try {
+                            if (order.getOrderDate() == null) {
+                                logger.warn("Order ID {} has null order date", order.getId());
                                 return false;
                             }
+                            LocalDate orderDate = order.getOrderDate().toInstant()
+                                    .atZone(ZoneId.systemDefault()).toLocalDate();
+                            
+                            // Handle today's date filtering
+                            if (year != null && month != null && 
+                                year.equals(Year.now()) && 
+                                month.equals(Month.from(LocalDate.now()))) {
+                                return orderDate.equals(LocalDate.now());
+                            }
+                            
+                            return (year == null || orderDate.getYear() == year.getValue()) &&
+                                   (month == null || orderDate.getMonth() == month);
+                        } catch (Exception e) {
+                            logger.error("Error processing order ID {}: {}", order.getId(), e.getMessage());
+                            return false;
+                        }
+                    })
+                    .collect(Collectors.toList());
+
+            if (searchQuery != null && !searchQuery.trim().isEmpty()) {
+                String query = searchQuery.toLowerCase().trim();
+                filteredOrders = filteredOrders.stream()
+                        .filter(order -> {
+                            if (String.valueOf(order.getId()).contains(query)) {
+                                return true;
+                            }
+                            String customerName = getCustomerName(order);
+                            return customerName.toLowerCase().contains(query);
                         })
                         .collect(Collectors.toList());
             }
 
-            totalRecords = filteredInvoices.size();
+            totalRecords = filteredOrders.size();
+
             int startIndex = (currentPage - 1) * pageSize;
             int endIndex = Math.min(startIndex + pageSize, totalRecords);
-            List<Invoice> paginatedInvoices = filteredInvoices.subList(startIndex, endIndex);
+            List<OrderDetail> paginatedOrders = filteredOrders.subList(
+                    Math.min(startIndex, totalRecords),
+                    Math.min(endIndex, totalRecords));
 
-            for (Invoice invoice : paginatedInvoices) {
-                String customerName = "N/A";
-                try {
-                    if (invoice.getCustomer() != null) {
-                        // Try to initialize the customer proxy
-                        Hibernate.initialize(invoice.getCustomer());
-                        Customer customer = invoice.getCustomer();
-                        StringBuilder fullName = new StringBuilder();
-                        String firstName = customer.getPersonFirstName();
-                        String middleName = customer.getPersonMiddleName();
-                        String lastName = customer.getPersonLastName();
-                        if (firstName != null && !firstName.trim().isEmpty()) {
-                            fullName.append(firstName);
-                        }
-                        if (middleName != null && !middleName.trim().isEmpty()) {
-                            if (fullName.length() > 0) fullName.append(" ");
-                            fullName.append(middleName);
-                        }
-                        if (lastName != null && !lastName.trim().isEmpty()) {
-                            if (fullName.length() > 0) fullName.append(" ");
-                            fullName.append(lastName);
-                        }
-                        if (fullName.length() > 0) {
-                            customerName = fullName.toString();
-                        } else if (customer.getCustomerNumber() != null && !customer.getCustomerNumber().trim().isEmpty()) {
-                            customerName = customer.getCustomerNumber();
-                        } else {
-                            customerName = "Unknown Customer (ID: " + customer.getPersonId() + ")";
-                        }
-                        logger.debug("Customer name for invoice ID {}: {}", invoice.getId(), customerName);
-                    } else {
-                        logger.warn("No customer associated with invoice ID {}", invoice.getId());
-                    }
-                } catch (LazyInitializationException e) {
-                    logger.warn("Lazy initialization failed for customer of invoice ID {}: {}. Attempting to reload.", invoice.getId(), e.getMessage());
-                    try (Session session = sessionFactory.openSession()) {
-                        session.beginTransaction();
-                        Long customerId = (Long) session.createQuery("SELECT c.personId FROM Invoice i JOIN i.customer c WHERE i.id = :invoiceId")
-                            .setParameter("invoiceId", invoice.getId())
-                            .uniqueResult();
-                        if (customerId != null) {
-                            Customer customer = session.get(Customer.class, customerId);
-                            if (customer != null) {
-                                StringBuilder fullName = new StringBuilder();
-                                String firstName = customer.getPersonFirstName();
-                                String middleName = customer.getPersonMiddleName();
-                                String lastName = customer.getPersonLastName();
-                                if (firstName != null && !firstName.trim().isEmpty()) {
-                                    fullName.append(firstName);
-                                }
-                                if (middleName != null && !middleName.trim().isEmpty()) {
-                                    if (fullName.length() > 0) fullName.append(" ");
-                                    fullName.append(middleName);
-                                }
-                                if (lastName != null && !lastName.trim().isEmpty()) {
-                                    if (fullName.length() > 0) fullName.append(" ");
-                                    fullName.append(lastName);
-                                }
-                                if (fullName.length() > 0) {
-                                    customerName = fullName.toString();
-                                } else if (customer.getCustomerNumber() != null && !customer.getCustomerNumber().trim().isEmpty()) {
-                                    customerName = customer.getCustomerNumber();
-                                } else {
-                                    customerName = "Unknown Customer (ID: " + customer.getPersonId() + ")";
-                                }
-                                logger.debug("Reloaded customer name for invoice ID {}: {}", invoice.getId(), customerName);
-                            } else {
-                                logger.warn("No customer found for invoice ID {} with ID {}", invoice.getId(), customerId);
-                            }
-                        } else {
-                            logger.warn("No customer ID found for invoice ID {}", invoice.getId());
-                        }
-                        session.getTransaction().commit();
-                    } catch (Exception ex) {
-                        logger.error("Failed to reload customer for invoice ID {}: {}", invoice.getId(), ex.getMessage());
-                    }
-                } catch (Exception e) {
-                    logger.warn("Failed to load customer for invoice ID {}: {}", invoice.getId(), e.getMessage());
-                }
+            for (OrderDetail order : paginatedOrders) {
+                Invoice invoice = invoiceService.getAllInvoices(1, Integer.MAX_VALUE)
+                        .stream()
+                        .filter(inv -> inv.getOrder() != null && inv.getOrder().getId() == order.getId())
+                        .findFirst()
+                        .orElse(null);
 
-                int itemCount = 0;
-                try {
-                    if (invoice.getOrder() != null) {
-                        Hibernate.initialize(invoice.getOrder());
-                        itemCount = invoice.getOrder().getItems().size();
-                    }
-                } catch (Exception e) {
-                    logger.warn("Failed to load items for invoice ID {}: {}", invoice.getId(), e.getMessage());
-                }
+                String customerName = getCustomerName(order);
+                int itemCount = orderService.getItemCountForOrder(order.getId());
+                double finalPrice = invoice != null ? invoice.getFinalPrice() : order.getTotalAmount();
+                String paymentMethod = invoice != null && invoice.getPaymentMethod() != null ? invoice.getPaymentMethod() : "Unknown";
 
                 Object[] rowData = {
-                    invoice.getId(),
+                    order.getId(),
                     customerName,
-                    PRICE_FORMAT.format(invoice.getFinalPrice()),
+                    PRICE_FORMAT.format(finalPrice),
                     itemCount,
-                    invoice.getInvoiceDay() != null ? invoice.getInvoiceDay().toString() : "N/A",
-                    invoice.getPaymentMethod() != null ? invoice.getPaymentMethod() : "Unknown"
+                    order.getOrderDate() != null ? order.getOrderDate().toString() : "N/A",
+                    paymentMethod
                 };
                 tableModel.addRow(rowData);
             }
 
-            logger.info("Loaded {} invoices (page {}/{}), filtered by year: {}, month: {}",
+            logger.info("Loaded {} orders (page {}/{}), filtered by year: {}, month: {}, search: {}",
                 totalRecords, currentPage, (int) Math.ceil((double) totalRecords / pageSize),
-                year != null ? year.getValue() : "none", month != null ? month : "none");
+                year != null ? year.getValue() : "none", month != null ? month : "none", searchQuery);
 
             updatePaginationControls();
-            invoiceTable.revalidate();
-            invoiceTable.repaint();
+            orderTable.revalidate();
+            orderTable.repaint();
         } catch (Exception e) {
-            logger.error("Error loading invoices", e);
-            JOptionPane.showMessageDialog(this, 
-                "Error loading invoices: " + e.getMessage() + 
-                "\nPlease check database connection and Hibernate configuration.", 
+            logger.error("Error loading orders", e);
+            JOptionPane.showMessageDialog(this,
+                "Error loading orders: " + e.getMessage() +
+                "\nPlease check database connection and service configuration.",
                 "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void showInvoiceDetails(long invoiceId) {
+    private String getCustomerName(OrderDetail order) {
+        String customerName = "N/A";
         try {
-            Invoice invoice = invoiceService.getInvoiceById(invoiceId);
-            if (invoice == null) {
-                logger.warn("Invoice ID {} not found", invoiceId);
-                JOptionPane.showMessageDialog(this, "Invoice not found!", 
+            Customer customer = order.getCustomer();
+            if (customer != null) {
+                StringBuilder fullName = new StringBuilder();
+                String firstName = customer.getPersonFirstName();
+                String middleName = customer.getPersonMiddleName();
+                String lastName = customer.getPersonLastName();
+                if (firstName != null && !firstName.trim().isEmpty()) {
+                    fullName.append(firstName);
+                }
+                if (middleName != null && !middleName.trim().isEmpty()) {
+                    if (fullName.length() > 0) fullName.append(" ");
+                    fullName.append(middleName);
+                }
+                if (lastName != null && !lastName.trim().isEmpty()) {
+                    if (fullName.length() > 0) fullName.append(" ");
+                    fullName.append(lastName);
+                }
+                if (fullName.length() > 0) {
+                    customerName = fullName.toString();
+                } else if (customer.getCustomerNumber() != null && !customer.getCustomerNumber().trim().isEmpty()) {
+                    customerName = customer.getCustomerNumber();
+                } else {
+                    customerName = "Unknown Customer (ID: " + customer.getPersonId() + ")";
+                }
+                logger.debug("Customer name for order ID {}: {}", order.getId(), customerName);
+            } else {
+                logger.warn("No customer associated with order ID {}", order.getId());
+            }
+        } catch (Exception e) {
+            logger.warn("Failed to load customer for order ID {}: {}", order.getId(), e.getMessage());
+        }
+        return customerName;
+    }
+
+    private void showOrderDetails(long orderId) {
+        try {
+            OrderDetail order = orderService.getOrderById(orderId);
+            if (order == null) {
+                logger.warn("Order ID {} not found", orderId);
+                JOptionPane.showMessageDialog(this, "Order not found!",
                     "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            JDialog detailsDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this), 
-                "Invoice Details", true);
+            Invoice invoice = invoiceService.getAllInvoices(1, Integer.MAX_VALUE)
+                    .stream()
+                    .filter(inv -> inv.getOrder() != null && inv.getOrder().getId() == orderId)
+                    .findFirst()
+                    .orElse(null);
+
+            if (invoice == null) {
+                logger.warn("No invoice found for order ID {}", orderId);
+                JOptionPane.showMessageDialog(this, "No invoice found for this order!",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            JDialog detailsDialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this),
+                "Order Details", true);
             detailsDialog.setSize(500, 600);
             detailsDialog.setLayout(new BorderLayout());
             detailsDialog.setLocationRelativeTo(this);
 
-            InvoicePanel invoicePanel = new InvoicePanel(invoice, invoice.getOrder() != null ?
-                invoice.getOrder().getItems().stream()
+            InvoicePanel invoicePanel = new InvoicePanel(invoice, order.getItems() != null ?
+                order.getItems().stream()
                     .map(item -> {
                         Product p = item.getProduct();
                         p.setQuantity(item.getQuantity());
@@ -387,16 +413,17 @@ public class OrderPanel extends JPanel {
             detailsDialog.add(invoicePanel, BorderLayout.CENTER);
             detailsDialog.setVisible(true);
         } catch (Exception e) {
-            logger.error("Error loading invoice details for ID {}", invoiceId, e);
-            JOptionPane.showMessageDialog(this, 
-                "Error loading invoice details: " + e.getMessage(), 
+            logger.error("Error loading order details for ID {}", orderId, e);
+            JOptionPane.showMessageDialog(this,
+                "Error loading order details: " + e.getMessage(),
                 "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     private void updatePaginationControls() {
-        pageLabel.setText(String.format("Page %d of %d (%d invoices)", currentPage,
-            (int) Math.ceil((double) totalRecords / pageSize), totalRecords));
+        int totalPages = (int) Math.ceil((double) totalRecords / pageSize);
+        pageLabel.setText(String.format("Page %d of %d (%d orders)", currentPage,
+            totalPages, totalRecords));
         prevButton.setEnabled(currentPage > 1);
         nextButton.setEnabled(currentPage * pageSize < totalRecords);
     }

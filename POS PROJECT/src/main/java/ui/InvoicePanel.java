@@ -56,16 +56,10 @@ public class InvoicePanel extends JPanel {
 
         add(detailsPanel, BorderLayout.CENTER);
 
-        // Add window listener to show "Back to Menu" message when closing with 'X'
+        // Removed WindowListener to avoid "Returned to Menu" message
         JDialog dialog = (JDialog) SwingUtilities.getWindowAncestor(this);
         if (dialog != null) {
             dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-            dialog.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosed(WindowEvent e) { // Change from windowClosing to windowClosed
-                    JOptionPane.showMessageDialog(null, "Returned to Menu");
-                }
-            });
         }
     }
 

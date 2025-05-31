@@ -1,0 +1,314 @@
+[INFO ] 30-05-2025 14:34:41 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 30-05-2025 14:34:41 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 30-05-2025 14:34:42 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 30-05-2025 14:34:42 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 30-05-2025 14:34:42 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 30-05-2025 14:34:42 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 30-05-2025 14:34:42 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 30-05-2025 14:34:42 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 30-05-2025 14:34:42 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 30-05-2025 14:34:42 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 30-05-2025 14:34:42 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 30-05-2025 14:34:43 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 30-05-2025 14:34:44 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 30-05-2025 14:34:45 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@cf1b85d] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 30-05-2025 14:34:45 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@7bb1fe48] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 30-05-2025 14:35:06 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 30-05-2025 14:35:06 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 30-05-2025 14:35:17 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: tamgay
+[INFO ] 30-05-2025 14:35:17 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 30-05-2025 14:35:17 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 30-05-2025 14:35:17 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 30-05-2025 14:35:17 [AWT-EventQueue-0] AuthenticationService - Employee login successful for identifier: tamgay
+[INFO ] 30-05-2025 14:35:19 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 30-05-2025 14:35:19 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 30-05-2025 14:35:19 [AWT-EventQueue-0] PersonServiceImpl - Employee with username tamgay retrieved
+[WARN ] 30-05-2025 14:35:19 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 30-05-2025 14:35:19 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 30-05-2025 14:35:19 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 30-05-2025 14:35:40 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 30-05-2025 14:35:51 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 30-05-2025 14:35:51 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 30-05-2025 14:35:51 [AWT-EventQueue-0] PersonServiceImpl - Employee with username tamgay retrieved
+[WARN ] 30-05-2025 14:35:51 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 30-05-2025 14:35:51 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 30-05-2025 14:35:51 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 30-05-2025 14:49:32 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 30-05-2025 14:49:32 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 30-05-2025 14:49:32 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 30-05-2025 14:49:32 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 30-05-2025 14:49:33 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 30-05-2025 14:49:33 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 30-05-2025 14:49:33 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 30-05-2025 14:49:33 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 30-05-2025 14:49:33 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 30-05-2025 14:49:33 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 30-05-2025 14:49:33 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 30-05-2025 14:49:34 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 30-05-2025 14:49:34 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 30-05-2025 14:49:36 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@600b56cc] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 30-05-2025 14:49:36 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@2aee1fc4] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 30-05-2025 14:49:37 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 30-05-2025 14:49:37 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 30-05-2025 14:49:48 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: tamgay
+[INFO ] 30-05-2025 14:49:48 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 30-05-2025 14:49:48 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 30-05-2025 14:49:48 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 30-05-2025 14:49:48 [AWT-EventQueue-0] AuthenticationService - Employee login successful for identifier: tamgay
+[INFO ] 30-05-2025 14:49:49 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 30-05-2025 14:49:49 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 30-05-2025 14:49:49 [AWT-EventQueue-0] PersonServiceImpl - Employee with username tamgay retrieved
+[WARN ] 30-05-2025 14:49:50 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 30-05-2025 14:49:50 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 30-05-2025 14:49:50 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 30-05-2025 14:49:54 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 30-05-2025 14:49:57 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 30-05-2025 14:49:57 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 30-05-2025 14:49:57 [AWT-EventQueue-0] PersonServiceImpl - Employee with username tamgay retrieved
+[WARN ] 30-05-2025 14:49:57 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 30-05-2025 14:49:57 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 30-05-2025 14:49:57 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 30-05-2025 14:50:24 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 30-05-2025 14:50:26 [AWT-EventQueue-0] ProductDao - Product with name: MatchaLatte and size: S retrieved successfully: 442
+[INFO ] 30-05-2025 14:50:28 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 30-05-2025 14:50:30 [AWT-EventQueue-0] ProductDao - Product with name: Tiramisu Cake and size: Default retrieved successfully: 458
+[INFO ] 30-05-2025 14:50:35 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 6
+[INFO ] 30-05-2025 14:50:35 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 30-05-2025 14:50:40 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 6
+[INFO ] 30-05-2025 14:50:40 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 30-05-2025 14:50:40 [AWT-EventQueue-0] ProductDao - Product with id: 442 retrieved successfully: MatchaLatte
+[INFO ] 30-05-2025 14:50:40 [AWT-EventQueue-0] ProductDao - Product with id: 458 retrieved successfully: Tiramisu Cake
+[INFO ] 30-05-2025 14:50:40 [AWT-EventQueue-0] OrderDetailDao - Merged Product for OrderItem: ID=458, Name=Tiramisu Cake
+[INFO ] 30-05-2025 14:50:40 [AWT-EventQueue-0] OrderDetailDao - Merged Product for OrderItem: ID=442, Name=MatchaLatte
+[INFO ] 30-05-2025 14:50:40 [AWT-EventQueue-0] OrderDetailDao - OrderDetail persisted in database successfully
+[INFO ] 30-05-2025 14:50:42 [AWT-EventQueue-0] PaymentDao - Payment persisted successfully
+[INFO ] 30-05-2025 14:50:42 [AWT-EventQueue-0] CustomerDao - Customer with id: 221 updated in database successfully
+[INFO ] 30-05-2025 14:50:42 [AWT-EventQueue-0] PersonServiceImpl - Customer with id 221 updated
+[INFO ] 30-05-2025 14:50:42 [AWT-EventQueue-0] InvoiceDao - Invoice saved successfully
+[INFO ] 30-05-2025 14:50:46 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 30-05-2025 14:51:06 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 30-05-2025 14:51:06 [AWT-EventQueue-0] PersonServiceImpl - Employee with username tamgay retrieved
+[WARN ] 30-05-2025 14:51:06 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 30-05-2025 14:51:06 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 30-05-2025 14:51:06 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 30-05-2025 14:51:07 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 30-05-2025 14:51:07 [AWT-EventQueue-0] PersonServiceImpl - Employee with username tamgay retrieved
+[WARN ] 30-05-2025 14:51:07 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 30-05-2025 14:51:07 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 30-05-2025 14:51:07 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 30-05-2025 14:51:08 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 30-05-2025 14:51:08 [AWT-EventQueue-0] InvoiceDao - Retrieved 7 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 547: could not initialize proxy [model.Customer#456] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 547: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 547: could not initialize proxy [model.OrderDetail#542] - no Session
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 601: could not initialize proxy [model.Customer#204] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 601: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 601: could not initialize proxy [model.OrderDetail#597] - no Session
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 595: could not initialize proxy [model.Customer#589] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 595: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 595: could not initialize proxy [model.OrderDetail#590] - no Session
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 667: could not initialize proxy [model.Customer#221] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 667: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 667: could not initialize proxy [model.OrderDetail#663] - no Session
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 557: could not initialize proxy [model.Customer#204] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 557: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 557: could not initialize proxy [model.OrderDetail#554] - no Session
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 564: could not initialize proxy [model.Customer#558] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 564: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 564: could not initialize proxy [model.OrderDetail#559] - no Session
+[INFO ] 30-05-2025 14:51:08 [AWT-EventQueue-0] OrderPanel - Loaded 7 invoices (page 1/2), filtered by year: none, month: none
+[WARN ] 30-05-2025 14:51:13 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 14:51:13 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 14:51:13 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 14:51:13 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 14:51:13 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 14:51:13 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 14:51:13 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 30-05-2025 14:51:13 [AWT-EventQueue-0] InvoiceDao - Retrieved 7 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 30-05-2025 14:51:13 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 629: could not initialize proxy [model.Customer#241] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 14:51:13 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 629: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 14:51:13 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 629: could not initialize proxy [model.OrderDetail#626] - no Session
+[INFO ] 30-05-2025 14:51:13 [AWT-EventQueue-0] OrderPanel - Loaded 7 invoices (page 2/2), filtered by year: none, month: none
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 30-05-2025 14:51:16 [AWT-EventQueue-0] InvoiceDao - Retrieved 7 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 547: could not initialize proxy [model.Customer#456] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 547: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 547: could not initialize proxy [model.OrderDetail#542] - no Session
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 601: could not initialize proxy [model.Customer#204] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 601: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 601: could not initialize proxy [model.OrderDetail#597] - no Session
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 595: could not initialize proxy [model.Customer#589] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 595: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 595: could not initialize proxy [model.OrderDetail#590] - no Session
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 667: could not initialize proxy [model.Customer#221] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 667: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 667: could not initialize proxy [model.OrderDetail#663] - no Session
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 557: could not initialize proxy [model.Customer#204] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 557: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 557: could not initialize proxy [model.OrderDetail#554] - no Session
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 564: could not initialize proxy [model.Customer#558] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 564: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 564: could not initialize proxy [model.OrderDetail#559] - no Session
+[INFO ] 30-05-2025 14:51:16 [AWT-EventQueue-0] OrderPanel - Loaded 7 invoices (page 1/2), filtered by year: none, month: none
+[INFO ] 30-05-2025 14:51:32 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 30-05-2025 14:51:32 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 30-05-2025 14:51:32 [AWT-EventQueue-0] PersonServiceImpl - Employee with username tamgay retrieved
+[WARN ] 30-05-2025 14:51:32 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 30-05-2025 14:51:32 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 30-05-2025 14:51:32 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 30-05-2025 14:51:38 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 30-05-2025 14:59:05 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 30-05-2025 14:59:05 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 30-05-2025 14:59:05 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 30-05-2025 14:59:05 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 30-05-2025 14:59:06 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 30-05-2025 14:59:06 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 30-05-2025 14:59:06 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 30-05-2025 14:59:06 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 30-05-2025 14:59:06 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 30-05-2025 14:59:06 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 30-05-2025 14:59:06 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 30-05-2025 14:59:06 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 30-05-2025 14:59:07 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 30-05-2025 14:59:08 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@600b56cc] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 30-05-2025 14:59:09 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@2aee1fc4] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 30-05-2025 14:59:09 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 30-05-2025 14:59:09 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 30-05-2025 14:59:21 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: tamgay
+[INFO ] 30-05-2025 14:59:22 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 30-05-2025 14:59:22 [AWT-EventQueue-0] HashService - Hashing successful
+[WARN ] 30-05-2025 14:59:22 [AWT-EventQueue-0] AuthenticationService - Incorrect password for employee identifier: tamgay
+[INFO ] 30-05-2025 14:59:29 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: tamgay
+[INFO ] 30-05-2025 14:59:29 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 30-05-2025 14:59:29 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 30-05-2025 14:59:29 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 30-05-2025 14:59:29 [AWT-EventQueue-0] AuthenticationService - Employee login successful for identifier: tamgay
+[INFO ] 30-05-2025 14:59:30 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 30-05-2025 14:59:30 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 30-05-2025 14:59:30 [AWT-EventQueue-0] PersonServiceImpl - Employee with username tamgay retrieved
+[WARN ] 30-05-2025 14:59:31 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 30-05-2025 14:59:31 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 30-05-2025 14:59:31 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 30-05-2025 14:59:34 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 30-05-2025 14:59:35 [AWT-EventQueue-0] ProductDao - Product with name: MatchaLatte and size: S retrieved successfully: 442
+[INFO ] 30-05-2025 14:59:37 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 30-05-2025 14:59:37 [AWT-EventQueue-0] ProductDao - Product with name: Tiramisu Cake and size: Default retrieved successfully: 458
+[INFO ] 30-05-2025 14:59:41 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 6
+[INFO ] 30-05-2025 14:59:41 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 30-05-2025 14:59:44 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 6
+[INFO ] 30-05-2025 14:59:44 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 30-05-2025 14:59:44 [AWT-EventQueue-0] ProductDao - Product with id: 442 retrieved successfully: MatchaLatte
+[INFO ] 30-05-2025 14:59:44 [AWT-EventQueue-0] ProductDao - Product with id: 458 retrieved successfully: Tiramisu Cake
+[INFO ] 30-05-2025 14:59:44 [AWT-EventQueue-0] OrderDetailDao - Merged Product for OrderItem: ID=442, Name=MatchaLatte
+[INFO ] 30-05-2025 14:59:44 [AWT-EventQueue-0] OrderDetailDao - Merged Product for OrderItem: ID=458, Name=Tiramisu Cake
+[INFO ] 30-05-2025 14:59:44 [AWT-EventQueue-0] OrderDetailDao - OrderDetail persisted in database successfully
+[INFO ] 30-05-2025 14:59:46 [AWT-EventQueue-0] PaymentDao - Payment persisted successfully
+[INFO ] 30-05-2025 14:59:46 [AWT-EventQueue-0] CustomerDao - Customer with id: 241 updated in database successfully
+[INFO ] 30-05-2025 14:59:46 [AWT-EventQueue-0] PersonServiceImpl - Customer with id 241 updated
+[INFO ] 30-05-2025 14:59:46 [AWT-EventQueue-0] InvoiceDao - Invoice saved successfully
+[INFO ] 30-05-2025 14:59:47 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 30-05-2025 15:19:54 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 30-05-2025 15:19:54 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 30-05-2025 15:19:55 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 30-05-2025 15:19:55 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 30-05-2025 15:19:55 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 30-05-2025 15:19:56 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 30-05-2025 15:19:56 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 30-05-2025 15:19:56 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 30-05-2025 15:19:56 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 30-05-2025 15:19:56 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 30-05-2025 15:19:56 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 30-05-2025 15:19:56 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 30-05-2025 15:19:58 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 30-05-2025 15:19:59 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@600b56cc] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 30-05-2025 15:20:00 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@2aee1fc4] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 30-05-2025 15:20:00 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 30-05-2025 15:20:00 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 30-05-2025 15:20:11 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: tamgay
+[INFO ] 30-05-2025 15:20:11 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 30-05-2025 15:20:11 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 30-05-2025 15:20:11 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 30-05-2025 15:20:11 [AWT-EventQueue-0] AuthenticationService - Employee login successful for identifier: tamgay
+[INFO ] 30-05-2025 15:20:12 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 30-05-2025 15:20:12 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 30-05-2025 15:20:12 [AWT-EventQueue-0] PersonServiceImpl - Employee with username tamgay retrieved
+[WARN ] 30-05-2025 15:20:12 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 30-05-2025 15:20:12 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 30-05-2025 15:20:12 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 30-05-2025 15:20:15 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 30-05-2025 15:20:15 [AWT-EventQueue-0] PersonServiceImpl - Employee with username tamgay retrieved
+[WARN ] 30-05-2025 15:20:15 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 30-05-2025 15:20:15 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 30-05-2025 15:20:15 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 30-05-2025 15:20:16 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 30-05-2025 15:20:16 [AWT-EventQueue-0] InvoiceDao - Retrieved 8 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 547: could not initialize proxy [model.Customer#456] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 547: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 547: could not initialize proxy [model.OrderDetail#542] - no Session
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 601: could not initialize proxy [model.Customer#204] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 601: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 601: could not initialize proxy [model.OrderDetail#597] - no Session
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 673: could not initialize proxy [model.Customer#241] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 673: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 673: could not initialize proxy [model.OrderDetail#669] - no Session
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 595: could not initialize proxy [model.Customer#589] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 595: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 595: could not initialize proxy [model.OrderDetail#590] - no Session
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 667: could not initialize proxy [model.Customer#221] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 667: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 667: could not initialize proxy [model.OrderDetail#663] - no Session
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Lazy initialization failed for customer of invoice ID 557: could not initialize proxy [model.Customer#204] - no Session. Attempting to reload.
+[ERROR] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Failed to reload customer for invoice ID 557: Cannot invoke "org.hibernate.SessionFactory.openSession()" because "this.sessionFactory" is null
+[WARN ] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Failed to load items for invoice ID 557: could not initialize proxy [model.OrderDetail#554] - no Session
+[INFO ] 30-05-2025 15:20:16 [AWT-EventQueue-0] OrderPanel - Loaded 8 invoices (page 1/2), filtered by year: none, month: none
+[INFO ] 30-05-2025 15:20:17 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 30-05-2025 15:21:09 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 30-05-2025 15:21:09 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 30-05-2025 15:21:09 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 30-05-2025 15:21:09 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 30-05-2025 15:21:10 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 30-05-2025 15:21:10 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 30-05-2025 15:21:10 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 30-05-2025 15:21:10 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 30-05-2025 15:21:10 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 30-05-2025 15:21:10 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 30-05-2025 15:21:10 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 30-05-2025 15:21:10 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 30-05-2025 15:21:11 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 30-05-2025 15:21:12 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@78add63e] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 30-05-2025 15:21:12 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@307ca263] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 30-05-2025 15:21:12 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 30-05-2025 15:21:12 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 30-05-2025 15:21:23 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: tamgay
+[INFO ] 30-05-2025 15:21:23 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 30-05-2025 15:21:23 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 30-05-2025 15:21:23 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 30-05-2025 15:21:23 [AWT-EventQueue-0] AuthenticationService - Employee login successful for identifier: tamgay
+[INFO ] 30-05-2025 15:21:24 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 30-05-2025 15:21:24 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 30-05-2025 15:21:24 [AWT-EventQueue-0] PersonServiceImpl - Employee with username tamgay retrieved
+[WARN ] 30-05-2025 15:21:24 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 30-05-2025 15:21:24 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 30-05-2025 15:21:24 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 30-05-2025 15:21:27 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256

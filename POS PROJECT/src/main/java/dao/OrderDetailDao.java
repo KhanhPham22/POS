@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -94,19 +95,17 @@ public class OrderDetailDao implements GenericDao<OrderDetail> {
      */
     @Override
     public List<OrderDetail> findAll(int pageNumber, int pageSize) throws Exception {
-        Session session = null;
+        Session session = sessionFactory.openSession();
         try {
-            session = sessionFactory.openSession();
-
-            int offset = (pageNumber - 1) * pageSize; // Calculate offset
-
-            // Fetch paginated results using HQL
-            List<OrderDetail> orderDetails = session.createQuery("from OrderDetail", OrderDetail.class)
-                                                    .setFirstResult(offset)
-                                                    .setMaxResults(pageSize)
-                                                    .list();
-
-            Log.info("All OrderDetails retrieved successfully with pagination from database");
+            int offset = (pageNumber - 1) * pageSize;
+            
+            // Modified query to join fetch the customer
+            List<OrderDetail> orderDetails = session.createQuery(
+                "SELECT DISTINCT o FROM OrderDetail o LEFT JOIN FETCH o.customer", OrderDetail.class)
+                .setFirstResult(offset)
+                .setMaxResults(pageSize)
+                .list();
+                
             return orderDetails;
         } catch (Exception e) {
             Log.error("Error while retrieving OrderDetails with pagination from database", e);
@@ -193,17 +192,33 @@ public class OrderDetailDao implements GenericDao<OrderDetail> {
     public List<OrderDetail> findByCustomerName(String customerName) throws Exception {
         Session session = sessionFactory.openSession();
         try {
-            // Use HQL to query by customer name (must ensure customer is joined in entity)
-            String hql = "FROM OrderDetail o WHERE o.customer.name = :name";
+            String hql = "SELECT DISTINCT o FROM OrderDetail o LEFT JOIN FETCH o.customer " +
+                         "WHERE LOWER(o.customer.personFirstName) LIKE :name OR " +
+                         "LOWER(o.customer.personMiddleName) LIKE :name OR " +
+                         "LOWER(o.customer.personLastName) LIKE :name";
+            
             List<OrderDetail> results = session.createQuery(hql, OrderDetail.class)
-                                               .setParameter("name", customerName)
-                                               .list();
-
-            Log.info("Retrieved OrderDetails for customer name: " + customerName);
+                .setParameter("name", "%" + customerName.toLowerCase() + "%")
+                .list();
+                
             return results;
         } catch (Exception e) {
             Log.error("Database error while retrieving OrderDetails for customer name: " + customerName, e);
             throw e;
+        } finally {
+            session.close();
+        }
+    }
+    
+    public int getItemCountForOrder(long orderId) throws SQLException {
+        Session session = sessionFactory.openSession();
+        try {
+            // Using HQL to count items for an order
+            String hql = "SELECT COUNT(*) FROM OrderItem oi WHERE oi.order.id = :orderId";
+            Long count = (Long) session.createQuery(hql)
+                                     .setParameter("orderId", orderId)
+                                     .uniqueResult();
+            return count != null ? count.intValue() : 0;
         } finally {
             session.close();
         }
