@@ -28,6 +28,7 @@ import service.SupplierServiceImpl;
 import service.AuthenticationService;
 import service.CategoryService;
 import service.CategoryServiceImpl;
+import service.DashboardService;
 import service.HashService;
 import ui.Elements.SearchBar;
 import ui.Elements.SidebarPanel;
@@ -53,10 +54,11 @@ public class ProductFrame extends JFrame implements SidebarPanel.SidebarListener
 	private AuthenticationService authService;
 	private CategoryService categoryService;
 	private ProductService productService;
+	private DashboardService dashboardService;
 
 	public ProductFrame(PersonService personService, SupplierService supplierService, ItemService itemService,
 			StoreServiceImpl storeService, HashService hashService, AuthenticationService authService,
-			ProductService productService, CategoryService categoryService,String username) {
+			ProductService productService, CategoryService categoryService,DashboardService dashboardService,String username) {
 		this.personService = personService;
 		this.supplierService = supplierService;
 		this.itemService = itemService;
@@ -65,6 +67,7 @@ public class ProductFrame extends JFrame implements SidebarPanel.SidebarListener
 		this.authService = authService;
 		this.categoryService = categoryService;
 		this.productService = productService;
+		this.dashboardService = dashboardService;
 		this.username = username;
 
 		setTitle("Quản lý sản phẩm");
@@ -102,7 +105,7 @@ public class ProductFrame extends JFrame implements SidebarPanel.SidebarListener
 			loadProductListPanel();
 			break;
 		case "Dashboard":
-			loadDashboardPanel();
+			openDashboardFrame();
 			break;
 		case "Supplier":
 			openSupplierFrame();
@@ -130,13 +133,13 @@ public class ProductFrame extends JFrame implements SidebarPanel.SidebarListener
 
 	private void openCustomerManager() {
 		new CustomerManager(personService, supplierService, itemService, storeService, hashService, authService,
-				productService, categoryService,username).setVisible(true);
+				productService, categoryService,dashboardService,username).setVisible(true);
 		dispose();
 	}
 
 	private void openEmployeeManager() {
 		new EmployeeManager(personService, supplierService, itemService, storeService, hashService, authService,
-				productService, categoryService,username).setVisible(true);
+				productService, categoryService,dashboardService,username).setVisible(true);
 		dispose();
 
 	}
@@ -158,11 +161,11 @@ public class ProductFrame extends JFrame implements SidebarPanel.SidebarListener
         }
     }
 
-	private void loadDashboardPanel() {
-		JPanel dashboardPanel = new JPanel(new BorderLayout());
-		dashboardPanel.setBackground(Color.WHITE);
-		dashboardPanel.add(new JLabel("Dashboard Page (Under Construction)", SwingConstants.CENTER));
-		contentPanel.add(dashboardPanel, BorderLayout.CENTER);
+	private void openDashboardFrame() {
+	    DashboardFrame dashboardFrame = new DashboardFrame(supplierService, itemService, storeService, personService,
+	            hashService, authService, productService, categoryService, dashboardService, username);
+	    dashboardFrame.setVisible(true);
+	    dispose();
 	}
 
 	private void loadWarehousePanel() {
@@ -174,14 +177,14 @@ public class ProductFrame extends JFrame implements SidebarPanel.SidebarListener
 
 	private void openStoreFrame() {
 		StoreFrame storeFrame = new StoreFrame(supplierService, itemService, storeService, personService, hashService,
-				authService, productService, categoryService,username);
+				authService, productService, categoryService,dashboardService,username);
 		storeFrame.setVisible(true);
 		dispose();
 	}
 
 	private void openSupplierFrame() {
 		SupplierFrame supplierFrame = new SupplierFrame(supplierService, itemService, storeService, personService,
-				hashService, authService, productService, categoryService,username);
+				hashService, authService, productService, categoryService,dashboardService,username);
 		supplierFrame.setVisible(true);
 		dispose();
 	}
@@ -200,40 +203,4 @@ public class ProductFrame extends JFrame implements SidebarPanel.SidebarListener
 	}
 
 
-//	public static void main(String[] args) {
-//		SwingUtilities.invokeLater(() -> {
-//			try {
-//				// Khởi tạo các DAO
-//				EmployeeDao employeeDao = new EmployeeDao();
-//				OwnerDao ownerDao = new OwnerDao();
-//				CustomerDao customerDao = new CustomerDao();
-//				SupplierDao supplierDao = new SupplierDao();
-//				ItemDao itemDao = new ItemDao();
-//				StoreDao storeDao = new StoreDao();
-//				UserSessionDao userSessionDao = new UserSessionDao();
-//				CategoryDao categoryDao = new CategoryDao();
-//				ProductDao productDao = new ProductDao();
-//
-//				// Khởi tạo các service
-//				PersonService personService = new PersonServiceImpl(employeeDao, customerDao, ownerDao);
-//				SupplierService supplierService = new SupplierServiceImpl(supplierDao);
-//				ItemService itemService = new ItemServiceImpl(itemDao);
-//				StoreServiceImpl storeService = new StoreServiceImpl(storeDao);
-//				HashService hashService = new HashService();
-//				AuthenticationService authService = new AuthenticationService(employeeDao, ownerDao, userSessionDao,
-//						hashService);
-//				CategoryService categoryService = new CategoryServiceImpl(categoryDao);
-//				ProductService productService = new ProductServiceImpl(productDao);
-//
-//				// Tạo và hiển thị frame chính
-//				ProductFrame frame = new ProductFrame(personService, supplierService, itemService, storeService,
-//						hashService, authService, productService, categoryService);
-//				frame.setVisible(true);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//				JOptionPane.showMessageDialog(null, "Lỗi khi khởi chạy ứng dụng: " + e.getMessage(), "Lỗi",
-//						JOptionPane.ERROR_MESSAGE);
-//			}
-//		});
-//	}
 }

@@ -26,6 +26,7 @@ import model.Supplier;
 import model.Warehouse;
 import service.AuthenticationService;
 import service.CategoryService;
+import service.DashboardService;
 import service.HashService;
 import service.ItemService;
 import service.ItemServiceImpl;
@@ -55,10 +56,11 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 	private AuthenticationService authService;
 	private CategoryService categoryService;
 	private ProductService productService;
+	private DashboardService dashboardService;
 
 	public SupplierFrame(SupplierService supplierService, ItemService itemService, StoreServiceImpl storeService,
 			PersonService personService, HashService hashService, AuthenticationService authService,
-			ProductService productService, CategoryService categoryService,String username) {
+			ProductService productService, CategoryService categoryService,DashboardService dashboardService,String username) {
 		this.supplierService = supplierService;
 		this.itemService = itemService;
 		this.storeService = storeService;
@@ -67,6 +69,7 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 		this.authService = authService;
 		this.categoryService = categoryService;
 		this.productService = productService;
+		this.dashboardService = dashboardService;
 		this.username = username;
 
 		setTitle("Supplier Management");
@@ -101,7 +104,7 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 			openProductFrame();
 			break;
 		case "Dashboard":
-			loadDashboardPanel();
+			openDashboardFrame();
 			break;
 		case "Supplier":
 			loadSupplierPanel();
@@ -141,29 +144,29 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 
 	private void openCustomerManager() {
 		new CustomerManager(personService, supplierService, itemService, storeService, hashService, authService,
-				productService, categoryService,username).setVisible(true);
+				productService, categoryService,dashboardService,username).setVisible(true);
 		dispose();
 	}
 
 	private void openEmployeeManager() {
 		new EmployeeManager(personService, supplierService, itemService, storeService, hashService, authService,
-				productService, categoryService,username).setVisible(true);
+				productService, categoryService,dashboardService,username).setVisible(true);
 		dispose();
 
 	}
 
 	private void openProductFrame() {
 		ProductFrame productFrame = new ProductFrame(personService, supplierService, itemService, storeService,
-				hashService, authService, productService, categoryService,username);
+				hashService, authService, productService, categoryService, dashboardService,username);
 		productFrame.setVisible(true);
 		dispose();
 	}
 
-	private void loadDashboardPanel() {
-		JPanel dashboardPanel = new JPanel(new BorderLayout());
-		dashboardPanel.setBackground(Color.WHITE);
-		dashboardPanel.add(new JLabel("Dashboard Page (Under Construction)", SwingConstants.CENTER));
-		contentPanel.add(dashboardPanel, BorderLayout.CENTER);
+	private void openDashboardFrame() {
+	    DashboardFrame dashboardFrame = new DashboardFrame(supplierService, itemService, storeService, personService,
+	            hashService, authService, productService, categoryService, dashboardService, username);
+	    dashboardFrame.setVisible(true);
+	    dispose();
 	}
 
 	private void loadSupplierPanel() {
@@ -181,7 +184,7 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 	private void openStoreFrame() {
 		StoreServiceImpl storeService = new StoreServiceImpl(new StoreDao()); // Use StoreServiceImpl directly
 		StoreFrame storeFrame = new StoreFrame(supplierService, itemService, storeService, personService, hashService,
-				authService, productService, categoryService,username);
+				authService, productService, categoryService,dashboardService,username);
 		storeFrame.setVisible(true);
 		dispose();
 	}

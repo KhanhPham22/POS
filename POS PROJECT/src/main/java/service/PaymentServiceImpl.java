@@ -87,6 +87,17 @@ public class PaymentServiceImpl implements PaymentService {
          return null;
      }
  }
+ 
+
+ @Override
+ public List<Payment> getPaymentsByOrderId(long orderId) {
+     try {
+         return paymentDao.findByOrderId(orderId);
+     } catch (Exception e) {
+         Log.error("Failed to get payments for order ID: " + orderId, e);
+         return List.of();
+     }
+ }
 
 }
 

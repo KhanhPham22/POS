@@ -91,12 +91,11 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @return The invoice object if found, otherwise null
      */
     @Override
-    public Invoice getInvoiceById(long invoiceId) {
+    public Invoice getInvoiceByOrderId(long orderId) {
         try {
-            return invoiceDao.findById(invoiceId);
+            return invoiceDao.findByOrderId(orderId);
         } catch (Exception e) {
-            Log.error("Failed to retrieve invoice with ID: " + invoiceId, e);
-            return null;
+            throw new RuntimeException("Failed to get invoice for order ID: " + orderId, e);
         }
     }
 

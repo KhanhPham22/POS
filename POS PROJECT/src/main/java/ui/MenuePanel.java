@@ -3,6 +3,7 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -183,66 +184,120 @@ public class MenuePanel extends JPanel {
 	 * Creates a panel for a product.
 	 */
 	private JPanel createProductPanel(Product product) {
-		JPanel panel = new JPanel(new BorderLayout());
-		panel.setBackground(Color.WHITE);
-		panel.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
+	    JPanel panel = new JPanel(new BorderLayout());
+	    panel.setBackground(Color.WHITE);
+	    panel.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
+	    panel.setPreferredSize(new Dimension(200, 250));
 
-		JLabel imageLabel = new JLabel();
-		imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		loadProductImage(product, imageLabel, 150, 150);
-		panel.add(imageLabel, BorderLayout.CENTER);
+	    // Panel chứa ảnh sản phẩm
+	    JPanel imageContainer = new JPanel(new BorderLayout()) {
+	        @Override
+	        public Dimension getPreferredSize() {
+	            return new Dimension(190, 180);
+	        }
+	    };
+	    imageContainer.setBackground(Color.WHITE);
+	    imageContainer.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-		JLabel nameLabel = new JLabel(product.getName(), SwingConstants.CENTER);
-		nameLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
-		panel.add(nameLabel, BorderLayout.SOUTH);
+	    JLabel imageLabel = new JLabel();
+	    imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	    imageLabel.setVerticalAlignment(SwingConstants.CENTER);
+	    imageLabel.setPreferredSize(new Dimension(180, 170)); // Đảm bảo chiếm đủ khung
 
-		panel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				showProductDetails(product);
-			}
-		});
+	    loadProductImage(product, imageLabel, 180, 170);
 
-		return panel;
+	    imageContainer.add(imageLabel, BorderLayout.CENTER);
+	    panel.add(imageContainer, BorderLayout.CENTER);
+
+	    // Tên sản phẩm
+	    JPanel namePanel = new JPanel(new BorderLayout());
+	    namePanel.setBackground(Color.WHITE);
+	    namePanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
+
+	    JLabel nameLabel = new JLabel(product.getName(), SwingConstants.CENTER);
+	    nameLabel.setFont(new Font("Segoe UI", Font.BOLD, 13));
+	    namePanel.add(nameLabel, BorderLayout.CENTER);
+
+	    panel.add(namePanel, BorderLayout.SOUTH);
+
+	    // Hover & click
+	    panel.addMouseListener(new MouseAdapter() {
+	        @Override
+	        public void mouseClicked(MouseEvent e) {
+	            showProductDetails(product);
+	        }
+
+	        @Override
+	        public void mouseEntered(MouseEvent e) {
+	            panel.setBorder(BorderFactory.createLineBorder(new Color(70, 130, 180), 2));
+	            panel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	        }
+
+	        @Override
+	        public void mouseExited(MouseEvent e) {
+	            panel.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
+	            panel.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+	        }
+	    });
+
+	    return panel;
 	}
+
 
 	/**
 	 * Loads a product image with fallbacks.
 	 */
-	private void loadProductImage(Product product, JLabel label, int width, int height) {
-		ImageIcon icon = null;
-		if (product.getImagePath() != null && !product.getImagePath().isEmpty()) {
-			File imageFile = new File(product.getImagePath());
-			if (imageFile.exists()) {
-				icon = new ImageIcon(product.getImagePath());
-			} else {
-				String fallbackPath = PRODUCT_IMG_DIR + product.getName() + "_"
-						+ (product.getSize() != null ? product.getSize() : "Default") + ".jpg";
-				File fallbackFile = new File(fallbackPath);
-				if (fallbackFile.exists()) {
-					icon = new ImageIcon(fallbackPath);
-				}
-			}
-		} else {
-			String fallbackPath = PRODUCT_IMG_DIR + product.getName() + "_"
-					+ (product.getSize() != null ? product.getSize() : "Default") + ".jpg";
-			File fallbackFile = new File(fallbackPath);
-			if (fallbackFile.exists()) {
-				icon = new ImageIcon(fallbackPath);
-			} else {
-				File defaultFile = new File(PRODUCT_IMG_DIR + "default.png");
-				String defaultPath = defaultFile.exists() ? PRODUCT_IMG_DIR + "default.png"
-						: "C:\\TTTN\\POS PROJECT\\img\\default.png";
-				icon = new ImageIcon(defaultPath);
-			}
-		}
-		if (icon != null) {
-			Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-			label.setIcon(new ImageIcon(scaledImage));
-		} else {
-			label.setIcon(new ImageIcon());
-		}
+	private void loadProductImage(Product product, JLabel label, int defaultWidth, int defaultHeight) {
+	    String imagePath = null;
+
+	    if (product.getImagePath() != null && !product.getImagePath().isEmpty()) {
+	        File imageFile = new File(product.getImagePath());
+	        if (imageFile.exists()) imagePath = product.getImagePath();
+	    }
+
+	    if (imagePath == null) {
+	        String fallbackPath = PRODUCT_IMG_DIR + product.getName() + "_" + 
+	            (product.getSize() != null ? product.getSize() : "Default") + ".jpg";
+	        if (new File(fallbackPath).exists()) {
+	            imagePath = fallbackPath;
+	        } else {
+	            imagePath = PRODUCT_IMG_DIR + "default.png";
+	            if (!new File(imagePath).exists()) {
+	                imagePath = "C:\\TTTN\\POS PROJECT\\img\\default.png";
+	            }
+	        }
+	    }
+
+	    int width = defaultWidth > 0 ? defaultWidth : 100;
+	    int height = defaultHeight > 0 ? defaultHeight : 100;
+
+	    try {
+	        ImageIcon originalIcon = new ImageIcon(imagePath);
+	        Image originalImage = originalIcon.getImage();
+
+	        // Tính toán để resize mà không méo hình
+	        double imgWidth = originalImage.getWidth(null);
+	        double imgHeight = originalImage.getHeight(null);
+	        double scale = Math.min((double) width / imgWidth, (double) height / imgHeight);
+
+	        int newWidth = (int) (imgWidth * scale);
+	        int newHeight = (int) (imgHeight * scale);
+
+	        Image scaledImage = originalImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+	        label.setIcon(new ImageIcon(scaledImage));
+
+	    } catch (Exception e) {
+	        System.err.println("Error loading image: " + e.getMessage());
+
+	        BufferedImage blankImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+	        Graphics2D g2d = blankImage.createGraphics();
+	        g2d.setColor(Color.WHITE);
+	        g2d.fillRect(0, 0, width, height);
+	        g2d.dispose();
+	        label.setIcon(new ImageIcon(blankImage));
+	    }
 	}
+
 
 	/**
 	 * Shows product details.
@@ -256,9 +311,10 @@ public class MenuePanel extends JPanel {
 		detailContent.setBackground(Color.WHITE);
 
 		JLabel imageLabel = new JLabel();
-		loadProductImage(product, imageLabel, 150, 150);
-		imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		detailContent.add(imageLabel);
+	    loadProductImage(product, imageLabel, 200, 200); // ảnh lớn hơn một chút
+	    imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+	    imageLabel.setPreferredSize(new Dimension(200, 200));
+	    detailContent.add(imageLabel);
 
 		detailContent.add(new JLabel("Name: " + product.getName()));
 		detailContent.add(new JLabel("Price: " + formatPrice(product.getPrice())));

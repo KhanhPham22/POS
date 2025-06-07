@@ -8,13 +8,14 @@ import java.time.*;
 import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
-import model.Invoice;
 import model.OrderDetail;
-import model.Product;
+import model.Invoice;
+import model.Payment;
 import model.Customer;
+import model.Product;
 import service.InvoiceService;
-import service.InvoiceServiceImpl;
 import service.OrderService;
+import service.PaymentService;
 import dao.InvoiceDao;
 import com.toedter.calendar.JCalendar;
 import java.beans.PropertyChangeEvent;
@@ -35,28 +36,23 @@ public class OrderPanel extends JPanel {
     private JLabel pageLabel;
     private InvoiceService invoiceService;
     private OrderService orderService;
+    private final PaymentService paymentService;
     private JCalendar calendar;
     private SearchBar searchBar;
-    private Year selectedYear;
-    private Month selectedMonth;
+    private Year selectedYear = null; // Mặc định null để không lọc theo năm
+    private Month selectedMonth = null; // Mặc định null để không lọc theo tháng
     private String currentSearchQuery = "";
     private int currentPage = 1;
     private final int pageSize = 10;
     private int totalRecords = 0;
 
-    public OrderPanel(OrderService orderService) {
+    public OrderPanel(OrderService orderService, InvoiceService invoiceService, PaymentService paymentService) {
         this.orderService = orderService;
-        try {
-            invoiceService = new InvoiceServiceImpl(new InvoiceDao());
-        } catch (Exception e) {
-            logger.error("Failed to initialize InvoiceService", e);
-            JOptionPane.showMessageDialog(null, "Failed to initialize invoice service: " + e.getMessage(),
-                "Initialization Error", JOptionPane.ERROR_MESSAGE);
-        }
-        setLayout(new BorderLayout(10, 10));
-        setBackground(new Color(240, 242, 245));
+        this.invoiceService = invoiceService;
+        this.paymentService = paymentService;
+        setLayout(new BorderLayout());
         initializeUI();
-        loadOrders(null, null, "");
+        loadOrders(null, null, ""); // Tải tất cả đơn hàng khi khởi tạo
     }
 
     private void initializeUI() {
@@ -249,32 +245,36 @@ public class OrderPanel extends JPanel {
                 return;
             }
 
-            List<OrderDetail> filteredOrders = allOrders.stream()
-                    .filter(order -> {
-                        try {
-                            if (order.getOrderDate() == null) {
-                                logger.warn("Order ID {} has null order date", order.getId());
+            List<OrderDetail> filteredOrders = allOrders;
+
+            // Áp dụng bộ lọc ngày chỉ khi year và month không null
+            if (year != null && month != null) {
+                filteredOrders = filteredOrders.stream()
+                        .filter(order -> {
+                            try {
+                                if (order.getOrderDate() == null) {
+                                    logger.warn("Order ID {} has null order date", order.getId());
+                                    return false;
+                                }
+                                LocalDate orderDate = order.getOrderDate().toInstant()
+                                        .atZone(ZoneId.systemDefault()).toLocalDate();
+                                
+                                // Handle today's date filtering
+                                if (year.equals(Year.now()) && month.equals(Month.from(LocalDate.now()))) {
+                                    return orderDate.equals(LocalDate.now());
+                                }
+                                
+                                return orderDate.getYear() == year.getValue() &&
+                                       orderDate.getMonth() == month;
+                            } catch (Exception e) {
+                                logger.error("Error processing order ID {}: {}", order.getId(), e.getMessage());
                                 return false;
                             }
-                            LocalDate orderDate = order.getOrderDate().toInstant()
-                                    .atZone(ZoneId.systemDefault()).toLocalDate();
-                            
-                            // Handle today's date filtering
-                            if (year != null && month != null && 
-                                year.equals(Year.now()) && 
-                                month.equals(Month.from(LocalDate.now()))) {
-                                return orderDate.equals(LocalDate.now());
-                            }
-                            
-                            return (year == null || orderDate.getYear() == year.getValue()) &&
-                                   (month == null || orderDate.getMonth() == month);
-                        } catch (Exception e) {
-                            logger.error("Error processing order ID {}: {}", order.getId(), e.getMessage());
-                            return false;
-                        }
-                    })
-                    .collect(Collectors.toList());
+                        })
+                        .collect(Collectors.toList());
+            }
 
+            // Áp dụng tìm kiếm nếu có
             if (searchQuery != null && !searchQuery.trim().isEmpty()) {
                 String query = searchQuery.toLowerCase().trim();
                 filteredOrders = filteredOrders.stream()

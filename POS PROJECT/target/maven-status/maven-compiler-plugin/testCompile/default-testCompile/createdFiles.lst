@@ -1,0 +1,15 @@
+service\AuthenticationServiceImplTest.class
+service\CategoryServiceImplTest.class
+service\WarehouseServiceImplTest.class
+service\PayrollServiceImplTest.class
+service\ProductServiceImplTest.class
+service\FeedbackServiceImplTest.class
+service\ItemServiceImplTest.class
+service\SupplierServiceImplTest.class
+service\DashboardServiceImplTest.class
+service\GiftVoucherServiceImplTest.class
+service\PaymentServiceImplTest.class
+service\StoreServiceImplTest.class
+service\PersonServiceImplTest.class
+service\OrderServiceImplTest.class
+service\InvoiceServiceImplTest.class

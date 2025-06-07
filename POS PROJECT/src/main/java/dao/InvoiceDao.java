@@ -171,6 +171,15 @@ public class InvoiceDao {
         }
     }
     
+    
+    public Invoice findByOrderId(long orderId) throws Exception {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM Invoice WHERE order.id = :orderId", Invoice.class)
+                    .setParameter("orderId", orderId)
+                    .uniqueResult();
+        }
+    }
+    
  // Tìm hóa đơn theo tên nhân viên
     public List<Invoice> findByEmployeeName(String employeeName) throws Exception {
         try (Session session = sessionFactory.openSession()) {

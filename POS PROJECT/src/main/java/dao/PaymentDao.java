@@ -191,4 +191,15 @@ public class PaymentDao implements GenericDao<Payment> {
             session.close();
         }
     }
+    
+    public List<Payment> findByOrderId(long orderId) throws Exception {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM Payment p WHERE p.order.id = :orderId", Payment.class)
+                    .setParameter("orderId", orderId)
+                    .list();
+        } catch (Exception e) {
+            Log.error("Failed to find payments for order ID: " + orderId, e);
+            throw e;
+        }
+    }
 }

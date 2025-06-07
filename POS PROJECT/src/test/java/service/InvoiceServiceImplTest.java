@@ -84,7 +84,7 @@ public class InvoiceServiceImplTest {
         Invoice invoice = new Invoice();
         when(mockInvoiceDao.findById(invoiceId)).thenReturn(invoice);
 
-        Invoice result = invoiceService.getInvoiceById(invoiceId);
+        Invoice result = invoiceService.getInvoiceByOrderId(invoiceId);
 
         assertNotNull(result);
         assertEquals(invoice, result);
@@ -232,7 +232,7 @@ public class InvoiceServiceImplTest {
         long invoiceId = 1L;
         when(mockInvoiceDao.findById(invoiceId)).thenThrow(new RuntimeException("DB error"));
 
-        Invoice result = invoiceService.getInvoiceById(invoiceId);
+        Invoice result = invoiceService.getInvoiceByOrderId(invoiceId);
 
         assertNull(result);
         verify(mockInvoiceDao).findById(invoiceId);

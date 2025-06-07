@@ -302,6 +302,7 @@ public class LoginFrame extends JFrame {
 							new AuthenticationService(new EmployeeDao(), new OwnerDao(), new UserSessionDao(),
 									new HashService()),
 							new ProductServiceImpl(new ProductDao()), new CategoryServiceImpl(new CategoryDao()),
+							new DashboardServiceImpl(new DashboardDao()),
 							session.getUsername());
 					managerFrame.setVisible(true);
 				});

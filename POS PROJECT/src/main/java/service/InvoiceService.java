@@ -15,7 +15,7 @@ public interface InvoiceService {
 
     boolean deleteInvoice(Invoice invoice);
 
-    Invoice getInvoiceById(long invoiceId);
+    Invoice getInvoiceByOrderId(long orderId);
 
     List<Invoice> getAllInvoices(int pageNumber, int pageSize);
 
