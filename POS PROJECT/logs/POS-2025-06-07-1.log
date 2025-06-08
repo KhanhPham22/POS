@@ -1,0 +1,433 @@
+[INFO ] 07-06-2025 11:31:51 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 07-06-2025 11:31:51 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 07-06-2025 11:31:52 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 07-06-2025 11:31:52 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 07-06-2025 11:31:52 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 07-06-2025 11:31:52 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 07-06-2025 11:31:52 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 07-06-2025 11:31:53 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 07-06-2025 11:31:53 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 07-06-2025 11:31:53 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 07-06-2025 11:31:53 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 07-06-2025 11:31:53 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 07-06-2025 11:31:54 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 07-06-2025 11:31:56 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@323589a3] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 07-06-2025 11:31:56 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@7df0a2fd] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 07-06-2025 11:33:00 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 07-06-2025 11:33:00 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 07-06-2025 11:33:17 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: tamgay
+[INFO ] 07-06-2025 11:33:17 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 07-06-2025 11:33:17 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 07-06-2025 11:33:17 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 07-06-2025 11:33:17 [AWT-EventQueue-0] AuthenticationService - Employee login successful for identifier: tamgay
+[INFO ] 07-06-2025 11:33:19 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 07-06-2025 11:33:19 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 07-06-2025 11:33:19 [AWT-EventQueue-0] PersonServiceImpl - Employee with username tamgay retrieved
+[WARN ] 07-06-2025 11:33:19 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 07-06-2025 11:33:19 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 07-06-2025 11:33:19 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 07-06-2025 11:33:27 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 07-06-2025 11:33:29 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 07-06-2025 11:33:30 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 07-06-2025 11:33:31 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 07-06-2025 11:33:32 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 07-06-2025 11:33:34 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:35 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:35 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:35 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:35 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:35 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:35 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:35 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:35 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:35 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:35 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:35 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[INFO ] 07-06-2025 11:33:35 [AWT-EventQueue-0] OrderPanel - Loaded 13 orders (page 1/2), filtered by year: none, month: none, search: 
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:43 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:43 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:43 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:43 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[INFO ] 07-06-2025 11:33:43 [AWT-EventQueue-0] OrderPanel - Loaded 13 orders (page 2/2), filtered by year: none, month: none, search: 
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:47 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:47 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:47 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:47 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:47 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:47 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:47 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:47 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:47 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[WARN ] 07-06-2025 11:33:47 [AWT-EventQueue-0] StatefulPersistenceContext - HHH000179: Narrowing proxy to class model.Employee - this operation breaks ==
+[INFO ] 07-06-2025 11:33:47 [AWT-EventQueue-0] InvoiceDao - Retrieved 10 invoices with pagination (pageNumber: 1, pageSize: 2147483647)
+[INFO ] 07-06-2025 11:33:47 [AWT-EventQueue-0] OrderPanel - Loaded 13 orders (page 1/2), filtered by year: none, month: none, search: 
+[INFO ] 07-06-2025 11:33:58 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 07-06-2025 11:33:58 [AWT-EventQueue-0] EmployeeDao - Employee with username: tamgay retrieved successfully from database
+[INFO ] 07-06-2025 11:33:58 [AWT-EventQueue-0] PersonServiceImpl - Employee with username tamgay retrieved
+[INFO ] 07-06-2025 11:34:31 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 07-06-2025 11:34:46 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: khanhadmin
+[INFO ] 07-06-2025 11:34:46 [AWT-EventQueue-0] EmployeeDao - Employee with username: khanhadmin retrieved successfully from database
+[INFO ] 07-06-2025 11:34:46 [AWT-EventQueue-0] EmployeeDao - Employee with email: khanhadmin retrieved successfully from database
+[INFO ] 07-06-2025 11:34:46 [AWT-EventQueue-0] OwnerDao - Owner with username: khanhadmin retrieved successfully from database
+[INFO ] 07-06-2025 11:34:46 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 07-06-2025 11:34:46 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 07-06-2025 11:34:46 [AWT-EventQueue-0] AuthenticationService - Owner login successful for identifier: khanhadmin
+[INFO ] 07-06-2025 11:34:47 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 07-06-2025 11:34:47 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 07-06-2025 11:34:47 [AWT-EventQueue-0] EmployeeDao - All Employees retrieved successfully from database. Total count: 13
+[INFO ] 07-06-2025 11:34:47 [AWT-EventQueue-0] PersonServiceImpl - All Employees retrieved
+[INFO ] 07-06-2025 11:34:52 [AWT-EventQueue-0] OwnerDao - Owner with username: khanhadmin retrieved successfully from database
+[INFO ] 07-06-2025 11:34:52 [AWT-EventQueue-0] PersonServiceImpl - Owner with username khanhadmin retrieved
+[INFO ] 07-06-2025 11:34:54 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 6
+[INFO ] 07-06-2025 11:34:54 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 07-06-2025 11:35:03 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 6
+[INFO ] 07-06-2025 11:35:03 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 07-06-2025 11:35:06 [AWT-EventQueue-0] CustomerDao - Customer with phone: 090278997 retrieved successfully from database
+[INFO ] 07-06-2025 11:35:06 [AWT-EventQueue-0] PersonServiceImpl - Customer with phone 090278997 retrieved
+[INFO ] 07-06-2025 11:35:06 [AWT-EventQueue-0] CustomerDao - Customer with id: 589 updated in database successfully
+[INFO ] 07-06-2025 11:35:06 [AWT-EventQueue-0] PersonServiceImpl - Customer with id 589 updated
+[INFO ] 07-06-2025 11:35:06 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 6
+[INFO ] 07-06-2025 11:35:06 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[WARN ] 07-06-2025 11:35:10 [AWT-EventQueue-0] QueryTranslatorImpl - HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!
+[INFO ] 07-06-2025 11:35:10 [AWT-EventQueue-0] CategoryDao - All categories retrieved successfully with pagination. Total count: 4
+[INFO ] 07-06-2025 11:35:10 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39
+[INFO ] 07-06-2025 11:35:19 [AWT-EventQueue-0] SupplierDao - Suppliers retrieved with pagination. Page: 1, Size: 10
+[INFO ] 07-06-2025 11:35:20 [AWT-EventQueue-0] SupplierDao - Suppliers retrieved with pagination. Page: 1, Size: 2147483647
+[INFO ] 07-06-2025 11:35:24 [AWT-EventQueue-0] ItemDao - Items for supplier with ID: 121 retrieved successfully.
+[INFO ] 07-06-2025 11:35:24 [AWT-EventQueue-0] ItemServiceImpl - Items for supplier with ID: 121 retrieved successfully
+[INFO ] 07-06-2025 11:35:24 [AWT-EventQueue-0] ItemDao - Items for supplier with ID: 121 retrieved successfully.
+[INFO ] 07-06-2025 11:35:24 [AWT-EventQueue-0] ItemServiceImpl - Items for supplier with ID: 121 retrieved successfully
+[INFO ] 07-06-2025 11:35:42 [AWT-EventQueue-0] ItemDao - Items for supplier with ID: 103 retrieved successfully.
+[INFO ] 07-06-2025 11:35:42 [AWT-EventQueue-0] ItemServiceImpl - Items for supplier with ID: 103 retrieved successfully
+[INFO ] 07-06-2025 11:35:42 [AWT-EventQueue-0] ItemDao - Items for supplier with ID: 103 retrieved successfully.
+[INFO ] 07-06-2025 11:35:42 [AWT-EventQueue-0] ItemServiceImpl - Items for supplier with ID: 103 retrieved successfully
+[INFO ] 07-06-2025 11:36:01 [AWT-EventQueue-0] SupplierDao - Supplier updated successfully: cung cấp trái cây
+[INFO ] 07-06-2025 11:36:02 [AWT-EventQueue-0] SupplierDao - Suppliers retrieved with pagination. Page: 1, Size: 10
+[INFO ] 07-06-2025 11:36:02 [AWT-EventQueue-0] SupplierDao - Suppliers retrieved with pagination. Page: 1, Size: 2147483647
+[INFO ] 07-06-2025 11:36:08 [AWT-EventQueue-0] ItemDao - Items for supplier with ID: 103 retrieved successfully.
+[INFO ] 07-06-2025 11:36:08 [AWT-EventQueue-0] ItemServiceImpl - Items for supplier with ID: 103 retrieved successfully
+[INFO ] 07-06-2025 11:36:08 [AWT-EventQueue-0] ItemDao - Items for supplier with ID: 103 retrieved successfully.
+[INFO ] 07-06-2025 11:36:08 [AWT-EventQueue-0] ItemServiceImpl - Items for supplier with ID: 103 retrieved successfully
+[INFO ] 07-06-2025 11:36:29 [AWT-EventQueue-0] ItemDao - Item with id: 4 retrieved successfully
+[INFO ] 07-06-2025 11:36:29 [AWT-EventQueue-0] ItemServiceImpl - Item with id: 4 retrieved successfully
+[INFO ] 07-06-2025 11:36:29 [AWT-EventQueue-0] ItemDao - Item persisted successfully
+[INFO ] 07-06-2025 11:36:29 [AWT-EventQueue-0] ItemServiceImpl - Item created successfully
+[INFO ] 07-06-2025 11:36:30 [AWT-EventQueue-0] SupplierDao - Supplier with id: 103 retrieved successfully
+[INFO ] 07-06-2025 11:36:30 [AWT-EventQueue-0] ItemDao - Items for supplier with ID: 103 retrieved successfully.
+[INFO ] 07-06-2025 11:36:30 [AWT-EventQueue-0] ItemServiceImpl - Items for supplier with ID: 103 retrieved successfully
+[INFO ] 07-06-2025 11:36:30 [AWT-EventQueue-0] ItemDao - Items for supplier with ID: 103 retrieved successfully.
+[INFO ] 07-06-2025 11:36:30 [AWT-EventQueue-0] ItemServiceImpl - Items for supplier with ID: 103 retrieved successfully
+[INFO ] 07-06-2025 11:36:38 [AWT-EventQueue-0] ItemDao - Items for supplier with ID: 22 retrieved successfully.
+[INFO ] 07-06-2025 11:36:38 [AWT-EventQueue-0] ItemServiceImpl - Items for supplier with ID: 22 retrieved successfully
+[INFO ] 07-06-2025 11:36:38 [AWT-EventQueue-0] ItemDao - Items for supplier with ID: 22 retrieved successfully.
+[INFO ] 07-06-2025 11:36:38 [AWT-EventQueue-0] ItemServiceImpl - Items for supplier with ID: 22 retrieved successfully
+[INFO ] 07-06-2025 11:36:48 [AWT-EventQueue-0] ItemDao - Items for supplier with ID: 1 retrieved successfully.
+[INFO ] 07-06-2025 11:36:48 [AWT-EventQueue-0] ItemServiceImpl - Items for supplier with ID: 1 retrieved successfully
+[INFO ] 07-06-2025 11:36:48 [AWT-EventQueue-0] ItemDao - Items for supplier with ID: 1 retrieved successfully.
+[INFO ] 07-06-2025 11:36:48 [AWT-EventQueue-0] ItemServiceImpl - Items for supplier with ID: 1 retrieved successfully
+[INFO ] 07-06-2025 11:36:50 [AWT-EventQueue-0] ItemDao - Items for supplier with ID: 104 retrieved successfully.
+[INFO ] 07-06-2025 11:36:50 [AWT-EventQueue-0] ItemServiceImpl - Items for supplier with ID: 104 retrieved successfully
+[INFO ] 07-06-2025 11:36:50 [AWT-EventQueue-0] ItemDao - Items for supplier with ID: 104 retrieved successfully.
+[INFO ] 07-06-2025 11:36:50 [AWT-EventQueue-0] ItemServiceImpl - Items for supplier with ID: 104 retrieved successfully
+[INFO ] 07-06-2025 11:36:54 [AWT-EventQueue-0] ItemDao - Items for supplier with ID: 1 retrieved successfully.
+[INFO ] 07-06-2025 11:36:54 [AWT-EventQueue-0] ItemServiceImpl - Items for supplier with ID: 1 retrieved successfully
+[INFO ] 07-06-2025 11:36:54 [AWT-EventQueue-0] ItemDao - Items for supplier with ID: 1 retrieved successfully.
+[INFO ] 07-06-2025 11:36:54 [AWT-EventQueue-0] ItemServiceImpl - Items for supplier with ID: 1 retrieved successfully
+[INFO ] 07-06-2025 11:37:25 [AWT-EventQueue-0] ItemDao - Item with id: 45 retrieved successfully
+[INFO ] 07-06-2025 11:37:25 [AWT-EventQueue-0] ItemServiceImpl - Item with id: 45 retrieved successfully
+[INFO ] 07-06-2025 11:37:25 [AWT-EventQueue-0] ItemDao - Item persisted successfully
+[INFO ] 07-06-2025 11:37:25 [AWT-EventQueue-0] ItemServiceImpl - Item created successfully
+[INFO ] 07-06-2025 11:37:27 [AWT-EventQueue-0] SupplierDao - Supplier with id: 1 retrieved successfully
+[INFO ] 07-06-2025 11:37:27 [AWT-EventQueue-0] ItemDao - Items for supplier with ID: 1 retrieved successfully.
+[INFO ] 07-06-2025 11:37:27 [AWT-EventQueue-0] ItemServiceImpl - Items for supplier with ID: 1 retrieved successfully
+[INFO ] 07-06-2025 11:37:27 [AWT-EventQueue-0] ItemDao - Items for supplier with ID: 1 retrieved successfully.
+[INFO ] 07-06-2025 11:37:27 [AWT-EventQueue-0] ItemServiceImpl - Items for supplier with ID: 1 retrieved successfully
+[INFO ] 07-06-2025 12:24:58 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 07-06-2025 12:24:59 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 07-06-2025 12:24:59 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 07-06-2025 12:24:59 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 07-06-2025 12:25:00 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 07-06-2025 12:25:00 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 07-06-2025 12:25:00 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 07-06-2025 12:25:00 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 07-06-2025 12:25:00 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 07-06-2025 12:25:00 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 07-06-2025 12:25:00 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 07-06-2025 12:25:01 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 07-06-2025 12:25:02 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 07-06-2025 12:25:04 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@424bc6bf] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 07-06-2025 12:25:05 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@489b9196] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 07-06-2025 12:25:07 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 07-06-2025 12:25:07 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 07-06-2025 12:25:20 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: khanhadmin
+[INFO ] 07-06-2025 12:25:20 [AWT-EventQueue-0] EmployeeDao - Employee with username: khanhadmin retrieved successfully from database
+[INFO ] 07-06-2025 12:25:20 [AWT-EventQueue-0] EmployeeDao - Employee with email: khanhadmin retrieved successfully from database
+[INFO ] 07-06-2025 12:25:20 [AWT-EventQueue-0] OwnerDao - Owner with username: khanhadmin retrieved successfully from database
+[INFO ] 07-06-2025 12:25:20 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 07-06-2025 12:25:20 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 07-06-2025 12:25:20 [AWT-EventQueue-0] AuthenticationService - Owner login successful for identifier: khanhadmin
+[INFO ] 07-06-2025 12:25:22 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 07-06-2025 12:25:22 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 07-06-2025 12:25:22 [AWT-EventQueue-0] EmployeeDao - All Employees retrieved successfully from database. Total count: 13
+[INFO ] 07-06-2025 12:25:22 [AWT-EventQueue-0] PersonServiceImpl - All Employees retrieved
+[INFO ] 07-06-2025 12:27:44 [AWT-EventQueue-0] Version - HHH000412: Hibernate ORM core version 5.6.15.Final
+[WARN ] 07-06-2025 12:27:45 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 07-06-2025 12:27:45 [AWT-EventQueue-0] HibernateUtil - Hibernate Schema Mode: UPDATE
+[INFO ] 07-06-2025 12:27:45 [AWT-EventQueue-0] Version - HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+[WARN ] 07-06-2025 12:27:46 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 07-06-2025 12:27:46 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 07-06-2025 12:27:46 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[WARN ] 07-06-2025 12:27:46 [AWT-EventQueue-0] deprecation - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+[INFO ] 07-06-2025 12:27:46 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH010002: C3P0 using driver: oracle.jdbc.OracleDriver at URL: jdbc:oracle:thin:@localhost:1521/orcl
+[INFO ] 07-06-2025 12:27:46 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001001: Connection properties: {password=****, user=Khanh}
+[INFO ] 07-06-2025 12:27:46 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001003: Autocommit mode: false
+[INFO ] 07-06-2025 12:27:46 [AWT-EventQueue-0] C3P0ConnectionProvider - HHH10001007: JDBC isolation level: <unknown>
+[INFO ] 07-06-2025 12:27:48 [AWT-EventQueue-0] Dialect - HHH000400: Using dialect: org.hibernate.dialect.Oracle12cDialect
+[INFO ] 07-06-2025 12:27:49 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@424bc6bf] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 07-06-2025 12:27:50 [AWT-EventQueue-0] access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@489b9196] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+[INFO ] 07-06-2025 12:27:51 [AWT-EventQueue-0] JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[INFO ] 07-06-2025 12:27:51 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 07-06-2025 12:28:03 [AWT-EventQueue-0] AuthenticationService - Login attempt for identifier: khanhadmin
+[INFO ] 07-06-2025 12:28:03 [AWT-EventQueue-0] EmployeeDao - Employee with username: khanhadmin retrieved successfully from database
+[INFO ] 07-06-2025 12:28:03 [AWT-EventQueue-0] EmployeeDao - Employee with email: khanhadmin retrieved successfully from database
+[INFO ] 07-06-2025 12:28:03 [AWT-EventQueue-0] OwnerDao - Owner with username: khanhadmin retrieved successfully from database
+[INFO ] 07-06-2025 12:28:03 [AWT-EventQueue-0] HashService - Hashing successful
+[INFO ] 07-06-2025 12:28:03 [AWT-EventQueue-0] UserSessionDao - UserSession persisted in database successfully
+[INFO ] 07-06-2025 12:28:03 [AWT-EventQueue-0] AuthenticationService - Owner login successful for identifier: khanhadmin
+[INFO ] 07-06-2025 12:28:04 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 07-06-2025 12:28:04 [AWT-EventQueue-0] HashService - HashService initialized with SHA-256
+[INFO ] 07-06-2025 12:28:05 [AWT-EventQueue-0] EmployeeDao - All Employees retrieved successfully from database. Total count: 13
+[INFO ] 07-06-2025 12:28:05 [AWT-EventQueue-0] PersonServiceImpl - All Employees retrieved
+[INFO ] 07-06-2025 12:28:06 [AWT-EventQueue-0] DashboardDao - All Dashboards retrieved successfully from database. Total count: 0
+[INFO ] 07-06-2025 12:28:07 [AWT-EventQueue-0] CustomerDao - All Customers retrieved successfully from database. Total count: 6
+[INFO ] 07-06-2025 12:28:07 [AWT-EventQueue-0] PersonServiceImpl - All Customers retrieved
+[INFO ] 07-06-2025 12:28:07 [AWT-EventQueue-0] EmployeeDao - All Employees retrieved successfully from database. Total count: 13
+[INFO ] 07-06-2025 12:28:07 [AWT-EventQueue-0] PersonServiceImpl - All Employees retrieved
+[INFO ] 07-06-2025 12:28:07 [AWT-EventQueue-0] ProductDao - All products retrieved successfully with pagination. Total count: 39

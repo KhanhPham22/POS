@@ -28,6 +28,7 @@ import service.AuthenticationService;
 import service.CategoryService;
 import service.DashboardService;
 import service.HashService;
+import service.InvoiceService;
 import service.ItemService;
 import service.ItemServiceImpl;
 import service.PersonService;
@@ -57,10 +58,11 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 	private CategoryService categoryService;
 	private ProductService productService;
 	private DashboardService dashboardService;
+	private InvoiceService invoiceService;
 
 	public SupplierFrame(SupplierService supplierService, ItemService itemService, StoreServiceImpl storeService,
 			PersonService personService, HashService hashService, AuthenticationService authService,
-			ProductService productService, CategoryService categoryService,DashboardService dashboardService,String username) {
+			ProductService productService, CategoryService categoryService,DashboardService dashboardService,InvoiceService invoiceService,String username) {
 		this.supplierService = supplierService;
 		this.itemService = itemService;
 		this.storeService = storeService;
@@ -70,6 +72,7 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 		this.categoryService = categoryService;
 		this.productService = productService;
 		this.dashboardService = dashboardService;
+		this.invoiceService = invoiceService;
 		this.username = username;
 
 		setTitle("Supplier Management");
@@ -110,7 +113,7 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 			loadSupplierPanel();
 			break;
 		case "Warehouse":
-			loadWarehousePanel();
+			openWarehouseFrame();
 			break;
 		case "Store":
 			openStoreFrame();
@@ -144,27 +147,27 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 
 	private void openCustomerManager() {
 		new CustomerManager(personService, supplierService, itemService, storeService, hashService, authService,
-				productService, categoryService,dashboardService,username).setVisible(true);
+				productService, categoryService,dashboardService,invoiceService,username).setVisible(true);
 		dispose();
 	}
 
 	private void openEmployeeManager() {
 		new EmployeeManager(personService, supplierService, itemService, storeService, hashService, authService,
-				productService, categoryService,dashboardService,username).setVisible(true);
+				productService, categoryService,dashboardService,invoiceService,username).setVisible(true);
 		dispose();
 
 	}
 
 	private void openProductFrame() {
 		ProductFrame productFrame = new ProductFrame(personService, supplierService, itemService, storeService,
-				hashService, authService, productService, categoryService, dashboardService,username);
+				hashService, authService, productService, categoryService, dashboardService,invoiceService,username);
 		productFrame.setVisible(true);
 		dispose();
 	}
 
 	private void openDashboardFrame() {
 	    DashboardFrame dashboardFrame = new DashboardFrame(supplierService, itemService, storeService, personService,
-	            hashService, authService, productService, categoryService, dashboardService, username);
+	            hashService, authService, productService, categoryService, dashboardService,invoiceService, username);
 	    dashboardFrame.setVisible(true);
 	    dispose();
 	}
@@ -174,17 +177,17 @@ public class SupplierFrame extends JFrame implements SidebarPanel.SidebarListene
 		contentPanel.add(supplierPanel, BorderLayout.CENTER);
 	}
 
-	private void loadWarehousePanel() {
-		JPanel warehousePanel = new JPanel(new BorderLayout());
-		warehousePanel.setBackground(Color.WHITE);
-		warehousePanel.add(new JLabel("Warehouse Page (Under Construction)", SwingConstants.CENTER));
-		contentPanel.add(warehousePanel, BorderLayout.CENTER);
-	}
+	private void openWarehouseFrame() {
+        WarehouseFrame warehouseFrame = new WarehouseFrame(supplierService, itemService, storeService, personService,
+                hashService, authService, productService, categoryService, dashboardService,invoiceService, username);
+        warehouseFrame.setVisible(true);
+        dispose();
+    }
 
 	private void openStoreFrame() {
 		StoreServiceImpl storeService = new StoreServiceImpl(new StoreDao()); // Use StoreServiceImpl directly
 		StoreFrame storeFrame = new StoreFrame(supplierService, itemService, storeService, personService, hashService,
-				authService, productService, categoryService,dashboardService,username);
+				authService, productService, categoryService,dashboardService,invoiceService,username);
 		storeFrame.setVisible(true);
 		dispose();
 	}

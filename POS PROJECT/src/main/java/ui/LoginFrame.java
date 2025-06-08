@@ -303,6 +303,7 @@ public class LoginFrame extends JFrame {
 									new HashService()),
 							new ProductServiceImpl(new ProductDao()), new CategoryServiceImpl(new CategoryDao()),
 							new DashboardServiceImpl(new DashboardDao()),
+							new InvoiceServiceImpl(new InvoiceDao()),
 							session.getUsername());
 					managerFrame.setVisible(true);
 				});
