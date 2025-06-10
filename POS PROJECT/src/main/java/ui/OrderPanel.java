@@ -9,14 +9,13 @@ import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 import model.OrderDetail;
-import model.Invoice;
-import model.Payment;
-import model.Customer;
+import model.OrderItem;
 import model.Product;
+import model.Invoice;
+import model.Customer;
 import service.InvoiceService;
 import service.OrderService;
 import service.PaymentService;
-import dao.InvoiceDao;
 import com.toedter.calendar.JCalendar;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -39,9 +38,12 @@ public class OrderPanel extends JPanel {
     private final PaymentService paymentService;
     private JCalendar calendar;
     private SearchBar searchBar;
-    private Year selectedYear = null; // Mặc định null để không lọc theo năm
-    private Month selectedMonth = null; // Mặc định null để không lọc theo tháng
+    private JComboBox<String> paymentMethodComboBox;
+    private Year selectedYear = null; // Default null to not filter by year
+    private Month selectedMonth = null; // Default null to not filter by month
+    private boolean isTodayFilter = false; // Flag for Today button
     private String currentSearchQuery = "";
+    private String selectedPaymentMethod = "All"; // Default to "All"
     private int currentPage = 1;
     private final int pageSize = 10;
     private int totalRecords = 0;
@@ -52,7 +54,7 @@ public class OrderPanel extends JPanel {
         this.paymentService = paymentService;
         setLayout(new BorderLayout());
         initializeUI();
-        loadOrders(null, null, ""); // Tải tất cả đơn hàng khi khởi tạo
+        loadOrders(null, null, false, "", "All"); // Load all orders on initialization
     }
 
     private void initializeUI() {
@@ -101,14 +103,13 @@ public class OrderPanel extends JPanel {
                 if ("calendar".equals(evt.getPropertyName())) {
                     Date selectedDate = calendar.getDate();
                     Date today = new Date();
-                    
-                    // Check if today button was clicked (selected date is today)
                     if (selectedDate.equals(today)) {
                         LocalDate localDate = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                         selectedYear = Year.of(localDate.getYear());
                         selectedMonth = Month.of(localDate.getMonthValue());
+                        isTodayFilter = true; // Enable Today filter
                         currentPage = 1;
-                        loadOrders(selectedYear, selectedMonth, currentSearchQuery);
+                        loadOrders(selectedYear, selectedMonth, isTodayFilter, currentSearchQuery, selectedPaymentMethod);
                     }
                 }
             }
@@ -122,11 +123,16 @@ public class OrderPanel extends JPanel {
                     LocalDate selectedDate = calendar.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     selectedYear = Year.of(selectedDate.getYear());
                     selectedMonth = Month.of(selectedDate.getMonthValue());
+                    isTodayFilter = selectedDate.equals(LocalDate.now()); // Set Today filter if current day is selected
                     currentPage = 1;
-                    loadOrders(selectedYear, selectedMonth, currentSearchQuery);
+                    loadOrders(selectedYear, selectedMonth, isTodayFilter, currentSearchQuery, selectedPaymentMethod);
                 }
             }
         });
+
+        // Center panel for search bar and payment method combo box
+        JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        centerPanel.setBackground(new Color(240, 242, 245));
 
         // Modified search bar with reset on empty
         searchBar = new SearchBar(query -> {
@@ -136,9 +142,10 @@ public class OrderPanel extends JPanel {
                 // Reset filters when search is cleared
                 selectedYear = null;
                 selectedMonth = null;
-                calendar.setDate(new Date()); // Reset calendar to today
+                isTodayFilter = false;
+                calendar.setDate(new Date());
             }
-            loadOrders(selectedYear, selectedMonth, currentSearchQuery);
+            loadOrders(selectedYear, selectedMonth, isTodayFilter, currentSearchQuery, selectedPaymentMethod);
         });
         searchBar.setPlaceholder("Search by customer name or order ID");
         searchBar.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -147,12 +154,28 @@ public class OrderPanel extends JPanel {
                         BorderFactory.createEmptyBorder(8, 12, 8, 12)));
         searchBar.setBackground(new Color(245, 245, 245));
         searchBar.setPreferredSize(new Dimension(400, 40));
+        centerPanel.add(searchBar);
+
+        // Payment method combo box
+        String[] paymentMethods = {"All", "Cash", "QR"};
+        paymentMethodComboBox = new JComboBox<>(paymentMethods);
+        paymentMethodComboBox.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        paymentMethodComboBox.setBackground(Color.WHITE);
+        paymentMethodComboBox.setBorder(BorderFactory.createLineBorder(new Color(100, 100, 100)));
+        paymentMethodComboBox.setPreferredSize(new Dimension(120, 40));
+        paymentMethodComboBox.setSelectedItem("All");
+        paymentMethodComboBox.addActionListener(e -> {
+            selectedPaymentMethod = (String) paymentMethodComboBox.getSelectedItem();
+            currentPage = 1;
+            loadOrders(selectedYear, selectedMonth, isTodayFilter, currentSearchQuery, selectedPaymentMethod);
+        });
+        centerPanel.add(paymentMethodComboBox);
 
         topPanel.add(calendarPanel, BorderLayout.WEST);
-        topPanel.add(searchBar, BorderLayout.CENTER);
+        topPanel.add(centerPanel, BorderLayout.CENTER);
         add(topPanel, BorderLayout.NORTH);
 
-        String[] columnNames = {"Order ID", "Customer", "Total Amount", "Items", "Date", "Payment Method"};
+        String[] columnNames = {"Order ID", "Customer", "Total Amount", "Items", "Quantity", "Date", "Payment Method"};
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -172,8 +195,9 @@ public class OrderPanel extends JPanel {
         orderTable.getColumnModel().getColumn(1).setPreferredWidth(200);
         orderTable.getColumnModel().getColumn(2).setPreferredWidth(120);
         orderTable.getColumnModel().getColumn(3).setPreferredWidth(80);
-        orderTable.getColumnModel().getColumn(4).setPreferredWidth(120);
-        orderTable.getColumnModel().getColumn(5).setPreferredWidth(140);
+        orderTable.getColumnModel().getColumn(4).setPreferredWidth(80);
+        orderTable.getColumnModel().getColumn(5).setPreferredWidth(120);
+        orderTable.getColumnModel().getColumn(6).setPreferredWidth(140);
 
         orderTable.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
@@ -202,7 +226,7 @@ public class OrderPanel extends JPanel {
         prevButton.addActionListener(e -> {
             if (currentPage > 1) {
                 currentPage--;
-                loadOrders(selectedYear, selectedMonth, currentSearchQuery);
+                loadOrders(selectedYear, selectedMonth, isTodayFilter, currentSearchQuery, selectedPaymentMethod);
             }
         });
 
@@ -213,7 +237,7 @@ public class OrderPanel extends JPanel {
         nextButton.addActionListener(e -> {
             if (currentPage * pageSize < totalRecords) {
                 currentPage++;
-                loadOrders(selectedYear, selectedMonth, currentSearchQuery);
+                loadOrders(selectedYear, selectedMonth, isTodayFilter, currentSearchQuery, selectedPaymentMethod);
             }
         });
 
@@ -231,7 +255,7 @@ public class OrderPanel extends JPanel {
         add(paginationPanel, BorderLayout.SOUTH);
     }
 
-    private void loadOrders(Year year, Month month, String searchQuery) {
+    private void loadOrders(Year year, Month month, boolean isTodayFilter, String searchQuery, String paymentMethod) {
         tableModel.setRowCount(0);
         try {
             List<OrderDetail> allOrders = orderService.getAllOrders(1, Integer.MAX_VALUE);
@@ -247,7 +271,7 @@ public class OrderPanel extends JPanel {
 
             List<OrderDetail> filteredOrders = allOrders;
 
-            // Áp dụng bộ lọc ngày chỉ khi year và month không null
+            // Apply date filter only when year and month are not null
             if (year != null && month != null) {
                 filteredOrders = filteredOrders.stream()
                         .filter(order -> {
@@ -258,12 +282,9 @@ public class OrderPanel extends JPanel {
                                 }
                                 LocalDate orderDate = order.getOrderDate().toInstant()
                                         .atZone(ZoneId.systemDefault()).toLocalDate();
-                                
-                                // Handle today's date filtering
-                                if (year.equals(Year.now()) && month.equals(Month.from(LocalDate.now()))) {
+                                if (isTodayFilter) {
                                     return orderDate.equals(LocalDate.now());
                                 }
-                                
                                 return orderDate.getYear() == year.getValue() &&
                                        orderDate.getMonth() == month;
                             } catch (Exception e) {
@@ -274,7 +295,7 @@ public class OrderPanel extends JPanel {
                         .collect(Collectors.toList());
             }
 
-            // Áp dụng tìm kiếm nếu có
+            // Apply search if present
             if (searchQuery != null && !searchQuery.trim().isEmpty()) {
                 String query = searchQuery.toLowerCase().trim();
                 filteredOrders = filteredOrders.stream()
@@ -284,6 +305,26 @@ public class OrderPanel extends JPanel {
                             }
                             String customerName = getCustomerName(order);
                             return customerName.toLowerCase().contains(query);
+                        })
+                        .collect(Collectors.toList());
+            }
+
+            // Apply payment method filter if not "All"
+            if (paymentMethod != null && !paymentMethod.equals("All")) {
+                filteredOrders = filteredOrders.stream()
+                        .filter(order -> {
+                            Invoice invoice = invoiceService.getAllInvoices(1, Integer.MAX_VALUE)
+                                    .stream()
+                                    .filter(inv -> inv.getOrder() != null && inv.getOrder().getId() == order.getId())
+                                    .findFirst()
+                                    .orElse(null);
+                            String orderPaymentMethod = invoice != null && invoice.getPaymentMethod() != null
+                                    ? invoice.getPaymentMethod()
+                                    : "Unknown";
+                            if (paymentMethod.equals("QR")) {
+                                return orderPaymentMethod.toLowerCase().startsWith("qr");
+                            }
+                            return orderPaymentMethod.equalsIgnoreCase(paymentMethod);
                         })
                         .collect(Collectors.toList());
             }
@@ -305,23 +346,27 @@ public class OrderPanel extends JPanel {
 
                 String customerName = getCustomerName(order);
                 int itemCount = orderService.getItemCountForOrder(order.getId());
+                int totalQuantity = order.getItems().stream()
+                        .mapToInt(OrderItem::getQuantity)
+                        .sum();
                 double finalPrice = invoice != null ? invoice.getFinalPrice() : order.getTotalAmount();
-                String paymentMethod = invoice != null && invoice.getPaymentMethod() != null ? invoice.getPaymentMethod() : "Unknown";
+                String orderPaymentMethod = invoice != null && invoice.getPaymentMethod() != null ? invoice.getPaymentMethod() : "Unknown";
 
                 Object[] rowData = {
                     order.getId(),
                     customerName,
                     PRICE_FORMAT.format(finalPrice),
                     itemCount,
+                    totalQuantity,
                     order.getOrderDate() != null ? order.getOrderDate().toString() : "N/A",
-                    paymentMethod
+                    orderPaymentMethod
                 };
                 tableModel.addRow(rowData);
             }
 
-            logger.info("Loaded {} orders (page {}/{}), filtered by year: {}, month: {}, search: {}",
+            logger.info("Loaded {} orders (page {}/{}), filtered by year: {}, month: {}, today: {}, search: {}, payment: {}",
                 totalRecords, currentPage, (int) Math.ceil((double) totalRecords / pageSize),
-                year != null ? year.getValue() : "none", month != null ? month : "none", searchQuery);
+                year != null ? year.getValue() : "none", month != null ? month : "none", isTodayFilter, searchQuery, paymentMethod);
 
             updatePaginationControls();
             orderTable.revalidate();

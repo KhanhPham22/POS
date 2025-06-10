@@ -34,7 +34,7 @@ public class PaymentPanel extends JPanel {
     private OrderDetail order;
     private Customer customer;
     private List<Product> cartItems;
-    private Runnable onPaymentComplete;
+    private Runnable onPaymentCompleteListener;
 
     /**
      * Constructor initializes the payment panel.
@@ -63,7 +63,7 @@ public class PaymentPanel extends JPanel {
      * Sets the payment completion callback.
      */
     public void setOnPaymentCompleteListener(Runnable listener) {
-        this.onPaymentComplete = listener;
+        this.onPaymentCompleteListener = listener;
     }
 
     /**
@@ -174,8 +174,8 @@ public class PaymentPanel extends JPanel {
             updateCustomerPoints();
             Invoice invoice = createInvoice(payment, originalAmount, discount, discountedAmount);
             showPaymentConfirmation(discountedAmount, invoice);
-            if (onPaymentComplete != null) {
-                onPaymentComplete.run();
+            if (onPaymentCompleteListener != null) {
+                onPaymentCompleteListener.run();
             }
         } else {
             JOptionPane.showMessageDialog(this, "Failed to process cash payment.", 
@@ -210,8 +210,8 @@ public class PaymentPanel extends JPanel {
             updateCustomerPoints();
             Invoice invoice = createInvoice(payment, originalAmount, discount, discountedAmount);
             showPaymentConfirmation(discountedAmount, invoice);
-            if (onPaymentComplete != null) {
-                onPaymentComplete.run();
+            if (onPaymentCompleteListener != null) {
+                onPaymentCompleteListener.run();
             }
         } else {
             JOptionPane.showMessageDialog(this, "Failed to process QR payment.", 
@@ -233,7 +233,7 @@ public class PaymentPanel extends JPanel {
         invoice.setFinalPrice(finalAmount);
         invoice.setInvoiceDay(new java.util.Date());
         invoice.setStatus("COMPLETED");
-        boolean success = invoiceService.createInvoice(invoice);
+        boolean success = invoiceService.createInvoice(invoice); // Use the Invoice object
         if (!success) {
             JOptionPane.showMessageDialog(this, "Failed to create invoice.", 
                 "Error", JOptionPane.ERROR_MESSAGE);

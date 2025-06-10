@@ -202,9 +202,9 @@ public class MenuePanel extends JPanel {
 	    JLabel imageLabel = new JLabel();
 	    imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
 	    imageLabel.setVerticalAlignment(SwingConstants.CENTER);
-	    imageLabel.setPreferredSize(new Dimension(180, 170)); // Đảm bảo chiếm đủ khung
+	    imageLabel.setPreferredSize(new Dimension(190, 145)); // Đảm bảo chiếm đủ khung
 
-	    loadProductImage(product, imageLabel, 180, 170);
+	    loadProductImage(product, imageLabel, 190, 145);
 
 	    imageContainer.add(imageLabel, BorderLayout.CENTER);
 	    panel.add(imageContainer, BorderLayout.CENTER);
@@ -243,11 +243,10 @@ public class MenuePanel extends JPanel {
 	    return panel;
 	}
 
-
 	/**
 	 * Loads a product image with fallbacks.
 	 */
-	private void loadProductImage(Product product, JLabel label, int defaultWidth, int defaultHeight) {
+	private void loadProductImage(Product product, JLabel label, int targetWidth, int targetHeight) {
 	    String imagePath = null;
 
 	    if (product.getImagePath() != null && !product.getImagePath().isEmpty()) {
@@ -268,36 +267,47 @@ public class MenuePanel extends JPanel {
 	        }
 	    }
 
-	    int width = defaultWidth > 0 ? defaultWidth : 100;
-	    int height = defaultHeight > 0 ? defaultHeight : 100;
-
 	    try {
 	        ImageIcon originalIcon = new ImageIcon(imagePath);
 	        Image originalImage = originalIcon.getImage();
 
-	        // Tính toán để resize mà không méo hình
+	        // Calculate scaling and cropping for 4:3 aspect ratio
 	        double imgWidth = originalImage.getWidth(null);
 	        double imgHeight = originalImage.getHeight(null);
-	        double scale = Math.min((double) width / imgWidth, (double) height / imgHeight);
+	        double targetAspect = (double) targetWidth / targetHeight; // 4:3 = 1.333
+	        double imgAspect = imgWidth / imgHeight;
 
-	        int newWidth = (int) (imgWidth * scale);
-	        int newHeight = (int) (imgHeight * scale);
+	        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+	        Graphics2D g2d = resizedImage.createGraphics();
 
-	        Image scaledImage = originalImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
-	        label.setIcon(new ImageIcon(scaledImage));
+	        if (imgAspect > targetAspect) {
+	            // Image is wider than 4:3, crop width
+	            double scale = (double) targetHeight / imgHeight;
+	            int newWidth = (int) (imgWidth * scale);
+	            int cropX = (newWidth - targetWidth) / 2;
+	            g2d.drawImage(originalImage, -cropX, 0, newWidth, targetHeight, null);
+	        } else {
+	            // Image is taller than 4:3, crop height
+	            double scale = (double) targetWidth / imgWidth;
+	            int newHeight = (int) (imgHeight * scale);
+	            int cropY = (newHeight - targetHeight) / 2;
+	            g2d.drawImage(originalImage, 0, -cropY, targetWidth, newHeight, null);
+	        }
+
+	        g2d.dispose();
+	        label.setIcon(new ImageIcon(resizedImage));
 
 	    } catch (Exception e) {
 	        System.err.println("Error loading image: " + e.getMessage());
 
-	        BufferedImage blankImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+	        BufferedImage blankImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
 	        Graphics2D g2d = blankImage.createGraphics();
 	        g2d.setColor(Color.WHITE);
-	        g2d.fillRect(0, 0, width, height);
+	        g2d.fillRect(0, 0, targetWidth, targetHeight);
 	        g2d.dispose();
 	        label.setIcon(new ImageIcon(blankImage));
 	    }
 	}
-
 
 	/**
 	 * Shows product details.
@@ -311,10 +321,12 @@ public class MenuePanel extends JPanel {
 		detailContent.setBackground(Color.WHITE);
 
 		JLabel imageLabel = new JLabel();
-	    loadProductImage(product, imageLabel, 200, 200); // ảnh lớn hơn một chút
 	    imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-	    imageLabel.setPreferredSize(new Dimension(200, 200));
-	    detailContent.add(imageLabel);
+	    imageLabel.setVerticalAlignment(SwingConstants.CENTER);
+	    imageLabel.setPreferredSize(new Dimension(200, 150)); // 4:3 aspect ratio for detail view
+	    loadProductImage(product, imageLabel, 200, 150); // Use 4:3 aspect ratio for detail
+
+		detailContent.add(imageLabel);
 
 		detailContent.add(new JLabel("Name: " + product.getName()));
 		detailContent.add(new JLabel("Price: " + formatPrice(product.getPrice())));
@@ -770,10 +782,17 @@ public class MenuePanel extends JPanel {
 			paymentDialog.setLocationRelativeTo(null);
 
 			PaymentPanel paymentPanel = new PaymentPanel(order, selectedCustomer, paymentService, personService,
-					invoiceService,giftVoucherService, cartItems, loggedInEmployee);
+					invoiceService, giftVoucherService, cartItems, loggedInEmployee);
 			paymentPanel.setOnPaymentCompleteListener(() -> {
 				resetAfterPayment();
-				paymentDialog.dispose();
+				// Find and close the cart frame
+				Window[] windows = Window.getWindows();
+				for (Window window : windows) {
+					if (window instanceof JFrame && ((JFrame) window).getTitle().equals("Cart")) {
+						window.dispose();
+						break;
+					}
+				}
 			});
 			paymentDialog.add(paymentPanel, BorderLayout.CENTER);
 			paymentDialog.setVisible(true);
