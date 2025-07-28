@@ -19,7 +19,8 @@ A simple Point of Sale (POS) desktop application built with Java Swing, followin
 - Java Core, Swing  
 - JDBC, Hibernate  
 - Oracle  
-- JUnit, Mockito  
+- JUnit, Mockito
+- ZXing for QR code generation
 
 ## Notes
 
